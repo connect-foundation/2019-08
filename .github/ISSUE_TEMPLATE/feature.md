@@ -1,8 +1,8 @@
 ---
 name: Feature
 about: 백로그 피쳐를 이슈에 올릴때 사용하는 이슈 템플릿
-title: "[Feature]"
-labels: ''
+title: ''
+labels: enhancement, feature
 assignees: ''
 
 ---

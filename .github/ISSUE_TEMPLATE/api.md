@@ -2,7 +2,7 @@
 name: API
 about: API 내용을 설명하고 개발에 도움주는 issue
 title: ''
-labels: ''
+labels: API, devback
 assignees: ''
 
 ---
