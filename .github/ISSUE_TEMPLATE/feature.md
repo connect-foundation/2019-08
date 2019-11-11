@@ -14,3 +14,6 @@ assignees: ''
 **(option)Sub Task**
 
 - [ ] 이 피쳐에 대한 서브 타스크
+
+**예상작업시간**
+- ex) 1 MD
