@@ -13,6 +13,6 @@ assignees: ''
 
 **Description** :
 
-|구분|파라미터 이름|타입|비고|
-|---|---|---|---|
-|request|name|string||
+|구분|파라미터 이름|타입|status code|비고|
+|---|---|---|---|---|
+|예시 request|name|string||200|
