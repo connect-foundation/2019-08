@@ -3,7 +3,6 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node src/bin/www",
     "serve": "node dist/server.js",
     "test": "jest",
     "lint": "eslint src/**/*.ts"
