@@ -2,7 +2,8 @@ import { HttpProviderDependencies } from "./@context/http-providers/http-provide
 import { StorageProviderDependencies } from "./@context/storage-providers/storage-providers";
 import { RepositoryDependencies } from "./@context/repositories/index";
 import { ServiceDependencies } from "./@context/services/index";
-export class Context {
+
+class Context {
   private apies: HttpProviderDependencies;
   private storages: StorageProviderDependencies;
   private repositories: RepositoryDependencies;
@@ -14,3 +15,5 @@ export class Context {
     this.services = new ServiceDependencies(this.repositories);
   }
 }
+
+export const Application = new Context();
