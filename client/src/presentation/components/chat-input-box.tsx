@@ -3,6 +3,7 @@ import styled from "styled-components";
 import ClipWhite from "../../assets/clip-white.png";
 import AtWhite from "../../assets/at-white.png";
 import FaceWhite from "../../assets/face-white.png";
+import { IconBox } from "./icon-box";
 
 const InputWrapper = styled.section`
   width: 100%;
@@ -14,6 +15,7 @@ const InputWrapper = styled.section`
   text-align: center;
   display: flex;
 `;
+
 const MarginBox = styled.section`
   min-width: 10px;
   height: 100%;
@@ -28,23 +30,6 @@ const CustomInput = styled.section`
   display: flex;
   align-items: center;
   padding: 5px;
-`;
-
-const CustomImgBox = styled.section`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 5px;
-  width: 30px;
-  height: 30px;
-  margin: 5px;
-  &:hover {
-    background-color: #39515a;
-  }
-`;
-
-const CustomImg = styled.img`
-  width: 70%;
 `;
 
 const StyledInput = styled.input.attrs({
@@ -66,16 +51,10 @@ export const ChatInputBox: React.FC = () => {
     <InputWrapper>
       <MarginBox></MarginBox>
       <CustomInput>
-        <CustomImgBox>
-          <CustomImg src={ClipWhite} />
-        </CustomImgBox>
+        <IconBox imageSrc={ClipWhite}></IconBox>
         <StyledInput></StyledInput>
-        <CustomImgBox>
-          <CustomImg src={AtWhite} />
-        </CustomImgBox>
-        <CustomImgBox>
-          <CustomImg src={FaceWhite} />
-        </CustomImgBox>
+        <IconBox imageSrc={AtWhite}></IconBox>
+        <IconBox imageSrc={FaceWhite}></IconBox>
       </CustomInput>
       <MarginBox></MarginBox>
     </InputWrapper>
