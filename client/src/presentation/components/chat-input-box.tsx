@@ -46,6 +46,7 @@ const StyledInput = styled.input.attrs({
     outline: none;
   }
 `;
+
 export const ChatInputBox: React.FC = () => {
   return (
     <InputWrapper>

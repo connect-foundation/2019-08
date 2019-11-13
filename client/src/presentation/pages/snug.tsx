@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Sidebar } from "../components/sidebar";
 import { SnugHeader } from "../components/snug-header";
 import { MessageSection } from "../components/message-section";
+
 const SnugWrapper = styled.section`
   width: inherit;
   height: inherit;

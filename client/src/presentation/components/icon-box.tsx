@@ -17,6 +17,7 @@ const CustomImgBox = styled.section`
 const CustomImg = styled.img`
   width: 70%;
 `;
+
 interface PropsType {
   imageSrc: string;
 }
