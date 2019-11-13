@@ -1,56 +1,12 @@
 import React from "react";
 import styled from "styled-components";
+import { MessageCardImage } from "./message-card-image";
+import { MessageCardContents } from "./message-card-contents";
 
 const MessageCardBox = styled.section`
   width: 100%;
   height: auto;
   display: flex;
-`;
-
-const MessageCardImageBox = styled.section`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-width: 58px;
-  max-width: 58px;
-  min-height: 58px;
-  max-height: 58px;
-`;
-
-const MessageCardImage = styled.img`
-  border-radius: 10px;
-  width: 80%;
-  height: 80%;
-`;
-const MessageOwner = styled.section`
-  width: 100%;
-  height: auto;
-  padding-top: 5px;
-  padding-bottom: 5px;
-`;
-
-const MessageOwnerName = styled.span`
-  font-weight: bold;
-  font-size: 1rem;
-`;
-
-const MessageTimestamp = styled.span`
-  font-weight: 500;
-  font-size: 0.75rem;
-`;
-
-const MessageContents = styled.span`
-  word-break: break-all;
-  font-weight: 500;
-  font-size: 1rem;
-  padding-top: 5px;
-  padding-bottom: 5px;
-`;
-
-const MessageBox = styled.section`
-  padding: 5px;
-  width: 100%;
-  height: auto;
 `;
 
 const MarginBox = styled.section`
@@ -73,17 +29,12 @@ export const MessageCard: React.FC<PropTypes> = ({
   return (
     <MessageCardBox>
       <MarginBox></MarginBox>
-      <MessageCardImageBox>
-        <MessageCardImage src={imageSrc}></MessageCardImage>
-      </MessageCardImageBox>
-      <MessageBox>
-        <MessageOwner>
-          <MessageOwnerName>{userName}</MessageOwnerName>
-          <MessageTimestamp>{timestamp}</MessageTimestamp>
-        </MessageOwner>
-        <MessageContents>{message}</MessageContents>
-      </MessageBox>
-
+      <MessageCardImage imageSrc={imageSrc}></MessageCardImage>
+      <MessageCardContents
+        userName={userName}
+        timestamp={timestamp}
+        message={message}
+      ></MessageCardContents>
       <MarginBox></MarginBox>
     </MessageCardBox>
   );
