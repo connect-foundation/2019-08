@@ -1,6 +1,6 @@
-import React, { createContext, Dispatch, useReducer } from "react";
+import React, { createContext, Dispatch, useReducer, useContext } from "react";
 import { Message } from "../core/entity/message";
-
+//코그 출처 https://velog.io/@velopert/typescript-context-api
 type Action =
   | {
       type: "CREATE";
@@ -51,4 +51,12 @@ export const MessageContextProvider = ({
       </MessagesStateContext.Provider>
     </MessageDispatchContext.Provider>
   );
+};
+
+export const useMessages = () => {
+  const state = useContext(MessagesStateContext);
+  const dispatch = useContext(MessageDispatchContext);
+  if (!dispatch) throw new Error("MessagesProvider not found");
+  if (!state) throw new Error("MessagesProvider not found");
+  return [state, dispatch];
 };
