@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { MessageCardImage } from "./message-card-image";
 import { MessageCardContents } from "./message-card-contents";
