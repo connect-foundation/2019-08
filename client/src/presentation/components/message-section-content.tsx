@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { ChatContent } from "./chat-content";
 import { ChatInputBox } from "./chat-input-box";
+import { MessageContextProvider } from "../../contexts/messagesContext";
 
 const MessageSectionContentWrapper = styled.section`
   width: 100%;
@@ -13,9 +14,11 @@ const MessageSectionContentWrapper = styled.section`
 
 export const MessageSectionContent: React.FC = () => {
   return (
-    <MessageSectionContentWrapper>
-      <ChatContent></ChatContent>
-      <ChatInputBox></ChatInputBox>
-    </MessageSectionContentWrapper>
+    <MessageContextProvider>
+      <MessageSectionContentWrapper>
+        <ChatContent></ChatContent>
+        <ChatInputBox></ChatInputBox>
+      </MessageSectionContentWrapper>
+    </MessageContextProvider>
   );
 };

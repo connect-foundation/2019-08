@@ -6,7 +6,7 @@ type Action =
       type: "CREATE";
       id: number;
       name: string;
-      timeStamp: string;
+      timestamp: string;
       imageSrc: string;
       contents: string;
     }
@@ -16,21 +16,22 @@ type Action =
     };
 
 type MessageDispatch = Dispatch<Action>;
+type Messages = Message[];
 
-const MessagesStateContext = createContext<Message[] | undefined>(undefined);
+const MessagesStateContext = createContext<Messages | undefined>(undefined);
 
 const MessageDispatchContext = createContext<MessageDispatch | undefined>(
   undefined
 );
 
-const messageReducer = (state: Message[], action: Action): Message[] => {
+const messageReducer = (state: Messages, action: Action): Messages => {
   switch (action.type) {
     case "CREATE":
       return state.concat({
         id: action.id,
         name: action.name,
         imageSrc: action.imageSrc,
-        timeStamp: action.timeStamp,
+        timestamp: action.timestamp,
         contents: action.contents
       });
     case "REMOVE":
@@ -55,8 +56,12 @@ export const MessageContextProvider = ({
 
 export const useMessages = () => {
   const state = useContext(MessagesStateContext);
+  if (!state) throw new Error("MessagesProvider not found");
+  return state;
+};
+
+export const useMessagesDispatch = () => {
   const dispatch = useContext(MessageDispatchContext);
   if (!dispatch) throw new Error("MessagesProvider not found");
-  if (!state) throw new Error("MessagesProvider not found");
-  return [state, dispatch];
+  return dispatch;
 };

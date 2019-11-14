@@ -1,7 +1,7 @@
 export interface Message {
   id: number;
   name: string;
-  timeStamp: string;
+  timestamp: string;
   imageSrc: string;
   contents: string;
 }

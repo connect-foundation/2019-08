@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { MessageCardImage } from "./message-card-image";
 import { MessageCardContents } from "./message-card-contents";
+import { Message } from "../../core/entity/message";
 
 const MessageCardBox = styled.section`
   width: 100%;
@@ -13,27 +14,20 @@ const MarginBox = styled.section`
   width: 10px;
 `;
 
-interface PropTypes {
-  imageSrc: string;
-  userName: string;
-  timestamp: string;
-  message: string;
-}
-
-export const MessageCard: React.FC<PropTypes> = ({
+export const MessageCard: React.FC<Message> = ({
   imageSrc,
-  userName,
+  name,
   timestamp,
-  message
+  contents
 }) => {
   return (
     <MessageCardBox>
       <MarginBox></MarginBox>
       <MessageCardImage imageSrc={imageSrc}></MessageCardImage>
       <MessageCardContents
-        userName={userName}
+        userName={name}
         timestamp={timestamp}
-        message={message}
+        message={contents}
       ></MessageCardContents>
       <MarginBox></MarginBox>
     </MessageCardBox>
