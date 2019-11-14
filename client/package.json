@@ -8,18 +8,22 @@
     "@types/react": "16.9.11",
     "@types/react-dom": "16.9.4",
     "@types/styled-components": "^4.4.0",
+    "axios": "^0.19.0",
+    "jest": "^24.9.0",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
     "styled-components": "^4.4.1",
+    "ts-jest": "^24.1.0",
     "typescript": "3.7.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "jest": "jest"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -39,6 +43,7 @@
   "devDependencies": {
     "@types/history": "^4.7.3",
     "@types/react-router-dom": "^5.1.2",
+    "axios-mock-adapter": "^1.17.0",
     "history": "^4.10.1"
   }
 }
