@@ -8,6 +8,22 @@ interface PropsType {
   fontColor?: string;
 }
 
+interface Config {
+  config: PropsType;
+}
+
+const determineSize = (size: string) => {
+  switch (size) {
+    case "big":
+      return "120px";
+    case "medium":
+      return "60px";
+    case "small":
+    default:
+      return "30px";
+  }
+};
+
 // 버튼 기본 설정 : 배경 -> 흰색, 글자 -> 검은색, 크기 -> 30px
 const Button = styled.button`
   --webkit-appearance: none;
@@ -19,30 +35,12 @@ const Button = styled.button`
     opacity: 0.5;
   }
   ${(props: PropsType) => {
-    let color = "#ffffff";
     let size = "";
-    let fontColor = "#000000";
-    if (props.color) {
-      color = props.color;
-    }
-
-    if (props.fontColor) {
-      fontColor = props.fontColor;
-    }
+    let color = props.color ? props.color : "#ffffff";
+    let fontColor = props.fontColor ? props.fontColor : "#000000";
 
     if (props.size) {
-      switch (props.size) {
-        case "big":
-          size = "120px";
-          break;
-        case "medium":
-          size = "60px";
-          break;
-        case "small":
-        default:
-          size = "30px";
-          break;
-      }
+      size = determineSize(props.size);
     }
     return css`
       background-color: ${color};
@@ -53,10 +51,14 @@ const Button = styled.button`
   }};
 `;
 
-export const CustomButton: React.FC<PropsType> = props => {
+export const CustomButton: React.FC<Config> = ({ config }) => {
   return (
-    <Button fontColor={props.fontColor} color={props.color} size={props.size}>
-      {props.name}
+    <Button
+      fontColor={config.fontColor}
+      color={config.color}
+      size={config.size}
+    >
+      {config.name}
     </Button>
   );
 };

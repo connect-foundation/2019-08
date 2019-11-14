@@ -26,6 +26,7 @@ const CheckBoxLabel = styled.label`
     transition: 0.2s;
   }
 `;
+
 const CheckBox = styled.input`
   opacity: 0;
   z-index: 1;
@@ -50,10 +51,7 @@ export const CustomOnOffButton: React.FC = () => {
   const [checked, setChecked] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(checked);
-    if (e.target !== null) {
-      setChecked(!checked);
-    }
+    setChecked(!checked);
   };
 
   return (

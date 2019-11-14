@@ -4,7 +4,14 @@ import { CustomInput } from "./custom-input";
 import { CustomOnOffButton } from "./custom-on-off-button";
 import { CustomButton } from "./custom-button";
 
-const ChannelPlusModalContentsWrapper = styled.section`
+const customButtonConfig = {
+  color: "#000000",
+  fontColor: "#ffffff",
+  name: "submit",
+  size: "big"
+};
+
+const ContentsWrapper = styled.section`
   display: flex;
   flex-direction: column;
   height: 60%;
@@ -43,7 +50,7 @@ const CustomButtonWrapper = styled.section`
 
 export const ChannelPlusModalContents: React.FC = () => {
   return (
-    <ChannelPlusModalContentsWrapper>
+    <ContentsWrapper>
       <CustomInput
         title={"이름"}
         placeholder={"멋진 채널 이름을 입력하세요"}
@@ -65,13 +72,8 @@ export const ChannelPlusModalContents: React.FC = () => {
         <CustomOnOffButton></CustomOnOffButton>
       </ChannelSetPrivate>
       <CustomButtonWrapper>
-        <CustomButton
-          color="#000000"
-          fontColor="#ffffff"
-          name="submit"
-          size="big"
-        />
+        <CustomButton config={customButtonConfig} />
       </CustomButtonWrapper>
-    </ChannelPlusModalContentsWrapper>
+    </ContentsWrapper>
   );
 };

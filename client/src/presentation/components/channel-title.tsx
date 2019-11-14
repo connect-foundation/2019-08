@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { IconBox } from "./icon-box";
 import Hash from "../../assets/hash-white.png";
 
-const ChannelTitleWrapper = styled.section`
+const Wrapper = styled.section`
   color: #ffffff;
   display: flex;
   align-items: center;
@@ -19,9 +19,9 @@ interface PropsTypes {
 
 export const ChannelTitle: React.FC<PropsTypes> = props => {
   return (
-    <ChannelTitleWrapper>
+    <Wrapper>
       <IconBox imageSrc={Hash} />
       {props.title}
-    </ChannelTitleWrapper>
+    </Wrapper>
   );
 };

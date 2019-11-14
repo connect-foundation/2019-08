@@ -3,9 +3,10 @@ import styled from "styled-components";
 import { ChannelHeader } from "./channel-header";
 import { ChannelTitle } from "./channel-title";
 
-const ChannelListWrapper = styled.section`
+const Wrapper = styled.section`
   background-color: #606060;
 `;
+
 const mockChannelTitleData = [
   "아침점호",
   "저녁점호",
@@ -16,11 +17,11 @@ const mockChannelTitleData = [
 
 export const ChannelList: React.FC = () => {
   return (
-    <ChannelListWrapper>
+    <Wrapper>
       <ChannelHeader></ChannelHeader>
       {mockChannelTitleData.map(title => (
         <ChannelTitle key={title} title={title} />
       ))}
-    </ChannelListWrapper>
+    </Wrapper>
   );
 };

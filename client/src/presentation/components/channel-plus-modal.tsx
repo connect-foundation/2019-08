@@ -8,8 +8,8 @@ const WholeScreen = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  /*background-color: black;
-  opacity: 0.5;*/
+  background-color: black;
+  opacity: 0.5;
   width: 100%;
   height: 100%;
 `;
@@ -20,7 +20,7 @@ const MarginBox = styled.section`
   height: 100%;
 `;
 
-const ChannelPlusModalWrapper = styled.section`
+const Wrapper = styled.section`
   width: 500px;
   height: 500px;
   background-color: white;
@@ -29,7 +29,7 @@ const ChannelPlusModalWrapper = styled.section`
   border-radius: 10px;
 `;
 
-const ChannelPlusModalMain = styled.section`
+const MainBox = styled.section`
   height: 100%;
   width: 100%;
   display: flex;
@@ -40,14 +40,14 @@ const ChannelPlusModalMain = styled.section`
 export const ChannelPlusModal: React.FC = () => {
   return (
     <WholeScreen>
-      <ChannelPlusModalWrapper>
+      <Wrapper>
         <MarginBox />
-        <ChannelPlusModalMain>
+        <MainBox>
           <ChannelPlusModalHeader />
           <ChannelPlusModalContents />
-        </ChannelPlusModalMain>
+        </MainBox>
         <MarginBox />
-      </ChannelPlusModalWrapper>
+      </Wrapper>
     </WholeScreen>
   );
 };
