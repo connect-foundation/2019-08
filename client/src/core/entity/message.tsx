@@ -1,5 +1,5 @@
 export interface Message {
-  id: number;
+  id?: number;
   name: string;
   timestamp: string;
   imageSrc: string;
