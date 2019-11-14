@@ -10,6 +10,26 @@ export class ChannelApi {
 
     }
 
+    create(channel: Channel): AxiosResponse<ResponseEntity<object>> {
+        return this.axios.post(`/api/channel/${channel.name.getValue()}`, {
+            name: channel.name.getValue(),
+            description: channel.description.getValue(),
+            visibility: channel.visibility
+
+        }).catch((error: AxiosError) => {
+            if (error.response) {
+                return error.response;
+
+            } else {
+                console.error(error.message);
+                throw new Error(`${channel.name.getValue()} 추가 과정에서 예기치 못한 에러가 발생했습니다.`);
+
+            }
+
+        });
+
+    }
+
     findByName(channelName: string): AxiosResponse<ResponseEntity<Channel>> {
         return this.axios.get(`/api/channels/${channelName}`)
             .catch((error: AxiosError) => {

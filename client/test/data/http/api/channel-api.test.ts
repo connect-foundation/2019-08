@@ -1,8 +1,88 @@
 import MockAdapter from 'axios-mock-adapter';
 import {ChannelApi} from "../../../../src/data/http/api/channel-api";
 import axios from 'axios';
+import {StringHelper} from "../../../../src/core/common/string-helper";
 
 describe('ChannelApi Test', () => {
+    describe('create() Method Test', () => {
+        let mock: MockAdapter;
+        beforeEach(() => {
+            mock = new MockAdapter(axios, {delayResponse: 100});
+
+        });
+
+        beforeEach(() => {
+            mock.resetHandlers();
+
+        });
+
+        it('채널 올바르게 생성한 경우, 상태코드는 201 이다.', async () => {
+            // given
+            const channel = {
+                name: new StringHelper('test-channel-name'),
+                description: new StringHelper('test-channel-description'),
+                visibility: false
+            };
+
+            const mockStatus = 201;
+            const mockData = {
+                message: 'channel을 생성하였습니다.',
+                payload: {
+                    name: channel.name.getValue(),
+                    description: channel.description.getValue(),
+                    visibility: channel.visibility
+
+                }
+
+            };
+
+            mock.onPost(`/api/channel/${channel.name.getValue()}`)
+                .reply(mockStatus, mockData);
+
+            // when
+            const channelApi = new ChannelApi(axios);
+            const {status, data} = await channelApi.create(channel);
+            const {message, payload} = data;
+
+            // then
+            expect(status).toEqual(mockStatus);
+            expect(message).toEqual(mockData.message);
+            expect(payload).toMatchObject(mockData.payload);
+
+        });
+
+        it('동일한 채널명이 존재하는 경우, 상태코드는 403 이다.', async () => {
+            // given
+            const channel = {
+                name: new StringHelper('test-channel-name'),
+                description: new StringHelper('test-channel-description'),
+                visibility: false
+            };
+
+            const mockStatus = 403;
+            const mockData = {
+                message: '동일한 channel 이 이미 존재합니다.',
+                payload: {}
+
+            };
+
+            mock.onPost(`/api/channel/${channel.name.getValue()}`)
+                .reply(mockStatus, mockData);
+
+            // when
+            const channelApi = new ChannelApi(axios);
+            const {status, data} = await channelApi.create(channel);
+            const {message, payload} = data;
+
+            // then
+            expect(status).toEqual(mockStatus);
+            expect(message).toEqual(mockData.message);
+            expect(payload).toMatchObject(mockData.payload);
+
+        });
+
+    });
+
     describe('findByName() Method Test', () => {
         let mock: MockAdapter;
 
