@@ -1,4 +1,4 @@
-import {StringHelper} from "../../../src/core/common/string-helper";
+import {StringHelper} from "@src/core/common/string-helper";
 
 describe('StringWrapper Class Test', () => {
     describe('from() Method Test', () => {

@@ -1,6 +1,6 @@
-import {ChannelApi} from '../http/api/channel-api';
-import {Channel} from "../../core/entity/channel";
-import {ChannelRepositoryType} from "../../core/use-case/channel-repository-type";
+import {ChannelApi} from '@src/data/http/api/channel-api';
+import {Channel} from "@src/core/entity/channel";
+import {ChannelRepositoryType} from "@src/core/use-case/channel-repository-type";
 
 export class ChannelRepository implements ChannelRepositoryType {
     private api: ChannelApi;

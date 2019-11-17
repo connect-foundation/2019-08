@@ -1,4 +1,4 @@
-import {Channel} from "../entity/channel";
+import {Channel} from "@src/core/entity/channel";
 
 export interface ChannelRepositoryType {
     create(channel: Channel): boolean;

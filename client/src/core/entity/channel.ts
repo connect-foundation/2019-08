@@ -1,4 +1,4 @@
-import {StringHelper} from "../common/string-helper";
+import {StringHelper} from "@src/core/common/string-helper";
 
 export interface Channel {
     name: StringHelper;

@@ -1,5 +1,5 @@
-import {ChannelRepositoryType} from "../use-case/channel-repository-type";
-import {ChannelModel} from "../model/channel-model";
+import {ChannelRepositoryType} from "@src/core/use-case/channel-repository-type";
+import {ChannelModel} from "@src/core/model/channel-model";
 
 /**
  *

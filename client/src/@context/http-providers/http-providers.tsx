@@ -1,6 +1,6 @@
-import {ChannelApi} from "../../data/http/api/channel-api";
+import {ChannelApi} from "@src/data/http/api/channel-api";
 import axios from 'axios';
-import {AxiosConfig} from "../../config/axios-config";
+import {AxiosConfig} from "@src/config/axios-config";
 
 export class HttpProviderDependencies {
     private readonly  channel: ChannelApi;

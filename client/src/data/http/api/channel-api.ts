@@ -1,6 +1,6 @@
-import {Channel} from '../../../core/entity/channel';
+import {Channel} from '@src/core/entity/channel.js';
 import {AxiosError, AxiosResponse} from "axios";
-import {ResponseEntity} from "./response/ResponseEntity";
+import {ResponseEntity} from "@src/data/http/api/response/ResponseEntity";
 
 export class ChannelApi {
     private axios: any;

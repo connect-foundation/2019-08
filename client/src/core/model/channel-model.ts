@@ -1,5 +1,5 @@
-import {StringHelper} from "../common/string-helper";
-import {Channel} from "../entity/channel";
+import {StringHelper} from "@src/core/common/string-helper";
+import {Channel} from "@src/core/entity/channel";
 
 export class ChannelModel implements Channel {
     private static readonly NAME_MIN_LENGTH = 0;
