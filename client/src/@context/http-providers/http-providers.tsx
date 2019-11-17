@@ -1,13 +1,13 @@
 import {ChannelApi} from "@src/data/http/api/channel-api";
-import axios from 'axios';
-import {AxiosConfig} from "@src/config/axios-config";
+import {AxiosWrapper} from "@src/data/http/api/AxiosWrapper";
 
 export class HttpProviderDependencies {
     private readonly  channel: ChannelApi;
+    private readonly axiosWrapper: AxiosWrapper;
 
     constructor() {
-        AxiosConfig.initialize(axios);
-        this.channel = new ChannelApi(axios);
+        this.axiosWrapper = new AxiosWrapper();
+        this.channel = new ChannelApi(this.axiosWrapper);
 
     }
 

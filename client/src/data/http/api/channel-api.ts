@@ -1,12 +1,13 @@
 import {Channel} from '@src/core/entity/channel.js';
 import {AxiosError, AxiosResponse} from "axios";
 import {ResponseEntity} from "@src/data/http/api/response/ResponseEntity";
+import {AxiosWrapper} from "@src/data/http/api/AxiosWrapper";
 
 export class ChannelApi {
     private axios: any;
 
-    constructor(axios: object) {
-        this.axios = axios;
+    constructor(axios: AxiosWrapper) {
+        this.axios = axios.getAxios();
 
     }
 
