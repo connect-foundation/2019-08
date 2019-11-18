@@ -2,12 +2,13 @@ import {Channel} from '../../../core/entity/channel';
 import {AxiosError, AxiosResponse} from "axios";
 import {ResponseEntity} from "./response/ResponseEntity";
 import {StatusCodes} from "./status-codes";
+import {AxiosWrapper} from "./axios-wrapper";
 
 export class ChannelApi {
   private axios: any;
 
-  constructor(axios: object) {
-    this.axios = axios;
+  constructor(axios: AxiosWrapper) {
+    this.axios = axios.getAxios();
   }
 
   create(channel: Channel): ResponseEntity<Channel> | boolean {

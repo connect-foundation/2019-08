@@ -1,15 +1,16 @@
 import MockAdapter from 'axios-mock-adapter';
 import {ChannelApi} from "../../../../src/data/http/api/channel-api";
-import axios from 'axios';
 import {StringHelper} from "../../../../src/core/common/string-helper";
 import {Channel} from "../../../../src/core/entity/channel";
 import {ResponseEntity} from "../../../../src/data/http/api/response/ResponseEntity";
+import {AxiosWrapper} from "../../../../src/data/http/api/axios-wrapper";
 
 describe('ChannelApi Test', () => {
     describe('create() Method Test', () => {
+        const axios = new AxiosWrapper();
         let mock: MockAdapter;
         beforeEach(() => {
-            mock = new MockAdapter(axios, {delayResponse: 100});
+            mock = new MockAdapter(axios.getAxios(), {delayResponse: 100});
 
         });
 
@@ -83,10 +84,10 @@ describe('ChannelApi Test', () => {
     });
 
     describe('findByName() Method Test', () => {
+        const axios = new AxiosWrapper();
         let mock: MockAdapter;
-
         beforeEach(() => {
-            mock = new MockAdapter(axios, {delayResponse: 100});
+            mock = new MockAdapter(axios.getAxios(), {delayResponse: 100});
 
         });
 
