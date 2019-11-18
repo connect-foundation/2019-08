@@ -2,6 +2,8 @@ import MockAdapter from 'axios-mock-adapter';
 import {ChannelApi} from "../../../../src/data/http/api/channel-api";
 import axios from 'axios';
 import {StringHelper} from "../../../../src/core/common/string-helper";
+import {Channel} from "../../../../src/core/entity/channel";
+import {ResponseEntity} from "../../../../src/data/http/api/response/ResponseEntity";
 
 describe('ChannelApi Test', () => {
     describe('create() Method Test', () => {
@@ -42,11 +44,12 @@ describe('ChannelApi Test', () => {
             // when
             const channelApi = new ChannelApi(axios);
             const responseData = await channelApi.create(channel);
-            const {message, payload} = responseData;
+            const {message, payload} = responseData as ResponseEntity<Channel>;
 
             // then
             expect(message).toEqual(mockData.message);
             expect(payload).toMatchObject(mockData.payload);
+            expect(payload as Channel).toBeTruthy();
 
         });
 
@@ -71,11 +74,9 @@ describe('ChannelApi Test', () => {
             // when
             const channelApi = new ChannelApi(axios);
             const responseData = await channelApi.create(channel);
-            const {message, payload} = responseData;
 
             // then
-            expect(message).toEqual(mockData.message);
-            expect(payload).toMatchObject(mockData.payload);
+            expect(responseData).toBeFalsy();
 
         });
 
@@ -110,11 +111,9 @@ describe('ChannelApi Test', () => {
             // when
             const channelApi = new ChannelApi(axios);
             const responseData = await channelApi.findByName(channelName);
-            const {message, payload} = responseData;
 
             // then
-            expect(message).toEqual(mockData.message);
-            expect(payload).toMatchObject(mockData.payload);
+            expect(responseData).toBeFalsy();
 
         });
 
@@ -141,7 +140,7 @@ describe('ChannelApi Test', () => {
             // when
             const channelApi = new ChannelApi(axios);
             const responseData = await channelApi.findByName(channelName);
-            const {message, payload} = responseData;
+            const {message, payload} = responseData as ResponseEntity<Channel>;
 
             // then
             expect(message).toEqual(mockData.message);

@@ -14,7 +14,7 @@ export class ChannelRepository implements ChannelRepositoryType {
     async create(channel: Channel) :Promise<boolean>{
         try {
             const responseEntity = await this.api.create(channel);
-            return Object.keys(responseEntity.payload).length > 0;
+            return !!responseEntity;
 
         } catch(error) {
             return false;
@@ -27,7 +27,7 @@ export class ChannelRepository implements ChannelRepositoryType {
     async hasByName(channelName: string): Promise<boolean> {
         try {
             const responseEntity = await this.api.findByName(channelName);
-            return Object.keys(responseEntity.payload).length > 0;
+            return !!responseEntity;
 
         } catch(error) {
             return false;

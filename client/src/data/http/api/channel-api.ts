@@ -10,7 +10,7 @@ export class ChannelApi {
     this.axios = axios;
   }
 
-  create(channel: Channel): ResponseEntity<Channel> {
+  create(channel: Channel): ResponseEntity<Channel> | boolean {
     return this.axios.post(`/api/channel/${channel.name.getValue()}`, {
       name: channel.name.getValue(),
       description: channel.description.getValue(),
@@ -20,7 +20,7 @@ export class ChannelApi {
         return response.data;
 
       } else {
-        return {};
+        return false;
 
       }
 
@@ -28,14 +28,14 @@ export class ChannelApi {
 
   }
 
-  findByName(channelName: string): ResponseEntity<Channel> {
+  findByName(channelName: string): ResponseEntity<Channel> | boolean {
     return this.axios.get(`/api/channels/${channelName}`)
             .then((response: AxiosResponse<ResponseEntity<Channel>>) => {
               if (StatusCodes.isOk(response.status)) {
                 return response.data;
 
               } else {
-                return {};
+                return false;
 
               }
 
@@ -44,9 +44,9 @@ export class ChannelApi {
 
   }
 
-  handleError(error: AxiosError, message :string) {
+  handleError(error: AxiosError, message :string): boolean {
     if (error.response) {
-      return error.response.data;
+      return false;
 
     } else {
       console.error(error.message);
