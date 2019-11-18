@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { ChannelList } from "presentation/components/sung/channel-list";
 
 const SidebarWrapper = styled.section`
   min-width: 250px;
@@ -8,5 +9,9 @@ const SidebarWrapper = styled.section`
 `;
 
 export const Sidebar: React.FC = () => {
-  return <SidebarWrapper></SidebarWrapper>;
+  return (
+    <SidebarWrapper>
+      <ChannelList></ChannelList>
+    </SidebarWrapper>
+  );
 };

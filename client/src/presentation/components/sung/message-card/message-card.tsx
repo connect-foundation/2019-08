@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { MessageCardImage } from "./message-card-image";
+import { MessageCardImage } from "presentation/components/atomic-reusable/message-card-image";
 import { MessageCardContents } from "./message-card-contents";
 
 const MessageCardBox = styled.section`
