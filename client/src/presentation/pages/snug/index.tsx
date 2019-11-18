@@ -1,11 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { Sidebar } from "../components/sidebar";
-import { SnugHeader } from "../components/snug-header";
+import { Sidebar } from "./sidebar";
+import { SnugHeader } from "./header";
 import { ChannelPlusModal } from "../components/channel-plus-modal";
-import { MessageSection } from "../components/message-section";
-import { ModalProvider } from "../../contexts/modal-context";
 import { ChannelsProvider } from "../../contexts/channel-context";
+import { ModalProvider } from "../../contexts/modal-context";
 
 const SnugWrapper = styled.section`
   width: inherit;

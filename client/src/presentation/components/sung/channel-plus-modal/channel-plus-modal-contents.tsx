@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { CustomInput } from "./custom-input";
-import { CustomOnOffButton } from "./custom-on-off-button";
-import { CustomButton } from "./custom-button";
+import { CustomInput } from "presentation/components/atomic-reusable/custom-input";
+import { CustomButton } from "presentation/components/atomic-reusable/custom-button";
+import { CustomOnOffButton } from "presentation/components/atomic-reusable/custom-on-off-button";
 import { useChannelDispatch } from "../../contexts/channel-context";
 
 const ContentsForm = styled.form`

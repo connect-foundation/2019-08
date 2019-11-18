@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
+import { IconBox } from "presentation/components/atomic-reusable/icon-box";
+import LetterXWhite from "assets/letter-x-white.png";
 import { useModalToggledDispatch } from "../../contexts/modal-context";
-import LetterXWhite from "../../assets/letter-x-white.png";
-import { IconBox } from "./icon-box";
 
 const ChannelPlusModalHeaderWrapper = styled.section`
   display: flex;
