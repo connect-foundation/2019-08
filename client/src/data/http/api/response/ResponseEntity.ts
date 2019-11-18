@@ -1,5 +1,4 @@
 export interface ResponseEntity<T> {
-    message: string,
-    payload: T
-
+  message: string,
+  payload: T
 }

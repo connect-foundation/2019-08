@@ -18,14 +18,10 @@ export class ChannelApi {
     }).then((response: AxiosResponse<ResponseEntity<Channel>>) => {
       if (StatusCodes.isCreated(response.status)) {
         return response.data;
-
       } else {
         return false;
-
       }
-
     }).catch((error: AxiosError) => this.handleError(error, `${channel.name.getValue()} 추가 과정에서 예기치 못한 에러가 발생했습니다.`));
-
   }
 
   findByName(channelName: string): ResponseEntity<Channel> | boolean {
@@ -33,27 +29,19 @@ export class ChannelApi {
             .then((response: AxiosResponse<ResponseEntity<Channel>>) => {
               if (StatusCodes.isOk(response.status)) {
                 return response.data;
-
               } else {
                 return false;
-
               }
-
             })
             .catch((error: AxiosError) => this.handleError(error, `${channelName} 조회 과정에서 예기치 못한 에러가 발생했습니다.`));
-
   }
 
-  handleError(error: AxiosError, message :string): boolean {
+  handleError(error: AxiosError, message: string): boolean {
     if (error.response) {
       return false;
-
     } else {
       console.error(error.message);
       throw new Error(message);
-
     }
-
   }
-
 }
