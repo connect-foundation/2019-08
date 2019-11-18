@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { ChatContent } from "./chat-content";
-import { ChatInputBox } from "./chat-input-box";
+import { ChatContent } from "presentation/components/sung/chat-container";
+import { ChatInputBox } from "presentation/components/sung/chat-input-box";
 
 const MessageSectionContentWrapper = styled.section`
   width: 100%;

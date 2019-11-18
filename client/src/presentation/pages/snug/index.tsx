@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import { Sidebar } from "../components/sidebar";
-import { SnugHeader } from "../components/snug-header";
-import { MessageSection } from "../components/message-section";
+import { Sidebar } from "./sidebar";
+import { SnugHeader } from "./header";
+import { MessageSection } from "./message-section";
 
 const SnugWrapper = styled.section`
   width: inherit;

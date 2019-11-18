@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { IconBox } from "./icon-box";
-import Hash from "../../assets/hash-white.png";
+import { IconBox } from "presentation/components/atomic-reusable/icon-box";
+import Hash from "assets/hash-white.png";
 
 const Wrapper = styled.section`
   color: #ffffff;

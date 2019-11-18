@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { MessageSectionHeader } from "./message-section-header";
-import { MessageSectionContent } from "./message-section-content";
+import { MessageSectionHeader } from "./header";
+import { MessageSectionContent } from "./content";
 
 const MessageSectionWrapper = styled.section`
   height: 100%;
