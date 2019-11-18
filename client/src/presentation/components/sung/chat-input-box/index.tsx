@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import ClipWhite from "../../assets/clip-white.png";
-import AtWhite from "../../assets/at-white.png";
-import FaceWhite from "../../assets/face-white.png";
-import { IconBox } from "./icon-box";
+import ClipWhite from "assets/ClipWhite.png";
+import AtWhite from "assets/at-white.png";
+import FaceWhite from "assets/face-white.png";
+import { IconBox } from "presentation/components/atomic-reusable/icon-box";
 
 const InputWrapper = styled.section`
   width: 100%;

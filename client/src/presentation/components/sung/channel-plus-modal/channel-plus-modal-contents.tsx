@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import { CustomInput } from "./custom-input";
-import { CustomOnOffButton } from "./custom-on-off-button";
-import { CustomButton } from "./custom-button";
+import { CustomInput } from "presentation/components/atomic-reusable/custom-input";
+import { CustomOnOffButton } from "presentation/components/atomic-reusable/custom-on-off-button";
+import { CustomButton } from "presentation/components/atomic-reusable/custom-button";
 
 const customButtonConfig = {
   color: "#000000",

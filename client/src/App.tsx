@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Switch, BrowserRouter } from "react-router-dom";
 import { createBrowserHistory } from "history";
-import { Snug } from "./presentation/pages/snug";
+import { Snug } from "./presentation/pages/snug/index";
 import { Application } from "./context.instance";
 import { createGlobalStyle } from "styled-components";
 
