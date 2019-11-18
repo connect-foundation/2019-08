@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import ClipWhite from "assets/ClipWhite.png";
+import ClipWhite from "assets/clip-white.png";
 import AtWhite from "assets/at-white.png";
 import FaceWhite from "assets/face-white.png";
 import { IconBox } from "presentation/components/atomic-reusable/icon-box";

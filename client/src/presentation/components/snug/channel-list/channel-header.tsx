@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { IconBox } from "presentation/components/atomic-reusable/icon-box";
 import Plus from "assets/plus-white.png";
-import { useModalToggledDispatch } from "../../contexts/modal-context";
+import { useModalToggledDispatch } from "contexts/modal-context";
 
 const Wrapper = styled.section`
   color: #ffffff;

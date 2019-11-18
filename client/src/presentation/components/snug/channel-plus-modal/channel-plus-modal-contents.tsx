@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { CustomInput } from "presentation/components/atomic-reusable/custom-input";
 import { CustomButton } from "presentation/components/atomic-reusable/custom-button";
 import { CustomOnOffButton } from "presentation/components/atomic-reusable/custom-on-off-button";
-import { useChannelDispatch } from "../../contexts/channel-context";
+import { useChannelDispatch } from "contexts/channel-context";
 
 const ContentsForm = styled.form`
   display: flex;

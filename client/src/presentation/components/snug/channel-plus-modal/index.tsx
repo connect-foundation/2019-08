@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { ChannelPlusModalHeader } from "./channel-plus-modal-header";
 import { ChannelPlusModalContents } from "./channel-plus-modal-contents";
-import { useModalToggled } from "../../contexts/modal-context";
+import { useModalToggled } from "contexts/modal-context";
 
 const WholeScreen = styled.div`
   position: absolute;

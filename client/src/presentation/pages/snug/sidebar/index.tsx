@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { ChannelList } from "presentation/components/sung/channel-list";
+import { ChannelList } from "presentation/components/snug/channel-list";
 
 const SidebarWrapper = styled.section`
   min-width: 250px;
