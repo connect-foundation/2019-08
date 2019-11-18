@@ -41,11 +41,10 @@ describe('ChannelApi Test', () => {
 
             // when
             const channelApi = new ChannelApi(axios);
-            const {status, data} = await channelApi.create(channel);
-            const {message, payload} = data;
+            const responseData = await channelApi.create(channel);
+            const {message, payload} = responseData;
 
             // then
-            expect(status).toEqual(mockStatus);
             expect(message).toEqual(mockData.message);
             expect(payload).toMatchObject(mockData.payload);
 
@@ -71,11 +70,10 @@ describe('ChannelApi Test', () => {
 
             // when
             const channelApi = new ChannelApi(axios);
-            const {status, data} = await channelApi.create(channel);
-            const {message, payload} = data;
+            const responseData = await channelApi.create(channel);
+            const {message, payload} = responseData;
 
             // then
-            expect(status).toEqual(mockStatus);
             expect(message).toEqual(mockData.message);
             expect(payload).toMatchObject(mockData.payload);
 
@@ -111,11 +109,10 @@ describe('ChannelApi Test', () => {
 
             // when
             const channelApi = new ChannelApi(axios);
-            const {status, data} = await channelApi.findByName(channelName);
-            const {message, payload} = data;
+            const responseData = await channelApi.findByName(channelName);
+            const {message, payload} = responseData;
 
             // then
-            expect(status).toEqual(mockStatus);
             expect(message).toEqual(mockData.message);
             expect(payload).toMatchObject(mockData.payload);
 
@@ -143,11 +140,10 @@ describe('ChannelApi Test', () => {
 
             // when
             const channelApi = new ChannelApi(axios);
-            const {status, data} = await channelApi.findByName(channelName);
-            const {message, payload} = data;
+            const responseData = await channelApi.findByName(channelName);
+            const {message, payload} = responseData;
 
             // then
-            expect(status).toEqual(mockStatus);
             expect(message).toEqual(mockData.message);
             expect(payload).toMatchObject(mockData.payload);
 

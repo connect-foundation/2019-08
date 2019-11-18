@@ -23,8 +23,8 @@ export class ChannelModel implements Channel {
 
     }
 
-    public isPossibleFormat(): boolean {
-        return this.hasRightNameFormat(this.name) && this.hasRightDescriptionFormat(this.description);
+    public isImpossibleFormat(): boolean {
+        return !(this.hasRightNameFormat(this.name) && this.hasRightDescriptionFormat(this.description));
 
     }
 

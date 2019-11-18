@@ -1,8 +1,8 @@
 import {Channel} from "../entity/channel";
 
 export interface ChannelRepositoryType {
-    create(channel: Channel): boolean;
+    create(channel: Channel): Promise<boolean>;
 
-    hasByName(channelName: string): boolean;
+    hasByName(channelName: string): Promise<boolean>;
 
 }

@@ -24,9 +24,10 @@ export class ChannelService {
      * @return boolean 생성 여부
      *
      * */
-    create(name: string, description: string, visibility: boolean): boolean {
+    async create(name: string, description: string, visibility: boolean): Promise<boolean> {
         const channel: ChannelModel = new ChannelModel(name, description, visibility);
-        if (this.isSatisfied(channel)) {
+        const satisfaction = await this.isSatisfied(channel);
+        if (satisfaction) {
             return this.repository.create(channel);
 
         }
@@ -41,8 +42,13 @@ export class ChannelService {
      * @param channel
      *
      * */
-    private isSatisfied(channel: ChannelModel): boolean {
-        return channel.isPossibleFormat() && this.isNotDuplicated(channel.getName());
+    private async isSatisfied(channel: ChannelModel): Promise<boolean> {
+        if(channel.isImpossibleFormat()) {
+            return false;
+
+        }
+
+        return await this.isNotDuplicated(channel.getName());
 
     }
 
@@ -52,8 +58,9 @@ export class ChannelService {
      * @param name
      *
      * */
-    private isNotDuplicated(name: string) {
-        return !this.repository.hasByName(name);
+    private async isNotDuplicated(name: string) :Promise<boolean> {
+        const redundancy = await this.repository.hasByName(name);
+        return !redundancy;
 
     }
 
