@@ -1,9 +1,9 @@
 import MockAdapter from 'axios-mock-adapter';
-import {ChannelApi} from "../../../../src/data/http/api/channel-api";
-import {StringHelper} from "../../../../src/core/common/string-helper";
-import {Channel} from "../../../../src/core/entity/channel";
-import {ResponseEntity} from "../../../../src/data/http/api/response/ResponseEntity";
-import {AxiosWrapper} from "../../../../src/data/http/api/axios-wrapper";
+import {ChannelApi} from "data/http/api/channel-api";
+import {StringHelper} from "core/common/string-helper";
+import {Channel} from "core/entity/channel";
+import {ResponseEntity} from "data/http/api/response/ResponseEntity";
+import {AxiosWrapper} from "data/http/api/axios-wrapper";
 
 describe('ChannelApi Test', () => {
     describe('create() Method Test', () => {

@@ -1,5 +1,5 @@
-import {ChannelService} from "../../../src/core/service/channel-service";
-import {Channel} from "../../../src/core/entity/channel";
+import {ChannelService} from "core/service/channel-service";
+import {Channel} from "core/entity/channel";
 
 describe('ChannelService Test', () => {
     describe('create() Method Test', () => {

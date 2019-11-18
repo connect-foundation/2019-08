@@ -1,5 +1,5 @@
-import {ChannelRepositoryType} from "../../core/use-case/channel-repository-type";
-import {ChannelRepository} from "../../data/repository/channel-repository";
+import {ChannelRepositoryType} from "core/use-case/channel-repository-type";
+import {ChannelRepository} from "data/repository/channel-repository";
 
 export class ChatRoomRepositoryDependency {
   private readonly channelRepository: ChannelRepositoryType;

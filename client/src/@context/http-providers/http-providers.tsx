@@ -1,5 +1,5 @@
-import {ChannelApi} from "../../data/http/api/channel-api";
-import {AxiosWrapper} from "../../data/http/api/axios-wrapper.js";
+import {ChannelApi} from "data/http/api/channel-api";
+import {AxiosWrapper} from "data/http/api/axios-wrapper";
 
 export class HttpProviderDependencies {
   private readonly channel: ChannelApi;

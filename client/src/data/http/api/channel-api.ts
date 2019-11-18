@@ -1,4 +1,4 @@
-import {Channel} from '../../../core/entity/channel';
+import {Channel} from "core/entity/channel";
 import {AxiosError, AxiosResponse} from "axios";
 import {ResponseEntity} from "./response/ResponseEntity";
 import {StatusCodes} from "./status-codes";
