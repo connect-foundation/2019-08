@@ -4,7 +4,7 @@ import ClipWhite from "../../assets/clip-white.png";
 import AtWhite from "../../assets/at-white.png";
 import FaceWhite from "../../assets/face-white.png";
 import { IconBox } from "./icon-box";
-import { useMessagesDispatch } from "../../contexts/messagesContext";
+import { useMessagesDispatch } from "../../contexts/messages-context";
 import dubu from "../../assets/dubu.png";
 
 const InputWrapper = styled.section`
@@ -59,7 +59,7 @@ export const ChatInputBox: React.FC = () => {
     setMessage(event.target.value);
   };
 
-  //이 부분은 mok 데이터로 되어 있으니 차후 수정이 필요함
+  //이 부분은 mock 데이터로 되어 있으니 차후 수정이 필요함
   const inputKeyPressEventHandler = (
     event: React.KeyboardEvent<HTMLInputElement>
   ) => {

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { MessageCard } from "./message-card";
-import { useMessages } from "../../contexts/messagesContext";
+import { useMessages } from "../../contexts/messages-context";
 
 const ChatContentWrapper = styled.section`
   height: 100%;
