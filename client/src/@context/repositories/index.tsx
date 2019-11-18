@@ -3,12 +3,16 @@ import {HttpProviderDependencies} from "../http-providers/http-providers";
 import {ChatRoomRepositoryDependency} from "./chat-room";
 
 export class RepositoryDependencies {
-  public chatRoom: ChatRoomRepositoryDependency;
+  private readonly chatRoom: ChatRoomRepositoryDependency;
 
   constructor(
           apies: HttpProviderDependencies,
           storage: StorageProviderDependencies
   ) {
-    this.chatRoom = new ChatRoomRepositoryDependency(apies.channel);
+    this.chatRoom = new ChatRoomRepositoryDependency(apies.getChannel());
+  }
+
+  getChatRoom() {
+    return this.chatRoom;
   }
 }

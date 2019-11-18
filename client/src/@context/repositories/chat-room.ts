@@ -2,9 +2,13 @@ import {ChannelRepositoryType} from "../../core/use-case/channel-repository-type
 import {ChannelRepository} from "../../data/repository/channel-repository";
 
 export class ChatRoomRepositoryDependency {
-  public channel: ChannelRepositoryType;
+  private readonly channelRepository: ChannelRepositoryType;
 
   constructor(api: any) {
-    this.channel = new ChannelRepository(api);
+    this.channelRepository = new ChannelRepository(api);
+  }
+
+  getChannelRepository() {
+    return this.channelRepository;
   }
 }
