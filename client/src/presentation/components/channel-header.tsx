@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { useModalToggledDispatch } from "../../contexts/modal-context";
 import { IconBox } from "./icon-box";
 import Plus from "../../assets/plus-white.png";
 
@@ -16,11 +17,23 @@ const Title = styled.span`
   }
 `;
 
+const IconBoxWrapper = styled.section``;
+
 export const ChannelHeader: React.FC = () => {
+  const dispatch = useModalToggledDispatch();
+
+  const clickHandler = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    dispatch({
+      type: "TOGGLE_CHANNEL_PLUS_MODAL"
+    });
+  };
+
   return (
     <Wrapper>
       <Title>채널 목록</Title>
-      <IconBox imageSrc={Plus}></IconBox>
+      <IconBoxWrapper onClick={clickHandler}>
+        <IconBox imageSrc={Plus}></IconBox>
+      </IconBoxWrapper>
     </Wrapper>
   );
 };
