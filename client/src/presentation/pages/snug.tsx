@@ -2,7 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import { Sidebar } from "../components/sidebar";
 import { SnugHeader } from "../components/snug-header";
+import { ChannelPlusModal } from "../components/channel-plus-modal";
 import { MessageSection } from "../components/message-section";
+import { ModalProvider } from "../../contexts/modal-context";
+import { ChannelsProvider } from "../../contexts/channel-context";
 
 const SnugWrapper = styled.section`
   width: inherit;
@@ -19,11 +22,16 @@ const ViewWrapper = styled.section`
 export const Snug: React.FC = () => {
   return (
     <SnugWrapper>
-      <SnugHeader></SnugHeader>
-      <ViewWrapper>
-        <Sidebar></Sidebar>
-        <MessageSection></MessageSection>
-      </ViewWrapper>
+      <ChannelsProvider>
+        <ModalProvider>
+          <ChannelPlusModal />
+          <SnugHeader></SnugHeader>
+          <ViewWrapper>
+            <Sidebar></Sidebar>
+            <MessageSection></MessageSection>
+          </ViewWrapper>
+        </ModalProvider>
+      </ChannelsProvider>
     </SnugWrapper>
   );
 };

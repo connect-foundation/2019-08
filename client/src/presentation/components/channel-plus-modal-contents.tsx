@@ -1,17 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { CustomInput } from "./custom-input";
 import { CustomOnOffButton } from "./custom-on-off-button";
 import { CustomButton } from "./custom-button";
+import { useChannelDispatch } from "../../contexts/channel-context";
 
-const customButtonConfig = {
-  color: "#000000",
-  fontColor: "#ffffff",
-  name: "submit",
-  size: "big"
-};
-
-const ContentsWrapper = styled.section`
+const ContentsForm = styled.form`
   display: flex;
   flex-direction: column;
   height: 60%;
@@ -49,15 +43,32 @@ const CustomButtonWrapper = styled.section`
 `;
 
 export const ChannelPlusModalContents: React.FC = () => {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [privacy, setPrivacy] = useState(false);
+
+  const dispatch = useChannelDispatch();
+  const submitHandler = (e: React.FormEvent<HTMLElement>) => {
+    e.preventDefault();
+    dispatch({
+      type: "CREATE",
+      title: title,
+      description: description,
+      privacy: privacy
+    });
+  };
+
   return (
-    <ContentsWrapper>
+    <ContentsForm onSubmit={submitHandler}>
       <CustomInput
         title={"이름"}
         placeholder={"멋진 채널 이름을 입력하세요"}
+        onChange={setTitle}
       ></CustomInput>
       <CustomInput
         title={"설명"}
         placeholder={"채널을 멋있게 설명해주세요"}
+        onChange={setDescription}
       ></CustomInput>
       <ChannelSetPrivate>
         <ChannelPrivateDescription>
@@ -69,11 +80,17 @@ export const ChannelPlusModalContents: React.FC = () => {
             통해서만 가능합니다.
           </ChannelPrivateDescriptionContents>
         </ChannelPrivateDescription>
-        <CustomOnOffButton></CustomOnOffButton>
+        <CustomOnOffButton onChange={setPrivacy}></CustomOnOffButton>
       </ChannelSetPrivate>
       <CustomButtonWrapper>
-        <CustomButton config={customButtonConfig} />
+        <CustomButton
+          color={"#000000"}
+          fontColor={"#ffffff"}
+          name={"submit"}
+          size={"big"}
+          type={"submit"}
+        />
       </CustomButtonWrapper>
-    </ContentsWrapper>
+    </ContentsForm>
   );
 };
