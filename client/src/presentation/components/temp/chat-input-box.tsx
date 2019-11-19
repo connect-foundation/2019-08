@@ -4,7 +4,10 @@ import ClipWhite from "../../assets/clip-white.png";
 import AtWhite from "../../assets/at-white.png";
 import FaceWhite from "../../assets/face-white.png";
 import { IconBox } from "../icon-box";
-import { useMessagesDispatch } from "../../../contexts/messages-context";
+import {
+  useMessagesDispatch,
+  Action
+} from "../../../contexts/messages-context";
 import dubu from "../../assets/dubu.png";
 
 const InputWrapper = styled.section`
@@ -52,8 +55,13 @@ export const ChatInputBox: React.FC = () => {
   const KEY_PRESS_EVENT_KEY = "Enter";
   const [message, setMessage] = useState("");
   const [id, setId] = useState(0);
-  const dispatch = useMessagesDispatch();
-
+  let dispatch: React.Dispatch<Action> | null;
+  try {
+    dispatch = useMessagesDispatch();
+  } catch (error) {
+    alert(error.message);
+    dispatch = null;
+  }
   const inputChangeEventHandler = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -67,6 +75,7 @@ export const ChatInputBox: React.FC = () => {
     event.stopPropagation();
     if (event.key !== KEY_PRESS_EVENT_KEY) return;
     if (!message.trim()) return;
+    if (!dispatch) return;
     dispatch({
       type: "CREATE",
       id: id + 1,
