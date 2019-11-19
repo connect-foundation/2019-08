@@ -1,5 +1,5 @@
 import {RepositoryDependencies} from "@context/repositories/index";
-import {ChannelService} from "core/service/channel-service.js";
+import {ChannelService} from "core/service/channel-service";
 
 export class ServiceDependencies {
   private readonly channelService: ChannelService;
