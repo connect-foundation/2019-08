@@ -1,4 +1,10 @@
-import { RepositoryDependencies } from "../repositories/index";
+import {RepositoryDependencies} from "@context/repositories/index";
+import {ChannelService} from "core/service/channel-service.js";
+
 export class ServiceDependencies {
-  constructor(repositories: RepositoryDependencies) {}
+  private readonly channelService: ChannelService;
+
+  constructor(repositories: RepositoryDependencies) {
+    this.channelService = new ChannelService(repositories.getChatRoom().getChannelRepository());
+  }
 }
