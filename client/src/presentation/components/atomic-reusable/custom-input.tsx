@@ -42,13 +42,16 @@ const ChannelPlusModalInputBox = styled.input.attrs({})`
 interface PropTypes {
   title: string;
   placeholder: string;
-  onChange?: any;
+  onChange?(parameter: any | void): any | void;
 }
 
 export const CustomInput: React.FC<PropTypes> = props => {
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    props.onChange(e.target.value);
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (props.onChange) {
+      props.onChange(event.target.value);
+    }
   };
+
   return (
     <CustomInputWrapper>
       <CustomInputHeader>{props.title}</CustomInputHeader>

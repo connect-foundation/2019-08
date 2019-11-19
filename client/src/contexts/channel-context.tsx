@@ -51,12 +51,12 @@ export const ChannelsProvider = ({
 
 export const useChannels = () => {
   const state = useContext(ChannelsStateContext);
-  if (!state) throw new Error("ChannelProvider is not created");
+  if (!state) return null;
   return state;
 };
 
 export const useChannelDispatch = () => {
-  const dispatch = useContext(ChannelDispatchContext);
-  if (!dispatch) throw new Error("ChannelProvider is not created");
+  let dispatch = useContext(ChannelDispatchContext);
+  if (!dispatch) return null;
   return dispatch;
 };

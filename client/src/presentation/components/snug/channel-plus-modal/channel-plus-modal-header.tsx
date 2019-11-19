@@ -37,18 +37,17 @@ export const ChannelPlusModalHeader: React.FC = () => {
   const dispatch = useModalToggledDispatch();
 
   const clickHandler = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
-    dispatch({
-      type: "TOGGLE_CHANNEL_PLUS_MODAL"
-    });
+    dispatch &&
+      dispatch({
+        type: "TOGGLE_CHANNEL_PLUS_MODAL"
+      });
   };
 
   return (
     <ChannelPlusModalHeaderWrapper>
       <ModalHeader>
         <ChannelPlusModalTitle>채널 만들기 </ChannelPlusModalTitle>
-        <IconBoxWrapper onClick={clickHandler}>
-          <IconBox imageSrc={LetterXWhite} />
-        </IconBoxWrapper>
+        <IconBox imageSrc={LetterXWhite} onClick={clickHandler} />
       </ModalHeader>
       <ChannelPlusModalDescription>
         채널은 구성원들끼리 소통할 수 있는 공간입니다. 특정 주제를 기반으로

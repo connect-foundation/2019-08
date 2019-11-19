@@ -39,11 +39,10 @@ const MainBox = styled.section`
 `;
 
 export const ChannelPlusModal: React.FC = () => {
-  const { ChannelPlusModal } = useModalToggled();
-
+  const Modals = useModalToggled();
   return (
     <>
-      {ChannelPlusModal ? null : (
+      {Modals && Modals.ChannelPlusModal && (
         <WholeScreen>
           <Wrapper>
             <MarginBox />

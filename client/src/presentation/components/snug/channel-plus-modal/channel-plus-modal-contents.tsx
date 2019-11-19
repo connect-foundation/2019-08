@@ -50,12 +50,13 @@ export const ChannelPlusModalContents: React.FC = () => {
   const dispatch = useChannelDispatch();
   const submitHandler = (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
-    dispatch({
-      type: "CREATE",
-      title: title,
-      description: description,
-      privacy: privacy
-    });
+    dispatch &&
+      dispatch({
+        type: "CREATE",
+        title: title,
+        description: description,
+        privacy: privacy
+      });
   };
 
   return (

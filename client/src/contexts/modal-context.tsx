@@ -45,12 +45,12 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
 
 export const useModalToggled = () => {
   const state = useContext(ModalStateContext);
-  if (!state) throw new Error("ModalProvider is not created");
+  if (!state) return null;
   return state;
 };
 
 export const useModalToggledDispatch = () => {
   const dispatch = useContext(ModalDispatchContext);
-  if (!dispatch) throw new Error("ModalProvider is not created");
+  if (!dispatch) return null;
   return dispatch;
 };

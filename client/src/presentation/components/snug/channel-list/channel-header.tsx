@@ -23,9 +23,10 @@ export const ChannelHeader: React.FC = () => {
   const dispatch = useModalToggledDispatch();
 
   const clickHandler = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
-    dispatch({
-      type: "TOGGLE_CHANNEL_PLUS_MODAL"
-    });
+    dispatch &&
+      dispatch({
+        type: "TOGGLE_CHANNEL_PLUS_MODAL"
+      });
   };
 
   return (

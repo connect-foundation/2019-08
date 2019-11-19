@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 export interface CustomOnOffButtonConfig {
-  onChange?: any;
+  onChange?(parameter: any | void): any | void;
 }
 
 const CheckBoxWrapper = styled.div`
@@ -58,7 +58,7 @@ export const CustomOnOffButton: React.FC<CustomOnOffButtonConfig> = ({
 
   const handleChange = () => {
     setChecked(!checked);
-    onChange(!checked);
+    if (onChange) onChange(!checked);
   };
 
   return (
