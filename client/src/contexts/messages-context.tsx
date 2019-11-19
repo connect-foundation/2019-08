@@ -1,7 +1,8 @@
 import React, { createContext, Dispatch, useReducer, useContext } from "react";
 import { Message } from "../core/entity/message";
+
 //코그 출처 https://velog.io/@velopert/typescript-context-api
-type Action =
+export type Action =
   | {
       type: "CREATE";
       id: number;
@@ -16,6 +17,7 @@ type Action =
     };
 
 type MessageDispatch = Dispatch<Action>;
+
 type Messages = Message[];
 
 const MessagesStateContext = createContext<Messages | undefined>(undefined);
