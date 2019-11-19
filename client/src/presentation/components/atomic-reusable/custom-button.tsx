@@ -1,15 +1,14 @@
 import React from "react";
 import styled, { css } from "styled-components";
 
-interface PropsType {
+export type ButtonType = "button" | "submit" | "reset" | undefined;
+
+export interface CustomButtonConfig {
   color: string;
   size?: string;
   name?: string;
   fontColor?: string;
-}
-
-interface Config {
-  config: PropsType;
+  type?: ButtonType;
 }
 
 const determineSize = (size: string) => {
@@ -34,7 +33,7 @@ const Button = styled.button`
   &:hover {
     opacity: 0.5;
   }
-  ${(props: PropsType) => {
+  ${(props: CustomButtonConfig) => {
     let size = "";
     let color = props.color ? props.color : "#ffffff";
     let fontColor = props.fontColor ? props.fontColor : "#000000";
@@ -51,14 +50,16 @@ const Button = styled.button`
   }};
 `;
 
-export const CustomButton: React.FC<Config> = ({ config }) => {
+export const CustomButton: React.FC<CustomButtonConfig> = ({
+  fontColor,
+  color,
+  size,
+  name,
+  type
+}) => {
   return (
-    <Button
-      fontColor={config.fontColor}
-      color={config.color}
-      size={config.size}
-    >
-      {config.name}
+    <Button fontColor={fontColor} type={type} color={color} size={size}>
+      {name}
     </Button>
   );
 };

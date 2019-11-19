@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { IconBox } from "presentation/components/atomic-reusable/icon-box";
 import Plus from "assets/plus-white.png";
+import { useModalToggledDispatch } from "contexts/modal-context";
 
 const Wrapper = styled.section`
   color: #ffffff;
@@ -16,11 +17,24 @@ const Title = styled.span`
   }
 `;
 
+const IconBoxWrapper = styled.section``;
+
 export const ChannelHeader: React.FC = () => {
+  const dispatch = useModalToggledDispatch();
+
+  const clickHandler = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    dispatch &&
+      dispatch({
+        type: "TOGGLE_CHANNEL_PLUS_MODAL"
+      });
+  };
+
   return (
     <Wrapper>
       <Title>채널 목록</Title>
-      <IconBox imageSrc={Plus}></IconBox>
+      <IconBoxWrapper onClick={clickHandler}>
+        <IconBox imageSrc={Plus}></IconBox>
+      </IconBoxWrapper>
     </Wrapper>
   );
 };
