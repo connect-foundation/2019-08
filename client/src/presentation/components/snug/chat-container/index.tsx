@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { MessageCard } from "presentation/components/snug/message-card";
+import { PostCard } from "presentation/components/snug/post-card";
 import { useMessages } from "contexts/messages-context";
 const ChatContentWrapper = styled.section`
   height: 100%;
@@ -17,7 +17,7 @@ export const ChatContent: React.FC = () => {
   function messageList(): React.ReactNode {
     if (!messages) return <></>;
     return messages!.map(message => (
-      <MessageCard
+      <PostCard
         key={message.id}
         profileName={message.profileName}
         profileThumnail={message.profileThumnail}
