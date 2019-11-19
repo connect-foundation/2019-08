@@ -1,33 +1,20 @@
 import express from "express";
-import Controller from "./index/controller";
+import morgan from 'morgan';
+import path from 'path';
+import cookieParser from 'cookie-parser';
+import "dotenv/config";
 
-class App {
-    public app: express.Application;
+import indexRouter from './routes/index';
 
-    constructor(controllers: Controller[], port: number) {
-        this.app = express();
-        this.app.set("port", process.env.PORT || 5000);
-        this.initializeMiddlewares();
-        this.initializeControllers(controllers);
+const app = express();
 
-    }
+app.use(morgan('dev'));
+app.use(express.json());
+app.use(express.urlencoded({extended:false}));
+app.use(cookieParser(process.env.COOKIE_SECRET));
 
-    public listen() {
-        this.app.listen(this.app.get("port"), () => {
-            console.log(`App listening on the port ${this.app.get("port")}`);
-        });
-    }
+app.use('/', indexRouter);
 
-    private initializeMiddlewares() {
-        this.app.use(express.json());
-        this.app.use(express.urlencoded({extended: true}));
-    }
-
-    private initializeControllers(controllers: Controller[]) {
-        controllers.forEach((controller) => {
-            this.app.use("/", controller.router);
-        });
-    }
-}
-
-export default App;
+const server = app.listen(3000, () => {
+    console.log('listen port 3000');
+});
