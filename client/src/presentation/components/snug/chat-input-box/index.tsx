@@ -71,9 +71,10 @@ export const ChatInputBox: React.FC = () => {
     dispatch({
       type: "CREATE",
       id: id + 1,
-      name: "두부",
-      imageSrc: dubu,
-      timestamp: new Date().toLocaleTimeString(),
+      profileName: "두부",
+      profileThumnail: dubu,
+      createdAt: new Date().toLocaleTimeString(),
+      updatedAt: "",
       contents: message
     });
     setId(id + 1);

@@ -19,10 +19,11 @@ export const ChatContent: React.FC = () => {
     return messages!.map(message => (
       <MessageCard
         key={message.id}
-        name={message.name}
-        imageSrc={message.imageSrc}
+        profileName={message.profileName}
+        profileThumnail={message.profileThumnail}
         contents={message.contents}
-        timestamp={message.timestamp}
+        createdAt={message.createdAt}
+        updatedAt={message.updatedAt}
       />
     ));
   }

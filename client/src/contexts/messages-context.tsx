@@ -1,14 +1,15 @@
 import React, { createContext, Dispatch, useReducer, useContext } from "react";
-import { Message } from "../core/entity/message";
+import { Post } from "core/entity/post";
 
 //코그 출처 https://velog.io/@velopert/typescript-context-api
 export type Action =
   | {
       type: "CREATE";
       id: number;
-      name: string;
-      timestamp: string;
-      imageSrc: string;
+      profileName: string;
+      createdAt: string;
+      updatedAt: string;
+      profileThumnail: string;
       contents: string;
     }
   | {
@@ -18,22 +19,23 @@ export type Action =
 
 type MessageDispatch = Dispatch<Action>;
 
-type Messages = Message[];
+type Posts = Post[];
 
-const MessagesStateContext = createContext<Messages | undefined>(undefined);
+const MessagesStateContext = createContext<Posts | undefined>(undefined);
 
 const MessageDispatchContext = createContext<MessageDispatch | undefined>(
   undefined
 );
 
-const messageReducer = (state: Messages, action: Action): Messages => {
+const messageReducer = (state: Posts, action: Action): Posts => {
   switch (action.type) {
     case "CREATE":
       return state.concat({
         id: action.id,
-        name: action.name,
-        imageSrc: action.imageSrc,
-        timestamp: action.timestamp,
+        profileName: action.profileName,
+        profileThumnail: action.profileThumnail,
+        createdAt: action.createdAt,
+        updatedAt: action.updatedAt,
         contents: action.contents
       });
     case "REMOVE":
