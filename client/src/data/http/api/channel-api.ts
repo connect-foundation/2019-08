@@ -14,9 +14,9 @@ export class ChannelApi {
 
   create(channel: Channel): ResponseEntity<Channel> | boolean {
     return this.axios
-      .post(`/api/channel/${channel.name.getValue()}`, {
-        name: channel.name.getValue(),
-        description: channel.description.getValue(),
+      .post(`/api/channel/${channel.name!.getValue()}`, {
+        name: channel.name!.getValue(),
+        description: channel.description!.getValue(),
         visibility: channel.visibility
       })
       .then((response: AxiosResponse<ResponseEntity<Channel>>) => {
@@ -29,7 +29,7 @@ export class ChannelApi {
       .catch((error: AxiosError) =>
         AxiosErrorHandler.handleError(
           error,
-          `${channel.name.getValue()} 추가 과정에서 예기치 못한 에러가 발생했습니다.`
+          `${channel.name!.getValue()} 추가 과정에서 예기치 못한 에러가 발생했습니다.`
         )
       );
   }
