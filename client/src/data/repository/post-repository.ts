@@ -1,3 +1,4 @@
+import { ResponseEntity } from "data/http/api/response/ResponseEntity";
 import { Post } from "core/entity/post";
 import { Profile } from "core/entity/post";
 import { Channel } from "core/entity/channel";
@@ -10,11 +11,25 @@ export class PostRepository implements PostRepositoryType {
     this.api = api;
   }
 
-  getList(channel: Channel) {
-    return this.api.getList(channel);
+  async getList(channel: Channel): Promise<Post[] | boolean> {
+    try {
+      const responseEntity = await this.api.getList(channel);
+      if ((<ResponseEntity<Post[]>>responseEntity).payload) {
+        return (<ResponseEntity<Post[]>>responseEntity).payload;
+      }
+      return <boolean>responseEntity;
+    } catch (error) {
+      return false;
+    }
   }
 
-  create(profile: Profile, post: Post) {
-    return this.api.createPost(profile, post);
+  async create(profile: Profile, post: Post): Promise<boolean> {
+    try {
+      const responseEntity = await this.api.createPost(profile, post);
+      if (<ResponseEntity<null>>responseEntity) return true;
+      return <boolean>responseEntity;
+    } catch (error) {
+      return false;
+    }
   }
 }

@@ -14,11 +14,11 @@ export class PostApi {
     this.axios = axios.getAxios();
   }
 
-  getList({ id }: Channel) {
+  getList({ id }: Channel): ResponseEntity<Post[]> | boolean {
     return this.axios()
       .get(`/post/${id}`)
       .then(({ data, status }: AxiosResponse<ResponseEntity<Post[]>>) => {
-        if (StatusCodes.isOk(status)) return data.payload;
+        if (StatusCodes.isOk(status)) return data;
         return false;
       })
       .catch((error: AxiosError) => {
@@ -29,14 +29,17 @@ export class PostApi {
       });
   }
 
-  createPost({ profileId }: Profile, { contents }: Post) {
+  createPost(
+    { profileId }: Profile,
+    { contents }: Post
+  ): ResponseEntity<null> | boolean {
     return this.axios()
       .post({
         profileId: profileId,
         contents: contents
       })
-      .then(({ status }: AxiosResponse<ResponseEntity<null>>) => {
-        if (StatusCodes.isCreated(status)) return true;
+      .then(({ data, status }: AxiosResponse<ResponseEntity<null>>) => {
+        if (StatusCodes.isCreated(status)) return data;
         return false;
       })
       .catch((error: AxiosError) => {
