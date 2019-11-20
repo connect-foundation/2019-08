@@ -1,33 +1,33 @@
+import "dotenv/config";
 import express from "express";
-import Controller from "./index/controller";
+import morgan from "morgan";
+import cookieParser from "cookie-parser";
+import "reflect-metadata";
+import {createConnection} from "typeorm";
+import indexRouter from "./routes/index";
 
-class App {
-    public app: express.Application;
-
-    constructor(controllers: Controller[], port: number) {
-        this.app = express();
-        this.app.set("port", process.env.PORT || 5000);
-        this.initializeMiddlewares();
-        this.initializeControllers(controllers);
-
-    }
-
-    public listen() {
-        this.app.listen(this.app.get("port"), () => {
-            console.log(`App listening on the port ${this.app.get("port")}`);
-        });
-    }
-
-    private initializeMiddlewares() {
-        this.app.use(express.json());
-        this.app.use(express.urlencoded({extended: true}));
-    }
-
-    private initializeControllers(controllers: Controller[]) {
-        controllers.forEach((controller) => {
-            this.app.use("/", controller.router);
-        });
-    }
-}
-
-export default App;
+/**
+ *
+ * express app 설정
+ *
+ **/
+const initialize = () => {
+  const app = express();
+  app.set("port", process.env.PORT || 3000);
+  app.use(morgan("dev"));
+  app.use(express.json());
+  app.use(express.urlencoded({extended: false}));
+  app.use(cookieParser(process.env.COOKIE_SECRET));
+  app.use("/", indexRouter);
+  app.listen(app.get("port"), () => {
+    console.log("listen port 3000");
+  });
+};
+/**
+ *
+ * TypeOrm Connection 설정
+ *
+ **/
+createConnection()
+        .then(initialize)
+        .catch(error => console.error("TypeORM Connection Error: ", error));
