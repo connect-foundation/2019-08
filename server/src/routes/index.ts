@@ -3,8 +3,6 @@ import {Channel} from "src/entity/Channel";
 
 const router = Router();
 router.get("/", async (req: Request, res: Response) => {
-    res.json(await Channel.find());
-
+  res.json(await Channel.find());
 });
-
 export default router;
