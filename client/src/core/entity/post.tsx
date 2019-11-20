@@ -1,6 +1,7 @@
 export interface Profile {
-  profileThumnail: string;
-  profileName: string;
+  profileId?: number;
+  profileThumnail?: string;
+  profileName?: string;
 }
 
 export interface Post {
@@ -8,5 +9,5 @@ export interface Post {
   createdAt: string;
   updatedAt: string;
   contents: string;
-  profile: Profile;
+  profile?: Profile;
 }
