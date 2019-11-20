@@ -55,7 +55,9 @@ export const ChannelPlusModalContents: React.FC = () => {
         type: "CREATE",
         title: title,
         description: description,
-        privacy: privacy
+        privacy: privacy,
+        date: new Date(), //todo : date, user 바꾸기
+        user: "두부"
       });
   };
 

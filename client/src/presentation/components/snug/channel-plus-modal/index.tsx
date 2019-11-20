@@ -40,6 +40,7 @@ const MainBox = styled.section`
 
 export const ChannelPlusModal: React.FC = () => {
   const Modals = useModalToggled();
+
   return (
     <>
       {Modals && Modals.ChannelPlusModal && (
