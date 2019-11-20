@@ -4,26 +4,43 @@ import styled from "styled-components";
 const Wrapper = styled.section`
   display: flex;
   flex-direction: column;
+  border-top: 1px solid white;
+  margin-top: 5px;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const Header = styled.header`
   color: #ffffff;
-  font-size: 1.25rem;
   font-weight: bold;
 `;
 
 const Contents = styled.article`
   color: #ffffff;
+  font-size: 0.9rem;
 `;
 
-const Footer = styled.footer``;
+const Footer = styled.footer`
+  font-size: 0.7rem;
+`;
 
-export const ChannelBrowseModalItem: React.FC = () => {
+interface ChannelBrowseModal {
+  title?: string;
+  description?: string;
+  privacy?: boolean;
+  user?: string;
+  date?: Date;
+}
+
+export const ChannelBrowseModalItem: React.FC<ChannelBrowseModal> = props => {
   return (
     <Wrapper>
-      <Header>#이번주</Header>
-      <Contents>bot test</Contents>
-      <Footer>Created by 이수배 on November 4th, 2019</Footer>
+      <Header>{props.title}</Header>
+      <Contents>{props.description}</Contents>
+      <Footer>
+        Created by {props.user} on {props.date && props.date.toLocaleString()}
+      </Footer>
     </Wrapper>
   );
 };
