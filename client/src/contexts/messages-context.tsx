@@ -1,16 +1,15 @@
 import React, { createContext, Dispatch, useReducer, useContext } from "react";
-import { Post } from "core/entity/post";
+import { Post, Profile } from "core/entity/post";
 
 //코그 출처 https://velog.io/@velopert/typescript-context-api
 export type Action =
   | {
       type: "CREATE";
       id: number;
-      profileName: string;
       createdAt: string;
       updatedAt: string;
-      profileThumnail: string;
       contents: string;
+      profile: Profile;
     }
   | {
       type: "REMOVE";
@@ -32,8 +31,7 @@ const messageReducer = (state: Posts, action: Action): Posts => {
     case "CREATE":
       return state.concat({
         id: action.id,
-        profileName: action.profileName,
-        profileThumnail: action.profileThumnail,
+        profile: action.profile,
         createdAt: action.createdAt,
         updatedAt: action.updatedAt,
         contents: action.contents

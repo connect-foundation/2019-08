@@ -14,18 +14,13 @@ const MarginBox = styled.section`
   width: 10px;
 `;
 
-export const PostCard: React.FC<Post> = ({
-  profileThumnail,
-  profileName,
-  createdAt,
-  contents
-}) => {
+export const PostCard: React.FC<Post> = ({ profile, createdAt, contents }) => {
   return (
     <MessageCardBox>
       <MarginBox />
-      <ProfileThumnail imageSrc={profileThumnail}></ProfileThumnail>
+      <ProfileThumnail imageSrc={profile.profileThumnail}></ProfileThumnail>
       <PostCardContents
-        userName={profileName}
+        userName={profile.profileName}
         timestamp={createdAt}
         message={contents}
       ></PostCardContents>
