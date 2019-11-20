@@ -6,7 +6,7 @@ export type Channel = {
   description: string;
   privacy: boolean;
   user?: string;
-  createdAt?: Date;
+  date?: Date;
   users?: string[];
 };
 
@@ -16,7 +16,7 @@ export type Action = {
   description: string;
   privacy: boolean;
   user?: string;
-  createdAt?: Date;
+  date?: Date;
 };
 
 export type Channels = Channel[];
@@ -37,7 +37,7 @@ const channelsReducer = (state: Channels, action: Action): Channels => {
         description: action.description,
         privacy: action.privacy,
         user: action.user,
-        createdAt: action.createdAt
+        date: action.date
       });
   }
 };
