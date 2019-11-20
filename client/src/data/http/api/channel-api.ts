@@ -1,3 +1,4 @@
+import { AxiosErrorHandler } from "./../../../util/axiosErrorHandler";
 import { Channel } from "core/entity/channel";
 import { AxiosError, AxiosResponse } from "axios";
 import { ResponseEntity } from "./response/ResponseEntity";
@@ -26,7 +27,7 @@ export class ChannelApi {
         }
       })
       .catch((error: AxiosError) =>
-        this.handleError(
+        AxiosErrorHandler.handleError(
           error,
           `${channel.name.getValue()} 추가 과정에서 예기치 못한 에러가 발생했습니다.`
         )
@@ -44,19 +45,10 @@ export class ChannelApi {
         }
       })
       .catch((error: AxiosError) =>
-        this.handleError(
+        AxiosErrorHandler.handleError(
           error,
           `${channelName} 조회 과정에서 예기치 못한 에러가 발생했습니다.`
         )
       );
-  }
-
-  handleError(error: AxiosError, message: string): boolean {
-    if (error.response) {
-      return false;
-    } else {
-      console.error(error.message);
-      throw new Error(message);
-    }
   }
 }

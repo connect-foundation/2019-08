@@ -1,3 +1,4 @@
+import { AxiosErrorHandler } from "./../../../util/axiosErrorHandler";
 import { Post } from "core/entity/post";
 import { Channel } from "core/entity/channel";
 import { StatusCodes } from "./status-codes";
@@ -20,8 +21,8 @@ export class PostApi {
         return false;
       })
       .catch((error: AxiosError) => {
-        if (error.response) return false;
-        throw new Error(
+        AxiosErrorHandler.handleError(
+          error,
           `포스트 데이터를 가져오는 과정에서 오류가 발생했습니다 :${error.message}`
         );
       });
