@@ -1,7 +1,9 @@
 import {Router, Request, Response} from "express";
+import {Channel} from "src/entity/Channel";
 
 const router = Router();
-router.get("/", (req: Request, res: Response) => {
+router.get("/", async (req: Request, res: Response) => {
+    res.json(await Channel.find());
 
 });
 
