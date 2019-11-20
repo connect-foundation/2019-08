@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { ChannelPlusModalHeader } from "./channel-plus-modal-header";
 import { ChannelPlusModalContents } from "./channel-plus-modal-contents";
+import { useModalToggled } from "contexts/modal-context";
 
 const WholeScreen = styled.div`
   position: absolute;
@@ -9,7 +10,7 @@ const WholeScreen = styled.div`
   justify-content: center;
   align-items: center;
   background-color: black;
-  opacity: 0.5;
+  opacity: 0.8;
   width: 100%;
   height: 100%;
 `;
@@ -38,16 +39,21 @@ const MainBox = styled.section`
 `;
 
 export const ChannelPlusModal: React.FC = () => {
+  const Modals = useModalToggled();
   return (
-    <WholeScreen>
-      <Wrapper>
-        <MarginBox />
-        <MainBox>
-          <ChannelPlusModalHeader />
-          <ChannelPlusModalContents />
-        </MainBox>
-        <MarginBox />
-      </Wrapper>
-    </WholeScreen>
+    <>
+      {Modals && Modals.ChannelPlusModal && (
+        <WholeScreen>
+          <Wrapper>
+            <MarginBox />
+            <MainBox>
+              <ChannelPlusModalHeader />
+              <ChannelPlusModalContents />
+            </MainBox>
+            <MarginBox />
+          </Wrapper>
+        </WholeScreen>
+      )}
+    </>
   );
 };

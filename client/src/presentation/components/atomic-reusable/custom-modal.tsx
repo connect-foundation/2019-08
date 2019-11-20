@@ -6,7 +6,7 @@ const Wrapper = styled.section`
   width: 100vw;
   height: 100vh;
   z-index: 1;
-  background-color: #000000;
+  background-color: #253833;
   color: #ffffff;
   display: flex;
   justify-content: center;

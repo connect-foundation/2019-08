@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
+export interface CustomOnOffButtonConfig {
+  onChange?(parameter: any | void): any | void;
+}
+
 const CheckBoxWrapper = styled.div`
   position: relative;
 `;
@@ -47,11 +51,14 @@ const CheckBox = styled.input`
   }
 `;
 
-export const CustomOnOffButton: React.FC = () => {
+export const CustomOnOffButton: React.FC<CustomOnOffButtonConfig> = ({
+  onChange
+}) => {
   const [checked, setChecked] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = () => {
     setChecked(!checked);
+    if (onChange) onChange(!checked);
   };
 
   return (

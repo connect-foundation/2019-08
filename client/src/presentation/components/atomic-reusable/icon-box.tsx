@@ -20,11 +20,13 @@ const CustomImg = styled.img`
 
 interface PropsType {
   imageSrc: string;
+  onClick?(parameter: any | void): any | void;
+  onKeyPress?(parameter: any | void): any | void;
 }
 
 export const IconBox: React.FC<PropsType> = props => {
   return (
-    <CustomImgBox>
+    <CustomImgBox onClick={props.onClick}>
       <CustomImg src={props.imageSrc}></CustomImg>
     </CustomImgBox>
   );

@@ -1,15 +1,16 @@
 import React from "react";
 import styled, { css } from "styled-components";
 
-interface PropsType {
+export type ButtonType = "button" | "submit" | "reset" | undefined;
+
+export interface CustomButtonConfig {
   color: string;
   size?: string;
   name?: string;
   fontColor?: string;
-}
-
-interface Config {
-  config: PropsType;
+  fontWeight?: string | number;
+  fontSize?: string;
+  type?: ButtonType;
 }
 
 const determineSize = (size: string) => {
@@ -34,31 +35,47 @@ const Button = styled.button`
   &:hover {
     opacity: 0.5;
   }
-  ${(props: PropsType) => {
+  ${(props: CustomButtonConfig) => {
     let size = "";
     let color = props.color ? props.color : "#ffffff";
     let fontColor = props.fontColor ? props.fontColor : "#000000";
+    let fontWeight = props.fontWeight ? props.fontWeight : "0";
+    let fontSize = props.fontSize ? props.fontSize : "1rem";
 
     if (props.size) {
       size = determineSize(props.size);
     }
+
     return css`
       background-color: ${color};
       width: ${size};
       display: block;
       color: ${fontColor};
+      font-weight: ${fontWeight};
+      font-size: ${fontSize};
     `;
   }};
 `;
 
-export const CustomButton: React.FC<Config> = ({ config }) => {
+export const CustomButton: React.FC<CustomButtonConfig> = ({
+  fontColor,
+  color,
+  size,
+  name,
+  type,
+  fontWeight,
+  fontSize
+}) => {
   return (
     <Button
-      fontColor={config.fontColor}
-      color={config.color}
-      size={config.size}
+      fontColor={fontColor}
+      type={type}
+      color={color}
+      size={size}
+      fontWeight={fontWeight}
+      fontSize={fontSize}
     >
-      {config.name}
+      {name}
     </Button>
   );
 };

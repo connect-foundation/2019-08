@@ -5,12 +5,14 @@ import { IconBox } from "./icon-box";
 
 const Wrapper = styled.section`
   display: flex;
-  box-sizing: border-box;
   align-items: center;
   position: relative;
   cursor: pointer;
+  border: 1px solid blue;
   &:hover {
-    border: 1px solid blue;
+    border: 1px solid white;
+    box-sizing: border-box;
+    box-shadow: 2px 2px 5px 6px #000000;
   }
 `;
 const Subject = styled.section`
@@ -31,14 +33,15 @@ const ListWrapper = styled.ul`
   margin: 0;
   padding: 0;
   top: 100%;
-  background-color: #ffffff;
+  background-color: #29ad8a;
   list-style-type: none;
 `;
 
 const List = styled.li`
   color: #000000;
-  border-top: 2px solid green;
+  border-top: 2px solid white;
   margin: 10px;
+  color: white;
   cursor: pointer;
   &:hover {
     background-color: blue;
@@ -49,12 +52,13 @@ const Button = styled.button`
   color: #ffffff;
 `;
 
-interface PropsType {
+export interface CustomDropDownConfig {
   type: string;
   list: Array<string>;
+  setSelected?(parameter: any | void): any | void;
 }
 
-export const CustomDropDown: React.FC<PropsType> = props => {
+export const CustomDropDown: React.FC<CustomDropDownConfig> = props => {
   const [opened, setOpened] = useState(false);
   const [selected, setSelected] = useState(props.list[0]);
 
@@ -64,11 +68,12 @@ export const CustomDropDown: React.FC<PropsType> = props => {
 
   const selectListItem = (listItem: string) => (e: MouseEvent) => {
     setSelected(listItem);
+    props.setSelected && props.setSelected(listItem);
   };
 
   return (
     <Wrapper onClick={handleClick}>
-      <Subject>{props.type} : </Subject>
+      <Subject>{props.type}: </Subject>
       <Selected>{selected}</Selected>
 
       <IconBox imageSrc={ArrowDownSignWhite} />
