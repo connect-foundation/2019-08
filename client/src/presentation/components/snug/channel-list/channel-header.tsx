@@ -22,17 +22,28 @@ const IconBoxWrapper = styled.section``;
 export const ChannelHeader: React.FC = () => {
   const dispatch = useModalToggledDispatch();
 
-  const clickHandler = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+  const openChannelPlusModal = (
+    event: React.MouseEvent<HTMLElement, MouseEvent>
+  ) => {
     dispatch &&
       dispatch({
         type: "TOGGLE_CHANNEL_PLUS_MODAL"
       });
   };
 
+  const openChannelBrowseModal = (
+    event: React.MouseEvent<HTMLElement, MouseEvent>
+  ) => {
+    dispatch &&
+      dispatch({
+        type: "TOGGLE_CHANNEL_BROWSE_MODAL"
+      });
+  };
+
   return (
     <Wrapper>
-      <Title>채널 목록</Title>
-      <IconBoxWrapper onClick={clickHandler}>
+      <Title onClick={openChannelBrowseModal}>채널 목록</Title>
+      <IconBoxWrapper onClick={openChannelPlusModal}>
         <IconBox imageSrc={Plus}></IconBox>
       </IconBoxWrapper>
     </Wrapper>
