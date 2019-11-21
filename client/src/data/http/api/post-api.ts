@@ -31,13 +31,13 @@ export class PostApi {
   createPost(
     { profileId }: Profile,
     { contents }: Post
-  ): ResponseEntity<null> | boolean {
+  ): ResponseEntity<object> | boolean {
     return this.axios()
       .post({
         profileId: profileId,
         contents: contents
       })
-      .then(({ data, status }: AxiosResponse<ResponseEntity<null>>) => {
+      .then(({ data, status }: AxiosResponse<ResponseEntity<object>>) => {
         if (StatusCodes.isCreated(status)) return data;
         return false;
       })
