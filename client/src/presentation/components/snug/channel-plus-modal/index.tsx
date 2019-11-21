@@ -44,6 +44,17 @@ const MainBox = styled.section`
 export const ChannelPlusModal: React.FC = () => {
   const Modals = useModalToggled();
 
+  const dispatch = useModalToggledDispatch();
+
+  const keyDownHandler = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.keyCode === 27) {
+      dispatch &&
+        dispatch({
+          type: "TOGGLE_CHANNEL_PLUS_MODAL"
+        });
+    }
+  };
+
   return (
     <>
       {Modals && Modals.ChannelPlusModal && (
