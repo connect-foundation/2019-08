@@ -8,20 +8,13 @@ interface Criterion {
   SortType: SortType;
 }
 
-const compareChannels = (channelA: any, channelB: any) => {
-  if (Object.prototype.toString.call(channelA) === "[object Date]") {
-    return channelA.getTime() < channelB.getTime()
-      ? -1
-      : channelA.getTime() > channelB.getTime()
-      ? 1
-      : 0;
-  }
-  return channelA < channelB ? -1 : channelA > channelB ? 1 : 0;
-};
-
 const returnSortedChannels = (channels: Channels, target: string) => {
   return channels.sort((channelA: Channel, channelB: Channel) => {
-    return compareChannels(channelA[target], channelB[target]);
+    return channelA[target] < channelB[target]
+      ? -1
+      : channelA[target] > channelB[target]
+      ? 1
+      : 0;
   });
 };
 
@@ -31,20 +24,9 @@ const sortBySortType = (channels: Channels, sortType: SortType) => {
       return returnSortedChannels(channels, "title");
     case SortType.createdAt:
       return returnSortedChannels(channels, "createdAt");
-
-    //todo : null을 대체할 적절한 반환형 생각하기
     default:
       return null;
   }
-};
-
-const filterPrivateChannels = (channels: Channels, props: DisplayType) => {
-  if (props === DisplayType.private) {
-    return channels.filter(channel => {
-      return channel.privacy;
-    });
-  }
-  return null;
 };
 
 export const ChannelBrowseModalSortList: React.FC<Criterion> = props => {
@@ -54,8 +36,12 @@ export const ChannelBrowseModalSortList: React.FC<Criterion> = props => {
     if (!channels) {
       return null;
     }
-
-    const privateChannels = filterPrivateChannels(channels, props.DisplayType);
+    const privateChannels =
+      props.DisplayType === DisplayType.private
+        ? channels.filter(channel => {
+            return channel.privacy === true;
+          })
+        : null;
 
     const targetChannels = privateChannels ? privateChannels : channels;
     return sortBySortType(targetChannels, props.SortType);

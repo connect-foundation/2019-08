@@ -1,20 +1,14 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import LetterXWhite from "assets/letter-x-white.png";
 import { useModalToggledDispatch } from "contexts/modal-context";
 import { CustomModal } from "presentation/components/atomic-reusable/custom-modal";
-import { CustomDropDown } from "presentation/components/atomic-reusable/custom-drop-down";
-import { IconBox } from "presentation/components/atomic-reusable/icon-box";
-import { CustomButton } from "presentation/components/atomic-reusable/custom-button";
-import { SortList } from "./sort-list";
+import { ChannelBrowseModalSortList } from "./channel-browse-modal-sort-list";
+import { ChannelBrowseModalDropdown } from "./channel-browse-modal-dropdown";
+import { ChannelBrowseModalHeader } from "./channel-browse-modal-header";
+import { ChannelBrowseModalInformation } from "./channel-browse-modal-information";
 
 const MarginBox = styled.section`
   width: 30%;
-  height: 100%;
-`;
-
-const MarginBoxDropDown = styled.section`
-  width: 10%;
   height: 100%;
 `;
 
@@ -25,43 +19,13 @@ const Content = styled.section`
   flex-direction: column;
 `;
 
-const InformationSection = styled.section`
-  width: 100%;
-  display: flex;
-  justify-content: space-around;
-`;
-
-const InformationSectionHeader = styled.header`
-  width: 100%;
-  font-size: 1rem;
-`;
-
-const Header = styled.header`
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-`;
-
-const Title = styled.section`
-  font-weight: solid;
-  font-size: 2rem;
-  width: 100%;
-`;
-
-// todo : 해당 section뿐만 아니라 전역적으로 keydown 이벤트가 적용될 수 있도록 함수 위치 변경
-export const ChannelBrowseModal: React.FC = () => {
-  const [selectedDisplayType, setSelectedDisplayType] = useState(
-    DisplayType.all
-  );
-  const [selectedSortType, setSelectedSortType] = useState(SortType.title);
-
 export enum DisplayType {
   "all" = "전체보기",
   "private" = "비밀 채널만 보기"
 }
 
 export enum SortType {
-  "name" = "채널 이름 순",
+  "title" = "채널 이름 순",
   "createdAt" = "만든 날짜 순",
   "userLarge" = "사람 많은 순",
   "userSmall" = "사람 적은 순"
@@ -71,7 +35,7 @@ export const ChannelBrowseModal: React.FC = () => {
   const [selectedDisplayType, setSelectedDisplayType] = useState(
     DisplayType.all
   );
-  const [selectedSortType, setSelectedSortType] = useState(SortType.name);
+  const [selectedSortType, setSelectedSortType] = useState(SortType.title);
 
   const dispatch = useModalToggledDispatch();
 
@@ -86,35 +50,13 @@ export const ChannelBrowseModal: React.FC = () => {
     <CustomModal>
       <MarginBox />
       <Content>
-        <InformationSection>
-          <InformationSectionHeader>채널에 대하여</InformationSectionHeader>
-          <IconBox imageSrc={LetterXWhite} onClick={clickHandler} />
-        </InformationSection>
-        <Header>
-          <Title>채널 목록</Title>
-          <CustomButton
-            color={"#148567"}
-            fontColor={"#ffffff"}
-            name={"채널 생성하기"}
-            size={"big"}
-            fontWeight={"bold"}
-            fontSize={"0.9rem"}
-          />
-        </Header>
-        <DropdownWrapper>
-          <CustomDropDown
-            list={Object.values(DisplayType)}
-            type={"목록"}
-            setSelected={setSelectedDisplayType}
-          />
-          <MarginBoxDropDown />
-          <CustomDropDown
-            list={Object.values(SortType)}
-            type={"분류"}
-            setSelected={setSelectedSortType}
-          />
-        </DropdownWrapper>
-        <SortList
+        <ChannelBrowseModalInformation onClick={clickHandler} />
+        <ChannelBrowseModalHeader />
+        <ChannelBrowseModalDropdown
+          setSelectedDisplayType={setSelectedDisplayType}
+          setSelectedSortType={setSelectedSortType}
+        />
+        <ChannelBrowseModalSortList
           DisplayType={selectedDisplayType}
           SortType={selectedSortType}
         />

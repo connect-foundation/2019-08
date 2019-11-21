@@ -30,7 +30,7 @@ interface ChannelBrowseModal {
   description?: string;
   privacy?: boolean;
   user?: string;
-  date?: Date;
+  createdAt?: Date;
 }
 
 export const ChannelBrowseModalItem: React.FC<ChannelBrowseModal> = props => {
@@ -39,7 +39,8 @@ export const ChannelBrowseModalItem: React.FC<ChannelBrowseModal> = props => {
       <Header>{props.title}</Header>
       <Contents>{props.description}</Contents>
       <Footer>
-        Created by {props.user} on {props.date && props.date.toLocaleString()}
+        Created by {props.user} on{" "}
+        {props.createdAt && props.createdAt.toLocaleString()}
       </Footer>
     </Wrapper>
   );
