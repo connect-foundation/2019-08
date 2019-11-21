@@ -1,7 +1,8 @@
-import {StringHelper} from "core/common/string-helper";
+import { StringHelper } from "core/common/string-helper";
 
 export interface Channel {
-  name: StringHelper;
-  description: StringHelper;
-  visibility: boolean;
+  id?: number;
+  name?: StringHelper;
+  description?: StringHelper;
+  visibility?: boolean;
 }

@@ -21,7 +21,7 @@ interface PropTypes {
   imageSrc: string;
 }
 
-export const MessageCardImage: React.FC<PropTypes> = ({ imageSrc }) => {
+export const ProfileThumnail: React.FC<PropTypes> = ({ imageSrc }) => {
   return (
     <ImageBox>
       <Image src={imageSrc}></Image>

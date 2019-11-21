@@ -1,5 +1,5 @@
-import {StringHelper} from "core/common/string-helper";
-import {Channel} from "core/entity/channel";
+import { StringHelper } from "core/common/string-helper";
+import { Channel } from "core/entity/channel";
 
 export class ChannelModel implements Channel {
   private static readonly NAME_MIN_LENGTH = 0;
@@ -21,14 +21,23 @@ export class ChannelModel implements Channel {
   }
 
   public isImpossibleFormat(): boolean {
-    return !(this.hasRightNameFormat(this.name) && this.hasRightDescriptionFormat(this.description));
+    return !(
+      this.hasRightNameFormat(this.name) &&
+      this.hasRightDescriptionFormat(this.description)
+    );
   }
 
   private hasRightNameFormat(name: StringHelper) {
-    return name.moreThan(ChannelModel.NAME_MIN_LENGTH) && name.lessThan(ChannelModel.NAME_MAX_LENGTH);
+    return (
+      name.moreThan(ChannelModel.NAME_MIN_LENGTH) &&
+      name.lessThan(ChannelModel.NAME_MAX_LENGTH)
+    );
   }
 
   private hasRightDescriptionFormat(description: StringHelper) {
-    return description.moreThan(ChannelModel.DESCRIPTION_MIN_LENGTH) && description.lessThan(ChannelModel.DESCRIPTION_MAX_LENGTH);
+    return (
+      description.moreThan(ChannelModel.DESCRIPTION_MIN_LENGTH) &&
+      description.lessThan(ChannelModel.DESCRIPTION_MAX_LENGTH)
+    );
   }
 }

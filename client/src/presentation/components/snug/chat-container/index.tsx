@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import { MessageCard } from "presentation/components/snug/message-card";
 import { useMessages, useMessagesDispatch } from "contexts/messages-context";
 import { AppSocketChannelMatchProps } from "prop-types/match-extends-types";
-import { Message } from "core/entity/message";
+import { PostCard } from "presentation/components/snug/post-card";
 
 const ChatContentWrapper = styled.section`
   height: 100%;
@@ -35,12 +34,13 @@ export const ChatContent: React.FC<AppSocketChannelMatchProps> = props => {
   function messageList(): React.ReactNode {
     if (!messages) return <></>;
     return messages!.map(message => (
-      <MessageCard
+      <PostCard
         key={message.id}
-        name={message.name}
-        imageSrc={message.imageSrc}
+        profileName={message.profileName}
+        profileThumnail={message.profileThumnail}
         contents={message.contents}
-        timestamp={message.timestamp}
+        createdAt={message.createdAt}
+        updatedAt={message.updatedAt}
       />
     ));
   }
