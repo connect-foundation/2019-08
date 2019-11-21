@@ -38,7 +38,7 @@ interface PropTypes {
   message: string;
 }
 
-export const MessageCardContents: React.FC<PropTypes> = ({
+export const PostCardContents: React.FC<PropTypes> = ({
   userName,
   timestamp,
   message
