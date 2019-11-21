@@ -1,11 +1,10 @@
-import { AxiosErrorHandler } from "./../../../util/axiosErrorHandler";
+import { AxiosErrorHandler } from "util/axiosErrorHandler";
 import { Post, Profile } from "core/entity/post";
 import { Channel } from "core/entity/channel";
 import { StatusCodes } from "./status-codes";
 import { AxiosResponse, AxiosError } from "axios";
 import { AxiosWrapper } from "./axios-wrapper";
 import { ResponseEntity } from "./response/ResponseEntity";
-import { ProgressViewIOS } from "react-native";
 
 export class PostApi {
   private axios: any;
