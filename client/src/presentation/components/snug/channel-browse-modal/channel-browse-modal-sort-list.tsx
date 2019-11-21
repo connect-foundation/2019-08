@@ -20,16 +20,16 @@ const returnSortedChannels = (channels: Channels, target: string) => {
 
 const sortBySortType = (channels: Channels, sortType: SortType) => {
   switch (sortType) {
-    case SortType.name:
+    case SortType.title:
       return returnSortedChannels(channels, "title");
     case SortType.createdAt:
-      return returnSortedChannels(channels, "date");
+      return returnSortedChannels(channels, "createdAt");
     default:
       return null;
   }
 };
 
-export const SortList: React.FC<Criterion> = props => {
+export const ChannelBrowseModalSortList: React.FC<Criterion> = props => {
   const channels = useChannels();
 
   const sortChannels = () => {
@@ -58,7 +58,7 @@ export const SortList: React.FC<Criterion> = props => {
               description={channel.description}
               privacy={channel.privacy}
               user={channel.user}
-              date={channel.date}
+              createdAt={channel.createdAt}
             />
           );
         })}

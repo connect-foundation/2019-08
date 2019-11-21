@@ -15,6 +15,7 @@ const Wrapper = styled.section`
     box-shadow: 2px 2px 5px 6px #000000;
   }
 `;
+
 const Subject = styled.section`
   color: #ffffff;
 `;
@@ -75,7 +76,6 @@ export const CustomDropDown: React.FC<CustomDropDownConfig> = props => {
     <Wrapper onClick={handleClick}>
       <Subject>{props.type}: </Subject>
       <Selected>{selected}</Selected>
-
       <IconBox imageSrc={ArrowDownSignWhite} />
       {opened ? (
         <ListWrapper>
