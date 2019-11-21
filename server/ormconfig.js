@@ -46,13 +46,13 @@ const common = {
     dropSchema: false,
     maxQueryExecutionTime: 1000,    // milliseconds
     entities: [
-        "src/entity/**/*.ts"
+        process.env.BASE_DIR + "entity/**/*.{ts,js}"
     ],
     migrations: [
-        "src/migration/**/*.ts"
+        process.env.BASE_DIR + "migration/**/*.{ts,js}"
     ],
     subscribers: [
-        "src/subscriber/**/*.ts"
+        process.env.BASE_DIR + "subscriber/**/*.{ts,js}"
     ],
     migrationsRun: false,
     cli: {
@@ -73,7 +73,7 @@ const common = {
  *
  **/
 const setUpDbOptions = () => {
-    let profile = process.env.PROFILE;
+    let profile = process.env.NODE_ENV;
     if (!Object.keys(profiles).includes(profile)) {
         profile = "local";
 
