@@ -19,7 +19,7 @@ const ViewWrapper = styled.section`
   display: flex;
 `;
 
-export const Snug: React.FC = () => {
+export const Snug: React.FC = props => {
   return (
     <SnugWrapper>
       <ChannelsProvider>
@@ -27,8 +27,8 @@ export const Snug: React.FC = () => {
           <ChannelPlusModal />
           <SnugHeader></SnugHeader>
           <ViewWrapper>
-            <Sidebar></Sidebar>
-            <MessageSection></MessageSection>
+            <Sidebar {...props}></Sidebar>
+            <MessageSection {...props}></MessageSection>
           </ViewWrapper>
         </ModalProvider>
       </ChannelsProvider>
