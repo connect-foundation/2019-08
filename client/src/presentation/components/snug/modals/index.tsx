@@ -4,11 +4,13 @@ import { ChannelBrowseModal } from "presentation/components/snug/channel-browse-
 import { useModalToggled } from "contexts/modal-context";
 
 export const Modals: React.FC = () => {
-  const Modals = useModalToggled();
+  const modalsContext = useModalToggled();
 
   return (
     <>
-      {Modals && Modals.ChannelBrowseModal && <ChannelBrowseModal />}
+      {modalsContext && modalsContext.ChannelBrowseModal && (
+        <ChannelBrowseModal />
+      )}
       <ChannelPlusModal />
     </>
   );
