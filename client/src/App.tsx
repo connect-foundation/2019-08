@@ -22,15 +22,20 @@ const App: React.FC = () => {
   return (
     <BrowserRouter>
       <GlobalStyle></GlobalStyle>
-      <Switch>
-        <Route
-          exact
-          path="/"
-          component={(props: any) => (
-            <Snug {...props} Application={Application}></Snug>
-          )}
-        ></Route>
-      </Switch>
+      <Route
+        exact
+        path="/"
+        component={(props: any) => (
+          <Snug {...props} Application={Application}></Snug>
+        )}
+      ></Route>
+      <Route
+        exact
+        path="/:channelId"
+        component={(props: any) => (
+          <Snug {...props} Application={Application}></Snug>
+        )}
+      ></Route>
     </BrowserRouter>
   );
 };
