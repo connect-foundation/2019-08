@@ -5,6 +5,7 @@ import { ChannelTitle } from "./channel-title";
 import { useChannels } from "contexts/channel-context";
 import { match } from "react-router";
 import { ChannelMatchType } from "prop-types/channel-match-type";
+import { History } from "history";
 
 const Wrapper = styled.section`
   background-color: #606060;
@@ -13,9 +14,14 @@ const Wrapper = styled.section`
 interface PropTypes {
   match: match<ChannelMatchType>;
   socket: SocketIO.Server;
+  history: History<any>;
 }
 
-export const ChannelList: React.FC<PropTypes> = ({ match, socket }) => {
+export const ChannelList: React.FC<PropTypes> = ({
+  match,
+  socket,
+  history
+}) => {
   const channels = useChannels();
 
   useEffect(() => {
@@ -27,7 +33,12 @@ export const ChannelList: React.FC<PropTypes> = ({ match, socket }) => {
       <ChannelHeader></ChannelHeader>
       {channels &&
         channels.map(channel => (
-          <ChannelTitle key={channel.title} title={channel.title} />
+          <ChannelTitle
+            key={channel.title}
+            title={channel.title}
+            match={match}
+            history={history}
+          />
         ))}
     </Wrapper>
   );

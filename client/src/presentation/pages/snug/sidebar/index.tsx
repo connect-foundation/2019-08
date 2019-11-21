@@ -11,11 +11,16 @@ const SidebarWrapper = styled.section`
 
 export const Sidebar: React.FC<AppSocketChannelMatchProps> = ({
   match,
-  socket
+  socket,
+  history
 }) => {
   return (
     <SidebarWrapper>
-      <ChannelList match={match} socket={socket}></ChannelList>
+      <ChannelList
+        match={match}
+        socket={socket}
+        history={history}
+      ></ChannelList>
     </SidebarWrapper>
   );
 };
