@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useMessages, useMessagesDispatch } from "contexts/messages-context";
 import { AppSocketChannelMatchProps } from "prop-types/match-extends-types";
 import { PostCard } from "presentation/components/snug/post-card";
+import { Post } from "core/entity/post";
 
 const ChatContentWrapper = styled.section`
   height: 100%;
@@ -19,14 +20,14 @@ export const ChatContent: React.FC<AppSocketChannelMatchProps> = props => {
   const { socket } = props;
 
   useEffect(() => {
-    socket.on("sendMessage", (obj: Message) => {
+    socket.on("sendMessage", (obj: Post) => {
       dispatch({
         type: "CREATE",
         id: obj.id!,
-        name: obj.name,
-        imageSrc: obj.imageSrc,
-        timestamp: obj.timestamp,
-        contents: obj.contents
+        profile: obj.profile!,
+        createdAt: obj.createdAt!,
+        updatedAt: obj.updatedAt!,
+        contents: obj.contents!
       });
     });
   });
@@ -35,12 +36,11 @@ export const ChatContent: React.FC<AppSocketChannelMatchProps> = props => {
     if (!messages) return <></>;
     return messages!.map(message => (
       <PostCard
-        key={message.id}
-        profileName={message.profileName}
-        profileThumnail={message.profileThumnail}
-        contents={message.contents}
-        createdAt={message.createdAt}
-        updatedAt={message.updatedAt}
+        key={message.id!}
+        profile={message.profile}
+        contents={message.contents!}
+        createdAt={message.createdAt!}
+        updatedAt={message.updatedAt!}
       />
     ));
   }

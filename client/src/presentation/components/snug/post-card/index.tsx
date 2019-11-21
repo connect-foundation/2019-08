@@ -21,8 +21,8 @@ export const PostCard: React.FC<Post> = ({ profile, createdAt, contents }) => {
       <ProfileThumnail imageSrc={profile!.profileThumnail!}></ProfileThumnail>
       <PostCardContents
         userName={profile!.profileName!}
-        timestamp={createdAt}
-        message={contents}
+        timestamp={createdAt!}
+        message={contents!}
       ></PostCardContents>
       <MarginBox />
     </MessageCardBox>
