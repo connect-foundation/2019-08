@@ -1,7 +1,8 @@
 import { RouteComponentProps } from "react-router";
 
-interface MatchType {
+export interface ChannelMatchType {
   channelId: string;
 }
 
-export interface ChannelMatchType extends RouteComponentProps<MatchType> {}
+export interface ChannelRouteComponentType
+  extends RouteComponentProps<ChannelMatchType> {}

@@ -6,6 +6,7 @@ import { ChannelPlusModal } from "presentation/components/snug/channel-plus-moda
 import { ChannelsProvider } from "contexts/channel-context";
 import { ModalProvider } from "contexts/modal-context";
 import { MessageSection } from "./message-section";
+import { ApplicationChannelMatchProps } from "prop-types/match-extends-types";
 
 const SnugWrapper = styled.section`
   width: inherit;
@@ -19,16 +20,16 @@ const ViewWrapper = styled.section`
   display: flex;
 `;
 
-export const Snug: React.FC = props => {
+export const Snug: React.FC<ApplicationChannelMatchProps> = props => {
   return (
     <SnugWrapper>
       <ChannelsProvider>
         <ModalProvider>
           <ChannelPlusModal />
-          <SnugHeader></SnugHeader>
+          <SnugHeader />
           <ViewWrapper>
-            <Sidebar {...props}></Sidebar>
-            <MessageSection {...props}></MessageSection>
+            <Sidebar {...props} />
+            <MessageSection />
           </ViewWrapper>
         </ModalProvider>
       </ChannelsProvider>

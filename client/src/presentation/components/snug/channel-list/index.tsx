@@ -3,12 +3,18 @@ import styled from "styled-components";
 import { ChannelHeader } from "./channel-header";
 import { ChannelTitle } from "./channel-title";
 import { useChannels } from "contexts/channel-context";
+import { match } from "react-router";
+import { ChannelMatchType } from "prop-types/channel-match-type";
 
 const Wrapper = styled.section`
   background-color: #606060;
 `;
 
-export const ChannelList: React.FC = () => {
+interface PropTypes {
+  match: match<ChannelMatchType>;
+}
+
+export const ChannelList: React.FC<PropTypes> = ({ match }) => {
   const channels = useChannels();
 
   return (

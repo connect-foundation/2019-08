@@ -1,6 +1,7 @@
 import { Context } from "./../context.instance";
-import { ChannelMatchType } from "./channel-match-type";
+import { ChannelRouteComponentType } from "./channel-match-type";
 
-export interface ApplicationChannelMatchProps extends ChannelMatchType {
+export interface ApplicationChannelMatchProps
+  extends ChannelRouteComponentType {
   Application: Context;
 }
