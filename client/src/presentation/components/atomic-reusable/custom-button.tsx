@@ -8,7 +8,10 @@ export interface CustomButtonConfig {
   size?: string;
   name?: string;
   fontColor?: string;
+  fontWeight?: string | number;
+  fontSize?: string;
   type?: ButtonType;
+  onClick?(parameter: any | void): any | void;
 }
 
 const determineSize = (size: string) => {
@@ -37,15 +40,20 @@ const Button = styled.button`
     let size = "";
     let color = props.color ? props.color : "#ffffff";
     let fontColor = props.fontColor ? props.fontColor : "#000000";
+    let fontWeight = props.fontWeight ? props.fontWeight : "0";
+    let fontSize = props.fontSize ? props.fontSize : "1rem";
 
     if (props.size) {
       size = determineSize(props.size);
     }
+
     return css`
       background-color: ${color};
       width: ${size};
       display: block;
       color: ${fontColor};
+      font-weight: ${fontWeight};
+      font-size: ${fontSize};
     `;
   }};
 `;
@@ -55,10 +63,21 @@ export const CustomButton: React.FC<CustomButtonConfig> = ({
   color,
   size,
   name,
-  type
+  type,
+  fontWeight,
+  fontSize,
+  onClick
 }) => {
   return (
-    <Button fontColor={fontColor} type={type} color={color} size={size}>
+    <Button
+      fontColor={fontColor}
+      type={type}
+      color={color}
+      size={size}
+      fontWeight={fontWeight}
+      fontSize={fontSize}
+      onClick={onClick}
+    >
       {name}
     </Button>
   );
