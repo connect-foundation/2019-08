@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { ChannelHeader } from "./channel-header";
 import { ChannelTitle } from "./channel-title";
@@ -12,10 +12,15 @@ const Wrapper = styled.section`
 
 interface PropTypes {
   match: match<ChannelMatchType>;
+  socket: SocketIO.Server;
 }
 
-export const ChannelList: React.FC<PropTypes> = ({ match }) => {
+export const ChannelList: React.FC<PropTypes> = ({ match, socket }) => {
   const channels = useChannels();
+
+  useEffect(() => {
+    socket.emit("join", match.params.channelId);
+  }, []);
 
   return (
     <Wrapper>
