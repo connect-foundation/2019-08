@@ -1,7 +1,7 @@
-import { HttpProviderDependencies } from "./@context/http-providers/http-providers";
-import { StorageProviderDependencies } from "./@context/storage-providers/storage-providers";
-import { RepositoryDependencies } from "./@context/repositories/index";
-import { ServiceDependencies } from "./@context/services/index";
+import { HttpProviderDependencies } from "@context/http-providers/http-providers";
+import { StorageProviderDependencies } from "@context/storage-providers/storage-providers";
+import { RepositoryDependencies } from "@context/repositories";
+import { ServiceDependencies } from "@context/services";
 
 class Context {
   private apies: HttpProviderDependencies;
