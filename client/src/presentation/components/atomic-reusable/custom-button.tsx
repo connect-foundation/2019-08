@@ -11,6 +11,7 @@ export interface CustomButtonConfig {
   fontWeight?: string | number;
   fontSize?: string;
   type?: ButtonType;
+  onClick?(parameter: any | void): any | void;
 }
 
 const determineSize = (size: string) => {
@@ -64,7 +65,8 @@ export const CustomButton: React.FC<CustomButtonConfig> = ({
   name,
   type,
   fontWeight,
-  fontSize
+  fontSize,
+  onClick
 }) => {
   return (
     <Button
@@ -74,6 +76,7 @@ export const CustomButton: React.FC<CustomButtonConfig> = ({
       size={size}
       fontWeight={fontWeight}
       fontSize={fontSize}
+      onClick={onClick}
     >
       {name}
     </Button>
