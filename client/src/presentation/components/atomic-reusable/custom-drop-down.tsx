@@ -77,7 +77,7 @@ export const CustomDropDown: React.FC<CustomDropDownConfig> = props => {
       <Subject>{props.type}: </Subject>
       <Selected>{selected}</Selected>
       <IconBox imageSrc={ArrowDownSignWhite} />
-      {opened ? (
+      {opened && (
         <ListWrapper>
           {props.list.map(listItem => (
             <List key={listItem} onClick={selectListItem(listItem)}>
@@ -85,7 +85,7 @@ export const CustomDropDown: React.FC<CustomDropDownConfig> = props => {
             </List>
           ))}
         </ListWrapper>
-      ) : null}
+      )}
     </Wrapper>
   );
 };
