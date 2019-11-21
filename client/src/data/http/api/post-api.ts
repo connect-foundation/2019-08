@@ -1,4 +1,4 @@
-import { AxiosErrorHandler } from "util/axiosErrorHandler";
+import { AxiosErrorHandler } from "data/http/api/axiosErrorHandler";
 import { Post, Profile } from "core/entity/post";
 import { Channel } from "core/entity/channel";
 import { StatusCodes } from "./status-codes";

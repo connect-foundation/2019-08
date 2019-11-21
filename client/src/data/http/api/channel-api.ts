@@ -1,4 +1,4 @@
-import { AxiosErrorHandler } from "util/axiosErrorHandler";
+import { AxiosErrorHandler } from "data/http/api/axiosErrorHandler";
 import { Channel } from "core/entity/channel";
 import { AxiosError, AxiosResponse } from "axios";
 import { ResponseEntity } from "./response/ResponseEntity";
