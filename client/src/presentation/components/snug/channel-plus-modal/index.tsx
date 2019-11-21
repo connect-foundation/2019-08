@@ -2,7 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import { ChannelPlusModalHeader } from "./channel-plus-modal-header";
 import { ChannelPlusModalContents } from "./channel-plus-modal-contents";
-import { useModalToggled } from "contexts/modal-context";
+import {
+  useModalToggled,
+  useModalToggledDispatch
+} from "contexts/modal-context";
 
 const WholeScreen = styled.div`
   position: absolute;
@@ -41,10 +44,21 @@ const MainBox = styled.section`
 export const ChannelPlusModal: React.FC = () => {
   const Modals = useModalToggled();
 
+  const dispatch = useModalToggledDispatch();
+
+  const keyDownHandler = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.keyCode === 27) {
+      dispatch &&
+        dispatch({
+          type: "TOGGLE_CHANNEL_PLUS_MODAL"
+        });
+    }
+  };
+
   return (
     <>
       {Modals && Modals.ChannelPlusModal && (
-        <WholeScreen>
+        <WholeScreen tabIndex={-1} onKeyDown={keyDownHandler}>
           <Wrapper>
             <MarginBox />
             <MainBox>

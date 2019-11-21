@@ -31,6 +31,7 @@ export enum SortType {
   "userSmall" = "사람 적은 순"
 }
 
+// todo : 해당 section뿐만 아니라 전역적으로 keydown 이벤트가 적용될 수 있도록 함수 위치 변경
 export const ChannelBrowseModal: React.FC = () => {
   const [selectedDisplayType, setSelectedDisplayType] = useState(
     DisplayType.all
@@ -39,17 +40,25 @@ export const ChannelBrowseModal: React.FC = () => {
 
   const dispatch = useModalToggledDispatch();
 
-  const clickHandler = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+  const toggleChannelBrowseModal = () => {
     dispatch &&
       dispatch({
         type: "TOGGLE_CHANNEL_BROWSE_MODAL"
       });
   };
 
+  const clickHandler = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    toggleChannelBrowseModal();
+  };
+
+  const keyDownHandler = (event: React.KeyboardEvent<HTMLElement>) => {
+    toggleChannelBrowseModal();
+  };
+
   return (
     <CustomModal>
       <MarginBox />
-      <Content>
+      <Content tabIndex={-1} onKeyDown={keyDownHandler}>
         <ChannelBrowseModalInformation onClick={clickHandler} />
         <ChannelBrowseModalHeader />
         <ChannelBrowseModalDropdown

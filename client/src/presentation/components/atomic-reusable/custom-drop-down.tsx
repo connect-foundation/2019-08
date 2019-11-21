@@ -59,6 +59,8 @@ export interface CustomDropDownConfig {
   setSelected?(parameter: any | void): any | void;
 }
 
+// todo : DropDown Component를 customize할 수 있게 props에서 다양한 변수를 받아
+// styled-component에 대입해야 한다.
 export const CustomDropDown: React.FC<CustomDropDownConfig> = props => {
   const [opened, setOpened] = useState(false);
   const [selected, setSelected] = useState(props.list[0]);
