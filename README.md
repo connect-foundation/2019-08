@@ -119,7 +119,7 @@
 <img src="https://i.imgur.com/zWldzPj.gif">
 
 </p>
-<h3 align="center">김경래</h3> ![Uploading file..._s1aq5m66t]()
+<h3 align="center">김경래</h3>
 
 <h3 align="center"><a href="https://github.com/kyungrae">@kyungrae</a></h3> 
 
