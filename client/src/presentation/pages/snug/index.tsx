@@ -29,7 +29,7 @@ export const Snug: React.FC<AppSocketChannelMatchProps> = props => {
           <SnugHeader />
           <ViewWrapper>
             <Sidebar {...props} />
-            <MessageSection />
+            <MessageSection {...props} />
           </ViewWrapper>
         </ModalProvider>
       </ChannelsProvider>

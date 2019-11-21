@@ -19,7 +19,7 @@ export const ChannelList: React.FC<PropTypes> = ({ match, socket }) => {
   const channels = useChannels();
 
   useEffect(() => {
-    socket.emit("join", match.params.channelId);
+    if (!match.params.channelId) socket.emit("join", match.params.channelId);
   }, []);
 
   return (

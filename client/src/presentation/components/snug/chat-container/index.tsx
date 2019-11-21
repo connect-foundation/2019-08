@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { MessageCard } from "presentation/components/snug/message-card";
-import { useMessages } from "contexts/messages-context";
+import { useMessages, useMessagesDispatch } from "contexts/messages-context";
+import { AppSocketChannelMatchProps } from "prop-types/match-extends-types";
+import { Message } from "core/entity/message";
+
 const ChatContentWrapper = styled.section`
   height: 100%;
   width: 100%;
@@ -11,8 +14,23 @@ const ChatContentWrapper = styled.section`
   overflow-y: hidden;
 `;
 
-export const ChatContent: React.FC = () => {
+export const ChatContent: React.FC<AppSocketChannelMatchProps> = props => {
   const messages = useMessages();
+  const dispatch = useMessagesDispatch();
+  const { socket } = props;
+
+  useEffect(() => {
+    socket.on("sendMessage", (obj: Message) => {
+      dispatch({
+        type: "CREATE",
+        id: obj.id!,
+        name: obj.name,
+        imageSrc: obj.imageSrc,
+        timestamp: obj.timestamp,
+        contents: obj.contents
+      });
+    });
+  });
 
   function messageList(): React.ReactNode {
     if (!messages) return <></>;
