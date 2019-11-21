@@ -4,6 +4,7 @@ import { CustomInput } from "presentation/components/atomic-reusable/custom-inpu
 import { CustomButton } from "presentation/components/atomic-reusable/custom-button";
 import { CustomOnOffButton } from "presentation/components/atomic-reusable/custom-on-off-button";
 import { useChannelDispatch } from "contexts/channel-context";
+import { useModalToggledDispatch } from "contexts/modal-context";
 
 const ContentsForm = styled.form`
   display: flex;
@@ -47,17 +48,24 @@ export const ChannelPlusModalContents: React.FC = () => {
   const [description, setDescription] = useState("");
   const [privacy, setPrivacy] = useState(false);
 
-  const dispatch = useChannelDispatch();
+  const channelDispatch = useChannelDispatch();
+  const modalDispatch = useModalToggledDispatch();
+
   const submitHandler = (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
-    dispatch &&
-      dispatch({
+    channelDispatch &&
+      channelDispatch({
         type: "CREATE",
         title: title,
         description: description,
         privacy: privacy,
         createdAt: new Date(), //todo : date, user 바꾸기
         user: "두부"
+      });
+
+    modalDispatch &&
+      modalDispatch({
+        type: "TOGGLE_CHANNEL_PLUS_MODAL"
       });
   };
 
