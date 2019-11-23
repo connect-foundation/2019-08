@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, Switch, BrowserRouter } from "react-router-dom";
 import { createBrowserHistory } from "history";
+import { Home } from "./presentation/pages/home/index";
 import { Snug } from "./presentation/pages/snug/index";
 import { Application } from "./context.instance";
 import { createGlobalStyle } from "styled-components";
@@ -26,6 +27,13 @@ const App: React.FC = () => {
         <Route
           exact
           path="/"
+          component={(props: any) => (
+            <Home {...props} Application={Application}></Home>
+          )}
+        ></Route>
+        <Route
+          exact
+          path="/app"
           component={(props: any) => (
             <Snug {...props} Application={Application}></Snug>
           )}
