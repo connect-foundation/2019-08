@@ -19,8 +19,7 @@ export const ChatContent: React.FC = () => {
     return messages!.map(message => (
       <PostCard
         key={message.id}
-        profileName={message.profileName}
-        profileThumnail={message.profileThumnail}
+        profile={message.profile}
         contents={message.contents}
         createdAt={message.createdAt}
         updatedAt={message.updatedAt}
