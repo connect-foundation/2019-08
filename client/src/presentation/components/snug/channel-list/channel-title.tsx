@@ -4,7 +4,6 @@ import { IconBox } from "presentation/components/atomic-reusable/icon-box";
 import Hash from "assets/hash-white.png";
 
 const Wrapper = styled.section`
-  color: #ffffff;
   display: flex;
   align-items: center;
   font-size: 0.9rem;
@@ -20,7 +19,7 @@ interface PropsTypes {
 export const ChannelTitle: React.FC<PropsTypes> = props => {
   return (
     <Wrapper>
-      <IconBox imageSrc={Hash} />
+      <IconBox imageSrc={Hash} size="20px" />
       {props.title}
     </Wrapper>
   );

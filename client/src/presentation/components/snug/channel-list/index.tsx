@@ -5,7 +5,7 @@ import { ChannelTitle } from "./channel-title";
 import { useChannels } from "contexts/channel-context";
 
 const Wrapper = styled.section`
-  background-color: #606060;
+  padding: 10px 0px;
 `;
 
 export const ChannelList: React.FC = () => {

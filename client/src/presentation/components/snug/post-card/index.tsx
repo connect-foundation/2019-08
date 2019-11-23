@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { ProfileThumnail } from "presentation/components/atomic-reusable/profile-thumnail";
 import { PostCardContents } from "./post-card-contents";
 import { Post } from "core/entity/post";

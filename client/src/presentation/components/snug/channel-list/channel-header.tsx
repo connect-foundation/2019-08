@@ -5,7 +5,6 @@ import Plus from "assets/plus-white.png";
 import { useModalToggledDispatch } from "contexts/modal-context";
 
 const Wrapper = styled.section`
-  color: #ffffff;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -13,11 +12,13 @@ const Wrapper = styled.section`
 
 const Title = styled.span`
   &:hover {
-    opacity: 0.5;
+    color: ${({ theme }) => theme.sidbarHover};
   }
 `;
 
-const IconBoxWrapper = styled.section``;
+const IconBoxWrapper = styled.section`
+  box-sizing: border-box;
+`;
 
 export const ChannelHeader: React.FC = () => {
   const dispatch = useModalToggledDispatch();
@@ -44,7 +45,7 @@ export const ChannelHeader: React.FC = () => {
     <Wrapper>
       <Title onClick={openChannelBrowseModal}>채널 목록</Title>
       <IconBoxWrapper onClick={openChannelPlusModal}>
-        <IconBox imageSrc={Plus}></IconBox>
+        <IconBox imageSrc={Plus} size="25px"></IconBox>
       </IconBoxWrapper>
     </Wrapper>
   );
