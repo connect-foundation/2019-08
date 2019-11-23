@@ -1,11 +1,13 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { ThemeProvider } from "styled-components";
 import { Sidebar } from "./sidebar";
 import { SnugHeader } from "./header";
 import { ChannelsProvider } from "contexts/channel-context";
 import { ModalProvider } from "contexts/modal-context";
 import { MessageSection } from "./message-section";
 import { Modals } from "presentation/components/snug/modals";
+
+import { colorTheme } from "presentation/theme/color-theme";
 
 const SnugWrapper = styled.section`
   width: inherit;
@@ -21,17 +23,19 @@ const ViewWrapper = styled.section`
 
 export const Snug: React.FC = () => {
   return (
-    <SnugWrapper>
-      <ChannelsProvider>
-        <ModalProvider>
-          <Modals />
-          <SnugHeader></SnugHeader>
-          <ViewWrapper>
-            <Sidebar></Sidebar>
-            <MessageSection></MessageSection>
-          </ViewWrapper>
-        </ModalProvider>
-      </ChannelsProvider>
-    </SnugWrapper>
+    <ThemeProvider theme={colorTheme}>
+      <SnugWrapper>
+        <ChannelsProvider>
+          <ModalProvider>
+            <Modals />
+            <SnugHeader></SnugHeader>
+            <ViewWrapper>
+              <Sidebar></Sidebar>
+              <MessageSection></MessageSection>
+            </ViewWrapper>
+          </ModalProvider>
+        </ChannelsProvider>
+      </SnugWrapper>
+    </ThemeProvider>
   );
 };

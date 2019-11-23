@@ -6,9 +6,10 @@ import Hash from "assets/hash-white.png";
 const Wrapper = styled.section`
   display: flex;
   align-items: center;
-  font-size: 0.9rem;
+  font-size: 1rem;
+  padding: 0px 20px;
   &:hover {
-    opacity: 0.5;
+    background-color: ${({ theme }) => theme.sidbarHover};
   }
 `;
 

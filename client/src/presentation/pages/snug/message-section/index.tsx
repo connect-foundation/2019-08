@@ -5,7 +5,6 @@ import { MessageSectionContent } from "./content";
 
 const MessageSectionWrapper = styled.section`
   height: 100%;
-  background-color: blue;
   width: 100%;
   display: flex;
   flex-direction: column;

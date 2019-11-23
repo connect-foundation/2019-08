@@ -7,7 +7,7 @@ import { MessageContextProvider } from "contexts/messages-context";
 const MessageSectionContentWrapper = styled.section`
   width: 100%;
   height: 100%;
-  background-color: white;
+  background-color: ${({ theme }) => theme.snug};
   display: flex;
   flex-direction: column;
 `;

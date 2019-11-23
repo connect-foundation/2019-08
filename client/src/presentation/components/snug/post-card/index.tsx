@@ -8,6 +8,7 @@ const MessageCardBox = styled.section`
   width: 100%;
   height: auto;
   display: flex;
+  color: ${({ theme }) => theme.snugMainFont};
 `;
 
 const MarginBox = styled.section`
