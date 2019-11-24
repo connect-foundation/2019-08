@@ -4,6 +4,7 @@ import { createBrowserHistory } from "history";
 import { Home } from "./presentation/pages/home/index";
 import { Snug } from "./presentation/pages/snug/index";
 import { RegisterSnug } from "./presentation/pages/register-snug/index";
+import { RegisterUser } from "./presentation/pages/register-user/index";
 import { Application } from "./context.instance";
 import { createGlobalStyle } from "styled-components";
 
@@ -37,6 +38,13 @@ const App: React.FC = () => {
           path="/register-snug"
           component={(props: any) => (
             <RegisterSnug {...props} Application={Application} />
+          )}
+        ></Route>
+        <Route
+          exact
+          path="/register-user"
+          component={(props: any) => (
+            <RegisterUser {...props} Application={Application} />
           )}
         ></Route>
         <Route

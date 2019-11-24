@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 import { GlobalHeader } from "presentation/components/atomic-reusable/global-header";
-import { HomeForm } from "./home-form";
-import { HomeSnug } from "./home-snug";
+
+import { RegisterUserForm } from "presentation/pages/register-user/register-user-form";
 
 const Wrapper = styled.section`
   display: flex;
@@ -18,14 +18,12 @@ const ContentsWrapper = styled.section`
   width: 100vw;
 `;
 
-export const Home: React.FC = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
-
+export const RegisterUser: React.FC = () => {
   return (
     <Wrapper>
       <GlobalHeader></GlobalHeader>
       <ContentsWrapper>
-        {isLoggedIn ? <HomeForm /> : <HomeSnug />}
+        <RegisterUserForm />
       </ContentsWrapper>
     </Wrapper>
   );

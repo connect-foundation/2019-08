@@ -35,34 +35,16 @@ const InputWrapper = styled.section`
 
 const Input = styled.section``;
 
-const WarningText = styled.span`
-  color: red;
-`;
-
 const ButtonWrapper = styled.section`
   display: flex;
   justify-content: flex-end;
 `;
 
-const validateEmail = (email: string) => {
-  const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return re.test(email);
-};
-
-export const HomeForm: React.FC = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [validEmail, setValidEmail] = useState(true);
-
-  const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
-    setValidEmail(validateEmail(event.target.value));
-  };
-
+export const RegisterUserForm: React.FC = () => {
   return (
     <Wrapper>
       <DescriptionWrapper>
-        <SnugDescription>아늑한 공간을 지금 바로 이용해보세요!</SnugDescription>
+        <SnugDescription>회원 가입을 지금 바로 해보세요!</SnugDescription>
       </DescriptionWrapper>
       <InputWrapper>
         <Input>
@@ -70,18 +52,20 @@ export const HomeForm: React.FC = () => {
             color={"bdbdbd"}
             backgroundColor={"#ffffff"}
             placeholder={"예) XXX@XXX.XXX"}
-            onChange={handleOnChange}
           ></CustomLoginInput>
-          {!validEmail && (
-            <WarningText>유효한 이메일 형식이 아닙니다.</WarningText>
-          )}
         </Input>
         <Input>
           <CustomLoginInput
             color={"bdbdbd"}
             backgroundColor={"#ffffff"}
             placeholder={"Password"}
-            onChange={setPassword}
+          ></CustomLoginInput>
+        </Input>
+        <Input>
+          <CustomLoginInput
+            color={"bdbdbd"}
+            backgroundColor={"#ffffff"}
+            placeholder={"Password Check"}
           ></CustomLoginInput>
         </Input>
         <ButtonWrapper>
