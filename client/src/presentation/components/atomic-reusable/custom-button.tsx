@@ -12,6 +12,7 @@ export interface CustomButtonConfig {
   fontSize?: string;
   type?: ButtonType;
   borderColor?: string;
+  height?: string;
   onClick?(parameter: any | void): any | void;
 }
 
@@ -23,7 +24,7 @@ const determineSize = (size: string) => {
       return "60px";
     case "small":
     default:
-      return "30px";
+      return `${size}`;
   }
 };
 
@@ -31,7 +32,6 @@ const determineSize = (size: string) => {
 const Button = styled.button`
   --webkit-appearance: none;
   appearance: none;
-  height: 30px;
   border-radius: 5px;
   &:hover {
     opacity: 0.5;
@@ -43,6 +43,7 @@ const Button = styled.button`
     let fontWeight = props.fontWeight ? props.fontWeight : "0";
     let fontSize = props.fontSize ? props.fontSize : "1rem";
     let border = props.borderColor ? `1px solid ${props.borderColor}` : "none";
+    let height = props.height ? props.height : "30px";
 
     if (props.size) {
       size = determineSize(props.size);
@@ -56,6 +57,7 @@ const Button = styled.button`
       font-weight: ${fontWeight};
       font-size: ${fontSize};
       border: ${border};
+      heigth: ${height};
     `;
   }};
 `;
@@ -69,7 +71,8 @@ export const CustomButton: React.FC<CustomButtonConfig> = ({
   fontWeight,
   fontSize,
   onClick,
-  borderColor
+  borderColor,
+  height
 }) => {
   return (
     <Button
@@ -80,6 +83,7 @@ export const CustomButton: React.FC<CustomButtonConfig> = ({
       fontWeight={fontWeight}
       fontSize={fontSize}
       borderColor={borderColor}
+      height={height}
       onClick={onClick}
     >
       {name}

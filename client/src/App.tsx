@@ -3,6 +3,7 @@ import { Route, Switch, BrowserRouter } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import { Home } from "./presentation/pages/home/index";
 import { Snug } from "./presentation/pages/snug/index";
+import { RegisterSnug } from "./presentation/pages/register-snug/index";
 import { Application } from "./context.instance";
 import { createGlobalStyle } from "styled-components";
 
@@ -28,14 +29,21 @@ const App: React.FC = () => {
           exact
           path="/"
           component={(props: any) => (
-            <Home {...props} Application={Application}></Home>
+            <Home {...props} Application={Application} />
+          )}
+        ></Route>
+        <Route
+          exact
+          path="/register-snug"
+          component={(props: any) => (
+            <RegisterSnug {...props} Application={Application} />
           )}
         ></Route>
         <Route
           exact
           path="/app"
           component={(props: any) => (
-            <Snug {...props} Application={Application}></Snug>
+            <Snug {...props} Application={Application} />
           )}
         ></Route>
       </Switch>

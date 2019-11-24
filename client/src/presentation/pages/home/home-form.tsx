@@ -18,6 +18,7 @@ const DescriptionWrapper = styled.section`
   display: flex;
   align-items: center;
 `;
+
 const SnugDescription = styled.span`
   color: #000000;
   font-weight: bold;
