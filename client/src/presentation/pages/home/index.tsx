@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 import { GlobalHeader } from "presentation/components/atomic-reusable/global-header";
 import { HomeForm } from "./home-form";
+import { HomeSnug } from "./home-snug";
 
 const Wrapper = styled.section`
   display: flex;
@@ -18,11 +19,13 @@ const ContentsWrapper = styled.section`
 `;
 
 export const Home: React.FC = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   return (
     <Wrapper>
       <GlobalHeader></GlobalHeader>
       <ContentsWrapper>
-        <HomeForm></HomeForm>
+        {isLoggedIn ? <HomeForm /> : <HomeSnug />}
       </ContentsWrapper>
     </Wrapper>
   );
