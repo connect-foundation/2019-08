@@ -16,7 +16,8 @@
       "morgan": "^1.9.1",
       "mysql": "^2.14.1",
       "reflect-metadata": "^0.1.10",
-      "typeorm": "^0.2.20"
+      "typeorm": "^0.2.20",
+      "typeorm-transactional-cls-hooked": "^0.1.8"
    },
    "devDependencies": {
       "@types/cookie-parser": "^1.4.2",
@@ -26,13 +27,16 @@
       "@types/jest": "^24.0.22",
       "@types/morgan": "^1.7.37",
       "@types/node": "^8.0.29",
+      "@types/supertest": "^2.0.8",
       "@typescript-eslint/eslint-plugin": "^2.7.0",
       "@typescript-eslint/parser": "^2.7.0",
       "eslint": "^6.6.0",
       "jest": "^24.9.0",
+      "supertest": "^4.0.2",
       "ts-jest": "^24.1.0",
       "ts-node": "^8.5.2",
       "tsconfig-paths": "^3.9.0",
+      "typeorm-test-transactions": "github:raccoonback/typeorm-test-transactions#master",
       "typescript": "^3.7.2"
    }
 }
