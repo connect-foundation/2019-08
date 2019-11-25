@@ -4,4 +4,6 @@ export interface ChannelRepositoryType {
   create(channel: Channel): Promise<boolean>;
 
   hasByName(channelName: string): Promise<boolean>;
+
+  getChannels(): Promise<Channel[] | boolean>;
 }
