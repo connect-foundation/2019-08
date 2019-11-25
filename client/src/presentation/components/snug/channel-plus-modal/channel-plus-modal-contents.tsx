@@ -54,8 +54,17 @@ export const ChannelPlusModalContents: React.FC<ApplicationProptype> = ({
   const channelDispatch = useChannelDispatch();
   const modalDispatch = useModalToggledDispatch();
 
-  const submitHandler = (e: React.FormEvent<HTMLElement>) => {
-    e.preventDefault();
+  const submitHandler = async (event: React.FormEvent<HTMLElement>) => {
+    event.preventDefault();
+
+    const result = await Application.services.channelService.create(
+      title,
+      description,
+      privacy
+    );
+
+    if (!result) return;
+
     channelDispatch &&
       channelDispatch({
         type: "CREATE",
