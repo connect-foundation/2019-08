@@ -25,7 +25,7 @@ const SnugDescription = styled.span`
 
 const DetailSnugWrapper = styled.section`
   height: auto;
-  width: 50%;
+  width: 40%;
   display: flex;
   flex-direction: column;
   align-contents: center;
