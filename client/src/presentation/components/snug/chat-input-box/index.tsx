@@ -48,6 +48,7 @@ const StyledInput = styled.input.attrs({
     outline: none;
   }
 `;
+
 export const ChatInputBox: React.FC = () => {
   const KEY_PRESS_EVENT_KEY = "Enter";
   const [message, setMessage] = useState("");

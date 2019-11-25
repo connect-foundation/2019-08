@@ -5,6 +5,7 @@ import { SnugHeader } from "./header";
 import { ChannelsProvider } from "contexts/channel-context";
 import { ModalProvider } from "contexts/modal-context";
 import { MessageSection } from "./message-section";
+import { AppSocketChannelMatchProps } from "prop-types/match-extends-types";
 import { Modals } from "presentation/components/snug/modals";
 
 const SnugWrapper = styled.section`
@@ -19,16 +20,16 @@ const ViewWrapper = styled.section`
   display: flex;
 `;
 
-export const Snug: React.FC = () => {
+export const Snug: React.FC<AppSocketChannelMatchProps> = props => {
   return (
     <SnugWrapper>
       <ChannelsProvider>
         <ModalProvider>
           <Modals />
-          <SnugHeader></SnugHeader>
+          <SnugHeader />
           <ViewWrapper>
-            <Sidebar></Sidebar>
-            <MessageSection></MessageSection>
+            <Sidebar {...props} />
+            <MessageSection {...props} />
           </ViewWrapper>
         </ModalProvider>
       </ChannelsProvider>
