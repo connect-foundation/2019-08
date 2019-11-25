@@ -7,12 +7,30 @@ assignees: ''
 
 ---
 
-**요청 url** :
+**요청 url** : ``
 
-**Method** :
+**Method** : 
 
-**Description** :
+**Description** : 
 
-|구분|파라미터 이름|타입|status code|비고|
-|---|---|---|---|---|
-|예시 request|name|string||200|
+### Request
+|http-request|구분|내용|
+|---|---|---|
+|HEADER|Content-Type|application/json|
+|HEADER|Accept|application/json|
+
+#### body
+```=json
+```
+
+### Response
+
+#### Status Code
+|코드|내용|
+|---|---|
+|200|OK|
+
+#### body
+
+```=json
+```

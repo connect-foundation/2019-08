@@ -1,9 +1,13 @@
 import React, { createContext, Dispatch, useReducer, useContext } from "react";
 
-type Channel = {
+export type Channel = {
+  [propName: string]: any;
   title: string;
   description: string;
   privacy: boolean;
+  user?: string;
+  createdAt?: Date;
+  users?: string[];
 };
 
 export type Action = {
@@ -11,9 +15,11 @@ export type Action = {
   title: string;
   description: string;
   privacy: boolean;
+  user?: string;
+  createdAt?: Date;
 };
 
-type Channels = Channel[];
+export type Channels = Channel[];
 
 type ChannelDispatch = Dispatch<Action>;
 
@@ -29,7 +35,9 @@ const channelsReducer = (state: Channels, action: Action): Channels => {
       return state.concat({
         title: action.title,
         description: action.description,
-        privacy: action.privacy
+        privacy: action.privacy,
+        user: action.user,
+        createdAt: action.createdAt
       });
   }
 };

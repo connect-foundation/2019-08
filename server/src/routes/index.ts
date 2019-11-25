@@ -1,8 +1,13 @@
 import {Router, Request, Response} from "express";
-import {Channel} from "src/entity/Channel";
+import {Post} from "../entity/Post";
+import {getConnection} from "typeorm";
 
 const router = Router();
 router.get("/", async (req: Request, res: Response) => {
-  res.json(await Channel.find());
+  let post = new Post();
+  post.contents = 'kkr';
+  post.imgSrc = 'kkr.img'
+  await getConnection().manager.save(post);
+  res.send('hello world');
 });
 export default router;

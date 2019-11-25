@@ -3,18 +3,16 @@
    "version": "1.0.0",
    "private": true,
    "scripts": {
-      "serve": "node dist/server.js",
+      "serve": "tsc && node dist/app.js",
       "test": "jest",
       "lint": "eslint src/**/*.ts",
-      "start": "ts-node --project tsconfig.json -r tsconfig-paths/register src/app.ts",
-      "typeorms": "ts-node ./node_modules/.bin/typeorm"
+      "start": "ts-node src/app.ts",
+      "typeorms": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
    },
    "dependencies": {
       "cookie-parser": "^1.4.4",
-      "debug": "^4.1.1",
       "dotenv": "^8.2.0",
       "express": "^4.17.1",
-      "http-errors": "^1.7.3",
       "morgan": "^1.9.1",
       "mysql": "^2.14.1",
       "reflect-metadata": "^0.1.10",
