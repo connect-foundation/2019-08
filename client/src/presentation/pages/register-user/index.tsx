@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { PageLayout } from "presentation/components/atomic-reusable/page-layout";
 import { RegisterUserForm } from "presentation/pages/register-user/register-user-form";
 

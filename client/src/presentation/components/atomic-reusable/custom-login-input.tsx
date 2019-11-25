@@ -10,7 +10,7 @@ export interface CustomLoginInput {
   onChange?(parameter: any | void): any | void;
 }
 
-const Input = styled.input.attrs({})`
+const Input = styled.input`
   --webkit-appearance: none;
   min-height: 50px;
   max-height: 50px;

@@ -37,17 +37,15 @@ const Button = styled.button`
     opacity: 0.5;
   }
   ${(props: CustomButtonConfig) => {
-    let size = "";
-    let color = props.color ? props.color : "#ffffff";
-    let fontColor = props.fontColor ? props.fontColor : "#000000";
-    let fontWeight = props.fontWeight ? props.fontWeight : "0";
-    let fontSize = props.fontSize ? props.fontSize : "1rem";
-    let border = props.borderColor ? `1px solid ${props.borderColor}` : "none";
-    let height = props.height ? props.height : "30px";
-
-    if (props.size) {
-      size = determineSize(props.size);
-    }
+    const size = props.size ? determineSize(props.size) : "";
+    const color = props.color ? props.color : "#ffffff";
+    const fontColor = props.fontColor ? props.fontColor : "#000000";
+    const fontWeight = props.fontWeight ? props.fontWeight : "0";
+    const fontSize = props.fontSize ? props.fontSize : "1rem";
+    const border = props.borderColor
+      ? `1px solid ${props.borderColor}`
+      : "none";
+    const height = props.height ? props.height : "30px";
 
     return css`
       background-color: ${color};
