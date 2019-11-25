@@ -4,6 +4,6 @@ import * as ChannelApiController from "../controllers/apis/channel-api-controlle
 const router = Router();
 
 router.get("/:name", ChannelApiController.find);
-router.post("/:name", ChannelApiController.create);
+router.post("/", ChannelApiController.create);
 
 export default router;
