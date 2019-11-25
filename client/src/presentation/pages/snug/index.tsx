@@ -6,6 +6,7 @@ import { ChannelsProvider } from "contexts/channel-context";
 import { ModalProvider } from "contexts/modal-context";
 import { MessageSection } from "./message-section";
 import { AppSocketChannelMatchProps } from "prop-types/match-extends-types";
+import { Modals } from "presentation/components/snug/modals";
 
 const SnugWrapper = styled.section`
   width: inherit;
@@ -24,7 +25,7 @@ export const Snug: React.FC<AppSocketChannelMatchProps> = props => {
     <SnugWrapper>
       <ChannelsProvider>
         <ModalProvider>
-          <ChannelPlusModal />
+          <Modals />
           <SnugHeader />
           <ViewWrapper>
             <Sidebar {...props} />
