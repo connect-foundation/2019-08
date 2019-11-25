@@ -21,11 +21,12 @@ const ViewWrapper = styled.section`
 `;
 
 export const Snug: React.FC<AppSocketChannelMatchProps> = props => {
+  const { Application } = props;
   return (
     <SnugWrapper>
       <ChannelsProvider>
         <ModalProvider>
-          <Modals />
+          <Modals Application={Application} />
           <SnugHeader />
           <ViewWrapper>
             <Sidebar {...props} />

@@ -5,6 +5,7 @@ import { CustomButton } from "presentation/components/atomic-reusable/custom-but
 import { CustomOnOffButton } from "presentation/components/atomic-reusable/custom-on-off-button";
 import { useChannelDispatch } from "contexts/channel-context";
 import { useModalToggledDispatch } from "contexts/modal-context";
+import { ApplicationProptype } from "prop-types/application-type";
 
 const ContentsForm = styled.form`
   display: flex;
@@ -43,7 +44,9 @@ const CustomButtonWrapper = styled.section`
   justify-content: flex-end;
 `;
 
-export const ChannelPlusModalContents: React.FC = () => {
+export const ChannelPlusModalContents: React.FC<ApplicationProptype> = ({
+  Application
+}) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [privacy, setPrivacy] = useState(false);
