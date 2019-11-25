@@ -51,4 +51,19 @@ export class ChannelApi {
         )
       );
   }
+
+  getList(): ResponseEntity<Channel[]> | boolean {
+    return this.axios
+      .get("/api/channels")
+      .then((response: AxiosResponse<ResponseEntity<Channel[]>>) => {
+        if (StatusCodes.isOk(response.status)) return response.data;
+        return false;
+      })
+      .catch((error: AxiosError) => {
+        AxiosErrorHandler.handleError(
+          error,
+          `채널 목록을 불러오는 과정에서 예기치 못한 에러가 발생했습니다.`
+        );
+      });
+  }
 }
