@@ -17,8 +17,14 @@ router.route("/:name")
 /**
  *
  * /api/channels/:id/posts 경로 매핑
+ *
+ * */
+router.use("/:id/posts", PostRouter);
+
+/**
+ *
  * isNumber() 메소드에서 path variable 인 id 대한 유효성 검사
  *
  * */
-router.use("/:id/posts", isNumeric, PostRouter);
+router.param("id", isNumeric);
 export default router;
