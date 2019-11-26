@@ -14,7 +14,7 @@ export class ChannelApi {
 
   create(channel: Channel): ResponseEntity<Channel> | boolean {
     return this.axios
-      .post(`/api/channels/${channel.title!}`, {
+      .post(`/api/channels`, {
         title: channel.title!,
         description: channel.description!,
         privacy: channel.privacy
