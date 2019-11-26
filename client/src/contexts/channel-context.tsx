@@ -1,14 +1,19 @@
 import React, { createContext, Dispatch, useReducer, useContext } from "react";
 import { Channel } from "core/entity/channel";
 
-export type Action = {
-  type: "CREATE";
-  title: string;
-  description: string;
-  privacy: boolean;
-  creatorName?: string;
-  createdAt?: Date;
-};
+export type Action =
+  | {
+      type: "CREATE";
+      title: string;
+      description: string;
+      privacy: boolean;
+      creatorName?: string;
+      createdAt?: Date;
+    }
+  | {
+      type: "MULTI";
+      channels: Channels;
+    };
 
 export type Channels = Channel[];
 
@@ -30,6 +35,8 @@ const channelsReducer = (state: Channels, action: Action): Channels => {
         creatorName: action.creatorName,
         createdAt: action.createdAt
       });
+    case "MULTI":
+      return state.concat(action.channels);
   }
 };
 
