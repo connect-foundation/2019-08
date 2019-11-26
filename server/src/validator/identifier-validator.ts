@@ -67,10 +67,10 @@ export const isOutOfRange = (target: string): boolean => {
  * @param request express Request
  * @param response express Response
  * @param next express Next
+ * @param id
  *
  * */
-export const isNumeric = (request: Request, response: Response, next: NextFunction) => {
-  const {id} = request.params;
+export const isNumeric = (request: Request, response: Response, next: NextFunction, id: string) => {
   if(hasNotValue(id) || hasNotEveryNumber(id) || isOutOfRange(id)) {
     return next("Invalid id format. Must be an Number");
   }
