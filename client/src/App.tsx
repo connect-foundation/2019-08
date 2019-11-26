@@ -23,6 +23,7 @@ const GlobalStyle = createGlobalStyle`
 `;
 const App: React.FC = () => {
   const history = createBrowserHistory();
+  console.log(process.env.REACT_APP_API_SERVER_HOST!);
   console.log(process.env.REACT_APP_SOCKET_SERVER_HOST!);
   const socket = socketIO(process.env.SOCKET_SERVER_HOST!);
   return (
