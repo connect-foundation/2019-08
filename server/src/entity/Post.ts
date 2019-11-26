@@ -1,32 +1,20 @@
-import {Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
-import {Profile} from "./Profile";
-import {Room} from "./Room";
+import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 import {Base} from "./Base";
+import {Channel} from "./Channel";
 
 @Entity()
 export class Post extends Base {
   @PrimaryGeneratedColumn()
   id: number;
-  @Column({nullable: true})
+  @Column("text")
   contents: string;
-  @Column({nullable: true})
+  @Column("varchar", { length: 150 })
   imgSrc: string;
-  @ManyToOne(type => Profile, {eager: true})
-  profile: Profile;
-  @ManyToOne(type => Room)
-  room: Room;
-  @ManyToOne(
-          type => Post,
-          post => post.childCategories
-  )
-  parentCategory: Post;
-  @OneToMany(
-          type => Post,
-          post => post.parentCategory
-  )
-  childCategories: Post[];
+  @ManyToOne(type => Channel)
+  @JoinColumn()
+  channel: Channel;
 
-  static findByChannelId(id: string, pageable: object): Promise<Post[]> {
-    return this.find({where: {room: id}, ...pageable});
+  static findByChannelId(id: string): Promise<Post[]> {
+    return this.find({ where: {channel: id}});
   }
 }
