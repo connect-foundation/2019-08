@@ -2,12 +2,11 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { ChannelHeader } from "./channel-header";
 import { ChannelTitle } from "./channel-title";
-import { useChannels } from "contexts/channel-context";
+import { useChannels, useChannelDispatch } from "contexts/channel-context";
 import { match } from "react-router";
 import { ChannelMatchType } from "prop-types/channel-match-type";
 import { History } from "history";
 import { Context } from "context.instance";
-import { async } from "q";
 
 const Wrapper = styled.section`
   background-color: #606060;
@@ -27,11 +26,17 @@ export const ChannelList: React.FC<PropTypes> = ({
   Application
 }) => {
   const channels = useChannels();
+  const dispatch = useChannelDispatch();
 
   useEffect(() => {
+    if (!match.params.channelId) socket.emit("join", match.params.channelId);
     (async function aync() {
-      const result = await Application.services.channelService.getChannelList();
-      if (!match.params.channelId) socket.emit("join", match.params.channelId);
+      const channel = await Application.services.channelService.getChannelList();
+      if (typeof channel === "boolean" || !dispatch) return;
+      dispatch({
+        type: "MULTI",
+        channels: channel
+      });
     })();
   }, []);
 
