@@ -1,5 +1,4 @@
 import { Post } from "../../entity/Post";
-import { Profile } from "../../entity/Profile";
 import { Request, Response } from "express";
 
 /**
@@ -13,9 +12,8 @@ import { Request, Response } from "express";
 export const create = async (request: Request, response: Response) => {
   const profileId = request.body.profileId;
   const contents = request.body.contents;
-
   try {
-    const post = await Post.create({ contents, owner: profileId }).save();
+    const post = await Post.create({ contents, profile: profileId }).save();
     return response.status(201).json({
       message: "ok",
       payload: {
