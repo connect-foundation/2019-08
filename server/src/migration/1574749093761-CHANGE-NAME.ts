@@ -33,22 +33,22 @@ export class CHANGENAME1574749093761 implements MigrationInterface {
       undefined
     );
     await queryRunner.query(
-      "ALTER TABLE `room` ADD CONSTRAINT `FK_86e40e0afb08286884be0e6f38b` FOREIGN KEY (`creator`) REFERENCES `profile`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION",
+      "ALTER TABLE `room` ADD CONSTRAINT `FK_86e40e0afb08286884be0e6f38c` FOREIGN KEY (`creator`) REFERENCES `profile`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION",
       undefined
     );
     await queryRunner.query(
-      "ALTER TABLE `participate_in` ADD CONSTRAINT `FK_d914b8226336ece30658108e80d` FOREIGN KEY (`participant`) REFERENCES `profile`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION",
+      "ALTER TABLE `participate_in` ADD CONSTRAINT `FK_d914b8226336ece30658108e80e` FOREIGN KEY (`participant`) REFERENCES `profile`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION",
       undefined
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<any> {
     await queryRunner.query(
-      "ALTER TABLE `participate_in` DROP FOREIGN KEY `FK_d914b8226336ece30658108e80d`",
+      "ALTER TABLE `participate_in` DROP FOREIGN KEY `FK_d914b8226336ece30658108e80e`",
       undefined
     );
     await queryRunner.query(
-      "ALTER TABLE `room` DROP FOREIGN KEY `FK_86e40e0afb08286884be0e6f38b`",
+      "ALTER TABLE `room` DROP FOREIGN KEY `FK_86e40e0afb08286884be0e6f38c`",
       undefined
     );
     await queryRunner.query(
