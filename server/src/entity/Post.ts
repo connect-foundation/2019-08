@@ -1,39 +1,20 @@
-import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, OneToMany} from "typeorm";
-import {Profile} from "./Profile";
-import {Room} from "./Room"
-
+import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Base} from "./Base";
+import {Channel} from "./Channel";
 
 @Entity()
-export class Post {
+export class Post extends Base {
+  @PrimaryGeneratedColumn()
+  id: number;
+  @Column("text")
+  contents: string;
+  @Column("varchar", { length: 150 })
+  imgSrc: string;
+  @ManyToOne(type => Channel)
+  @JoinColumn()
+  channel: Channel;
 
-    @PrimaryGeneratedColumn()
-    id: number;
-
-    @Column()
-    contents: string;
-
-    @Column()
-    imgSrc: string;
-
-    @CreateDateColumn()
-    createdAt: Date;
-
-    @UpdateDateColumn()
-    updatedAt: Date;
-
-    // 생성자
-    @ManyToOne(type => Profile, profile => profile.posts)
-    owner: Profile;
-
-    // 소속된 Room
-    @ManyToOne(type => Room, room => room.posts)
-    room: Room;
-
-    // parent는 여러개의 child를 갖는다.
-    @OneToMany(type => Post, post => post.child)
-    parent: Post;
-
-    // child는 하나의 parent를 가는다.
-    @ManyToOne(type => Post, post => post.parent)
-    child: Post[];
+  static findByChannelId(id: string): Promise<Post[]> {
+    return this.find({ where: {channel: id}});
+  }
 }
