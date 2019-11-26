@@ -1,5 +1,6 @@
 import {Request, Response} from "express";
 import {Post} from "../../entity/Post";
+import {Pageable} from "./common/pageable";
 
 /**
  *
@@ -11,7 +12,10 @@ import {Post} from "../../entity/Post";
  * */
 export const findByChannelId = async (request: Request, response: Response) => {
   const {id} = request.params;
-  const posts = await Post.findByChannelId(id);
+  const pageable = new Pageable(request.query)
+          .addOrder("id", request.query.order)
+          .support();
+  const posts = await Post.findByChannelId(id, pageable);
   return response
           .status(200)
           .json({message: "ok", payload: {posts: [...posts]}});
