@@ -1,4 +1,5 @@
 import { Post } from "../../entity/Post";
+import { getManager, EntityManager, getRepository, Repository } from "typeorm";
 import { Request, Response } from "express";
 
 /**
@@ -14,10 +15,18 @@ export const create = async (request: Request, response: Response) => {
   const contents = request.body.contents;
   try {
     const post = await Post.create({ contents, profile: profileId }).save();
+
+    const returnValue = await Post.find({
+      select: ["id", "contents", "imgSrc", "profile"],
+      where: {
+        id: post.id
+      },
+      relations: ["profile"]
+    });
     return response.status(201).json({
       message: "ok",
       payload: {
-        post
+        returnValue
       }
     });
   } catch (error) {
