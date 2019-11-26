@@ -1,6 +1,5 @@
-import { ChannelRepositoryType } from "core/use-case/channel-repository-type";
-import { ChannelModel } from "core/model/channel-model";
-import { Channel } from "core/entity/channel";
+import {ChannelRepositoryType} from "core/use-case/channel-repository-type";
+import {ChannelModel} from "core/model/channel-model";
 
 /**
  *
@@ -38,19 +37,6 @@ export class ChannelService {
     if (satisfaction) {
       return this.repository.create(channel);
     }
-    return false;
-  }
-
-  /**
-   *
-   * 채널 목록 불러오기
-   *
-   * @return boolean | Channel[]  채널 목록 혹은 false
-   *
-   * */
-  async getChannels(): Promise<Channel[] | boolean> {
-    const channels = await this.getChannels();
-    if (channels) return channels;
     return false;
   }
 

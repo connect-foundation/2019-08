@@ -8,14 +8,10 @@ describe('ChannelService Test', () => {
                 create: (channel: Channel): Promise<boolean> => {
                     return Promise.resolve<boolean>(true);
                 },
-
                 hasByName: (name: string): Promise<boolean> => {
                     return Promise.resolve<boolean>(false);
-
                 }
-
             };
-
         })();
 
         it('name 길이는 1보다 짧은 경우, 테스트는 실패해야 한다.', async () => {
@@ -30,7 +26,6 @@ describe('ChannelService Test', () => {
 
             // then
             expect(result).toBeFalsy();
-
         });
 
         it('name 길이는 10보다 긴 경우, 테스트는 실패해야 한다.', async () => {
@@ -45,7 +40,6 @@ describe('ChannelService Test', () => {
 
             // then
             expect(result).toBeFalsy();
-
         });
 
         it('description 길이는 30보다 긴 경우, 테스트는 실패해야 한다.', async () => {
@@ -60,9 +54,7 @@ describe('ChannelService Test', () => {
 
             // then
             expect(result).toBeFalsy();
-
         });
-
 
         it('0 < name length < 11 이고 0 < description length < 31 범위인 경우, 테스트는 통과해야 한다.', async () => {
             // given
@@ -76,9 +68,6 @@ describe('ChannelService Test', () => {
 
             // then
             expect(result).toBeTruthy();
-
         });
-
     });
-
 });
