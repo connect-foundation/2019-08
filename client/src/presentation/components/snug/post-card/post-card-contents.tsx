@@ -31,13 +31,13 @@ const PostContents = styled.span`
 `;
 
 interface PropTypes {
-  userName: string;
+  writerName: string;
   createdAt: string;
   contents: string;
 }
 
 export const PostCardContents: React.FC<PropTypes> = ({
-  userName,
+  writerName: userName,
   createdAt: timestamp,
   contents: message
 }) => {
