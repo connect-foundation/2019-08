@@ -3,7 +3,6 @@ import { Route, Switch, BrowserRouter } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import { Home } from "./presentation/pages/home/index";
 import { Snug } from "./presentation/pages/snug/index";
-import { Profile } from "./presentation/pages/profile/index";
 import { RegisterSnug } from "./presentation/pages/register-snug/index";
 import { RegisterUser } from "./presentation/pages/register-user/index";
 import { Application } from "./context.instance";
@@ -32,13 +31,6 @@ const App: React.FC = () => {
           path="/"
           component={(props: any) => (
             <Home {...props} Application={Application} />
-          )}
-        ></Route>
-        <Route
-          exact
-          path="/profile"
-          component={(props: any) => (
-            <Profile {...props} Application={Application} />
           )}
         ></Route>
         <Route
