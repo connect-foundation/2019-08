@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
+import { useMessages, useMessagesDispatch } from "contexts/messages-context";
+import { AppSocketChannelMatchProps } from "prop-types/match-extends-types";
 import { PostCard } from "presentation/components/snug/post-card";
-import { useMessages } from "contexts/messages-context";
+import { Post } from "core/entity/post";
+
 const ChatContentWrapper = styled.section`
   height: 100%;
   width: 100%;
@@ -11,18 +14,33 @@ const ChatContentWrapper = styled.section`
   overflow-y: hidden;
 `;
 
-export const ChatContent: React.FC = () => {
+export const ChatContent: React.FC<AppSocketChannelMatchProps> = props => {
   const messages = useMessages();
+  const dispatch = useMessagesDispatch();
+  const { socket } = props;
+
+  useEffect(() => {
+    socket.on("sendMessage", (obj: Post) => {
+      dispatch({
+        type: "CREATE",
+        id: obj.id!,
+        profile: obj.profile!,
+        createdAt: obj.createdAt!,
+        updatedAt: obj.updatedAt!,
+        contents: obj.contents!
+      });
+    });
+  });
 
   function messageList(): React.ReactNode {
     if (!messages) return <></>;
     return messages!.map(message => (
       <PostCard
-        key={message.id}
+        key={message.id!}
         profile={message.profile}
-        contents={message.contents}
-        createdAt={message.createdAt}
-        updatedAt={message.updatedAt}
+        contents={message.contents!}
+        createdAt={message.createdAt!}
+        updatedAt={message.updatedAt!}
       />
     ));
   }
