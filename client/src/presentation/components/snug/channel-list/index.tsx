@@ -7,6 +7,7 @@ import { match } from "react-router";
 import { ChannelMatchType } from "prop-types/channel-match-type";
 import { History } from "history";
 import { Context } from "context.instance";
+import { async } from "q";
 
 const Wrapper = styled.section`
   background-color: #606060;
@@ -28,7 +29,10 @@ export const ChannelList: React.FC<PropTypes> = ({
   const channels = useChannels();
 
   useEffect(() => {
-    if (!match.params.channelId) socket.emit("join", match.params.channelId);
+    (async function aync() {
+      const result = await Application.services.channelService.getChannelList();
+      if (!match.params.channelId) socket.emit("join", match.params.channelId);
+    })();
   }, []);
 
   return (
