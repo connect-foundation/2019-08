@@ -11,7 +11,7 @@ import {Request, Response} from "express";
  * */
 export const find = async (request: Request, response: Response) => {
   const name = request.params.name;
-  const channel = await Channel.findOne({where: {name: name}});
+  const channel = await Channel.findByName(name);
   if (!!channel) {
     return response
             .status(200)
