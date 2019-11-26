@@ -1,55 +1,53 @@
 import React from "react";
 import styled from "styled-components";
 
-const MessageBox = styled.section`
+const PostBox = styled.section`
   padding: 5px;
   width: 100%;
   height: auto;
+  font-weight: 500;
+  font-size: 1rem;
 `;
 
-const MessageDetail = styled.section`
+const PostDetail = styled.section`
   width: 100%;
   height: auto;
   padding-top: 5px;
   padding-bottom: 5px;
 `;
 
-const MessageDetailUsername = styled.span`
+const PostDetailWriterName = styled.span`
   font-weight: bold;
-  font-size: 1rem;
 `;
 
-const MessageDetailTimestamp = styled.span`
-  font-weight: 500;
+const PostDetailTimestamp = styled.span`
   font-size: 0.75rem;
 `;
 
-const MessageContents = styled.span`
+const PostContents = styled.span`
   word-break: break-all;
-  font-weight: 500;
-  font-size: 1rem;
   padding-top: 5px;
   padding-bottom: 5px;
 `;
 
 interface PropTypes {
-  userName: string;
-  timestamp: string;
-  message: string;
+  writerName: string;
+  createdAt: string;
+  contents: string;
 }
 
 export const PostCardContents: React.FC<PropTypes> = ({
-  userName,
-  timestamp,
-  message
+  writerName: userName,
+  createdAt: timestamp,
+  contents: message
 }) => {
   return (
-    <MessageBox>
-      <MessageDetail>
-        <MessageDetailUsername>{userName}</MessageDetailUsername>
-        <MessageDetailTimestamp>{timestamp}</MessageDetailTimestamp>
-      </MessageDetail>
-      <MessageContents>{message}</MessageContents>
-    </MessageBox>
+    <PostBox>
+      <PostDetail>
+        <PostDetailWriterName>{userName}</PostDetailWriterName>
+        <PostDetailTimestamp>{timestamp}</PostDetailTimestamp>
+      </PostDetail>
+      <PostContents>{message}</PostContents>
+    </PostBox>
   );
 };
