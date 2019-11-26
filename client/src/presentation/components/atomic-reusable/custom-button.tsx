@@ -11,6 +11,8 @@ export interface CustomButtonConfig {
   fontWeight?: string | number;
   fontSize?: string;
   type?: ButtonType;
+  borderColor?: string;
+  height?: string;
   onClick?(parameter: any | void): any | void;
 }
 
@@ -22,7 +24,7 @@ const determineSize = (size: string) => {
       return "60px";
     case "small":
     default:
-      return "30px";
+      return `${size}`;
   }
 };
 
@@ -30,22 +32,20 @@ const determineSize = (size: string) => {
 const Button = styled.button`
   --webkit-appearance: none;
   appearance: none;
-  border: none;
-  height: 30px;
   border-radius: 5px;
   &:hover {
     opacity: 0.5;
   }
   ${(props: CustomButtonConfig) => {
-    let size = "";
-    let color = props.color ? props.color : "#ffffff";
-    let fontColor = props.fontColor ? props.fontColor : "#000000";
-    let fontWeight = props.fontWeight ? props.fontWeight : "0";
-    let fontSize = props.fontSize ? props.fontSize : "1rem";
-
-    if (props.size) {
-      size = determineSize(props.size);
-    }
+    const size = props.size ? determineSize(props.size) : "";
+    const color = props.color ? props.color : "#ffffff";
+    const fontColor = props.fontColor ? props.fontColor : "#000000";
+    const fontWeight = props.fontWeight ? props.fontWeight : "0";
+    const fontSize = props.fontSize ? props.fontSize : "1rem";
+    const border = props.borderColor
+      ? `1px solid ${props.borderColor}`
+      : "none";
+    const height = props.height ? props.height : "30px";
 
     return css`
       background-color: ${color};
@@ -54,6 +54,8 @@ const Button = styled.button`
       color: ${fontColor};
       font-weight: ${fontWeight};
       font-size: ${fontSize};
+      border: ${border};
+      heigth: ${height};
     `;
   }};
 `;
@@ -66,7 +68,9 @@ export const CustomButton: React.FC<CustomButtonConfig> = ({
   type,
   fontWeight,
   fontSize,
-  onClick
+  onClick,
+  borderColor,
+  height
 }) => {
   return (
     <Button
@@ -76,6 +80,8 @@ export const CustomButton: React.FC<CustomButtonConfig> = ({
       size={size}
       fontWeight={fontWeight}
       fontSize={fontSize}
+      borderColor={borderColor}
+      height={height}
       onClick={onClick}
     >
       {name}
