@@ -9,7 +9,7 @@ import { History } from "history";
 import { Context } from "context.instance";
 
 const Wrapper = styled.section`
-  background-color: #606060;
+  padding: 10px 0px;
 `;
 
 interface PropTypes {

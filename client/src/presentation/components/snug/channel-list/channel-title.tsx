@@ -7,12 +7,12 @@ import { match } from "react-router";
 import { ChannelMatchType } from "prop-types/channel-match-type";
 
 const Wrapper = styled.section`
-  color: #ffffff;
   display: flex;
   align-items: center;
-  font-size: 0.9rem;
+  font-size: 1rem;
+  padding: 0px 20px;
   &:hover {
-    opacity: 0.5;
+    background-color: ${({ theme }) => theme.sidbarHover};
   }
 `;
 

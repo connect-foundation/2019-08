@@ -1,38 +1,45 @@
-import {Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, ManyToMany, OneToMany} from "typeorm";
-import {Profile} from './Profile';
-import { Post } from "./Post";
+export type UserRoleType = "admin" | "participant";
 
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  BaseEntity,
+  ManyToOne,
+  ManyToMany,
+  JoinTable
+} from "typeorm";
+import { Profile } from "./Profile";
+import { Snug } from "./Snug";
 
 @Entity()
-export class Room {
+export class Room extends BaseEntity {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @PrimaryGeneratedColumn()
-    id: number;
+  @Column()
+  title: string;
 
-    @Column()
-    description: string;
+  @Column({ nullable: true })
+  description: string;
 
-    @Column()
-    isPrivate: string;
+  @Column()
+  isPrivate: boolean;
 
-    @Column()
-    isChannel: boolean;
+  @Column()
+  isChannel: boolean;
 
-    @CreateDateColumn()
-    createdAt: Date;
+  @CreateDateColumn()
+  createdAt: Date;
 
-    @UpdateDateColumn()
-    updatedAt: Date;
+  @UpdateDateColumn()
+  updatedAt: Date;
 
-    // 생성자
-    @ManyToOne(type => Profile, profile => profile.myRooms)
-    owner: Profile;
+  @ManyToOne(type => Profile)
+  creator: Profile;
 
-    // 참여자
-    @ManyToMany(type => Profile, profile => profile.rooms)
-    participants: Profile[];
-
-    // 게시된 Post 목록
-    @OneToMany(type => Post, post => post.room)
-    posts: Post[];
+  @ManyToOne(type => Snug)
+  snug: Snug;
 }

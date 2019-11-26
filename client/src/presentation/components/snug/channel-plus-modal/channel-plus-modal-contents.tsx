@@ -26,17 +26,15 @@ const ChannelPrivateDescription = styled.section`
   display: flex;
   flex-direction: column;
   word-break: break-word;
+  color: ${({ theme }) => theme.snugSubFont};
 `;
 
 const ChannelPrivateDescriptionHeader = styled.header`
   font-weight: bold;
   font-size: 1.15rem;
-  color: #ffffff;
 `;
 
-const ChannelPrivateDescriptionContents = styled.span`
-  color: #ffffff;
-`;
+const ChannelPrivateDescriptionContents = styled.span``;
 
 const CustomButtonWrapper = styled.section`
   display: flex;
