@@ -18,10 +18,12 @@ const Image = styled.img`
 `;
 
 interface PropTypes {
-  imageSrc: string;
+  thumbnail: string;
 }
 
-export const ProfileThumnail: React.FC<PropTypes> = ({ imageSrc }) => {
+export const ProfileThumnail: React.FC<PropTypes> = ({
+  thumbnail: imageSrc
+}) => {
   return (
     <ImageBox>
       <Image src={imageSrc}></Image>

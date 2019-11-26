@@ -34,14 +34,14 @@ const MessageContents = styled.span`
 
 interface PropTypes {
   userName: string;
-  timestamp: string;
-  message: string;
+  createdAt: string;
+  contents: string;
 }
 
 export const PostCardContents: React.FC<PropTypes> = ({
   userName,
-  timestamp,
-  message
+  createdAt: timestamp,
+  contents: message
 }) => {
   return (
     <MessageBox>
