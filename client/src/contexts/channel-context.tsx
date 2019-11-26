@@ -1,21 +1,11 @@
 import React, { createContext, Dispatch, useReducer, useContext } from "react";
 
-export type Channel = {
-  [propName: string]: any;
-  title: string;
-  description: string;
-  privacy: boolean;
-  user?: string;
-  createdAt?: Date;
-  users?: string[];
-};
-
 export type Action = {
   type: "CREATE";
   title: string;
   description: string;
   privacy: boolean;
-  user?: string;
+  creatorName?: string;
   createdAt?: Date;
 };
 

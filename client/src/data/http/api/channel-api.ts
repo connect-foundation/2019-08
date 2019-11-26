@@ -1,9 +1,9 @@
-import {AxiosErrorHandler} from "data/http/api/axiosErrorHandler";
-import {Channel} from "core/entity/channel";
-import {AxiosError, AxiosResponse} from "axios";
-import {ResponseEntity} from "./response/ResponseEntity";
-import {StatusCodes} from "./status-codes";
-import {AxiosWrapper} from "./axios-wrapper";
+import { AxiosErrorHandler } from "data/http/api/axiosErrorHandler";
+import { Channel } from "core/entity/channel";
+import { AxiosError, AxiosResponse } from "axios";
+import { ResponseEntity } from "./response/ResponseEntity";
+import { StatusCodes } from "./status-codes";
+import { AxiosWrapper } from "./axios-wrapper";
 
 export class ChannelApi {
   private axios: any;
@@ -14,10 +14,10 @@ export class ChannelApi {
 
   create(channel: Channel): ResponseEntity<Channel> | boolean {
     return this.axios
-      .post(`/api/channels/${channel.name!}`, {
-        name: channel.name!,
+      .post(`/api/channels/${channel.title!}`, {
+        name: channel.title!,
         description: channel.description!,
-        visibility: channel.visibility
+        visibility: channel.privacy
       })
       .then((response: AxiosResponse<ResponseEntity<Channel>>) => {
         if (StatusCodes.isCreated(response.status)) {
@@ -29,7 +29,7 @@ export class ChannelApi {
       .catch((error: AxiosError) =>
         AxiosErrorHandler.handleError(
           error,
-          `${channel.name!} 추가 과정에서 예기치 못한 에러가 발생했습니다.`
+          `${channel.title!} 추가 과정에서 예기치 못한 에러가 발생했습니다.`
         )
       );
   }

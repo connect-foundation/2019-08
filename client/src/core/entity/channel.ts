@@ -1,6 +1,9 @@
 export interface Channel {
+  [propName: string]: any;
   id?: number;
-  name?: string;
+  title?: string;
   description?: string;
-  visibility?: boolean;
+  privacy?: boolean;
+  createdAt?: Date;
+  creatorName?: string;
 }
