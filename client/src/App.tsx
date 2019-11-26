@@ -12,7 +12,6 @@ const GlobalStyle = createGlobalStyle`
     body{
         padding: 0;
         margin: 0;
-        background:yellow;
     }
     #root{
       width:100vw;

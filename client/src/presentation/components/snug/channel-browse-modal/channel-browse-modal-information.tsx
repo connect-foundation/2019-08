@@ -4,14 +4,15 @@ import LetterXWhite from "assets/letter-x-white.png";
 import { IconBox } from "presentation/components/atomic-reusable/icon-box";
 
 const InformationSection = styled.section`
-  width: 100%;
+  padding: 40px 0px;
+  width: 90%;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 `;
 
 const InformationSectionHeader = styled.header`
-  width: 100%;
-  font-size: 1rem;
+  color: ${({ theme }) => theme.snugSubFont};
+  font-size: 0.9rem;
 `;
 
 interface PropTypes {
