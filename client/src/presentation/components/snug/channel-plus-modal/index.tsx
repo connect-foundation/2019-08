@@ -26,11 +26,12 @@ const MarginBox = styled.section`
 `;
 
 const Wrapper = styled.section`
+  color: ${({ theme }) => theme.snugMainFont};
   width: 500px;
   height: 500px;
-  background-color: white;
   display: flex;
-  background-color: #606060;
+  background-color: ${({ theme }) => theme.snug};
+  opacity: 1;
   border-radius: 10px;
 `;
 

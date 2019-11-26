@@ -5,8 +5,10 @@ import { CustomButton } from "presentation/components/atomic-reusable/custom-but
 
 const Header = styled.header`
   display: flex;
-  justify-content: space-around;
+  width: 100%;
+  justify-content: space-between;
   align-items: center;
+  align-content: center;
 `;
 
 const Title = styled.section`
@@ -38,7 +40,7 @@ export const ChannelBrowseModalHeader: React.FC = () => {
         name={"채널 생성하기"}
         size={"big"}
         fontWeight={"bold"}
-        fontSize={"0.9rem"}
+        fontSize={"1rem"}
         onClick={clickHandler}
       />
     </Header>
