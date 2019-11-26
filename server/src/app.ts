@@ -5,7 +5,7 @@ import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import {Connection, createConnection} from "typeorm";
 import indexRouter from "./routes/index";
-import channelRouter from "./routes/chnnel-router";
+import channelRouter from "./routes/channel/chnnel-router";
 
 export default class App {
   private static app: Express;
