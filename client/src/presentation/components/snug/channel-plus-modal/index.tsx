@@ -6,6 +6,7 @@ import {
   useModalToggled,
   useModalToggledDispatch
 } from "contexts/modal-context";
+import { ApplicationProptype } from "prop-types/application-type";
 
 const WholeScreen = styled.div`
   position: absolute;
@@ -42,7 +43,9 @@ const MainBox = styled.section`
   justify-content: space-evenly;
 `;
 
-export const ChannelPlusModal: React.FC = () => {
+export const ChannelPlusModal: React.FC<ApplicationProptype> = ({
+  Application
+}) => {
   const Modals = useModalToggled();
 
   const dispatch = useModalToggledDispatch();
@@ -64,7 +67,7 @@ export const ChannelPlusModal: React.FC = () => {
             <MarginBox />
             <MainBox>
               <ChannelPlusModalHeader />
-              <ChannelPlusModalContents />
+              <ChannelPlusModalContents Application={Application} />
             </MainBox>
             <MarginBox />
           </Wrapper>

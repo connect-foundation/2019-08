@@ -5,6 +5,7 @@ import { CustomButton } from "presentation/components/atomic-reusable/custom-but
 import { CustomOnOffButton } from "presentation/components/atomic-reusable/custom-on-off-button";
 import { useChannelDispatch } from "contexts/channel-context";
 import { useModalToggledDispatch } from "contexts/modal-context";
+import { ApplicationProptype } from "prop-types/application-type";
 
 const ContentsForm = styled.form`
   display: flex;
@@ -41,7 +42,9 @@ const CustomButtonWrapper = styled.section`
   justify-content: flex-end;
 `;
 
-export const ChannelPlusModalContents: React.FC = () => {
+export const ChannelPlusModalContents: React.FC<ApplicationProptype> = ({
+  Application
+}) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [privacy, setPrivacy] = useState(false);
@@ -49,8 +52,17 @@ export const ChannelPlusModalContents: React.FC = () => {
   const channelDispatch = useChannelDispatch();
   const modalDispatch = useModalToggledDispatch();
 
-  const submitHandler = (e: React.FormEvent<HTMLElement>) => {
-    e.preventDefault();
+  const submitHandler = async (event: React.FormEvent<HTMLElement>) => {
+    event.preventDefault();
+
+    const result = await Application.services.channelService.create(
+      title,
+      description,
+      privacy
+    );
+
+    if (!result) return;
+
     channelDispatch &&
       channelDispatch({
         type: "CREATE",
