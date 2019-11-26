@@ -1,5 +1,6 @@
-import {ChannelRepositoryType} from "core/use-case/channel-repository-type";
-import {ChannelModel} from "core/model/channel-model";
+import { ChannelRepositoryType } from "core/use-case/channel-repository-type";
+import { ChannelModel } from "core/model/channel-model";
+import { Channel } from "core/entity/channel";
 
 /**
  *
@@ -62,5 +63,9 @@ export class ChannelService {
   private async isNotDuplicated(name: string): Promise<boolean> {
     const redundancy = await this.repository.hasByName(name);
     return !redundancy;
+  }
+
+  async getChannelList(): Promise<Channel[] | boolean> {
+    return await this.repository.getChannels();
   }
 }

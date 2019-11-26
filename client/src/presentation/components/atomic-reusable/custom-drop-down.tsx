@@ -25,7 +25,7 @@ const Selected = styled.section`
 `;
 
 const IconListWrapper = styled.section`
-  postion: relative;
+  position: relative;
 `;
 
 const ListWrapper = styled.ul`
