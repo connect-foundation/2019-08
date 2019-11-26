@@ -19,9 +19,9 @@ export class ChannelRepository implements ChannelRepositoryType {
     }
   }
 
-  async hasByName(channelName: string): Promise<boolean> {
+  async hasByTitle(title: string): Promise<boolean> {
     try {
-      const responseEntity = await this.api.findByName(channelName);
+      const responseEntity = await this.api.findByTitle(title);
       return !!responseEntity;
     } catch (error) {
       return false;

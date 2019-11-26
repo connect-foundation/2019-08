@@ -15,9 +15,9 @@ export class ChannelApi {
   create(channel: Channel): ResponseEntity<Channel> | boolean {
     return this.axios
       .post(`/api/channels/${channel.title!}`, {
-        name: channel.title!,
+        title: channel.title!,
         description: channel.description!,
-        visibility: channel.privacy
+        privacy: channel.privacy
       })
       .then((response: AxiosResponse<ResponseEntity<Channel>>) => {
         if (StatusCodes.isCreated(response.status)) {
@@ -34,9 +34,9 @@ export class ChannelApi {
       );
   }
 
-  findByName(channelName: string): ResponseEntity<Channel> | boolean {
+  findByTitle(title: string): ResponseEntity<Channel> | boolean {
     return this.axios
-      .get(`/api/channels/${channelName}`)
+      .get(`/api/channels/${title}`)
       .then((response: AxiosResponse<ResponseEntity<Channel>>) => {
         if (StatusCodes.isOk(response.status)) {
           return response.data;
@@ -47,7 +47,7 @@ export class ChannelApi {
       .catch((error: AxiosError) =>
         AxiosErrorHandler.handleError(
           error,
-          `${channelName} 조회 과정에서 예기치 못한 에러가 발생했습니다.`
+          `${title} 조회 과정에서 예기치 못한 에러가 발생했습니다.`
         )
       );
   }
