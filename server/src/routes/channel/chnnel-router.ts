@@ -1,6 +1,7 @@
 import {Router} from "express";
 import * as ChannelApiController from "../../controller/api/channel-controller";
 import PostRouter from "./post/post-router";
+import {isNumeric} from "../../validator/identifier-validator";
 
 const router = Router({mergeParams: true});
 
@@ -16,7 +17,8 @@ router.route("/:name")
 /**
  *
  * /api/channels/:id/posts 경로 매핑
+ * isNumber() 메소드에서 path variable 인 id 대한 유효성 검사
  *
  * */
-router.use("/:id/posts", PostRouter);
+router.use("/:id/posts", isNumeric, PostRouter);
 export default router;
