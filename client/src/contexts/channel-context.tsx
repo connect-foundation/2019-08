@@ -1,4 +1,5 @@
 import React, { createContext, Dispatch, useReducer, useContext } from "react";
+import { Channel } from "core/entity/channel";
 
 export type Action = {
   type: "CREATE";
@@ -26,7 +27,7 @@ const channelsReducer = (state: Channels, action: Action): Channels => {
         title: action.title,
         description: action.description,
         privacy: action.privacy,
-        user: action.user,
+        creatorName: action.creatorName,
         createdAt: action.createdAt
       });
   }

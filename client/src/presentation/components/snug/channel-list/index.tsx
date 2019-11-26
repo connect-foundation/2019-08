@@ -37,8 +37,8 @@ export const ChannelList: React.FC<PropTypes> = ({
       {channels &&
         channels.map(channel => (
           <ChannelTitle
-            key={channel.title}
-            title={channel.title}
+            key={channel.title!}
+            title={channel.title!}
             match={match}
             history={history}
           />
