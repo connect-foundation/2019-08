@@ -3,7 +3,7 @@ import { StorageProviderDependencies } from "@context/storage-providers/storage-
 import { RepositoryDependencies } from "@context/repositories";
 import { ServiceDependencies } from "@context/services";
 
-class Context {
+export class Context {
   private apies: HttpProviderDependencies;
   private storages: StorageProviderDependencies;
   private repositories: RepositoryDependencies;

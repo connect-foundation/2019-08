@@ -10,7 +10,7 @@ import dubu from "assets/dubu.png";
 const InputWrapper = styled.section`
   width: 100%;
   height: 75px;
-  background-color: grey;
+  background-color: ${({ theme }) => theme.snug};
   padding-top: 10px;
   padding-bottom: 20px;
   box-sizing: border-box;
@@ -25,8 +25,10 @@ const MarginBox = styled.section`
 
 const CustomInput = styled.section`
   width: 100%;
-  border: 1px solid #182226;
-  background-color: #263237;
+  border-style: solid;
+  border-width: 1px;
+  border-color: ${({ theme }) => theme.snugBorderColor};
+  background-color: ${({ theme }) => theme.snug};
   border-radius: 10px;
   overflow: hidden;
   display: flex;
@@ -38,7 +40,7 @@ const StyledInput = styled.input.attrs({
   placeholder: "메세지를 입력하세요."
 })`
   --webkit-appearance: none;
-  background-color: #263237;
+  background-color: ${({ theme }) => theme.snug};
   font-size: 14px;
   color: #e3e3e3;
   width: 100%;
@@ -48,6 +50,7 @@ const StyledInput = styled.input.attrs({
     outline: none;
   }
 `;
+
 export const ChatInputBox: React.FC = () => {
   const KEY_PRESS_EVENT_KEY = "Enter";
   const [message, setMessage] = useState("");

@@ -1,5 +1,5 @@
 import "dotenv/config";
-import options from "../ormconfig";
+import * as options from "../ormconfig";
 
 describe("Test Default SetUp ormconfig.js", () => {
   test("Profile 환경변수를 설정하지 않는다면, 'local'이 디폴트로 설정된다.", () => {

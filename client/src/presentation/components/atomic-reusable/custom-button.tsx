@@ -19,7 +19,7 @@ export interface CustomButtonConfig {
 const determineSize = (size: string) => {
   switch (size) {
     case "big":
-      return "120px";
+      return "150px";
     case "medium":
       return "60px";
     case "small":
