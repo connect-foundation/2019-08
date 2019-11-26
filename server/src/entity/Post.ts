@@ -14,7 +14,7 @@ export class Post extends Base {
   @JoinColumn()
   channel: Channel;
 
-  static findByChannelId(id: string): Promise<Post[]> {
-    return this.find({ where: {channel: id}});
+  static findByChannelId(id: string, pageable: object): Promise<Post[]> {
+    return this.find({ where: {channel: id}, ...pageable});
   }
 }
