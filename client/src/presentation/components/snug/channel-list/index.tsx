@@ -8,7 +8,7 @@ import { ChannelMatchType } from "prop-types/channel-match-type";
 import { History } from "history";
 
 const Wrapper = styled.section`
-  background-color: #606060;
+  padding: 10px 0px;
 `;
 
 interface PropTypes {

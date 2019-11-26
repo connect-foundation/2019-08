@@ -8,49 +8,37 @@ const Wrapper = styled.section`
   align-items: center;
   position: relative;
   cursor: pointer;
-  border: 1px solid blue;
   &:hover {
-    border: 1px solid white;
     box-sizing: border-box;
-    box-shadow: 2px 2px 5px 6px #000000;
   }
 `;
 
-const Subject = styled.section`
-  color: #ffffff;
-`;
+const Subject = styled.section``;
 
-const Selected = styled.section`
-  color: #ffffff;
-`;
-
-const IconListWrapper = styled.section`
-  postion: relative;
-`;
+const Selected = styled.section``;
 
 const ListWrapper = styled.ul`
-  border: 2px solid green;
+  width: 200px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: ${({ theme }) => theme.snugBorderColor};
+  border-radius: 5px;
   position: absolute;
   margin: 0;
-  padding: 0;
+  padding: 10px 0px;
   top: 100%;
-  background-color: #29ad8a;
+  background-color: ${({ theme }) => theme.snugMenuColor};
   list-style-type: none;
 `;
 
 const List = styled.li`
-  color: #000000;
-  border-top: 2px solid white;
-  margin: 10px;
-  color: white;
+  padding: 5px 10px;
+  color: ${({ theme }) => theme.snugSubFont};
   cursor: pointer;
   &:hover {
-    background-color: blue;
+    background-color: ${({ theme }) => theme.snugSelect};
+    color: #000000;
   }
-`;
-
-const Button = styled.button`
-  color: #ffffff;
 `;
 
 export interface CustomDropDownConfig {
@@ -78,7 +66,7 @@ export const CustomDropDown: React.FC<CustomDropDownConfig> = props => {
     <Wrapper onClick={handleClick}>
       <Subject>{props.type}: </Subject>
       <Selected>{selected}</Selected>
-      <IconBox imageSrc={ArrowDownSignWhite} />
+      <IconBox imageSrc={ArrowDownSignWhite} size="10px" />
       {opened && (
         <ListWrapper>
           {props.list.map(listItem => (

@@ -5,10 +5,10 @@ import { CustomDropDown } from "presentation/components/atomic-reusable/custom-d
 
 const Wrapper = styled.section`
   display: flex;
+  width: 100%;
 `;
 
 const MarginBoxDropDown = styled.section`
-  width: 10%;
   height: 100%;
 `;
 

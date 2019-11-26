@@ -1,13 +1,14 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { ProfileThumnail } from "presentation/components/atomic-reusable/profile-thumnail";
 import { PostCardContents } from "./post-card-contents";
 import { Post } from "core/entity/post";
 
-const MessageCardBox = styled.section`
+const PostCardBox = styled.section`
   width: 100%;
   height: auto;
   display: flex;
+  color: ${({ theme }) => theme.snugMainFont};
 `;
 
 const MarginBox = styled.section`
@@ -16,15 +17,15 @@ const MarginBox = styled.section`
 
 export const PostCard: React.FC<Post> = ({ profile, createdAt, contents }) => {
   return (
-    <MessageCardBox>
+    <PostCardBox>
       <MarginBox />
-      <ProfileThumnail imageSrc={profile!.profileThumnail!}></ProfileThumnail>
+      <ProfileThumnail thumbnail={profile!.profileThumnail!}></ProfileThumnail>
       <PostCardContents
-        userName={profile!.profileName!}
-        timestamp={createdAt!}
-        message={contents!}
+        writerName={profile!.profileName!}
+        createdAt={createdAt!}
+        contents={contents!}
       ></PostCardContents>
       <MarginBox />
-    </MessageCardBox>
+    </PostCardBox>
   );
 };
