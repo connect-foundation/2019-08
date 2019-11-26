@@ -6,12 +6,11 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  OneToMany,
-  ManyToMany,
-  BaseEntity
+  BaseEntity,
+  ManyToOne
 } from "typeorm";
-import { Room } from "./Room";
-import { Post } from "./Post";
+import { Snug } from "./Snug";
+import { User } from "./User";
 
 @Entity()
 export class Profile extends BaseEntity {
@@ -24,15 +23,15 @@ export class Profile extends BaseEntity {
   @Column()
   status: string;
 
-  @Column()
+  @Column({ nullable: true })
   thumbnail: string;
 
-  @Column()
+  @Column({ nullable: true })
   description: string;
 
   @Column({
     type: "enum",
-    enum: ["admin", "participant"]
+    enum: ["admin", "member"]
   })
   role: UserRoleType;
 
@@ -42,27 +41,9 @@ export class Profile extends BaseEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @Column({ nullable: true })
-  deletedAt: Date;
+  @ManyToOne(type => Snug)
+  snug: Snug;
 
-  // 생성한 room 목록
-  @OneToMany(
-    type => Room,
-    room => room.owner
-  )
-  myRooms: Room[];
-
-  // 참여하고 있는 room 목록
-  @ManyToMany(
-    type => Room,
-    room => room.participants
-  )
-  rooms: Room[];
-
-  // 작성한 Post 목록
-  @OneToMany(
-    type => Post,
-    post => post.owner
-  )
-  posts: Post[];
+  @ManyToOne(type => User)
+  user: User;
 }

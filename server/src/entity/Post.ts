@@ -16,10 +16,10 @@ export class Post extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ nullable: true })
   contents: string;
 
-  @Column()
+  @Column({ nullable: true })
   imgSrc: string;
 
   @CreateDateColumn()
@@ -28,31 +28,21 @@ export class Post extends BaseEntity {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  // 생성자
-  @ManyToOne(
-    type => Profile,
-    profile => profile.posts
-  )
-  owner: Profile;
+  @ManyToOne(type => Profile)
+  profile: Profile;
 
-  // 소속된 Room
-  @ManyToOne(
-    type => Room,
-    room => room.posts
-  )
+  @ManyToOne(type => Room)
   room: Room;
 
-  // parent는 여러개의 child를 갖는다.
-  @OneToMany(
-    type => Post,
-    post => post.child
-  )
-  parent: Post;
-
-  // child는 하나의 parent를 가는다.
   @ManyToOne(
     type => Post,
-    post => post.parent
+    post => post.childCategories
   )
-  child: Post[];
+  parentCategory: Post;
+
+  @OneToMany(
+    type => Post,
+    post => post.parentCategory
+  )
+  childCategories: Post[];
 }
