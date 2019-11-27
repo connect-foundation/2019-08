@@ -83,7 +83,7 @@ export class Order {
    * @return accumulator
    *
    * */
-  private synthesize(accumulator: object, entry: Entry): object {
+  private join(accumulator: object, entry: Entry): object {
     const {key, value} = entry;
     if(this.isNewKey(accumulator, key)) {
       accumulator[key] = value;
@@ -100,6 +100,6 @@ export class Order {
    *
    * */
   support(): object {
-    return { order: this.entries.reduce(this.synthesize.bind(this), {}) };
+    return { order: this.entries.reduce(this.join.bind(this), {}) };
   }
 }
