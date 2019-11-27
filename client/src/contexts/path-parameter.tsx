@@ -1,4 +1,4 @@
-import React, { Dispatch, createContext, useReducer } from "react";
+import React, { Dispatch, createContext, useReducer, useContext } from "react";
 import { PathParameter } from "core/entity/path-parameter";
 
 type Action = {
@@ -45,4 +45,10 @@ export const PathParameterContextProvider = ({
       </PathParameterStateContext.Provider>
     </PathParameterDispatchContext.Provider>
   );
+};
+
+export const usePathParameter = () => {
+  const state = useContext(PathParameterStateContext);
+  if (!state) throw new Error("PathParameterProvider not found");
+  return state;
 };
