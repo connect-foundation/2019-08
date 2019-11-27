@@ -5,7 +5,7 @@ import {Order} from "./order";
  * TypeORM 의 Pagination 기능을 지원하는 객체
  *
  * */
-export class Pageable {
+export class Paginator {
   private static readonly DEFAULT_PAGE = 0;
   private static readonly DEFAULT_SIZE = 0;
 
@@ -14,8 +14,8 @@ export class Pageable {
   private readonly order: Order;
 
   constructor({page, size}) {
-    this.page = page || Pageable.DEFAULT_PAGE;
-    this.size = size || Pageable.DEFAULT_SIZE;
+    this.page = page || Paginator.DEFAULT_PAGE;
+    this.size = size || Paginator.DEFAULT_SIZE;
     this.order = new Order();
   }
 
@@ -28,7 +28,7 @@ export class Pageable {
    * @return itself(Pageable)
    *
    * */
-  addOrder(key: string, value: string): Pageable {
+  addOrder(key: string, value: string): Paginator {
     this.order.add(key, value);
     return this;
   }
@@ -56,6 +56,6 @@ export class Pageable {
    *
    * */
   static getDefaultValues(): Array<number> {
-    return [Pageable.DEFAULT_PAGE, Pageable.DEFAULT_SIZE];
+    return [Paginator.DEFAULT_PAGE, Paginator.DEFAULT_SIZE];
   }
 }
