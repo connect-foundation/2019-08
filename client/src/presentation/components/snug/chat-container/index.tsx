@@ -16,6 +16,7 @@ const ChatContentWrapper = styled.section`
 `;
 
 export const ChatContent: React.FC<AppSocketChannelMatchProps> = props => {
+  const { Application } = props;
   const posts: Post[] = useMessages();
   const dispatch = useMessagesDispatch();
   const { socket } = props;
@@ -25,21 +26,20 @@ export const ChatContent: React.FC<AppSocketChannelMatchProps> = props => {
     dispatch({
       type: "CLEAR"
     });
+
+    (async function() {
+      const resultPosts = await Application.services.postService.getList(
+        pathParameter.channelId
+      );
+      if (typeof resultPosts == "boolean") return;
+      dispatch({
+        type: "MULTI",
+        posts: resultPosts
+      });
+    })();
+
     console.log(posts);
   }, [pathParameter]);
-
-  useEffect(() => {
-    socket.on("sendMessage", (obj: Post) => {
-      dispatch({
-        type: "CREATE",
-        id: obj.id!,
-        profile: obj.profile!,
-        createdAt: obj.createdAt!,
-        updatedAt: obj.updatedAt!,
-        contents: obj.contents!
-      });
-    });
-  });
 
   function messageList(): React.ReactNode {
     if (!posts) return <></>;
