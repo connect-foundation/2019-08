@@ -26,7 +26,7 @@ export const create = async (request: Request, response: Response) => {
     /**
      * roomId에 포함된 socket들에게 이벤트를 발생시킨다. 
      */
-    request.app.get("io").to(roomId).emit("", returnValue);
+    request.app.get("io").to(roomId).emit("newPost", returnValue);
 
     return response.status(201).json({
       message: "ok",
