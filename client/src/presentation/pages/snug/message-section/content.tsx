@@ -18,7 +18,7 @@ export const MessageSectionContent: React.FC<AppSocketChannelMatchProps> = props
     <MessageContextProvider>
       <MessageSectionContentWrapper>
         <ChatContent {...props} />
-        <ChatInputBox />
+        <ChatInputBox {...props} />
       </MessageSectionContentWrapper>
     </MessageContextProvider>
   );

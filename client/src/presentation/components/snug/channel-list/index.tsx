@@ -44,7 +44,7 @@ export const ChannelList: React.FC<PropTypes> = ({
     <Wrapper>
       <ChannelHeader></ChannelHeader>
       {channels &&
-        channels.map(channel => 
+        channels.map(channel => (
           <ChannelTitle
             key={channel.id!}
             id={channel.id!}
