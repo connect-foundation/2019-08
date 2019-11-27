@@ -17,7 +17,7 @@ export class ChannelApi {
       .post(`/api/channels`, {
         title: channel.title!,
         description: channel.description!,
-        privacy: channel.privacy
+        privacy: channel.privacy!
       })
       .then((response: AxiosResponse<ResponseEntity<Channel>>) => {
         if (StatusCodes.isCreated(response.status)) {
