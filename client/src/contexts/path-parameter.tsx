@@ -52,3 +52,9 @@ export const usePathParameter = () => {
   if (!state) throw new Error("PathParameterProvider not found");
   return state;
 };
+
+export const usePathParameterDispatch = () => {
+  const dispatch = useContext(PathParameterDispatchContext);
+  if (!dispatch) throw new Error("PathParameterProvider not found");
+  return dispatch;
+};
