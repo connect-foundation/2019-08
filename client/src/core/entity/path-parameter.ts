@@ -1,3 +1,3 @@
-export interface PathPrameter {
-  channelId: string;
+export interface PathParameter {
+  channelId: number;
 }

@@ -1,30 +1,48 @@
-import React, { Dispatch, createContext } from "react";
-import { PathPrameter } from "core/entity/path-parameter";
-import { Map } from "immutable";
+import React, { Dispatch, createContext, useReducer } from "react";
+import { PathParameter } from "core/entity/path-parameter";
 
 type Action = {
   type: "IN";
-  channelId: string;
+  channelId: number;
 };
 
-type PathPrameterDispatch = Dispatch<Action>;
+type PathParameterDispatch = Dispatch<Action>;
 
-const PathPrameterStateContext = createContext<PathPrameter | undefined>(
+const PathParameterStateContext = createContext<PathParameter | undefined>(
   undefined
 );
 
-const PathPrameterDispatchContext = createContext<
-  PathPrameterDispatch | undefined
+const PathParameterDispatchContext = createContext<
+  PathParameterDispatch | undefined
 >(undefined);
 
-const PathPrameterReducer = (
-  state: PathPrameter,
+const PathParameterReducer = (
+  state: PathParameter,
   action: Action
-): PathPrameter => {
+): PathParameter => {
   switch (action.type) {
     case "IN":
-      const newState: PathPrameter = JSON.parse(JSON.stringify(state));
+      const newState: PathParameter = JSON.parse(JSON.stringify(state));
       newState.channelId = action.channelId;
       return newState;
   }
+};
+
+export const PathParameterContextProvider = ({
+  childeren
+}: {
+  childeren: React.ReactNode;
+}) => {
+  let path: PathParameter = {
+    channelId: -1
+  };
+  const [state, dispatch] = useReducer(PathParameterReducer, path);
+
+  return (
+    <PathParameterDispatchContext.Provider value={dispatch}>
+      <PathParameterStateContext.Provider value={state}>
+        {childeren}
+      </PathParameterStateContext.Provider>
+    </PathParameterDispatchContext.Provider>
+  );
 };
