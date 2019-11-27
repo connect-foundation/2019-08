@@ -1,6 +1,7 @@
 import {Post} from "../../entity/Post";
 import {Request, Response} from "express";
 import {Paginator} from "./common/paginator";
+import ResponseForm from "../../utils/responseForm";
 
 /**
  *
@@ -11,8 +12,7 @@ import {Paginator} from "./common/paginator";
  *
  * */
 export const create = async (request: Request, response: Response) => {
-  const profileId = request.body.profileId;
-  const contents = request.body.contents;
+  const {profileId, contents, roomId} = request.body.profileId;
   try {
     const post = await Post.create({ contents, profile: profileId }).save();
 
@@ -23,6 +23,13 @@ export const create = async (request: Request, response: Response) => {
       },
       relations: ["profile"]
     });
+
+    /**
+     * response 
+     */
+    const responseForm = new ResponseForm("ok", returnValue);
+    request.app.get("io").to(`${roomId}`).emit("newPost", responseForm);
+
     return response.status(201).json({
       message: "ok",
       payload: {
