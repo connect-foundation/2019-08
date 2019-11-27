@@ -11,8 +11,11 @@ const router = Router({mergeParams: true});
  * channel controller 의 find() 메소드 호출
  *
  * */
-router.route("/:name")
+router.route("/:title")
         .get(ChannelApiController.find);
+
+router.route("/")
+        .post(ChannelApiController.create);
 
 /**
  *

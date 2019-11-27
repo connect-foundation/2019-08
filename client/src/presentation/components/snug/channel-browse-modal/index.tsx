@@ -14,9 +14,15 @@ const MarginBox = styled.section`
 
 const Content = styled.section`
   height: 100%;
-  width: 100%;
+  min-width: 600px;
+  width: 600px;
+  max-width: 600px;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  &:focus {
+    outline: none;
+  }
 `;
 
 export enum DisplayType {
@@ -54,23 +60,29 @@ export const ChannelBrowseModal: React.FC = () => {
   const keyDownHandler = (event: React.KeyboardEvent<HTMLElement>) => {
     toggleChannelBrowseModal();
   };
-
+  const Wrapper = styled.section`
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  `;
   return (
     <CustomModal>
-      <MarginBox />
-      <Content tabIndex={-1} onKeyDown={keyDownHandler}>
-        <ChannelBrowseModalInformation onClick={clickHandler} />
-        <ChannelBrowseModalHeader />
-        <ChannelBrowseModalDropdown
-          setSelectedDisplayType={setSelectedDisplayType}
-          setSelectedSortType={setSelectedSortType}
-        />
-        <ChannelBrowseModalSortList
-          DisplayType={selectedDisplayType}
-          SortType={selectedSortType}
-        />
-      </Content>
-      <MarginBox />
+      <ChannelBrowseModalInformation onClick={clickHandler} />
+      <Wrapper>
+        <Content tabIndex={-1} onKeyDown={keyDownHandler}>
+          <ChannelBrowseModalHeader />
+          <ChannelBrowseModalDropdown
+            setSelectedDisplayType={setSelectedDisplayType}
+            setSelectedSortType={setSelectedSortType}
+          />
+          <ChannelBrowseModalSortList
+            DisplayType={selectedDisplayType}
+            SortType={selectedSortType}
+          />
+        </Content>
+      </Wrapper>
     </CustomModal>
   );
 };

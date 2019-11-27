@@ -1,20 +1,20 @@
 import request from "supertest";
 import {SuperTest, Test} from "supertest";
 import Application from "../../../src/app";
-import {Channel} from "../../../src/entity/Channel";
+import {Room} from "../../../src/entity/Room";
 import {runInTransaction, initialiseTestTransactions} from "typeorm-test-transactions";
 import {Post} from "../../../src/entity/Post";
 
 initialiseTestTransactions();
 
 // Test 필요한 Posts Generator
-const createPosts = (count: number, channel: Channel) => {
+const createPosts = (count: number, room: Room) => {
   const posts = [];
   for(let num = 1; num <= count; ++num) {
     posts.push({
       contents: "snug" + num,
       imgSrc: "helloworld" + num,
-      channel: channel
+      room: room
     } as Post);
   }
 
@@ -54,10 +54,11 @@ describe("/api/channels", () => {
 
     test("올바른 id 로 요청을 보낸 경우, 주어진 posts 와 동일해야 하며 200 status code 로 응답해야 한다", runInTransaction(async () => {
       // given
-      const channel = await Channel.create({
-        name: "snug",
+      const channel = await Room.create({
+        title: "snug",
         description: "hello world",
-        privacy: true
+        isPrivate: true,
+        isChannel: true
       }).save();
 
       const posts = await Post.save(createPosts(3, channel));
