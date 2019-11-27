@@ -11,8 +11,7 @@ import { Request, Response } from "express";
  *
  * */
 export const create = async (request: Request, response: Response) => {
-  const profileId = request.body.profileId;
-  const contents = request.body.contents;
+  const { profileId, contents, roomId } = request.body;
   try {
     const post = await Post.create({ contents, profile: profileId }).save();
 
@@ -23,6 +22,12 @@ export const create = async (request: Request, response: Response) => {
       },
       relations: ["profile"]
     });
+
+    /**
+     * roomId에 포함된 socket들에게 이벤트를 발생시킨다. 
+     */
+    request.app.get("io").to(roomId).emit("", returnValue);
+
     return response.status(201).json({
       message: "ok",
       payload: {
