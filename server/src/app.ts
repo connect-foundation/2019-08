@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import { Connection, createConnection } from "typeorm";
 import indexRouter from "./routes/index";
 import postRouter from "./routes/post-router";
+import channelRouter from "./routes/chnnel-router";
 
 export default class App {
   private static app: Express;
@@ -29,6 +30,7 @@ export default class App {
     this.app.use(cookieParser(process.env.COOKIE_SECRET));
     this.app.use("/", indexRouter);
     this.app.use("/api/posts", postRouter);
+    this.app.use("/api/channels", channelRouter);
     return this.app;
   }
 
