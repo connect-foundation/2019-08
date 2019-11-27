@@ -9,6 +9,7 @@ export type Action =
       privacy: boolean;
       creatorName?: string;
       createdAt?: Date;
+      id: number;
     }
   | {
       type: "MULTI";
@@ -29,6 +30,7 @@ const channelsReducer = (state: Channels, action: Action): Channels => {
   switch (action.type) {
     case "CREATE":
       return state.concat({
+        id: action.id,
         title: action.title,
         description: action.description,
         privacy: action.privacy,

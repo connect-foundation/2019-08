@@ -10,10 +10,11 @@ export class ChannelRepository implements ChannelRepositoryType {
     this.api = api;
   }
 
-  async create(channel: Channel): Promise<boolean> {
+  async create(channel: Channel): Promise<boolean | Channel> {
     try {
       const responseEntity = await this.api.create(channel);
-      return !!responseEntity;
+      if (typeof responseEntity == "boolean") return false;
+      return (<ResponseEntity<Channel>>responseEntity).payload;
     } catch (error) {
       return false;
     }

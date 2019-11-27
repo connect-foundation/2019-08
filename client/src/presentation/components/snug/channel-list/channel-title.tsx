@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { IconBox } from "presentation/components/atomic-reusable/icon-box";
 import Hash from "assets/hash-white.png";
 import { History } from "history";
@@ -10,14 +10,27 @@ import {
   usePathParameterDispatch
 } from "contexts/path-parameter";
 
-const Wrapper = styled.section`
+interface styledWrrapperProps {
+  on: boolean;
+}
+
+const Wrapper = styled.section<styledWrrapperProps>`
   display: flex;
   align-items: center;
   font-size: 1rem;
   padding: 0px 20px;
-  &:hover {
-    background-color: ${({ theme }) => theme.sidbarHover};
-  }
+  ${({ on, theme }) => {
+    if (on)
+      return css`
+        background-color: ${theme.sidebarSelect};
+        color: ${theme.sidebarSelectFont};
+      `;
+    return css`
+      &:hover {
+        background-color: ${theme.sidbarHover};
+      }
+    `;
+  }}
 `;
 
 interface PropsTypes {
@@ -48,8 +61,8 @@ export const ChannelTitle: React.FC<PropsTypes> = props => {
   };
 
   return (
-    <Wrapper onClick={onClickEventHandler}>
-      <IconBox imageSrc={Hash} />
+    <Wrapper onClick={onClickEventHandler} on={on ? true : false}>
+      <IconBox imageSrc={Hash} size={"20px"} />
       {props.title}
     </Wrapper>
   );
