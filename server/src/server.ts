@@ -1,9 +1,13 @@
 import Application from "./app";
 import {Express} from "express";
-
+import { Server } from "http";
+import socketConfig from "./socketConfig"
+;
 Application.start()
         .then((app: Express) => {
-          app.listen(app.get("port"), () => {
+          const server: Server = app.listen(app.get("port"), () => {
             console.log("listen port", app.get("port"));
           });
+
+          socketConfig(server, app);
         });
