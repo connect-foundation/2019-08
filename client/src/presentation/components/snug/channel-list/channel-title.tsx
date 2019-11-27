@@ -47,13 +47,13 @@ export const ChannelTitle: React.FC<PropsTypes> = props => {
   const { history, match, id } = props;
 
   useEffect(() => {
+    history.push(`/snug/${pathParameter.channelId}`);
     if (pathParameter.channelId == id) return setOn(true);
     setOn(false);
   }, [pathParameter]);
 
   const onClickEventHandler = () => {
     if (match.params.channelId == id.toString()) return;
-    history.push(`/snug/${pathParameter.channelId}`);
     pathParameterDispatch({
       type: "IN",
       channelId: id
