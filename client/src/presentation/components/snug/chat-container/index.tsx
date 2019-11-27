@@ -26,7 +26,6 @@ export const ChatContent: React.FC<AppSocketChannelMatchProps> = props => {
     dispatch({
       type: "CLEAR"
     });
-
     (async function() {
       const resultPosts = await Application.services.postService.getList(
         pathParameter.channelId
@@ -37,8 +36,6 @@ export const ChatContent: React.FC<AppSocketChannelMatchProps> = props => {
         posts: resultPosts
       });
     })();
-
-    console.log(posts);
   }, [pathParameter]);
 
   function messageList(): React.ReactNode {
