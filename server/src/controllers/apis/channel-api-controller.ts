@@ -1,6 +1,5 @@
-import { Channel } from "../../entity/Channel";
-import { Request, Response } from "express";
-import App from "../../app";
+import {Room} from "../../entity/Room";
+import {Request, Response} from "express";
 
 /**
  *
@@ -11,8 +10,8 @@ import App from "../../app";
  *
  * */
 export const find = async (request: Request, response: Response) => {
-  const name = request.params.name;
-  const channel = await Channel.findOne({ where: { name: name } });
+  const title = request.params.title;
+  const channel = await Room.findOne({ where: { title: title, isChannel: true } });
   if (!!channel) {
     return response.status(200).json({
       message: "ok",
@@ -36,11 +35,11 @@ export const find = async (request: Request, response: Response) => {
  *
  * */
 export const create = async (request: Request, response: Response) => {
-  const name = request.body.name;
+  const title = request.body.title;
   const description = request.body.description;
   const privacy = request.body.privacy;
 
-  const isExisting = await Channel.findOne({ where: { name: name } });
+  const isExisting = await Room.findOne({ where: { title: title } });
 
   if (!!isExisting) {
     return response.status(409).json({
@@ -49,10 +48,11 @@ export const create = async (request: Request, response: Response) => {
     });
   }
 
-  const channel = await Channel.create({
-    name,
-    description,
-    privacy
+  const channel = await Room.create({
+    title: title,
+    description: description,
+    isPrivate: privacy,
+    isChannel: true
   }).save();
 
   return response.status(201).json({

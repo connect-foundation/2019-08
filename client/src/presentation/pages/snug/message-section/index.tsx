@@ -6,7 +6,6 @@ import { AppSocketChannelMatchProps } from "prop-types/match-extends-types";
 
 const MessageSectionWrapper = styled.section`
   height: 100%;
-  background-color: blue;
   width: 100%;
   display: flex;
   flex-direction: column;

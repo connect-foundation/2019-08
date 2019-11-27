@@ -15,7 +15,7 @@ const ChatContentWrapper = styled.section`
 `;
 
 export const ChatContent: React.FC<AppSocketChannelMatchProps> = props => {
-  const messages = useMessages();
+  const posts: Post[] = useMessages();
   const dispatch = useMessagesDispatch();
   const { socket } = props;
 
@@ -33,14 +33,14 @@ export const ChatContent: React.FC<AppSocketChannelMatchProps> = props => {
   });
 
   function messageList(): React.ReactNode {
-    if (!messages) return <></>;
-    return messages!.map(message => (
+    if (!posts) return <></>;
+    return posts!.map((post: Post) => (
       <PostCard
-        key={message.id!}
-        profile={message.profile}
-        contents={message.contents!}
-        createdAt={message.createdAt!}
-        updatedAt={message.updatedAt!}
+        key={post.id!}
+        profile={post.profile}
+        contents={post.contents!}
+        createdAt={post.createdAt!}
+        updatedAt={post.updatedAt!}
       />
     ));
   }
