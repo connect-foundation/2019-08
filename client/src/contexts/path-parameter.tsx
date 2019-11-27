@@ -29,9 +29,9 @@ const PathParameterReducer = (
 };
 
 export const PathParameterContextProvider = ({
-  childeren
+  children
 }: {
-  childeren: React.ReactNode;
+  children: React.ReactNode;
 }) => {
   let path: PathParameter = {
     channelId: -1
@@ -41,7 +41,7 @@ export const PathParameterContextProvider = ({
   return (
     <PathParameterDispatchContext.Provider value={dispatch}>
       <PathParameterStateContext.Provider value={state}>
-        {childeren}
+        {children}
       </PathParameterStateContext.Provider>
     </PathParameterDispatchContext.Provider>
   );
