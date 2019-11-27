@@ -30,7 +30,7 @@ export const ChannelList: React.FC<PropTypes> = ({
 
   useEffect(() => {
     if (!match.params.channelId) socket.emit("join", match.params.channelId);
-    (async function () {
+    (async function() {
       const channel = await Application.services.channelService.getChannelList();
       if (typeof channel === "boolean" || !dispatch) return;
       dispatch({
@@ -46,7 +46,8 @@ export const ChannelList: React.FC<PropTypes> = ({
       {channels &&
         channels.map(channel => (
           <ChannelTitle
-            key={channel.title!}
+            key={channel.id!}
+            id={channel.id!}
             title={channel.title!}
             match={match}
             history={history}
