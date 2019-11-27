@@ -1,7 +1,7 @@
 import {Order} from "../../../../../src/controller/api/common/order";
 
-describe("Test identifier-validator", () => {
-  describe("Test isOutOfRangeChar() method", () => {
+describe("Test Order", () => {
+  describe("Test support() method", () => {
     test("key 가 입력되지 않은 경우, 무시되어야 한다", () => {
       const order = new Order();
       expect(order.add("", "DESC").support()).toEqual({order: {}});

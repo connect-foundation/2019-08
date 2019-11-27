@@ -60,37 +60,40 @@ describe("Test identifier-validator", () => {
     });
   });
 
-  describe("Test isNumber() method", () => {
+  describe("Test isNumeric() method", () => {
     test("유효한 id 가 입력된 경우, 오류를 포함하지 않은 next() 메소드가 호출되는지 검증한다", () => {
       // given
+      const id = "123";
       const next = jest.fn().mockImplementation(() => {});
-      const request = mockRequest({params: {id: "123"}});
+      const request = mockRequest({params: {id: id}});
       const response = mockResponse();
 
       // when, then
-      Identifier.isNumeric(request, response, next);
+      Identifier.isNumeric(request, response, next, id);
       expect(next).toHaveBeenCalledWith();
     });
 
     test("숫자 외 문자를 포함한 id 가 입력된 경우, 오류를 포함한 next() 메소드가 호출되는지 검증한다", () => {
       // given
+      const id = "123sung";
       const next = jest.fn().mockImplementation(() => {});
-      const request = mockRequest({params: {id: "123sung"}});
+      const request = mockRequest({params: {id: id}});
       const response = mockResponse();
 
       // when, then
-      Identifier.isNumeric(request, response, next);
+      Identifier.isNumeric(request, response, next, id);
       expect(next).toHaveBeenCalledWith("Invalid id format. Must be an Number");
     });
 
     test("빈 문자열의 id 가 입력된 경우, 오류를 포함한 next() 메소드가 호출되는지 검증한다", () => {
       // given
+      const id = "";
       const next = jest.fn().mockImplementation(() => {});
-      const request = mockRequest({params: {id: ""}});
+      const request = mockRequest({params: {id: id}});
       const response = mockResponse();
 
       // when, then
-      Identifier.isNumeric(request, response, next);
+      Identifier.isNumeric(request, response, next, id);
       expect(next).toHaveBeenCalledWith("Invalid id format. Must be an Number");
     });
   });
