@@ -1,19 +1,12 @@
+import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Snug} from "./Snug";
+import {User} from "./User";
+import {Base} from "./Base";
+
 export type UserRoleType = "admin" | "participant";
 
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-  BaseEntity,
-  ManyToOne
-} from "typeorm";
-import { Snug } from "./Snug";
-import { User } from "./User";
-
 @Entity()
-export class Profile extends BaseEntity {
+export class Profile extends Base {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -34,12 +27,6 @@ export class Profile extends BaseEntity {
     enum: ["admin", "member"]
   })
   role: UserRoleType;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
 
   @ManyToOne(type => Snug)
   snug: Snug;

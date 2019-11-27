@@ -3,7 +3,7 @@ import {Request, Response} from "express";
 
 /**
  *
- * name 기준으로 channel 조회
+ * title 기준으로 channel 조회
  *
  * @param request
  * @param response
@@ -11,7 +11,7 @@ import {Request, Response} from "express";
  * */
 export const find = async (request: Request, response: Response) => {
   const title = request.params.title;
-  const channel = await Room.findOne({ where: { title: title, isChannel: true } });
+  const channel = await Room.findByTitle(title);
   if (!!channel) {
     return response.status(200).json({
       message: "ok",
@@ -39,11 +39,11 @@ export const create = async (request: Request, response: Response) => {
   const description = request.body.description;
   const privacy = request.body.privacy;
 
-  const isExisting = await Room.findOne({ where: { title: title } });
+  const isExisting = await Room.findByTitle(title);
 
   if (!!isExisting) {
     return response.status(409).json({
-      message: "given channel name already exists",
+      message: "given channel title already exists",
       payload: {}
     });
   }

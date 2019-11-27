@@ -1,21 +1,10 @@
-export type UserRoleType = "admin" | "participant";
-
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-  BaseEntity,
-  ManyToOne,
-  ManyToMany,
-  JoinTable
-} from "typeorm";
-import { Profile } from "./Profile";
-import { Snug } from "./Snug";
+import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Profile} from "./Profile";
+import {Snug} from "./Snug";
+import {Base} from "./Base";
 
 @Entity()
-export class Room extends BaseEntity {
+export class Room extends Base {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -31,15 +20,13 @@ export class Room extends BaseEntity {
   @Column()
   isChannel: boolean;
 
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
-
   @ManyToOne(type => Profile)
   creator: Profile;
 
   @ManyToOne(type => Snug)
   snug: Snug;
+
+  static findByTitle(title: string): Promise<Room> {
+    return Room.findOne({where: {title: title}});
+  }
 }

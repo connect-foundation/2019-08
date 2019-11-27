@@ -1,48 +1,32 @@
-import {
-  BaseEntity,
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-  ManyToOne,
-  OneToMany
-} from "typeorm";
-import { Profile } from "./Profile";
-import { Room } from "./Room";
+import {Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import {Profile} from "./Profile";
+import {Room} from "./Room";
+import {Base} from "./Base";
 
 @Entity()
-export class Post extends BaseEntity {
+export class Post extends Base {
   @PrimaryGeneratedColumn()
   id: number;
-
-  @Column({ nullable: true })
+  @Column({nullable: true})
   contents: string;
-
-  @Column({ nullable: true })
+  @Column({nullable: true})
   imgSrc: string;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
-
   @ManyToOne(type => Profile)
   profile: Profile;
-
   @ManyToOne(type => Room)
   room: Room;
-
   @ManyToOne(
-    type => Post,
-    post => post.childCategories
+          type => Post,
+          post => post.childCategories
   )
   parentCategory: Post;
-
   @OneToMany(
-    type => Post,
-    post => post.parentCategory
+          type => Post,
+          post => post.parentCategory
   )
   childCategories: Post[];
+
+  static findByChannelId(id: string, pageable: object): Promise<Post[]> {
+    return this.find({where: {channel: id}, ...pageable});
+  }
 }
