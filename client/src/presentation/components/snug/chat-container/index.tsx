@@ -4,6 +4,7 @@ import { useMessages, useMessagesDispatch } from "contexts/messages-context";
 import { AppSocketChannelMatchProps } from "prop-types/match-extends-types";
 import { PostCard } from "presentation/components/snug/post-card";
 import { Post } from "core/entity/post";
+import { usePathParameter } from "contexts/path-parameter";
 
 const ChatContentWrapper = styled.section`
   height: 100%;
@@ -18,6 +19,14 @@ export const ChatContent: React.FC<AppSocketChannelMatchProps> = props => {
   const posts: Post[] = useMessages();
   const dispatch = useMessagesDispatch();
   const { socket } = props;
+  const pathParameter = usePathParameter();
+
+  useEffect(() => {
+    dispatch({
+      type: "CLEAR"
+    });
+    console.log(posts);
+  }, [pathParameter]);
 
   useEffect(() => {
     socket.on("sendMessage", (obj: Post) => {

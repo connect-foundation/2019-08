@@ -14,6 +14,13 @@ export type Action =
   | {
       type: "REMOVE";
       id: number;
+    }
+  | {
+      type: "MULTI";
+      posts?: Post[];
+    }
+  | {
+      type: "CLEAR";
     };
 
 type MessageDispatch = Dispatch<Action>;
@@ -37,7 +44,11 @@ const messageReducer = (state: Posts, action: Action): Posts => {
         contents: action.contents
       });
     case "REMOVE":
-      return state.filter(message => message.id !== action.id);
+      return state.filter(post => post.id !== action.id);
+    case "MULTI":
+      return state.concat(action.posts!);
+    case "CLEAR":
+      return [];
   }
 };
 
