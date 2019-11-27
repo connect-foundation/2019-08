@@ -7,6 +7,6 @@ export default function errorHandler(error: HttpException, request: Request, res
     response.status(status)
       .send({
         message,
-        status,
+        payload: {},
       });
 };
