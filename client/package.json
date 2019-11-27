@@ -2,6 +2,7 @@
   "name": "snug",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:3001",
   "dependencies": {
     "@types/node": "12.12.7",
     "@types/react": "16.9.11",

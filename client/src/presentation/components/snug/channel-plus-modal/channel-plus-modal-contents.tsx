@@ -70,7 +70,7 @@ export const ChannelPlusModalContents: React.FC<ApplicationProptype> = ({
         description: description,
         privacy: privacy,
         createdAt: new Date(), //todo : date, user 바꾸기
-        user: "두부"
+        creatorName: "두부"
       });
 
     modalDispatch &&

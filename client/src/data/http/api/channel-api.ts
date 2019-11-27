@@ -14,10 +14,10 @@ export class ChannelApi {
 
   create(channel: Channel): ResponseEntity<Channel> | boolean {
     return this.axios
-      .post(`/api/channel/${channel.name!.getValue()}`, {
-        name: channel.name!.getValue(),
-        description: channel.description!.getValue(),
-        visibility: channel.visibility
+      .post(`/api/channels`, {
+        title: channel.title!,
+        description: channel.description!,
+        privacy: channel.privacy!
       })
       .then((response: AxiosResponse<ResponseEntity<Channel>>) => {
         if (StatusCodes.isCreated(response.status)) {
@@ -29,14 +29,14 @@ export class ChannelApi {
       .catch((error: AxiosError) =>
         AxiosErrorHandler.handleError(
           error,
-          `${channel.name!.getValue()} 추가 과정에서 예기치 못한 에러가 발생했습니다.`
+          `${channel.title!} 추가 과정에서 예기치 못한 에러가 발생했습니다.`
         )
       );
   }
 
-  findByName(channelName: string): ResponseEntity<Channel> | boolean {
+  findByTitle(title: string): ResponseEntity<Channel> | boolean {
     return this.axios
-      .get(`/api/channels/${channelName}`)
+      .get(`/api/channels/${title}`)
       .then((response: AxiosResponse<ResponseEntity<Channel>>) => {
         if (StatusCodes.isOk(response.status)) {
           return response.data;
@@ -47,8 +47,23 @@ export class ChannelApi {
       .catch((error: AxiosError) =>
         AxiosErrorHandler.handleError(
           error,
-          `${channelName} 조회 과정에서 예기치 못한 에러가 발생했습니다.`
+          `${title} 조회 과정에서 예기치 못한 에러가 발생했습니다.`
         )
       );
+  }
+
+  getList(): ResponseEntity<Channel[]> | boolean {
+    return this.axios
+      .get("/api/channels")
+      .then((response: AxiosResponse<ResponseEntity<Channel[]>>) => {
+        if (StatusCodes.isOk(response.status)) return response.data;
+        return false;
+      })
+      .catch((error: AxiosError) => {
+        AxiosErrorHandler.handleError(
+          error,
+          `채널 목록을 불러오는 과정에서 예기치 못한 에러가 발생했습니다.`
+        );
+      });
   }
 }

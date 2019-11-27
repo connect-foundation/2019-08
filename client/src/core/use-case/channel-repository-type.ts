@@ -3,5 +3,7 @@ import { Channel } from "core/entity/channel";
 export interface ChannelRepositoryType {
   create(channel: Channel): Promise<boolean>;
 
-  hasByName(channelName: string): Promise<boolean>;
+  hasByTitle(title: string): Promise<boolean>;
+
+  getChannels(): Promise<Channel[] | boolean>;
 }
