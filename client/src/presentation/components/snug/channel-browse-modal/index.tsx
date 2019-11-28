@@ -14,9 +14,9 @@ const MarginBox = styled.section`
 
 const Content = styled.section`
   max-height: 80vh;
-  min-width: 600px;
-  width: 600px;
-  max-width: 600px;
+  min-width: 700px;
+  width: 700px;
+  max-width: 700px;
   display: flex;
   flex-direction: column;
   align-items: center;

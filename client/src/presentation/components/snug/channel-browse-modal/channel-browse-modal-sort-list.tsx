@@ -13,6 +13,7 @@ interface Criterion {
 const Wrraper = styled.section`
   width: 100%;
   height: 70%;
+  margin-top: 20px;
   overflow-y: scroll;
 `;
 
