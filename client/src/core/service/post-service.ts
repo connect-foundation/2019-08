@@ -16,13 +16,20 @@ export class PostService {
     return await this.repository.getList(channel);
   }
 
-  async createMessage(profileId: number, contents: string): Promise<boolean> {
+  async createMessage(
+    profileId: number,
+    contents: string,
+    channelId: number
+  ): Promise<boolean> {
     const profile: Profile = {
       profileId: profileId
     };
     const post: Post = {
       contents: contents
     };
-    return await this.repository.create(profile, post);
+    const Channel: Channel = {
+      id: channelId
+    };
+    return await this.repository.create(profile, post, Channel);
   }
 }

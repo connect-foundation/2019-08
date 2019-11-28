@@ -23,10 +23,10 @@ export const ChatContent: React.FC<AppSocketChannelMatchProps> = props => {
   const pathParameter = usePathParameter();
 
   useEffect(() => {
-    dispatch({
-      type: "CLEAR_ALL"
-    });
     (async function() {
+      dispatch({
+        type: "CLEAR_ALL"
+      });
       const resultPosts = await Application.services.postService.getList(
         pathParameter.channelId
       );

@@ -14,8 +14,8 @@ export class PostApi {
   }
 
   getList({ id }: Channel): ResponseEntity<Post[]> | boolean {
-    return this.axios()
-      .get(`/post/${id}`)
+    return this.axios
+      .get(`/api/posts/${id}`)
       .then(({ data, status }: AxiosResponse<ResponseEntity<Post[]>>) => {
         if (StatusCodes.isOk(status)) return data;
         return false;
@@ -30,14 +30,17 @@ export class PostApi {
 
   createPost(
     { profileId }: Profile,
-    { contents }: Post
+    { contents }: Post,
+    { id }: Channel
   ): ResponseEntity<object> | boolean {
-    return this.axios()
-      .post({
+    return this.axios
+      .post(`/api/posts`, {
         profileId: profileId,
-        contents: contents
+        contents: contents,
+        roomId: id
       })
       .then(({ data, status }: AxiosResponse<ResponseEntity<object>>) => {
+        console.log(data, status);
         if (StatusCodes.isCreated(status)) return data;
         return false;
       })

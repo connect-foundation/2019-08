@@ -9,6 +9,7 @@ import dubu from "assets/dubu.png";
 import { AppSocketChannelMatchProps } from "prop-types/match-extends-types";
 import { ResponseEntity } from "data/http/api/response/ResponseEntity";
 import { Post } from "core/entity/post";
+import { usePathParameter } from "contexts/path-parameter-context";
 const InputWrapper = styled.section`
   width: 100%;
   height: 75px;
@@ -61,7 +62,7 @@ export const ChatInputBox: React.FC<AppSocketChannelMatchProps> = ({
   const [message, setMessage] = useState("");
   const [id, setId] = useState(0);
   const dispatch = useMessagesDispatch();
-
+  const pathPrameter = usePathParameter();
   const inputChangeEventHandler = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -78,8 +79,10 @@ export const ChatInputBox: React.FC<AppSocketChannelMatchProps> = ({
     if (!dispatch) return;
     const result = await Application.services.postService.createMessage(
       1,
-      message
+      message,
+      pathPrameter.channelId
     );
+    console.log(result);
     if (!result) return;
     socket.on("newPost", (resultData: ResponseEntity<Post>) => {
       const { payload } = resultData;
