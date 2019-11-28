@@ -1,9 +1,10 @@
 import request from "supertest";
 import {SuperTest, Test} from "supertest";
-import Application from "../../../src/app";
-import {Room} from "../../../src/entity/Room";
+import Application from "../../../../src/app";
+import {Room} from "../../../../src/entity/Room";
 import {runInTransaction, initialiseTestTransactions} from "typeorm-test-transactions";
-import {Post} from "../../../src/entity/Post";
+import {Post} from "../../../../src/entity/Post";
+import {FOUND_CHANNEL} from "../../../../src/controller/api/common/error-message";
 
 initialiseTestTransactions();
 
@@ -35,8 +36,8 @@ const parsePosts = (posts: Post[]) => {
   return posts.map(parsePost);
 };
 
-describe("/api/channels", () => {
-  describe("GET /:id/posts", () => {
+describe("Test /api/channels", () => {
+  describe("Test GET /:id/posts", () => {
     let app: SuperTest<Test>;
 
     beforeAll(done => {
@@ -68,7 +69,7 @@ describe("/api/channels", () => {
       await app.get("/api/channels/" + channel.id + "/posts")
               .expect("Content-Type", /json/)
               .expect(200)
-              .expect({ message: "ok", payload: { posts: expected} });
+              .expect({ message: FOUND_CHANNEL, payload: { posts: expected} });
     }));
 
     test("숫자 외 문자가 포함된 id 로 요청한 경우, 500 status code 로 응답해야 한다", runInTransaction(async () => {

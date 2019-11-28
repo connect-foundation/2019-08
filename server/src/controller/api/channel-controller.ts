@@ -1,5 +1,8 @@
 import {Room} from "../../entity/Room";
 import {Request, Response} from "express";
+import ResponseForm from "../../utils/response-form";
+import {CONFLICT, CREATED, NOT_FOUND, OK} from "./common/status-code";
+import {ALREADY_EXIST_CHANNEL, CREATE_CHANNEL, FOUND_CHANNEL, NOT_FOUND_CHANNEL} from "./common/error-message";
 
 /**
  *
@@ -13,15 +16,9 @@ export const find = async (request: Request, response: Response) => {
   const title = request.params.title;
   const channel = await Room.findByTitle(title);
   if (!!channel) {
-    return response.status(200).json({
-      message: "ok",
-      payload: channel
-    });
+    return response.status(OK).json(ResponseForm.of<Room>(FOUND_CHANNEL, channel));
   } else {
-    return response.status(404).json({
-      message: "not found",
-      payload: {}
-    });
+    return response.status(NOT_FOUND).json(ResponseForm.of(NOT_FOUND_CHANNEL));
   }
 };
 
@@ -42,10 +39,7 @@ export const create = async (request: Request, response: Response) => {
   const isExisting = await Room.findByTitle(title);
 
   if (!!isExisting) {
-    return response.status(409).json({
-      message: "given channel title already exists",
-      payload: {}
-    });
+    return response.status(CONFLICT).json(ResponseForm.of(ALREADY_EXIST_CHANNEL));
   }
 
   const channel = await Room.create({
@@ -55,8 +49,5 @@ export const create = async (request: Request, response: Response) => {
     isChannel: true
   }).save();
 
-  return response.status(201).json({
-    message: "ok",
-    payload: channel
-  });
+  return response.status(CREATED).json(ResponseForm.of<Room>(CREATE_CHANNEL, channel));
 };

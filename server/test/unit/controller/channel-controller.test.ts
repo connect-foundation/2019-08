@@ -1,5 +1,7 @@
 import * as ChannelApiController from "../../../src/controller/api/channel-controller";
 import {Room} from "../../../src/entity/Room";
+import {FOUND_CHANNEL, NOT_FOUND_CHANNEL} from "../../../src/controller/api/common/error-message";
+
 jest.mock( "../../../src/entity/Room");
 import {mockRequest, mockResponse} from "mock-req-res";
 
@@ -22,7 +24,7 @@ describe("Test channel-controller", () => {
 
       // then
       expect(findByTitle).toHaveBeenCalledWith(title);
-      expect(response.json.args[0][0]).toEqual({message: "ok", payload: channel});
+      expect(response.json.args[0][0]).toEqual({message: FOUND_CHANNEL, payload: channel});
     });
 
     test("Room.findByTitle() 메소드가 빈 Room 반환하는 경우, Empty Object 가 응답 데이터에 포함되어야 한다", async () => {
@@ -41,7 +43,7 @@ describe("Test channel-controller", () => {
 
       // then
       expect(findByTitle).toHaveBeenCalledWith(title);
-      expect(response.json.args[0][0]).toEqual({message: "ok", payload: channel});
+      expect(response.json.args[0][0]).toEqual({message: FOUND_CHANNEL, payload: channel});
     });
 
     test("Room.findByTitle() 메소드가 null 반환하는 경우, Empty Object 가 응답 데이터에 포함되어야 한다", async () => {
@@ -60,7 +62,7 @@ describe("Test channel-controller", () => {
 
       // then
       expect(findByTitle).toHaveBeenCalledWith(title);
-      expect(response.json.args[0][0]).toEqual({message: "not found", payload: {}});
+      expect(response.json.args[0][0]).toEqual({message: NOT_FOUND_CHANNEL, payload: {}});
     });
 
     test("Room.findByTitle() 메소드가 undefined 반환하는 경우, Empty Object 가 응답 데이터에 포함되어야 한다", async () => {
@@ -79,7 +81,7 @@ describe("Test channel-controller", () => {
 
       // then
       expect(findByTitle).toHaveBeenCalledWith(title);
-      expect(response.json.args[0][0]).toEqual({message: "not found", payload: {}});
+      expect(response.json.args[0][0]).toEqual({message: NOT_FOUND_CHANNEL, payload: {}});
     });
   });
 });
