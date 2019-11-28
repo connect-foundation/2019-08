@@ -3,11 +3,18 @@ import { DisplayType, SortType } from "./index";
 import { useChannels, Channels } from "contexts/channel-context";
 import { ChannelBrowseModalItem } from "./channel-browse-modal-item";
 import { Channel } from "core/entity/channel";
+import styled from "styled-components";
 
 interface Criterion {
   DisplayType: DisplayType;
   SortType: SortType;
 }
+
+const Wrraper = styled.section`
+  width: 100%;
+  height: 70%;
+  overflow-y: scroll;
+`;
 
 const compareChannels = (channelA: any, channelB: any) => {
   if (Object.prototype.toString.call(channelA) === "[object Date]") {
@@ -63,7 +70,7 @@ export const ChannelBrowseModalSortList: React.FC<Criterion> = props => {
   };
 
   return (
-    <>
+    <Wrraper>
       {channels &&
         sortChannels()!.map(channel => {
           return (
@@ -77,6 +84,6 @@ export const ChannelBrowseModalSortList: React.FC<Criterion> = props => {
             />
           );
         })}
-    </>
+    </Wrraper>
   );
 };

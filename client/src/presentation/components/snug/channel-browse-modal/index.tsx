@@ -13,7 +13,7 @@ const MarginBox = styled.section`
 `;
 
 const Content = styled.section`
-  height: 100%;
+  max-height: 80vh;
   min-width: 600px;
   width: 600px;
   max-width: 600px;
