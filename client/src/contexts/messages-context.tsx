@@ -45,9 +45,9 @@ const messageReducer = (state: Posts, action: Action): Posts => {
       });
     case "REMOVE":
       return state.filter(post => post.id !== action.id);
-    case "MULTI":
+    case "MULTI_INPUT":
       return state.concat(action.posts!);
-    case "CLEAR":
+    case "CLEAR_ALL":
       return [];
   }
 };
