@@ -1,7 +1,12 @@
 import {Post} from "../../entity/Post";
 import {Request, Response} from "express";
 import {Paginator} from "./common/paginator";
-import ResponseForm from "../../utils/responseForm";
+import ResponseForm from "../../utils/response-form";
+import {publishIO} from "../../socket/socket-manager";
+import {Profile} from "../../entity/Profile";
+import {CREATED, NOT_FOUND, OK} from "./common/status-code";
+import {FOUND_CHANNEL, FOUND_POST_PROFILE, NOT_FOUND_PROFILE} from "./common/error-message";
+import {PUBLISH_EVENT} from "../../socket/common/events/publish-type";
 
 /**
  *
@@ -12,35 +17,15 @@ import ResponseForm from "../../utils/responseForm";
  *
  * */
 export const create = async (request: Request, response: Response) => {
-  const {profileId, contents, roomId} = request.body.profileId;
+  const {profileId, contents, roomId} = request.body;
   try {
-    const post = await Post.create({ contents, profile: profileId }).save();
-
-    const returnValue = await Post.find({
-      select: ["id", "contents", "imgSrc", "profile"],
-      where: {
-        id: post.id
-      },
-      relations: ["profile"]
-    });
-
-    /**
-     * response 
-     */
-    const responseForm = new ResponseForm("ok", returnValue);
-    request.app.get("io").to(`${roomId}`).emit("newPost", responseForm);
-
-    return response.status(201).json({
-      message: "ok",
-      payload: {
-        returnValue
-      }
-    });
+    const profile = await Profile.findOneOrFail(profileId);
+    const post = await Post.save({contents, profile: profile} as Post);
+    const responseForm = ResponseForm.of<Post>(FOUND_POST_PROFILE, post);
+    publishIO().to(`${roomId}`).emit(PUBLISH_EVENT.SEND_MESSAGE, responseForm);
+    return response.status(CREATED).json(responseForm);
   } catch (error) {
-    return response.status(404).json({
-      message: error.message,
-      payload: {}
-    });
+    return response.status(NOT_FOUND).json(ResponseForm.of(NOT_FOUND_PROFILE));
   }
 };
 
@@ -59,6 +44,6 @@ export const findByChannelId = async (request: Request, response: Response) => {
           .support();
   const posts = await Post.findByChannelId(id, pageable);
   return response
-          .status(200)
-          .json({message: "ok", payload: {posts: [...posts]}});
+          .status(OK)
+          .json(ResponseForm.of<object>(FOUND_CHANNEL, {posts: posts}));
 };
