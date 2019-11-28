@@ -10,7 +10,7 @@ router.use((request: Request, response: Response, next: NextFunction) => {
 
 router.use((error: Error, request: Request, response: Response, next: NextFunction) => {
   const status = (error as HttpException).status || 500;
-  const message = request.app.get("env") === "production" ? error.name : error.message || 'Something went wrong';
+  const message = request.app.get("env") === "production" ? error.name : error.message || "Something went wrong";
   response.status(status)
     .send({
       message,

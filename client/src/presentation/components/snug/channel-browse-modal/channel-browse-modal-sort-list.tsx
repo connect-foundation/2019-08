@@ -1,7 +1,8 @@
 import React from "react";
 import { DisplayType, SortType } from "./index";
-import { useChannels, Channel, Channels } from "contexts/channel-context";
+import { useChannels, Channels } from "contexts/channel-context";
 import { ChannelBrowseModalItem } from "./channel-browse-modal-item";
+import { Channel } from "core/entity/channel";
 
 interface Criterion {
   DisplayType: DisplayType;

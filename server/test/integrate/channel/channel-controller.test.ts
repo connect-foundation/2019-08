@@ -3,6 +3,12 @@ import {SuperTest, Test} from "supertest";
 import Application from "../../../src/app";
 import {Room} from "../../../src/entity/Room";
 import {runInTransaction, initialiseTestTransactions} from "typeorm-test-transactions";
+import {
+  ALREADY_EXIST_CHANNEL,
+  CREATE_CHANNEL,
+  FOUND_CHANNEL,
+  NOT_FOUND_CHANNEL
+} from "../../../src/controller/api/common/error-message";
 
 initialiseTestTransactions();
 
@@ -23,7 +29,7 @@ describe("Test /api/channels", () => {
       done();
     });
 
-    test("should return response has identical channel, 200 status code", runInTransaction(async () => {
+    test("올바른 title 로 요청을 보낸 경우, 주어진 Channel 와 동일해야 하며 200 status code 로 응답해야 한다", runInTransaction(async () => {
       // given
       const channel = await Room.create({
         title: "snug",
@@ -37,7 +43,7 @@ describe("Test /api/channels", () => {
               .expect("Content-Type", /json/)
               .expect(200)
               .expect({
-                message: "ok", payload: {
+                message: FOUND_CHANNEL, payload: {
                   ...channel,
                   updatedAt: channel.updatedAt.toISOString(),
                   createdAt: channel.createdAt.toISOString()
@@ -45,7 +51,7 @@ describe("Test /api/channels", () => {
               });
     }));
 
-    test("should return response has empty object, 404 status code", runInTransaction(async () => {
+    test("존재하지 않는 title 로 요청을 보낸 경우, 빈 Object 와 동일해야 하며 404 status code 로 응답해야 한다", runInTransaction(async () => {
       // given
       const channelTitle = "snug";
 
@@ -62,7 +68,7 @@ describe("Test /api/channels", () => {
               .expect("Content-Type", /json/)
               .expect(404)
               .expect({
-                message: "not found", payload: {}
+                message: NOT_FOUND_CHANNEL, payload: {}
               });
     }));
   });
@@ -83,7 +89,7 @@ describe("Test /api/channels", () => {
       done();
     });
 
-    test("should return response has created channel, 201 status code", runInTransaction( async () => {
+    test("Request Body 로 전달한 Channel 정보와 생성된 Channel 이 동일해야 하며 201 status code 로 응답해야 한다", runInTransaction( async () => {
       // given
       const channel = {
         title: "snug",
@@ -100,7 +106,7 @@ describe("Test /api/channels", () => {
                 const {message, payload} = res.body;
                 const {title, description, isPrivate, isChannel} = payload;
 
-                expect(message).toBe("ok");
+                expect(message).toBe(CREATE_CHANNEL);
                 expect(title).toBe(channel.title);
                 expect(description).toBe(channel.description);
                 expect(isPrivate).toBeFalsy();
@@ -108,7 +114,7 @@ describe("Test /api/channels", () => {
               }));
     }));
 
-    test("should return response has empty object, 409 status code", runInTransaction(async () => {
+    test("채널 생성을 실패한 경우, 빈 Object 와 동일해야 하며 409 status code 로 응답해야 한다", runInTransaction(async () => {
       // given
       const channel = {
         title: "snug",
@@ -130,7 +136,7 @@ describe("Test /api/channels", () => {
               .expect("Content-Type", /json/)
               .expect(409)
               .expect({
-                message: "given channel name already exists", payload: {}
+                message: ALREADY_EXIST_CHANNEL, payload: {}
               });
     }));
   });

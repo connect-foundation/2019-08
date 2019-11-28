@@ -1,23 +1,20 @@
 import React, { createContext, Dispatch, useReducer, useContext } from "react";
+import { Channel } from "core/entity/channel";
 
-export type Channel = {
-  [propName: string]: any;
-  title: string;
-  description: string;
-  privacy: boolean;
-  user?: string;
-  createdAt?: Date;
-  users?: string[];
-};
-
-export type Action = {
-  type: "CREATE";
-  title: string;
-  description: string;
-  privacy: boolean;
-  user?: string;
-  createdAt?: Date;
-};
+export type Action =
+  | {
+      type: "CREATE";
+      title: string;
+      description: string;
+      privacy: boolean;
+      creatorName?: string;
+      createdAt?: Date;
+      id: number;
+    }
+  | {
+      type: "MULTI";
+      channels: Channels;
+    };
 
 export type Channels = Channel[];
 
@@ -33,12 +30,15 @@ const channelsReducer = (state: Channels, action: Action): Channels => {
   switch (action.type) {
     case "CREATE":
       return state.concat({
+        id: action.id,
         title: action.title,
         description: action.description,
         privacy: action.privacy,
-        user: action.user,
+        creatorName: action.creatorName,
         createdAt: action.createdAt
       });
+    case "MULTI":
+      return state.concat(action.channels);
   }
 };
 

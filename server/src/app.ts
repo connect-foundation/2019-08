@@ -4,9 +4,8 @@ import express, { Express } from "express";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import { Connection, createConnection } from "typeorm";
-import postRouter from "./routes/post-router";
-import channelRouter from "./routes/chnnel-router";
-import errorHandler from "./middleware/errorHandler";
+import postRouter from "./routes/post/post-router";
+import channelRouter from "./routes/channel/channel-router";
 
 export default class App {
   private static app: Express;
@@ -31,7 +30,6 @@ export default class App {
     this.app.use(cookieParser(process.env.COOKIE_SECRET));
     this.app.use("/api/posts", postRouter);
     this.app.use("/api/channels", channelRouter);
-    this.app.use(errorHandler);
     return this.app;
   }
 

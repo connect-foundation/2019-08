@@ -1,8 +1,9 @@
-import { StringHelper } from "core/common/string-helper";
-
 export interface Channel {
+  [propName: string]: any;
   id?: number;
-  name?: StringHelper;
-  description?: StringHelper;
-  visibility?: boolean;
+  title?: string;
+  description?: string;
+  privacy?: boolean;
+  createdAt?: Date;
+  creatorName?: string;
 }

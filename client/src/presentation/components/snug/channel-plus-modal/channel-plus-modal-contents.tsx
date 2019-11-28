@@ -61,16 +61,17 @@ export const ChannelPlusModalContents: React.FC<ApplicationProptype> = ({
       privacy
     );
 
-    if (!result) return;
+    if (typeof result == "boolean") return;
 
     channelDispatch &&
       channelDispatch({
         type: "CREATE",
-        title: title,
-        description: description,
-        privacy: privacy,
-        createdAt: new Date(), //todo : date, user 바꾸기
-        user: "두부"
+        id: result.id!,
+        title: result.title!,
+        description: result.description!,
+        privacy: result.privacy!,
+        createdAt: result.createdAt!, //todo : date, user 바꾸기
+        creatorName: "두부"
       });
 
     modalDispatch &&

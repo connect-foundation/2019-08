@@ -1,14 +1,8 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-  BaseEntity
-} from "typeorm";
+import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {Base} from "./Base";
 
 @Entity()
-export class Snug extends BaseEntity {
+export class Snug extends Base {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -20,10 +14,4 @@ export class Snug extends BaseEntity {
 
   @Column({ nullable: true })
   description: boolean;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
 }

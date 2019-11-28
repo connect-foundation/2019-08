@@ -15,7 +15,8 @@ const SidebarWrapper = styled.section`
 export const Sidebar: React.FC<AppSocketChannelMatchProps> = ({
   match,
   socket,
-  history
+  history,
+  Application
 }) => {
   return (
     <SidebarWrapper>
@@ -23,6 +24,7 @@ export const Sidebar: React.FC<AppSocketChannelMatchProps> = ({
         match={match}
         socket={socket}
         history={history}
+        Application={Application}
       ></ChannelList>
     </SidebarWrapper>
   );

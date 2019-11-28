@@ -1,5 +1,6 @@
-import {ChannelRepositoryType} from "core/use-case/channel-repository-type";
-import {ChannelModel} from "core/model/channel-model";
+import { ChannelRepositoryType } from "core/use-case/channel-repository-type";
+import { ChannelModel } from "core/model/channel-model";
+import { Channel } from "core/entity/channel";
 
 /**
  *
@@ -17,14 +18,18 @@ export class ChannelService {
    *
    * 채널 생성
    *
-   * @param name
+   * @param title
    * @param description
-   * @param visibility
+   * @param privacy
    * @return boolean 생성 여부
    *
    * */
-  async create(name: string, description: string, visibility: boolean): Promise<boolean> {
-    const channel: ChannelModel = new ChannelModel(name, description, visibility);
+  async create(
+    title: string,
+    description: string,
+    privacy: boolean
+  ): Promise<boolean | Channel> {
+    const channel: ChannelModel = new ChannelModel(title, description, privacy);
     const satisfaction = await this.isSatisfied(channel);
     if (satisfaction) {
       return this.repository.create(channel);
@@ -42,17 +47,21 @@ export class ChannelService {
     if (channel.isImpossibleFormat()) {
       return false;
     }
-    return await this.isNotDuplicated(channel.getName());
+    return await this.isNotDuplicated(channel.getTitle());
   }
 
   /**
    *
    * 채널명 중복 확인
-   * @param name
+   * @param title
    *
    * */
-  private async isNotDuplicated(name: string): Promise<boolean> {
-    const redundancy = await this.repository.hasByName(name);
+  private async isNotDuplicated(title: string): Promise<boolean> {
+    const redundancy = await this.repository.hasByTitle(title);
     return !redundancy;
+  }
+
+  async getChannelList(): Promise<Channel[] | boolean> {
+    return await this.repository.getChannels();
   }
 }
