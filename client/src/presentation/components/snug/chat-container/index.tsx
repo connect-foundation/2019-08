@@ -12,7 +12,6 @@ const ChatContentWrapper = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  overflow-y: hidden;
 `;
 
 export const ChatContent: React.FC<AppSocketChannelMatchProps> = props => {

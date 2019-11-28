@@ -11,6 +11,7 @@ const MessageSectionContentWrapper = styled.section`
   background-color: ${({ theme }) => theme.snug};
   display: flex;
   flex-direction: column;
+  overflow: auto;
 `;
 
 export const MessageSectionContent: React.FC<AppSocketChannelMatchProps> = props => {
@@ -18,6 +19,7 @@ export const MessageSectionContent: React.FC<AppSocketChannelMatchProps> = props
     <MessageContextProvider>
       <MessageSectionContentWrapper>
         <ChatContent {...props} />
+
         <ChatInputBox {...props} />
       </MessageSectionContentWrapper>
     </MessageContextProvider>

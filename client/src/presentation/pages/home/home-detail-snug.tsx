@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { CustomButton } from "presentation/components/atomic-reusable/custom-button";
+import { Link } from "react-router-dom";
 
 const Wrapper = styled.form`
   background-color: #fcedd0;
@@ -63,14 +64,16 @@ export const HomeDetailSnug: React.FC = () => {
         </Description>
       </DescriptionWrapper>
       <ButtonWrapper>
-        <CustomButton
-          color={"#ffffff"}
-          fontColor={"#000000"}
-          fontWeight={"bold"}
-          name={"Snug로 이동"}
-          size={"big"}
-          borderColor={"grey"}
-        />
+        <Link to="/snug">
+          <CustomButton
+            color={"#ffffff"}
+            fontColor={"#000000"}
+            fontWeight={"bold"}
+            name={"Snug로 이동"}
+            size={"big"}
+            borderColor={"grey"}
+          />
+        </Link>
       </ButtonWrapper>
     </Wrapper>
   );

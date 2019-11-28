@@ -50,6 +50,13 @@ const App: React.FC = () => {
       ></Route>
       <Route
         exact
+        path="/snug"
+        component={(props: any) => (
+          <Snug {...props} Application={Application} socket={socket}></Snug>
+        )}
+      />
+      <Route
+        exact
         path="/snug/:channelId"
         component={(props: any) => (
           <Snug {...props} Application={Application} socket={socket}></Snug>

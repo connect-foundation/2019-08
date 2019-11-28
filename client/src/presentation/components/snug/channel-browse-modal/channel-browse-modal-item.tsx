@@ -3,26 +3,31 @@ import styled from "styled-components";
 
 const Wrapper = styled.section`
   display: flex;
+  width: 100%;
+  color: ${({ theme }) => theme.snugSubFont};
   flex-direction: column;
-  border-top: 1px solid white;
+  border-top: 1px solid ${({ theme }) => theme.snugBorderColor};
   margin-top: 5px;
   &:hover {
     cursor: pointer;
+    background-color: ${({ theme }) => theme.snugBorderColor};
+    color: ${({ theme }) => theme.sidebarFontHover};
   }
 `;
 
 const Header = styled.header`
-  color: #ffffff;
   font-weight: bold;
+  margin: 10px;
 `;
 
 const Contents = styled.article`
-  color: #ffffff;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
+  margin-left: 10px;
 `;
 
 const Footer = styled.footer`
-  font-size: 0.7rem;
+  font-size: 0.6rem;
+  margin-left: 10px;
 `;
 
 interface ChannelBrowseModal {
