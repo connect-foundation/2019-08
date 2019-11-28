@@ -11,7 +11,7 @@ export class Post extends Base {
   contents: string;
   @Column({nullable: true})
   imgSrc: string;
-  @ManyToOne(type => Profile)
+  @ManyToOne(type => Profile, {eager: true})
   profile: Profile;
   @ManyToOne(type => Room)
   room: Room;
@@ -27,6 +27,6 @@ export class Post extends Base {
   childCategories: Post[];
 
   static findByChannelId(id: string, pageable: object): Promise<Post[]> {
-    return this.find({where: {channel: id}, ...pageable});
+    return this.find({where: {room: id}, ...pageable});
   }
 }

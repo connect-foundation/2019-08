@@ -7,7 +7,7 @@ import {Order} from "./order";
  * */
 export class Paginator {
   private static readonly DEFAULT_PAGE = 0;
-  private static readonly DEFAULT_SIZE = 0;
+  private static readonly DEFAULT_SIZE = 15;
 
   private readonly page: number;
   private readonly size: number;
