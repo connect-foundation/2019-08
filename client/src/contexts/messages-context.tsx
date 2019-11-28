@@ -16,11 +16,11 @@ export type Action =
       id: number;
     }
   | {
-      type: "MULTI";
+      type: "MULTI_INPUT";
       posts?: Post[];
     }
   | {
-      type: "CLEAR";
+      type: "CLEAR_ALL";
     };
 
 type MessageDispatch = Dispatch<Action>;

@@ -8,7 +8,7 @@ import { MessageSection } from "./message-section";
 import { AppSocketChannelMatchProps } from "prop-types/match-extends-types";
 import { Modals } from "presentation/components/snug/modals";
 import { colorTheme } from "presentation/theme/color-theme";
-import { PathParameterContextProvider } from "contexts/path-parameter";
+import { PathParameterContextProvider } from "contexts/path-parameter-context";
 
 const SnugWrapper = styled.section`
   width: inherit;

@@ -8,7 +8,7 @@ import { ChannelMatchType } from "prop-types/channel-match-type";
 import {
   usePathParameter,
   usePathParameterDispatch
-} from "contexts/path-parameter";
+} from "contexts/path-parameter-context";
 import { Context } from "context.instance";
 
 interface styledWrrapperProps {

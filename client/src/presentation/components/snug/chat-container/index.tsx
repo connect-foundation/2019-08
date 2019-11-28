@@ -4,7 +4,7 @@ import { useMessages, useMessagesDispatch } from "contexts/messages-context";
 import { AppSocketChannelMatchProps } from "prop-types/match-extends-types";
 import { PostCard } from "presentation/components/snug/post-card";
 import { Post } from "core/entity/post";
-import { usePathParameter } from "contexts/path-parameter";
+import { usePathParameter } from "contexts/path-parameter-context";
 
 const ChatContentWrapper = styled.section`
   height: 100%;
@@ -24,7 +24,7 @@ export const ChatContent: React.FC<AppSocketChannelMatchProps> = props => {
 
   useEffect(() => {
     dispatch({
-      type: "CLEAR"
+      type: "CLEAR_ALL"
     });
     (async function() {
       const resultPosts = await Application.services.postService.getList(
@@ -32,7 +32,7 @@ export const ChatContent: React.FC<AppSocketChannelMatchProps> = props => {
       );
       if (typeof resultPosts == "boolean") return;
       dispatch({
-        type: "MULTI",
+        type: "MULTI_INPUT",
         posts: resultPosts
       });
     })();
