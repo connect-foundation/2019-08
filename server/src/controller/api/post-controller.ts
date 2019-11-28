@@ -26,7 +26,7 @@ export const create = async (request: Request, response: Response) => {
 
   try {
     const profile = await Profile.findOneOrFail(profileId);
-    const post = await Post.save({ contents, profile: profile } as Post);
+    const post = await Post.save({ contents, profile: profile, room: roomId } as Post);
     const responseForm = ResponseForm.of<Post>(FOUND_POST_PROFILE, post);
     publishIO().emit(PUBLISH_EVENT.SEND_MESSAGE, responseForm);
     return response.status(CREATED).json(responseForm);
