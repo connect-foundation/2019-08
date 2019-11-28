@@ -27,6 +27,7 @@ const parsePost = (post: Post) => {
     id: post.id,
     contents: post.contents,
     imgSrc: post.imgSrc,
+    profile: null,
     createdAt: post.createdAt.toISOString(),
     updatedAt: post.updatedAt.toISOString()
   };
