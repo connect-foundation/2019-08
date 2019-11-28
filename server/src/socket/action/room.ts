@@ -1,7 +1,7 @@
 import {Room} from "../../entity/Room";
 import SocketIO from "socket.io";
 
-const take = (room: Room): string => room.id.toString();
+const takeId = (room: Room): string => room.id.toString();
 
 /**
  * request에 포함된 profile id를 기반으로
@@ -10,23 +10,13 @@ const take = (room: Room): string => room.id.toString();
 export const join = async (socket: SocketIO.Socket, profileId: string): Promise<void> => {
   try {
     const rooms = await Room.find();
-    rooms.map(take)
+    rooms.map(takeId)
             .forEach(roomId => {
               socket.join(roomId);
             });
   } catch (error) {
     console.error(error);
   }
-  // try{
-  //     const rooms = await Room.find({
-  //         where: { id: profileId }
-  //     });
-  //         rooms.forEach(room => {
-  //             socket.join(`${room.id}`);
-  //         });
-  // } catch(error) {
-  //     console.error(error);
-  // }
 };
 
 /**
@@ -36,21 +26,11 @@ export const join = async (socket: SocketIO.Socket, profileId: string): Promise<
 export const leave = async (socket: SocketIO.Socket, profileId: string): Promise<void> => {
   try {
     const rooms = await Room.find();
-    rooms.map(take)
+    rooms.map(takeId)
             .forEach(roomId => {
               socket.leave(roomId);
             });
   } catch (error) {
     console.error(error);
   }
-  // try{
-  //     const rooms = await Room.find({
-  //         where: { id: profileId }
-  //     });
-  //         rooms.forEach(room => {
-  //             socket.join(`${room.id}`);
-  //         });
-  // } catch(error) {
-  //     console.error(error);
-  // }
 };

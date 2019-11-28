@@ -5,6 +5,8 @@ import ResponseForm from "../../utils/response-form";
 import {publishIO} from "../../socket/socket-manager";
 import {Profile} from "../../entity/Profile";
 import {CREATED, NOT_FOUND, OK} from "./common/status-code";
+import {FOUND_CHANNEL, FOUND_POST_PROFILE, NOT_FOUND_PROFILE} from "./common/error-message";
+import {PUBLISH_EVENT} from "../../socket/common/events/publish-type";
 
 /**
  *
@@ -19,11 +21,11 @@ export const create = async (request: Request, response: Response) => {
   try {
     const profile = await Profile.findOneOrFail(profileId);
     const post = await Post.save({contents, profile: profile} as Post);
-    const responseForm = ResponseForm.of<Post>("ok", post);
-    publishIO().to(`${roomId}`).emit("newPost", responseForm);
+    const responseForm = ResponseForm.of<Post>(FOUND_POST_PROFILE, post);
+    publishIO().to(`${roomId}`).emit(PUBLISH_EVENT.SEND_MESSAGE, responseForm);
     return response.status(CREATED).json(responseForm);
   } catch (error) {
-    return response.status(NOT_FOUND).json(ResponseForm.of(`not found profile that has ${profileId}`));
+    return response.status(NOT_FOUND).json(ResponseForm.of(NOT_FOUND_PROFILE));
   }
 };
 
@@ -43,5 +45,5 @@ export const findByChannelId = async (request: Request, response: Response) => {
   const posts = await Post.findByChannelId(id, pageable);
   return response
           .status(OK)
-          .json(ResponseForm.of<Post[]>("ok", [...posts]));
+          .json(ResponseForm.of<object>(FOUND_CHANNEL, {posts: posts}));
 };

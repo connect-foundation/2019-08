@@ -3,6 +3,12 @@ import {SuperTest, Test} from "supertest";
 import Application from "../../../src/app";
 import {Room} from "../../../src/entity/Room";
 import {runInTransaction, initialiseTestTransactions} from "typeorm-test-transactions";
+import {
+  ALREADY_EXIST_CHANNEL,
+  CREATE_CHANNEL,
+  FOUND_CHANNEL,
+  NOT_FOUND_CHANNEL
+} from "../../../src/controller/api/common/error-message";
 
 initialiseTestTransactions();
 
@@ -37,7 +43,7 @@ describe("Test /api/channels", () => {
               .expect("Content-Type", /json/)
               .expect(200)
               .expect({
-                message: "ok", payload: {
+                message: FOUND_CHANNEL, payload: {
                   ...channel,
                   updatedAt: channel.updatedAt.toISOString(),
                   createdAt: channel.createdAt.toISOString()
@@ -62,7 +68,7 @@ describe("Test /api/channels", () => {
               .expect("Content-Type", /json/)
               .expect(404)
               .expect({
-                message: "not found", payload: {}
+                message: NOT_FOUND_CHANNEL, payload: {}
               });
     }));
   });
@@ -100,7 +106,7 @@ describe("Test /api/channels", () => {
                 const {message, payload} = res.body;
                 const {title, description, isPrivate, isChannel} = payload;
 
-                expect(message).toBe("ok");
+                expect(message).toBe(CREATE_CHANNEL);
                 expect(title).toBe(channel.title);
                 expect(description).toBe(channel.description);
                 expect(isPrivate).toBeFalsy();
@@ -130,7 +136,7 @@ describe("Test /api/channels", () => {
               .expect("Content-Type", /json/)
               .expect(409)
               .expect({
-                message: "given channel title already exists", payload: {}
+                message: ALREADY_EXIST_CHANNEL, payload: {}
               });
     }));
   });
