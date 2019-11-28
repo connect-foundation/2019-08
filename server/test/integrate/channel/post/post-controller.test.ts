@@ -1,9 +1,9 @@
 import request from "supertest";
 import {SuperTest, Test} from "supertest";
-import Application from "../../../src/app";
-import {Room} from "../../../src/entity/Room";
+import Application from "../../../../src/app";
+import {Room} from "../../../../src/entity/Room";
 import {runInTransaction, initialiseTestTransactions} from "typeorm-test-transactions";
-import {Post} from "../../../src/entity/Post";
+import {Post} from "../../../../src/entity/Post";
 
 initialiseTestTransactions();
 
@@ -35,8 +35,8 @@ const parsePosts = (posts: Post[]) => {
   return posts.map(parsePost);
 };
 
-describe("/api/channels", () => {
-  describe("GET /:id/posts", () => {
+describe("Test /api/channels", () => {
+  describe("Test GET /:id/posts", () => {
     let app: SuperTest<Test>;
 
     beforeAll(done => {
