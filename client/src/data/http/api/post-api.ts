@@ -6,6 +6,10 @@ import { AxiosResponse, AxiosError } from "axios";
 import { AxiosWrapper } from "./axios-wrapper";
 import { ResponseEntity } from "./response/ResponseEntity";
 
+export interface posts<T> {
+  posts: T[];
+}
+
 export class PostApi {
   private axios: any;
 
@@ -13,10 +17,10 @@ export class PostApi {
     this.axios = axios.getAxios();
   }
 
-  getList({ id }: Channel): ResponseEntity<Post[]> | boolean {
+  getList({ id }: Channel): ResponseEntity<posts<Post>> | boolean {
     return this.axios
-      .get(`/api/posts/${id}`)
-      .then(({ data, status }: AxiosResponse<ResponseEntity<Post[]>>) => {
+      .get(`/api/channels/${id}/posts/`)
+      .then(({ data, status }: AxiosResponse<ResponseEntity<posts<Post>>>) => {
         if (StatusCodes.isOk(status)) return data;
         return false;
       })
@@ -34,7 +38,7 @@ export class PostApi {
     { id }: Channel
   ): ResponseEntity<object> | boolean {
     return this.axios
-      .post(`/api/posts`, {
+      .post(`/api/posts/`, {
         profileId: profileId,
         contents: contents,
         roomId: id

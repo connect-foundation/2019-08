@@ -3,7 +3,7 @@ import { Post } from "core/entity/post";
 import { Profile } from "core/entity/post";
 import { Channel } from "core/entity/channel";
 import { PostRepositoryType } from "core/use-case/post-repository-type";
-import { PostApi } from "data/http/api/post-api";
+import { PostApi, posts } from "data/http/api/post-api";
 
 export class PostRepository implements PostRepositoryType {
   private api: PostApi;
@@ -14,8 +14,8 @@ export class PostRepository implements PostRepositoryType {
   async getList(channel: Channel): Promise<Post[] | boolean> {
     try {
       const responseEntity = await this.api.getList(channel);
-      if ((<ResponseEntity<Post[]>>responseEntity).payload) {
-        return (<ResponseEntity<Post[]>>responseEntity).payload;
+      if ((<ResponseEntity<posts<Post>>>responseEntity).payload) {
+        return (<ResponseEntity<posts<Post>>>responseEntity).payload.posts;
       }
       return <boolean>responseEntity;
     } catch (error) {
