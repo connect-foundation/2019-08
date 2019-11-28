@@ -6,7 +6,9 @@ import FaceWhite from "assets/face-white.png";
 import { IconBox } from "presentation/components/atomic-reusable/icon-box";
 import { useMessagesDispatch } from "contexts/messages-context";
 import dubu from "assets/dubu.png";
-
+import { AppSocketChannelMatchProps } from "prop-types/match-extends-types";
+import { ResponseEntity } from "data/http/api/response/ResponseEntity";
+import { Post } from "core/entity/post";
 const InputWrapper = styled.section`
   width: 100%;
   height: 75px;
@@ -51,7 +53,10 @@ const StyledInput = styled.input.attrs({
   }
 `;
 
-export const ChatInputBox: React.FC = () => {
+export const ChatInputBox: React.FC<AppSocketChannelMatchProps> = ({
+  Application,
+  socket
+}) => {
   const KEY_PRESS_EVENT_KEY = "Enter";
   const [message, setMessage] = useState("");
   const [id, setId] = useState(0);
@@ -64,26 +69,34 @@ export const ChatInputBox: React.FC = () => {
   };
 
   //이 부분은 mock 데이터로 되어 있으니 차후 수정이 필요함
-  const inputKeyPressEventHandler = (
+  const inputKeyPressEventHandler = async (
     event: React.KeyboardEvent<HTMLInputElement>
   ) => {
     event.stopPropagation();
     if (event.key !== KEY_PRESS_EVENT_KEY) return;
     if (!message.trim()) return;
     if (!dispatch) return;
-    dispatch({
-      type: "CREATE",
-      id: id + 1,
-      profile: {
-        profileName: "두부",
-        profileThumnail: dubu
-      },
-      createdAt: new Date().toLocaleTimeString(),
-      updatedAt: "",
-      contents: message
+    const result = await Application.services.postService.createMessage(
+      1,
+      message
+    );
+    if (!result) return;
+    socket.on("newPost", (resultData: ResponseEntity<Post>) => {
+      const { payload } = resultData;
+      dispatch({
+        type: "CREATE",
+        id: payload.id!,
+        profile: {
+          profileName: payload.profile!.profileName! || "두부",
+          profileThumnail: dubu
+        },
+        createdAt: payload.createdAt!,
+        updatedAt: payload.updatedAt!,
+        contents: message
+      });
+      setId(id + 1);
+      setMessage("");
     });
-    setId(id + 1);
-    setMessage("");
   };
 
   return (

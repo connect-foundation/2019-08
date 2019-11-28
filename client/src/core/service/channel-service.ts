@@ -1,6 +1,6 @@
-import {ChannelRepositoryType} from "core/use-case/channel-repository-type";
-import {ChannelModel} from "core/model/channel-model";
-import {Channel} from "core/entity/channel";
+import { ChannelRepositoryType } from "core/use-case/channel-repository-type";
+import { ChannelModel } from "core/model/channel-model";
+import { Channel } from "core/entity/channel";
 
 /**
  *
@@ -25,15 +25,11 @@ export class ChannelService {
    *
    * */
   async create(
-          title: string,
-          description: string,
-          privacy: boolean
-  ): Promise<boolean> {
-    const channel: ChannelModel = new ChannelModel(
-            title,
-            description,
-            privacy
-    );
+    title: string,
+    description: string,
+    privacy: boolean
+  ): Promise<boolean | Channel> {
+    const channel: ChannelModel = new ChannelModel(title, description, privacy);
     const satisfaction = await this.isSatisfied(channel);
     if (satisfaction) {
       return this.repository.create(channel);

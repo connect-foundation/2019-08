@@ -4,6 +4,7 @@ import { useMessages, useMessagesDispatch } from "contexts/messages-context";
 import { AppSocketChannelMatchProps } from "prop-types/match-extends-types";
 import { PostCard } from "presentation/components/snug/post-card";
 import { Post } from "core/entity/post";
+import { usePathParameter } from "contexts/path-parameter-context";
 
 const ChatContentWrapper = styled.section`
   height: 100%;
@@ -15,22 +16,27 @@ const ChatContentWrapper = styled.section`
 `;
 
 export const ChatContent: React.FC<AppSocketChannelMatchProps> = props => {
+  const { Application } = props;
   const posts: Post[] = useMessages();
   const dispatch = useMessagesDispatch();
   const { socket } = props;
+  const pathParameter = usePathParameter();
 
   useEffect(() => {
-    socket.on("sendMessage", (obj: Post) => {
-      dispatch({
-        type: "CREATE",
-        id: obj.id!,
-        profile: obj.profile!,
-        createdAt: obj.createdAt!,
-        updatedAt: obj.updatedAt!,
-        contents: obj.contents!
-      });
+    dispatch({
+      type: "CLEAR_ALL"
     });
-  });
+    (async function() {
+      const resultPosts = await Application.services.postService.getList(
+        pathParameter.channelId
+      );
+      if (typeof resultPosts == "boolean") return;
+      dispatch({
+        type: "MULTI_INPUT",
+        posts: resultPosts
+      });
+    })();
+  }, [pathParameter]);
 
   function messageList(): React.ReactNode {
     if (!posts) return <></>;
