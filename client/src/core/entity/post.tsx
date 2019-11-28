@@ -1,7 +1,7 @@
 export interface Profile {
-  profileId?: number;
-  profileThumnail?: string;
-  profileName?: string;
+  id?: number;
+  thumbnail?: string;
+  name?: string;
 }
 
 export interface Post {

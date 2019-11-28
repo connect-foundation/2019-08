@@ -19,9 +19,9 @@ export const PostCard: React.FC<Post> = ({ profile, createdAt, contents }) => {
   return (
     <PostCardBox>
       <MarginBox />
-      <ProfileThumnail thumbnail={profile!.profileThumnail!}></ProfileThumnail>
+      <ProfileThumnail thumbnail={profile!.thumbnail!}></ProfileThumnail>
       <PostCardContents
-        writerName={profile!.profileName!}
+        writerName={profile!.name!}
         createdAt={createdAt!}
         contents={contents!}
       ></PostCardContents>

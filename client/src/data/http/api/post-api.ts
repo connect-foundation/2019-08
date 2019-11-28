@@ -33,7 +33,7 @@ export class PostApi {
   }
 
   createPost(
-    { profileId }: Profile,
+    { id: profileId }: Profile,
     { contents }: Post,
     { id }: Channel
   ): ResponseEntity<object> | boolean {

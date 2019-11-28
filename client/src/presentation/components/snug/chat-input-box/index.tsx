@@ -78,8 +78,8 @@ export const ChatInputBox: React.FC<AppSocketChannelMatchProps> = ({
         type: "CREATE",
         id: payload.id!,
         profile: {
-          profileName: payload.profile!.profileName! || "두부",
-          profileThumnail: dubu
+          name: payload.profile!.name! || "두부",
+          thumbnail: dubu
         },
         createdAt: payload.createdAt!,
         updatedAt: payload.updatedAt!,

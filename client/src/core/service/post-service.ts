@@ -22,7 +22,7 @@ export class PostService {
     channelId: number
   ): Promise<boolean> {
     const profile: Profile = {
-      profileId: profileId
+      id: profileId
     };
     const post: Post = {
       contents: contents
