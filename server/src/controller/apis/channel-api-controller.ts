@@ -37,12 +37,10 @@ export const findAll = async (request: Request, response: Response, next: NextFu
                 payload: channels
               });
     } else {
-      const error = new HttpException(404, "not found");
-      next(error);
+      next(new HttpException("not found", 404));
     }
   } catch (error){
-    const newError = new HttpException(500, error.message);
-    next(newError);
+    next(new HttpException(error.message, 500));
   }
 };
 
