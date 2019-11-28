@@ -1,4 +1,4 @@
-import HttpException from '../../exception/HttpException';
+import HttpException from '../../util/HttpException';
 import {Room} from "../../entity/Room";
 import {Request, Response, NextFunction} from "express";
 
