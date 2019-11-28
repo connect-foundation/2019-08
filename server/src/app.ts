@@ -5,7 +5,7 @@ import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import { Connection, createConnection } from "typeorm";
 import postRouter from "./routes/post/post-router";
-import channelRouter from "./routes/channel/chnnel-router";
+import channelRouter from "./routes/channel/channel-router";
 
 export default class App {
   private static app: Express;
@@ -23,6 +23,7 @@ export default class App {
   private static initializeExpress() {
     this.app = express();
     this.app.set("port", process.env.PORT || 3000);
+    this.app.set("env", process.env.NODE_ENV);
     this.app.use(morgan("dev"));
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: false }));

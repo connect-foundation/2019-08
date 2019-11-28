@@ -14,7 +14,9 @@ const router = Router({mergeParams: true});
 router.route("/:title")
         .get(ChannelApiController.find);
 
+
 router.route("/")
+        .get(ChannelApiController.findAll)
         .post(ChannelApiController.create);
 
 /**

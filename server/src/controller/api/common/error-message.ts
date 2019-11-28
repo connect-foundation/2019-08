@@ -4,6 +4,10 @@ export const NOT_FOUND_CHANNEL = "not found channel, you must right channel titl
 
 export const CREATE_CHANNEL = "create new channel";
 
+export const FOUND_CHANNELS = "found channel list";
+
+export const NOT_FOUND_CHANNELS = "not found channel list";
+
 export const FOUND_POST_PROFILE = "found post with profile";
 
 export const NOT_FOUND_PROFILE = "not found profile, you must right profile id";
