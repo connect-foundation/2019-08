@@ -31,6 +31,7 @@ export const ChatContent: React.FC<AppSocketChannelMatchProps> = props => {
         pathParameter.channelId
       );
       if (typeof resultPosts == "boolean") return;
+      console.log(resultPosts);
       dispatch({
         type: "MULTI_INPUT",
         posts: resultPosts

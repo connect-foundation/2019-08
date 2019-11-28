@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import ClipWhite from "assets/clip-white.png";
 import AtWhite from "assets/at-white.png";
 import FaceWhite from "assets/face-white.png";
 import { IconBox } from "presentation/components/atomic-reusable/icon-box";
-import { useMessagesDispatch } from "contexts/messages-context";
+import { useMessagesDispatch, useMessages } from "contexts/messages-context";
 import dubu from "assets/dubu.png";
 import { AppSocketChannelMatchProps } from "prop-types/match-extends-types";
 import { ResponseEntity } from "data/http/api/response/ResponseEntity";
@@ -61,6 +61,7 @@ export const ChatInputBox: React.FC<AppSocketChannelMatchProps> = ({
   const KEY_PRESS_EVENT_KEY = "Enter";
   const [message, setMessage] = useState("");
   const [id, setId] = useState(0);
+  const messages = useMessages();
   const dispatch = useMessagesDispatch();
   const pathPrameter = usePathParameter();
   const inputChangeEventHandler = (
@@ -69,22 +70,9 @@ export const ChatInputBox: React.FC<AppSocketChannelMatchProps> = ({
     setMessage(event.target.value);
   };
 
-  //이 부분은 mock 데이터로 되어 있으니 차후 수정이 필요함
-  const inputKeyPressEventHandler = async (
-    event: React.KeyboardEvent<HTMLInputElement>
-  ) => {
-    event.stopPropagation();
-    if (event.key !== KEY_PRESS_EVENT_KEY) return;
-    if (!message.trim()) return;
-    if (!dispatch) return;
-    const result = await Application.services.postService.createMessage(
-      1,
-      message,
-      pathPrameter.channelId
-    );
-    console.log(result);
-    if (!result) return;
+  useEffect(() => {
     socket.on("newPost", (resultData: ResponseEntity<Post>) => {
+      console.log("(성공)");
       const { payload } = resultData;
       dispatch({
         type: "CREATE",
@@ -95,11 +83,28 @@ export const ChatInputBox: React.FC<AppSocketChannelMatchProps> = ({
         },
         createdAt: payload.createdAt!,
         updatedAt: payload.updatedAt!,
-        contents: message
+        contents: payload.contents!
       });
-      setId(id + 1);
-      setMessage("");
     });
+  }, []);
+
+  //이 부분은 mock 데이터로 되어 있으니 차후 수정이 필요함
+  const inputKeyPressEventHandler = async (
+    event: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    event.stopPropagation();
+    if (event.key !== KEY_PRESS_EVENT_KEY) return;
+    if (!message.trim()) return;
+    if (!dispatch) return;
+
+    const result = await Application.services.postService.createMessage(
+      1,
+      message,
+      pathPrameter.channelId
+    );
+    if (!result) return;
+    setId(id + 1);
+    setMessage("");
   };
 
   return (
