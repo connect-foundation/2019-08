@@ -10,4 +10,5 @@ export interface Post {
   updatedAt?: string;
   contents?: string;
   profile?: Profile;
+  room?: number;
 }
