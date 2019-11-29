@@ -9,29 +9,13 @@ import {
   usePathParameter,
   usePathParameterDispatch
 } from "contexts/path-parameter-context";
-import { Context } from "context.instance";
 
 interface styledWrrapperProps {
   on: boolean;
 }
 
 const Wrapper = styled.section<styledWrrapperProps>`
-  display: flex;
-  align-items: center;
-  font-size: 1rem;
-  padding: 0px 20px;
-  ${({ on, theme }) => {
-    if (on)
-      return css`
-        background-color: ${theme.sidebarSelect};
-        color: ${theme.sidebarSelectFont};
-      `;
-    return css`
-      &:hover {
-        background-color: ${theme.sidbarHover};
-      }
-    `;
-  }}
+  // 스타일 코드
 `;
 
 interface PropsTypes {
@@ -48,9 +32,7 @@ export const ChannelTitle: React.FC<PropsTypes> = props => {
   const { history, match, id } = props;
 
   useEffect(() => {
-    history.push(`/snug/${pathParameter.channelId}`);
-    if (pathParameter.channelId == id) return setOn(true);
-    setOn(false);
+    // 채널이 바뀌면 on 상태를 바꾸는 기능 setOn
   }, [pathParameter]);
 
   const onClickEventHandler = () => {
