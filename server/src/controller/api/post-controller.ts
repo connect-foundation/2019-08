@@ -44,11 +44,11 @@ export const create = async (request: Request, response: Response) => {
  *
  * */
 export const findByChannelId = async (request: Request, response: Response) => {
-  const { id } = request.params;
+  const { channelId } = request.params;
   const pageable = new Paginator(request.query)
     .addOrder("id", request.query.order)
     .support();
-  const posts = await Post.findByChannelId(id, pageable);
+  const posts = await Post.findByChannelId(channelId, pageable);
   return response.status(OK).json(
     ResponseForm.of<object>(FOUND_CHANNEL, { posts: posts })
   );
