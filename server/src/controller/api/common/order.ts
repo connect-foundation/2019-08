@@ -42,7 +42,7 @@ export class Order {
    * */
   add(key: string, value: string): Order {
     if(this.has(key)) {
-      const sort = SORT[value] || SORT.ASC;
+      const sort = SORT[value] || SORT.DESC;
       this.entries.push({key: key, value: sort});
     }
 
