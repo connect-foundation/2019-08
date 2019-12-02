@@ -55,7 +55,7 @@ const Button = styled.button`
       font-weight: ${fontWeight};
       font-size: ${fontSize};
       border: ${border};
-      heigth: ${height};
+      height: ${height};
     `;
   }};
 `;
