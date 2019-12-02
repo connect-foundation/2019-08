@@ -29,7 +29,7 @@ const SnugDescription = styled.span`
 `;
 
 const InputWrapper = styled.form`
-  height: 40%;
+  height: 50%;
   width: 30%;
   display: flex;
   flex-direction: column;
@@ -42,11 +42,21 @@ const InputFlex = styled.section`
   justify-content: space-between;
 `;
 
-const Input = styled.section``;
+const Input = styled.section`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+`;
 
 const ButtonWrapper = styled.section`
   display: flex;
   justify-content: flex-end;
+`;
+
+const WarningText = styled.span`
+  color: red;
+  width: 100%;
+  height: 10px;
 `;
 
 export const RegisterUserForm: React.FC = () => {
@@ -54,10 +64,27 @@ export const RegisterUserForm: React.FC = () => {
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
 
-  const [isEmailFormId, setEsEmailFormId] = useState(true);
+  const [isEmailFormId, setIsEmailFormId] = useState(true);
   const [isNotDuplicatedId, setIsNotDuplicatedId] = useState(true);
   const [isValidPassword, setIsValidPassword] = useState(true);
   const [isPasswordSame, setIsPasswordSame] = useState(true);
+
+  const handleIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setId(event.target.value);
+    setIsEmailFormId(validateEmail(event.target.value));
+  };
+
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
+    setIsValidPassword(validatePasswordLength(event.target.value));
+  };
+
+  const handlePasswordCheckChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setPasswordCheck(event.target.value);
+    setIsPasswordSame(password === event.target.value);
+  };
 
   return (
     <Wrapper>
@@ -65,31 +92,41 @@ export const RegisterUserForm: React.FC = () => {
         <SnugDescription>회원 가입을 지금 바로 해보세요!</SnugDescription>
       </DescriptionWrapper>
       <InputWrapper>
-        <InputFlex>
-          <CustomLoginInput
-            color={"bdbdbd"}
-            backgroundColor={"#ffffff"}
-            placeholder={"예) XXX@XXX.XXX"}
-            width={"75%"}
-          ></CustomLoginInput>
-          <CustomButton
-            type={"submit"}
-            color={"#fda600"}
-            size={"20%"}
-            name={"중복 확인"}
-            fontSize={"0.7rem"}
-            fontColor={"#ffffff"}
-            fontWeight={"bold"}
-            height={"30px"}
-          ></CustomButton>
-        </InputFlex>
+        <Input>
+          <InputFlex>
+            <CustomLoginInput
+              color={"bdbdbd"}
+              backgroundColor={"#ffffff"}
+              placeholder={"예) XXX@XXX.XXX"}
+              width={"75%"}
+              onChange={handleIdChange}
+            ></CustomLoginInput>
+            <CustomButton
+              type={"submit"}
+              color={"#fda600"}
+              size={"20%"}
+              name={"중복 확인"}
+              fontSize={"0.7rem"}
+              fontColor={"#ffffff"}
+              fontWeight={"bold"}
+              height={"30px"}
+            ></CustomButton>
+          </InputFlex>
+          {!isEmailFormId && (
+            <WarningText>유효한 이메일 형식이 아닙니다.</WarningText>
+          )}
+        </Input>
         <Input>
           <CustomLoginInput
             color={"bdbdbd"}
             backgroundColor={"#ffffff"}
             placeholder={"Password"}
             type={"password"}
+            onChange={handlePasswordChange}
           ></CustomLoginInput>
+          {!isValidPassword && (
+            <WarningText>비밀번호는 8자 이상입니다.</WarningText>
+          )}
         </Input>
         <Input>
           <CustomLoginInput
@@ -97,7 +134,11 @@ export const RegisterUserForm: React.FC = () => {
             backgroundColor={"#ffffff"}
             placeholder={"Password Check"}
             type={"password"}
+            onChange={handlePasswordCheckChange}
           ></CustomLoginInput>
+          {!isPasswordSame && (
+            <WarningText>비밀번호가 같지 않습니다.</WarningText>
+          )}
         </Input>
         <ButtonWrapper>
           <CustomButton

@@ -17,6 +17,7 @@ const Input = styled.input`
   min-height: 50px;
   max-height: 50px;
   height: 50px;
+  min-height: 50px;
   appearance: none;
   border: none;
   border-radius: 10px;
