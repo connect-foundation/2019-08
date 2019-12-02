@@ -7,6 +7,7 @@ export interface CustomLoginInput {
   activeHoverColor?: string;
   backgroundColor?: string;
   placeholder?: string;
+  type?: string;
   onChange?(parameter: any | void): any | void;
 }
 
@@ -49,6 +50,7 @@ export const CustomLoginInput: React.FC<CustomLoginInput> = ({
   activeHoverColor,
   backgroundColor,
   placeholder,
+  type,
   onChange
 }) => {
   return (
@@ -59,6 +61,7 @@ export const CustomLoginInput: React.FC<CustomLoginInput> = ({
       backgroundColor={backgroundColor}
       placeholder={placeholder}
       onChange={onChange}
+      type={type}
     ></Input>
   );
 };

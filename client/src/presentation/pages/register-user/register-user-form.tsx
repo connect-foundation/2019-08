@@ -58,6 +58,7 @@ export const RegisterUserForm: React.FC = () => {
             color={"bdbdbd"}
             backgroundColor={"#ffffff"}
             placeholder={"Password"}
+            type={"password"}
           ></CustomLoginInput>
         </Input>
         <Input>
@@ -65,6 +66,7 @@ export const RegisterUserForm: React.FC = () => {
             color={"bdbdbd"}
             backgroundColor={"#ffffff"}
             placeholder={"Password Check"}
+            type={"password"}
           ></CustomLoginInput>
         </Input>
         <ButtonWrapper>
@@ -72,7 +74,7 @@ export const RegisterUserForm: React.FC = () => {
             type={"submit"}
             color={"#fda600"}
             size={"50%"}
-            name={"로그인"}
+            name={"회원 가입"}
             fontSize={"1.5rem"}
             fontColor={"#ffffff"}
             fontWeight={"bold"}
