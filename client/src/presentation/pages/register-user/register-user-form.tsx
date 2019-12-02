@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { RegisterUserFailedModal } from "./register-user-failed-modal";
 import { CustomLoginInput } from "presentation/components/atomic-reusable/custom-login-input";
 import { CustomButton } from "presentation/components/atomic-reusable/custom-button";
 import {
@@ -7,7 +8,7 @@ import {
   validatePasswordLength
 } from "presentation/validation/validation";
 
-const Wrapper = styled.form`
+const Wrapper = styled.section`
   background-color: #ffffff;
   height: 100%;
   width: 100%;
@@ -68,6 +69,11 @@ export const RegisterUserForm: React.FC = () => {
   const [isNotDuplicatedId, setIsNotDuplicatedId] = useState(true);
   const [isValidPassword, setIsValidPassword] = useState(true);
   const [isPasswordSame, setIsPasswordSame] = useState(true);
+  const [modalOn, setModalOn] = useState(true);
+
+  const handleModalChange = () => {
+    setModalOn(false);
+  };
 
   const handleIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setId(event.target.value);
@@ -86,12 +92,27 @@ export const RegisterUserForm: React.FC = () => {
     setIsPasswordSame(password === event.target.value);
   };
 
+  const handleSumbit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    console.log("stop the event!");
+    if (
+      !isEmailFormId ||
+      !isNotDuplicatedId ||
+      !isValidPassword ||
+      !isPasswordSame
+    ) {
+      return;
+    }
+    return;
+  };
+
   return (
     <Wrapper>
       <DescriptionWrapper>
         <SnugDescription>회원 가입을 지금 바로 해보세요!</SnugDescription>
       </DescriptionWrapper>
-      <InputWrapper>
+      {modalOn && <RegisterUserFailedModal onClick={handleModalChange} />}
+      <InputWrapper onSubmit={handleSumbit}>
         <Input>
           <InputFlex>
             <CustomLoginInput
@@ -102,7 +123,6 @@ export const RegisterUserForm: React.FC = () => {
               onChange={handleIdChange}
             ></CustomLoginInput>
             <CustomButton
-              type={"submit"}
               color={"#fda600"}
               size={"20%"}
               name={"중복 확인"}
@@ -142,7 +162,7 @@ export const RegisterUserForm: React.FC = () => {
         </Input>
         <ButtonWrapper>
           <CustomButton
-            type={"submit"}
+            type={"button"}
             color={"#fda600"}
             size={"50%"}
             name={"회원 가입"}
