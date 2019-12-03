@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import {InviteDescription} from "presentation/pages/invite-users/description";
 import {InviteForm} from "presentation/pages/invite-users/form";
-import {ApplicationProptype} from "prop-types/application-type";
+import {AppSocketInviteMatchProps} from "prop-types/match-extends-types";
 
 const Wrapper = styled.section`
   background-color: #ffffff;
@@ -14,11 +14,11 @@ const Wrapper = styled.section`
 `;
 
 
-export const InviteUsersContainer: React.FC<ApplicationProptype> = ({Application}) => {
+export const InviteUsersContainer: React.FC<AppSocketInviteMatchProps> = props => {
   return (
           <Wrapper>
             <InviteDescription/>
-            <InviteForm Application = { Application } />
+            <InviteForm {...props} />
           </Wrapper>
   );
 };

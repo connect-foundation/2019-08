@@ -8,8 +8,8 @@ export class InviteRepository implements InviteRepositoryType {
     this.inviteApi = inviteApi;
   }
 
-  async send(emails: string[]): Promise<boolean> {
-    return await this.inviteApi.sendEmails(emails);
+  async send(snugId: string, emails: string[]): Promise<boolean> {
+    return await this.inviteApi.sendEmails(snugId, emails);
   }
 
 }

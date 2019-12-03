@@ -1,3 +1,3 @@
 export interface InviteRepositoryType {
-  send(emails: string[]): Promise<boolean>;
+  send(snugId: string, emails: string[]): Promise<boolean>;
 }

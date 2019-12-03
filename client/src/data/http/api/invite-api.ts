@@ -11,9 +11,9 @@ export class InviteApi {
     this.axios = axios.getAxios();
   }
 
-  sendEmails(emails: string[]) {
+  sendEmails(snugId: string, emails: string[]) {
     return this.axios
-            .post(`/api/invite`, {emails})
+            .post(`/api/snug/${snugId}/invite`, {snugId, emails})
             .then((response: AxiosResponse<ResponseEntity<string[]>>) => StatusCodes.isOk(response.status))
             .catch((error: AxiosError) =>
                     AxiosErrorHandler.handleError(

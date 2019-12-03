@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import {InviteUsers} from "presentation/pages/invite-users/form/invite-users";
 import {InviteButton} from "presentation/pages/invite-users/form/Invite-button";
 import {EmailModel} from "core/model/email-model";
-import {ApplicationProptype} from "prop-types/application-type";
+import {AppSocketInviteMatchProps} from "prop-types/match-extends-types";
 
 const Form = styled.form`
   display: flex;
@@ -12,18 +12,18 @@ const Form = styled.form`
   width: 40%;
 `;
 
-export const InviteForm: React.FC<ApplicationProptype> = ({Application}) => {
+export const InviteForm: React.FC<AppSocketInviteMatchProps> = ({match, history, Application}) => {
   const [emails, changeEmails] = useState<EmailModel[]>([]);
+  if (!match.params.snugId) return null;
   const sendEmails = (event: React.MouseEvent) => {
     event.preventDefault();
-    Application.services.inviteService.send(emails);
-
+    Application.services.inviteService.send(match.params.snugId, emails);
+    history.push("/");
   };
-
   return (
           <Form>
             <InviteUsers emails={emails} changeEmails={changeEmails}/>
-            <InviteButton onClick={sendEmails}/>
+            <InviteButton history={history} sendEmails={sendEmails}/>
           </Form>
   );
 };

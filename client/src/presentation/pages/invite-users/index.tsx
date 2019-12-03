@@ -1,13 +1,12 @@
 import React from "react";
 import {PageLayout} from "presentation/components/atomic-reusable/page-layout";
 import {InviteUsersContainer} from "./container";
-import {AppSocketChannelMatchProps} from "prop-types/match-extends-types";
+import {AppSocketInviteMatchProps} from "prop-types/match-extends-types";
 
-export const InviteUsers: React.FC<AppSocketChannelMatchProps> = props => {
-  const { Application } = props;
+export const InviteUsers: React.FC<AppSocketInviteMatchProps> = props => {
   return (
           <PageLayout>
-            <InviteUsersContainer Application = { Application }/>
+            <InviteUsersContainer {...props} />
           </PageLayout>
   );
 };
