@@ -1,5 +1,6 @@
-import {NextFunction, Request, Response} from "express";
-
+import { NextFunction, Request, Response } from "express";
+import jwt from "jsonwebtoken";
+import { User } from "../entity/User";
 enum Numbers {
   MIN_CHARACTER_DIGIT = 0,
   MAX_CHARACTER_DIGIT = 9,
@@ -17,7 +18,9 @@ enum Numbers {
  * */
 export const isOutOfRangeChar = (character: string): boolean => {
   const digit = parseInt(character);
-  return !(Numbers.MIN_CHARACTER_DIGIT <= digit && digit <= Numbers.MAX_CHARACTER_DIGIT);
+  return !(
+    Numbers.MIN_CHARACTER_DIGIT <= digit && digit <= Numbers.MAX_CHARACTER_DIGIT
+  );
 };
 
 /**
@@ -70,10 +73,38 @@ export const isOutOfRange = (target: string): boolean => {
  * @param id
  *
  * */
-export const isNumeric = (request: Request, response: Response, next: NextFunction, id: string) => {
-  if(hasNotValue(id) || hasNotEveryNumber(id) || isOutOfRange(id)) {
+export const isNumeric = (
+  request: Request,
+  response: Response,
+  next: NextFunction,
+  id: string
+) => {
+  if (hasNotValue(id) || hasNotEveryNumber(id) || isOutOfRange(id)) {
     return next("Invalid id format. Must be an Number");
   }
 
   next();
+};
+
+export const isVerifyLogined = async (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  try {
+    const token = request.headers["Authorization"];
+    if (!token) throw new Error("토큰이 존재하지 않습니다.");
+    const decoded = <jwtVerify>(
+      jwt.verify(<string>token, process.env.SECRET_KEY)
+    );
+    const result = await User.findOne({ where: { email: decoded.email } });
+    if (!result) throw new Error("없는 유저입니다.");
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
+type jwtVerify = {
+  email: string;
 };
