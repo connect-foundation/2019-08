@@ -1,5 +1,5 @@
-import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
-import {Base} from "./Base";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Base } from "./Base";
 
 @Entity()
 export class Snug extends Base {
@@ -10,7 +10,7 @@ export class Snug extends Base {
   name: string;
 
   @Column({ nullable: true })
-  thumbnail: boolean;
+  thumbnail: string;
 
   @Column({ nullable: true })
   description: boolean;
