@@ -1,7 +1,9 @@
 import styled from "styled-components";
-import React from "react";
+import React, {Dispatch, useState} from "react";
 import {CustomInput} from "presentation/components/atomic-reusable/custom-input";
 import {CustomButton} from "presentation/components/atomic-reusable/custom-button";
+import {EmailModel} from "core/model/email-model";
+import {ArrayHelper} from "core/utility/array-helper";
 
 const InputWrapper = styled.section`
   width: 100%;
@@ -20,17 +22,58 @@ const ButtonWrapper = styled.section`
   margin-top: 1rem;
 `;
 
-export const InviteUsers: React.FC = () => {
+const addEmailModel = (emails: EmailModel[], changeEmails: any) => {
+  const emailModel = new EmailModel(emails.length);
+  emails.push(emailModel);
+  changeEmails(emails);
+  return emailModel;
+};
+
+const createChangeHandler = (email: EmailModel) => {
+  return (event: React.MouseEvent) => {
+    email.changeEmail(event.toString())
+  };
+};
+
+const createCustomInput = (email: EmailModel) => {
+  const changeHandler = createChangeHandler(email);
+  return <CustomInput key={email.getId()}
+                      color={"#bdbdbd"}
+                      backgroundColor={"#ffffff"}
+                      placeholder={"example@email.com"}
+                      onChange={changeHandler}/>;
+};
+
+const generateEmailContainer = (emails: EmailModel[], changeEmails: Dispatch<EmailModel>) => {
+  const email = addEmailModel(emails, changeEmails);
+  return createCustomInput(email);
+};
+
+const generateDefaultEmailContainers = (emails: EmailModel[], changeEmails: any) => {
+  const defaultEmailCount = 3;
+  return ArrayHelper.generateUntil(defaultEmailCount)
+          .map(() => generateEmailContainer(emails, changeEmails));
+};
+
+const initializeEmailContainers = (emails: EmailModel[], changeEmails: Dispatch<EmailModel>) => {
+  return ArrayHelper.hasNot<EmailModel>(emails) ? generateDefaultEmailContainers(emails, changeEmails) : [];
+};
+
+interface PropType {
+  emails: EmailModel[];
+  changeEmails(parameter: any | void): any | void;
+}
+
+export const InviteUsers: React.FC<PropType> = ({emails, changeEmails}) => {
+  const defaultEmails = initializeEmailContainers(emails, changeEmails);
+  const [emailContainers, addEmailContainers] = useState(defaultEmails);
+  const addEmailContainerHandler = (event: React.MouseEvent) => {
+    event.preventDefault();
+    const emailContainer = generateEmailContainer(emails, changeEmails);
+    addEmailContainers(emailContainers.concat(emailContainer));
+  };
   return (<InputWrapper>
-    <CustomInput color={"#bdbdbd"}
-                 backgroundColor={"#ffffff"}
-                 placeholder={"example@email.com"}/>
-    <CustomInput color={"#bdbdbd"}
-                 backgroundColor={"#ffffff"}
-                 placeholder={"example@email.com"}/>
-    <CustomInput color={"#bdbdbd"}
-                 backgroundColor={"#ffffff"}
-                 placeholder={"example@email.com"}/>
+    {emailContainers}
     <ButtonWrapper>
       <CustomButton
               color={"#e3dede"}
@@ -39,6 +82,7 @@ export const InviteUsers: React.FC = () => {
               size={"100%"}
               fontWeight={"bold"}
               fontSize={"1.5rem"}
+              onClick={addEmailContainerHandler}
       />
     </ButtonWrapper>
   </InputWrapper>);

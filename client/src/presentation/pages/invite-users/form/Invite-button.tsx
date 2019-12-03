@@ -10,7 +10,11 @@ const ButtonWrapper = styled.section`
   margin-top: 1rem;
 `;
 
-export const InviteButton: React.FC = () => {
+interface PropType {
+  onClick(parameter: any | void): any | void;
+}
+
+export const InviteButton: React.FC<PropType> = ({onClick}) => {
   return (
           <ButtonWrapper>
             <CustomButton
@@ -20,6 +24,7 @@ export const InviteButton: React.FC = () => {
                     size={"big"}
                     fontWeight={"bold"}
                     fontSize={"1.9rem"}
+                    onClick={onClick}
             />
           </ButtonWrapper>
   );
