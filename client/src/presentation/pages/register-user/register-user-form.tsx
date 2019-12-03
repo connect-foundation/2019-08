@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import styled from "styled-components";
-import { RegisterUserFailedModal } from "./register-user-failed-modal";
-import { CustomLoginInput } from "presentation/components/atomic-reusable/custom-login-input";
+import { RegisterUserFailedModal } from "presentation/components/register-user/failed-modal";
 import { CustomButton } from "presentation/components/atomic-reusable/custom-button";
 import {
   validateEmail,
   validatePasswordLength
 } from "presentation/validation/validation";
 import { ApplicationProptype } from "prop-types/application-type";
+import { EmailInput } from "presentation/components/register-user/inputs/email-input";
+import { NameInput } from "presentation/components/register-user/inputs/name-input";
+import { PasswordInput } from "presentation/components/register-user/inputs/password-input";
+import { PasswordCheckInput } from "presentation/components/register-user/inputs/password-check-input";
 
 const Wrapper = styled.section`
   background-color: #ffffff;
@@ -38,32 +41,10 @@ const InputWrapper = styled.form`
   justify-content: space-between;
 `;
 
-const InputFlex = styled.section`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const Input = styled.section`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-`;
-
 const ButtonWrapper = styled.section`
   display: flex;
   justify-content: flex-end;
 `;
-
-const WarningText = styled.span`
-  color: red;
-  width: 100%;
-  height: 10px;
-`;
-
-const compareTwo = (a: any, b: any) => {
-  return a && b;
-};
 
 export const RegisterUserForm: React.FC<ApplicationProptype> = ({
   Application
@@ -77,43 +58,53 @@ export const RegisterUserForm: React.FC<ApplicationProptype> = ({
   const [isNotDuplicatedId, setIsNotDuplicatedId] = useState(true);
   const [isValidPassword, setIsValidPassword] = useState(true);
   const [isPasswordSame, setIsPasswordSame] = useState(true);
-  const [modalOn, setModalOn] = useState(true);
+  const [modalOn, setModalOn] = useState(false);
 
   const handleModalChange = () => {
     setModalOn(false);
   };
 
-  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
-    setIsEmailFormId(validateEmail(event.target.value));
-  };
+  const handleEmailChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setEmail(event.target.value);
+      setIsEmailFormId(validateEmail(event.target.value));
+    },
+    [email]
+  );
 
-  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setName(event.target.value);
-  };
+  const handleNameChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setName(event.target.value);
+    },
+    [name]
+  );
 
-  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
-    setIsValidPassword(validatePasswordLength(event.target.value));
-  };
+  const handlePasswordChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setPassword(event.target.value);
+      setIsValidPassword(validatePasswordLength(event.target.value));
+    },
+    [password]
+  );
 
-  const handlePasswordCheckChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setPasswordCheck(event.target.value);
-    setIsPasswordSame(password === event.target.value);
-  };
+  const handlePasswordCheckChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setPasswordCheck(event.target.value);
+      setIsPasswordSame(password === event.target.value);
+    },
+    [passwordCheck]
+  );
 
   const handleSumbit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("submit started");
+
     const result = await Application.services.userService.create({
       email,
       name,
       password
     });
-    console.log("submit ended");
-    return;
+    if (!!result) return;
+    setModalOn(true);
   };
 
   return (
@@ -123,61 +114,16 @@ export const RegisterUserForm: React.FC<ApplicationProptype> = ({
       </DescriptionWrapper>
       {modalOn && <RegisterUserFailedModal onClick={handleModalChange} />}
       <InputWrapper onSubmit={handleSumbit}>
-        <Input>
-          <InputFlex>
-            <CustomLoginInput
-              color={"bdbdbd"}
-              backgroundColor={"#ffffff"}
-              placeholder={"예) XXX@XXX.XXX"}
-              width={"75%"}
-              onChange={handleEmailChange}
-            ></CustomLoginInput>
-            <CustomButton
-              color={"#fda600"}
-              size={"20%"}
-              name={"중복 확인"}
-              fontSize={"0.7rem"}
-              fontColor={"#ffffff"}
-              fontWeight={"bold"}
-              height={"30px"}
-            ></CustomButton>
-          </InputFlex>
-          {!isEmailFormId && (
-            <WarningText>유효한 이메일 형식이 아닙니다.</WarningText>
-          )}
-        </Input>
-        <Input>
-          <CustomLoginInput
-            color={"bdbdbd"}
-            backgroundColor={"#ffffff"}
-            placeholder={"Nickname"}
-            onChange={handleNameChange}
-          ></CustomLoginInput>
-        </Input>
-        <Input>
-          <CustomLoginInput
-            color={"bdbdbd"}
-            backgroundColor={"#ffffff"}
-            placeholder={"Password"}
-            type={"password"}
-            onChange={handlePasswordChange}
-          ></CustomLoginInput>
-          {!isValidPassword && (
-            <WarningText>비밀번호는 8자 이상입니다.</WarningText>
-          )}
-        </Input>
-        <Input>
-          <CustomLoginInput
-            color={"bdbdbd"}
-            backgroundColor={"#ffffff"}
-            placeholder={"Password Check"}
-            type={"password"}
-            onChange={handlePasswordCheckChange}
-          ></CustomLoginInput>
-          {!isPasswordSame && (
-            <WarningText>비밀번호가 같지 않습니다.</WarningText>
-          )}
-        </Input>
+        <EmailInput onChange={handleEmailChange} isWarningOn={isEmailFormId} />
+        <NameInput onChange={handleNameChange} />
+        <PasswordInput
+          onChange={handlePasswordChange}
+          isWarningOn={isValidPassword}
+        />
+        <PasswordCheckInput
+          onChange={handlePasswordCheckChange}
+          isWarningOn={isPasswordSame}
+        />
         <ButtonWrapper>
           <CustomButton
             type={"submit"}
