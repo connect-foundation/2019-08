@@ -4,6 +4,7 @@ import {CustomInput} from "presentation/components/atomic-reusable/custom-input"
 import {CustomButton} from "presentation/components/atomic-reusable/custom-button";
 import {EmailModel} from "core/model/email-model";
 import {ArrayHelper} from "core/utility/array-helper";
+import {pipe} from "core/utility/compose-helper";
 
 const InputWrapper = styled.section`
   width: 100%;
@@ -44,10 +45,7 @@ const createCustomInput = (email: EmailModel) => {
                       onChange={changeHandler}/>;
 };
 
-const generateEmailContainer = (emails: EmailModel[], changeEmails: Dispatch<EmailModel>) => {
-  const email = addEmailModel(emails, changeEmails);
-  return createCustomInput(email);
-};
+const generateEmailContainer = pipe(addEmailModel, createCustomInput);
 
 const generateDefaultEmailContainers = (emails: EmailModel[], changeEmails: any) => {
   const defaultEmailCount = 3;
