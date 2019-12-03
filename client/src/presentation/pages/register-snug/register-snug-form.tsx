@@ -2,6 +2,7 @@ import React from "react";
 import styled, { css } from "styled-components";
 import { CustomLoginInput } from "presentation/components/atomic-reusable/custom-login-input";
 import { CustomButton } from "presentation/components/atomic-reusable/custom-button";
+import { ApplicationProptype } from "prop-types/application-type";
 
 const Wrapper = styled.section`
   background-color: #ffffff;
@@ -66,7 +67,9 @@ const ButtonWrapper = styled.section`
   align-items: center;
 `;
 
-export const RegisterSnugForm: React.FC = () => {
+export const RegisterSnugForm: React.FC<ApplicationProptype> = (props) => {
+  const { Application } = props;
+
   return (
     <Wrapper>
       <DescriptionWrapper>
