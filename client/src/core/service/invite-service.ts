@@ -18,6 +18,7 @@ export class InviteService {
   }
 
   private transferToString(emails: EmailModel[]): string[] {
-    return emails.map(email => email.toString());
+    return emails.filter(email => email.hasEmail())
+            .map(email => email.toString());
   }
 }

@@ -26,4 +26,8 @@ export class EmailModel {
   public toString() {
     return this.localPart + EmailModel.DELIMITER + this.domain;
   }
+
+  public hasEmail() {
+    return this.localPart && this.domain;
+  }
 }
