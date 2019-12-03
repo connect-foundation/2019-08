@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import {InviteDescription} from "presentation/pages/invite-users/description";
 import {InviteForm} from "presentation/pages/invite-users/form";
+import {ApplicationProptype} from "prop-types/application-type";
 
 const Wrapper = styled.section`
   background-color: #ffffff;
@@ -13,11 +14,11 @@ const Wrapper = styled.section`
 `;
 
 
-export const InviteUsersContainer: React.FC = () => {
+export const InviteUsersContainer: React.FC<ApplicationProptype> = ({Application}) => {
   return (
           <Wrapper>
             <InviteDescription/>
-            <InviteForm/>
+            <InviteForm Application = { Application } />
           </Wrapper>
   );
 };
