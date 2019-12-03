@@ -1,4 +1,4 @@
-import {NextFunction, Request, Response} from "express";
+import { NextFunction, Request, Response } from "express";
 
 enum Numbers {
   MIN_CHARACTER_DIGIT = 0,
@@ -17,7 +17,9 @@ enum Numbers {
  * */
 export const isOutOfRangeChar = (character: string): boolean => {
   const digit = parseInt(character);
-  return !(Numbers.MIN_CHARACTER_DIGIT <= digit && digit <= Numbers.MAX_CHARACTER_DIGIT);
+  return !(
+    Numbers.MIN_CHARACTER_DIGIT <= digit && digit <= Numbers.MAX_CHARACTER_DIGIT
+  );
 };
 
 /**
@@ -70,10 +72,37 @@ export const isOutOfRange = (target: string): boolean => {
  * @param id
  *
  * */
-export const isNumeric = (request: Request, response: Response, next: NextFunction, id: string) => {
-  if(hasNotValue(id) || hasNotEveryNumber(id) || isOutOfRange(id)) {
+export const isNumeric = (
+  request: Request,
+  response: Response,
+  next: NextFunction,
+  id: string
+) => {
+  if (hasNotValue(id) || hasNotEveryNumber(id) || isOutOfRange(id)) {
     return next("Invalid id format. Must be an Number");
   }
 
   next();
+};
+
+/**
+ *
+ * email이 유효한 형식(XXX@XXX.XXX) 검사
+ * @param email string
+ *
+ * */
+export const validateEmail = (email: string) => {
+  const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(email);
+};
+
+/**
+ *
+ * password가 8자리 이상 문자열 여부 확인
+ * @param string string
+ *
+ * */
+
+export const validatePasswordLength = (password: string) => {
+  return password.length >= 8;
 };
