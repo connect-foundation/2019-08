@@ -7,6 +7,7 @@ import {
   validateEmail,
   validatePasswordLength
 } from "presentation/validation/validation";
+import { ApplicationProptype } from "prop-types/application-type";
 
 const Wrapper = styled.section`
   background-color: #ffffff;
@@ -60,8 +61,15 @@ const WarningText = styled.span`
   height: 10px;
 `;
 
-export const RegisterUserForm: React.FC = () => {
-  const [id, setId] = useState("");
+const compareTwo = (a: any, b: any) => {
+  return a && b;
+};
+
+export const RegisterUserForm: React.FC<ApplicationProptype> = ({
+  Application
+}) => {
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
 
@@ -75,9 +83,13 @@ export const RegisterUserForm: React.FC = () => {
     setModalOn(false);
   };
 
-  const handleIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setId(event.target.value);
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
     setIsEmailFormId(validateEmail(event.target.value));
+  };
+
+  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setName(event.target.value);
   };
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -92,17 +104,15 @@ export const RegisterUserForm: React.FC = () => {
     setIsPasswordSame(password === event.target.value);
   };
 
-  const handleSumbit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSumbit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("stop the event!");
-    if (
-      !isEmailFormId ||
-      !isNotDuplicatedId ||
-      !isValidPassword ||
-      !isPasswordSame
-    ) {
-      return;
-    }
+    console.log("submit started");
+    const result = await Application.services.userService.create({
+      email,
+      name,
+      password
+    });
+    console.log("submit ended");
     return;
   };
 
@@ -120,7 +130,7 @@ export const RegisterUserForm: React.FC = () => {
               backgroundColor={"#ffffff"}
               placeholder={"예) XXX@XXX.XXX"}
               width={"75%"}
-              onChange={handleIdChange}
+              onChange={handleEmailChange}
             ></CustomLoginInput>
             <CustomButton
               color={"#fda600"}
@@ -135,6 +145,14 @@ export const RegisterUserForm: React.FC = () => {
           {!isEmailFormId && (
             <WarningText>유효한 이메일 형식이 아닙니다.</WarningText>
           )}
+        </Input>
+        <Input>
+          <CustomLoginInput
+            color={"bdbdbd"}
+            backgroundColor={"#ffffff"}
+            placeholder={"Nickname"}
+            onChange={handleNameChange}
+          ></CustomLoginInput>
         </Input>
         <Input>
           <CustomLoginInput
@@ -162,7 +180,7 @@ export const RegisterUserForm: React.FC = () => {
         </Input>
         <ButtonWrapper>
           <CustomButton
-            type={"button"}
+            type={"submit"}
             color={"#fda600"}
             size={"50%"}
             name={"회원 가입"}

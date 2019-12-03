@@ -14,7 +14,6 @@ export interface CustomButtonConfig {
   borderColor?: string;
   height?: string;
   onClick?(parameter: any | void): any | void;
-  onSubmit?(parameter: any | void): any | void;
 }
 
 const determineSize = (size: string) => {
@@ -71,7 +70,6 @@ export const CustomButton: React.FC<CustomButtonConfig> = ({
   fontSize,
   onClick,
   borderColor,
-  onSubmit,
   height
 }) => {
   return (
@@ -85,7 +83,6 @@ export const CustomButton: React.FC<CustomButtonConfig> = ({
       borderColor={borderColor}
       height={height}
       onClick={onClick}
-      onSubmit={onSubmit}
     >
       {name}
     </Button>
