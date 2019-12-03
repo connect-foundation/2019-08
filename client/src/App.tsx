@@ -5,6 +5,7 @@ import { Home } from "./presentation/pages/home/index";
 import { Snug } from "./presentation/pages/snug/index";
 import { RegisterSnug } from "./presentation/pages/register-snug/index";
 import { RegisterUser } from "./presentation/pages/register-user/index";
+import {InviteUsers} from "presentation/pages/invite-users";
 import { Application } from "./context.instance";
 import { createGlobalStyle } from "styled-components";
 import socketIO from "socket.io-client";
@@ -60,6 +61,13 @@ const App: React.FC = () => {
         path="/snug/:channelId"
         component={(props: any) => (
           <Snug {...props} Application={Application} socket={socket}></Snug>
+        )}
+      ></Route>
+      <Route
+        exact
+        path="/invite-users"
+        component={(props: any) => (
+          <InviteUsers {...props} Application={Application} />
         )}
       ></Route>
     </BrowserRouter>
