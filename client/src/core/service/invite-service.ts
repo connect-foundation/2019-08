@@ -8,6 +8,20 @@ export class InviteService {
     this.repository = inviteRepository;
   }
 
+  private addEmailIfNotDuplicated(emails: string[], email: string): string[] {
+    if(!emails.includes(email)) {
+      return emails.concat(email);
+    }
+
+    return emails;
+  }
+
+  private transferToString(emails: EmailModel[]): string[] {
+    return emails.filter(email => email.hasEmail())
+            .map(email => email.toString())
+            .reduce(this.addEmailIfNotDuplicated, []);
+  }
+
   async send(snugId: string, emailModels: EmailModel[]): Promise<boolean> {
     try {
       const emails = this.transferToString(emailModels);
@@ -15,10 +29,5 @@ export class InviteService {
     } catch (error) {
       return false;
     }
-  }
-
-  private transferToString(emails: EmailModel[]): string[] {
-    return emails.filter(email => email.hasEmail())
-            .map(email => email.toString());
   }
 }
