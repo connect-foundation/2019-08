@@ -71,9 +71,10 @@ export const ChatInputBox: React.FC<AppSocketChannelMatchProps> = ({
   };
 
   useEffect(() => {
+    socket.off("newPost");
     socket.on("newPost", (resultData: ResponseEntity<Post>) => {
-      console.log("(성공)");
       const { payload } = resultData;
+      if (payload.room != pathPrameter.channelId) return;
       dispatch({
         type: "CREATE",
         id: payload.id!,
@@ -86,7 +87,7 @@ export const ChatInputBox: React.FC<AppSocketChannelMatchProps> = ({
         contents: payload.contents!
       });
     });
-  }, []);
+  }, [pathPrameter]);
 
   //이 부분은 mock 데이터로 되어 있으니 차후 수정이 필요함
   const inputKeyPressEventHandler = async (
