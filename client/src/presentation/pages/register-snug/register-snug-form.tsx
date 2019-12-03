@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 import { CustomLoginInput } from "presentation/components/atomic-reusable/custom-login-input";
 import { CustomButton } from "presentation/components/atomic-reusable/custom-button";
 
-const Wrapper = styled.form`
+const Wrapper = styled.section`
   background-color: #ffffff;
   height: 100%;
   width: 100%;
@@ -24,7 +24,7 @@ const SnugDescription = styled.span`
   font-size: 2rem;
 `;
 
-const InputWrapper = styled.section`
+const FormWrapper = styled.form`
   height: 40%;
   width: 30%;
   display: flex;
@@ -72,7 +72,7 @@ export const RegisterSnugForm: React.FC = () => {
       <DescriptionWrapper>
         <SnugDescription>오직 '우리'를 위한 Snug 만들기</SnugDescription>
       </DescriptionWrapper>
-      <InputWrapper>
+      <FormWrapper>
         <InputHorizontal>
           <CustomLoginInput
             color={"bdbdbd"}
@@ -112,7 +112,7 @@ export const RegisterSnugForm: React.FC = () => {
             height={"auto"}
           ></CustomButton>
         </ButtonWrapper>
-      </InputWrapper>
+      </FormWrapper>
     </Wrapper>
   );
 };
