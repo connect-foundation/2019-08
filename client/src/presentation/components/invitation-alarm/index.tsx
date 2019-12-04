@@ -1,8 +1,16 @@
-import React, { useState, useCallback } from "react";
+import React, {
+  useState,
+  useCallback,
+  useContext,
+  useMemo,
+  useEffect
+} from "react";
 import styled from "styled-components";
 import { IconBox } from "presentation/components/atomic-reusable/icon-box";
 import { CustomButton } from "presentation/components/atomic-reusable/custom-button";
 import Notification from "assets/notification.png";
+import { globalApplication } from "contexts/application-context";
+import { Snug } from "core/entity/snug";
 
 const Wrapper = styled.section`
   position: fixed;
@@ -73,202 +81,31 @@ const InvitationNumber = styled.span`
 
 export const InvitationAlarm: React.FC = () => {
   const [onDropdown, setOnDropdown] = useState(false);
+  const [invitedSnugs, setInvitedSnugs] = useState<Snug[]>([]);
 
   const toggleDropdown = useCallback(() => {
     setOnDropdown(!onDropdown);
   }, [onDropdown]);
 
+  const application = useContext(globalApplication);
+
+  useEffect(() => {
+    const fetchInvitationLists = async () => {
+      const result = await application.services.snugService.getInvitedSnugs(
+        "yahan@naver.com"
+      );
+      if (!result) return;
+      setInvitedSnugs(result as Snug[]);
+    };
+    fetchInvitationLists();
+  }, []);
   return (
     <Wrapper>
       {onDropdown && (
         <DropDown>
-          <DropDownMenu>
-            snug 초대됨
-            <Buttons>
-              <CustomButton
-                color={"#0069d9"}
-                name={"수락"}
-                fontColor={"#ffffff"}
-                fontSize={"0.8rem"}
-              />
-              <CustomButton
-                color={"#c82333"}
-                name={"거절"}
-                fontColor={"#ffffff"}
-                fontSize={"0.8rem"}
-              />
-            </Buttons>
-          </DropDownMenu>
-          <DropDownMenu>
-            snug 초대됨
-            <Buttons>
-              <CustomButton
-                color={"#0069d9"}
-                name={"수락"}
-                fontColor={"#ffffff"}
-                fontSize={"0.8rem"}
-              />
-              <CustomButton
-                color={"#c82333"}
-                name={"거절"}
-                fontColor={"#ffffff"}
-                fontSize={"0.8rem"}
-              />
-            </Buttons>
-          </DropDownMenu>
-          <DropDownMenu>
-            snug 초대됨
-            <Buttons>
-              <CustomButton
-                color={"#0069d9"}
-                name={"수락"}
-                fontColor={"#ffffff"}
-                fontSize={"0.8rem"}
-              />
-              <CustomButton
-                color={"#c82333"}
-                name={"거절"}
-                fontColor={"#ffffff"}
-                fontSize={"0.8rem"}
-              />
-            </Buttons>
-          </DropDownMenu>
-          <DropDownMenu>
-            snug 초대됨
-            <Buttons>
-              <CustomButton
-                color={"#0069d9"}
-                name={"수락"}
-                fontColor={"#ffffff"}
-                fontSize={"0.8rem"}
-              />
-              <CustomButton
-                color={"#c82333"}
-                name={"거절"}
-                fontColor={"#ffffff"}
-                fontSize={"0.8rem"}
-              />
-            </Buttons>
-          </DropDownMenu>
-          <DropDownMenu>
-            snug 초대됨
-            <Buttons>
-              <CustomButton
-                color={"#0069d9"}
-                name={"수락"}
-                fontColor={"#ffffff"}
-                fontSize={"0.8rem"}
-              />
-              <CustomButton
-                color={"#c82333"}
-                name={"거절"}
-                fontColor={"#ffffff"}
-                fontSize={"0.8rem"}
-              />
-            </Buttons>
-          </DropDownMenu>
-          <DropDownMenu>
-            snug 초대됨
-            <Buttons>
-              <CustomButton
-                color={"#0069d9"}
-                name={"수락"}
-                fontColor={"#ffffff"}
-                fontSize={"0.8rem"}
-              />
-              <CustomButton
-                color={"#c82333"}
-                name={"거절"}
-                fontColor={"#ffffff"}
-                fontSize={"0.8rem"}
-              />
-            </Buttons>
-          </DropDownMenu>
-          <DropDownMenu>
-            snug 초대됨
-            <Buttons>
-              <CustomButton
-                color={"#0069d9"}
-                name={"수락"}
-                fontColor={"#ffffff"}
-                fontSize={"0.8rem"}
-              />
-              <CustomButton
-                color={"#c82333"}
-                name={"거절"}
-                fontColor={"#ffffff"}
-                fontSize={"0.8rem"}
-              />
-            </Buttons>
-          </DropDownMenu>
-          <DropDownMenu>
-            snug 초대됨
-            <Buttons>
-              <CustomButton
-                color={"#0069d9"}
-                name={"수락"}
-                fontColor={"#ffffff"}
-                fontSize={"0.8rem"}
-              />
-              <CustomButton
-                color={"#c82333"}
-                name={"거절"}
-                fontColor={"#ffffff"}
-                fontSize={"0.8rem"}
-              />
-            </Buttons>
-          </DropDownMenu>
-          <DropDownMenu>
-            snug 초대됨
-            <Buttons>
-              <CustomButton
-                color={"#0069d9"}
-                name={"수락"}
-                fontColor={"#ffffff"}
-                fontSize={"0.8rem"}
-              />
-              <CustomButton
-                color={"#c82333"}
-                name={"거절"}
-                fontColor={"#ffffff"}
-                fontSize={"0.8rem"}
-              />
-            </Buttons>
-          </DropDownMenu>
-          <DropDownMenu>
-            snug 초대됨
-            <Buttons>
-              <CustomButton
-                color={"#0069d9"}
-                name={"수락"}
-                fontColor={"#ffffff"}
-                fontSize={"0.8rem"}
-              />
-              <CustomButton
-                color={"#c82333"}
-                name={"거절"}
-                fontColor={"#ffffff"}
-                fontSize={"0.8rem"}
-              />
-            </Buttons>
-          </DropDownMenu>
-          <DropDownMenu>
-            snug 초대됨
-            <Buttons>
-              <CustomButton
-                color={"#0069d9"}
-                name={"수락"}
-                fontColor={"#ffffff"}
-                fontSize={"0.8rem"}
-              />
-              <CustomButton
-                color={"#c82333"}
-                name={"거절"}
-                fontColor={"#ffffff"}
-                fontSize={"0.8rem"}
-              />
-            </Buttons>
-          </DropDownMenu>
+          {invitedSnugs.map(snug => (
+            <DropDownMenu>${snug.name}</DropDownMenu>
+          ))}
           <DropDownMenu>
             snug 초대됨
             <Buttons>
