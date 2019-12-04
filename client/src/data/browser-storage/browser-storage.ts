@@ -20,8 +20,14 @@ export class BrowserStorage<E> {
     this.helper = new BrowserStorageHelper(storageType);
   }
 
-  get(): E {
+  isNull(value: any) {
+    if (value == null) return true;
+    return false;
+  }
+
+  get(): E | null {
     const value = this.helper.get(this.key);
+    if (this.isNull(value)) return null;
     return this.mapper.fromJson(value!);
   }
 

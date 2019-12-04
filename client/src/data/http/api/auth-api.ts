@@ -18,7 +18,9 @@ export class AuthApi {
       .post("/api/auth/login", user)
       .then(
         ({ data, status }: AxiosResponse<ResponseEntity<WebToken<string>>>) => {
-          if (StatusCodes.isOk(status)) return data;
+          if (StatusCodes.isOk(status)) {
+            return data;
+          }
           throw new Error("로그인에 실패 했습니다.");
         }
       )
