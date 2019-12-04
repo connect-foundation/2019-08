@@ -5,6 +5,7 @@ import { BrowserStorage } from "data/browser-storage/browser-storage";
 import jwt from "jsonwebtoken";
 import { User } from "core/entity/user";
 import { WebToken } from "core/entity/token";
+
 export class AuthRepository implements AuthRepositoryType {
   private api: AuthApi;
   private storage: BrowserStorage<JsonWebToken>;
@@ -43,6 +44,16 @@ export class AuthRepository implements AuthRepositoryType {
       return result.payload;
     } catch (error) {
       return { token: "" };
+    }
+  }
+
+  isLogined(): boolean {
+    try {
+      const result = this.storage.get();
+      if (result.token) return true;
+      return false;
+    } catch (error) {
+      return false;
     }
   }
 }

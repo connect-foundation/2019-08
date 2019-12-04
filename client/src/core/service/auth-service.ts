@@ -20,4 +20,8 @@ export class AuthService {
     const user = this.repository.getUserInfo();
     return user;
   }
+
+  isLogined(): boolean {
+    return this.repository.isLogined();
+  }
 }
