@@ -1,8 +1,9 @@
-import React from "react";
+import React , {useState}from "react";
 import styled, { css } from "styled-components";
 import { CustomLoginInput } from "presentation/components/atomic-reusable/custom-login-input";
 import { CustomButton } from "presentation/components/atomic-reusable/custom-button";
 import { ApplicationProptype } from "prop-types/application-type";
+import { Modal } from "./modal";
 
 const Wrapper = styled.section`
   background-color: #ffffff;
@@ -67,15 +68,47 @@ const ButtonWrapper = styled.section`
   align-items: center;
 `;
 
+
+
 export const RegisterSnugForm: React.FC<ApplicationProptype> = (props) => {
   const { Application } = props;
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [onModal, setOnModal] = useState(false);
+
+  const nameHandle = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    setName(event.target.value);
+  }
+
+  const descriptionHandle = (event: React.ChangeEvent<HTMLInputElement>): void  => {
+    setDescription(event.target.value)
+  }
+
+  const closeModal = () => {
+    setOnModal(false);
+  }
+
+  async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const result = await Application.services.snugService.createSnug(name, description, "");
+
+    // 오류 메세지 출력
+    if(typeof result === "boolean") {
+      return setOnModal(true);
+    }
+
+    // 유저 초대
+    window.location.href = `/invite-user/${result.id}`;
+  }
 
   return (
     <Wrapper>
       <DescriptionWrapper>
         <SnugDescription>오직 '우리'를 위한 Snug 만들기</SnugDescription>
       </DescriptionWrapper>
-      <FormWrapper>
+      {onModal && <Modal onClick={closeModal} message={"채널 생성에 실패했습니다."}/>}
+      <FormWrapper onSubmit={onSubmit}>
         <InputHorizontal>
           <CustomLoginInput
             color={"bdbdbd"}
@@ -89,6 +122,7 @@ export const RegisterSnugForm: React.FC<ApplicationProptype> = (props) => {
             color={"bdbdbd"}
             backgroundColor={"#ffffff"}
             placeholder={"Snug 이름"}
+            onChange={nameHandle}
           ></CustomLoginInput>
           <Text fontSize={"0.7rem"} paddingTop={"5px"}>
             Snug 이름을 지어주세요.
@@ -99,6 +133,7 @@ export const RegisterSnugForm: React.FC<ApplicationProptype> = (props) => {
             color={"bdbdbd"}
             backgroundColor={"#ffffff"}
             placeholder={"Snug 설명"}
+            onChange={descriptionHandle}
           ></CustomLoginInput>
           <Text fontSize={"0.7rem"} paddingTop={"5px"}>
             이 공간이 갖는 목표를 적어주세요.
