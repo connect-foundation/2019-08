@@ -14,7 +14,7 @@ export class BrowserStorageHelper {
     this.storage = this.setStorage(this.storageType);
   }
 
-  setStorage(storageType: StorageType) {
+  private setStorage(storageType: StorageType) {
     switch (storageType) {
       case StorageType.LOCAL:
         return localStorage;
