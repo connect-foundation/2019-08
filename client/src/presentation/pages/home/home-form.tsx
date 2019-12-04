@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent } from "react";
 import styled from "styled-components";
 import { CustomLoginInput } from "presentation/components/atomic-reusable/custom-login-input";
 import { CustomButton } from "presentation/components/atomic-reusable/custom-button";
@@ -53,9 +53,13 @@ export const HomeForm: React.FC = () => {
   const [password, setPassword] = useState("");
   const [validEmail, setValidEmail] = useState(true);
 
-  const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
     setValidEmail(validateEmail(event.target.value));
+  };
+
+  const onChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
   };
 
   return (
@@ -66,10 +70,11 @@ export const HomeForm: React.FC = () => {
       <InputWrapper>
         <Input>
           <CustomLoginInput
+            value={email}
             color={"bdbdbd"}
             backgroundColor={"#ffffff"}
             placeholder={"예) XXX@XXX.XXX"}
-            onChange={handleOnChange}
+            onChange={onChangeEmail}
           ></CustomLoginInput>
           {!validEmail && (
             <WarningText>유효한 이메일 형식이 아닙니다.</WarningText>
@@ -77,10 +82,11 @@ export const HomeForm: React.FC = () => {
         </Input>
         <Input>
           <CustomLoginInput
+            value={password}
             color={"bdbdbd"}
             backgroundColor={"#ffffff"}
             placeholder={"Password"}
-            onChange={setPassword}
+            onChange={onChangePassword}
           ></CustomLoginInput>
         </Input>
         <ButtonWrapper>
