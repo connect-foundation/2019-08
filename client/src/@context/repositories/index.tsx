@@ -24,4 +24,8 @@ export class RepositoryDependencies {
   getPosting() {
     return this.posting;
   }
+
+  getAuth() {
+    return this.auth;
+  }
 }
