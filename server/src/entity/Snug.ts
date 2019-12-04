@@ -10,8 +10,8 @@ export class Snug extends Base {
   name: string;
 
   @Column({ nullable: true })
-  thumbnail: boolean;
+  thumbnail: string;
 
   @Column({ nullable: true })
-  description: boolean;
+  description: string;
 }
