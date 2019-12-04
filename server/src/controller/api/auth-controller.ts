@@ -23,7 +23,7 @@ export const login = async (request: Request, response: Response) => {
       throw new Error("패스워드가 틀렸습니다.");
     return response
       .status(OK)
-      .json(ResponseForm.of("토큰입니다.", { jwt: token }));
+      .json(ResponseForm.of("토큰입니다.", { token: token }));
   } catch (error) {
     return response.status(NOT_FOUND).json(ResponseForm.of(error.message));
   }

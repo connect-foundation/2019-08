@@ -2,6 +2,8 @@ import React, { useState, ChangeEvent } from "react";
 import styled from "styled-components";
 import { CustomLoginInput } from "presentation/components/atomic-reusable/custom-login-input";
 import { CustomButton } from "presentation/components/atomic-reusable/custom-button";
+import { User } from "core/entity/user";
+import { ApplicationProptype } from "prop-types/application-type";
 
 const Wrapper = styled.form`
   background-color: #ffffff;
@@ -48,7 +50,7 @@ const validateEmail = (email: string) => {
   return re.test(email);
 };
 
-export const HomeForm: React.FC = () => {
+export const HomeForm: React.FC<ApplicationProptype> = ({ Application }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [validEmail, setValidEmail] = useState(true);
@@ -60,6 +62,20 @@ export const HomeForm: React.FC = () => {
 
   const onChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
+  };
+
+  const login = async () => {
+    const result = await Application.services.authService.login(
+      email,
+      password
+    );
+    console.log(result);
+    if (!result) {
+      setEmail("");
+      setPassword("");
+      return;
+    }
+    window.location.reload();
   };
 
   return (
@@ -91,7 +107,7 @@ export const HomeForm: React.FC = () => {
         </Input>
         <ButtonWrapper>
           <CustomButton
-            type={"submit"}
+            type={"button"}
             color={"#fda600"}
             size={"50%"}
             name={"로그인"}
@@ -99,6 +115,7 @@ export const HomeForm: React.FC = () => {
             fontColor={"#ffffff"}
             fontWeight={"bold"}
             height={"auto"}
+            onClick={login}
           ></CustomButton>
         </ButtonWrapper>
       </InputWrapper>

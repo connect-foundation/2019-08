@@ -11,5 +11,9 @@ export const Home: React.FC<ApplicationProptype> = ({ Application }) => {
     setIsLoggedIn(Application.services.authService.isLogined());
   });
 
-  return <PageLayout>{isLoggedIn ? <HomeSnug /> : <HomeForm />}</PageLayout>;
+  return (
+    <PageLayout>
+      {isLoggedIn ? <HomeSnug /> : <HomeForm Application={Application} />}
+    </PageLayout>
+  );
 };
