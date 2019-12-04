@@ -15,4 +15,9 @@ export class AuthService {
     this.repository.setToken(JsonWebToken.token);
     return true;
   }
+
+  getUserInfo(): User {
+    const user = this.repository.getUserInfo();
+    return user;
+  }
 }
