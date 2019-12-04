@@ -25,4 +25,12 @@ export class AuthRepository implements AuthRepositoryType {
       return {};
     }
   }
+
+  setToken(token: string): void {
+    try {
+      this.storage.set(new JsonWebToken(token));
+    } catch (error) {
+      return;
+    }
+  }
 }
