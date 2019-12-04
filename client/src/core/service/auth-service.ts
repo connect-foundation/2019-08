@@ -8,7 +8,11 @@ export class AuthService {
     this.repository = repository;
   }
 
-  login(email: string, password: string) {
+  async login(email: string, password: string): Promise<boolean> {
     const user: User = { email, password };
+    const JsonWebToken = await this.repository.login(user);
+    if (!JsonWebToken.token) return false;
+    this.repository.setToken(JsonWebToken.token);
+    return true;
   }
 }
