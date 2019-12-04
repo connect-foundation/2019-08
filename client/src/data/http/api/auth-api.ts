@@ -13,7 +13,7 @@ export class AuthApi {
     this.axios = axios.getAxios();
   }
 
-  getList(user: User): Promise<ResponseEntity<WebToken<string>> | boolean> {
+  login(user: User): Promise<ResponseEntity<WebToken<string>> | boolean> {
     return this.axios
       .post("/api/auth/login", user)
       .then(
