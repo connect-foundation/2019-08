@@ -11,6 +11,7 @@ import { CustomButton } from "presentation/components/atomic-reusable/custom-but
 import Notification from "assets/notification.png";
 import { globalApplication } from "contexts/application-context";
 import { Snug } from "core/entity/snug";
+import { globalSocket } from "contexts/socket-context";
 
 const Wrapper = styled.section`
   position: fixed;
@@ -88,6 +89,7 @@ export const InvitationAlarm: React.FC = () => {
   }, [onDropdown]);
 
   const application = useContext(globalApplication);
+  const socket = useContext(globalSocket);
 
   useEffect(() => {
     const fetchInvitationLists = async () => {
@@ -99,6 +101,15 @@ export const InvitationAlarm: React.FC = () => {
     };
     fetchInvitationLists();
   }, []);
+
+  useEffect(() => {
+    socket.on("tellInvitation", (data: Snug) => {
+      const currentInvitation = invitedSnugs;
+      currentInvitation.push(data);
+      setInvitedSnugs(currentInvitation);
+    });
+  }, []);
+
   return (
     <Wrapper>
       {onDropdown && (
