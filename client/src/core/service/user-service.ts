@@ -17,4 +17,9 @@ export class UserService {
   async create(user: User): Promise<boolean> {
     return await this.repository.create(user);
   }
+
+  async doesExist(email: string): Promise<boolean> {
+    const existence = await this.repository.doesEmailExist(email);
+    return existence;
+  }
 }

@@ -24,7 +24,10 @@ const WarningText = styled.span`
 
 export const EmailInput: React.FC<InputsPropTypes> = ({
   onChange,
-  isWarningOn
+  isWarningOn,
+  onClick,
+  disabled,
+  disabledColor
 }) => {
   return (
     <Input>
@@ -44,11 +47,12 @@ export const EmailInput: React.FC<InputsPropTypes> = ({
           fontColor={"#ffffff"}
           fontWeight={"bold"}
           height={"30px"}
+          onClick={onClick}
+          disabled={disabled}
+          disabledColor={disabledColor}
         ></CustomButton>
       </InputFlex>
-      {!isWarningOn && (
-        <WarningText>유효한 이메일 형식이 아닙니다.</WarningText>
-      )}
+      {isWarningOn && <WarningText>유효한 이메일 형식이 아닙니다.</WarningText>}
     </Input>
   );
 };

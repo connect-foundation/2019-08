@@ -25,12 +25,13 @@ const content = styled.main`
 
 interface PropTypes {
   onClick?(parameter: any | void): any | void;
+  message?: string;
 }
 
-export const RegisterUserFailedModal: React.FC<PropTypes> = ({ onClick }) => {
+export const Modal: React.FC<PropTypes> = ({ onClick, message }) => {
   return (
     <Wrapper>
-      <div>회원 가입이 실패했습니다.</div>
+      <div>{message}</div>
       <CustomButton
         type={"button"}
         color={"#fda600"}

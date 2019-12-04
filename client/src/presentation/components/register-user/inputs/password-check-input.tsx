@@ -28,7 +28,7 @@ export const PasswordCheckInput: React.FC<InputsPropTypes> = ({
         type={"password"}
         onChange={onChange}
       ></CustomLoginInput>
-      {!isWarningOn && <WarningText>비밀번호가 같지 않습니다.</WarningText>}
+      {isWarningOn && <WarningText>비밀번호가 같지 않습니다.</WarningText>}
     </Input>
   );
 };

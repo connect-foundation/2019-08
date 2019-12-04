@@ -1,16 +1,16 @@
 import React, { useState, useCallback } from "react";
 import styled from "styled-components";
-import { RegisterUserFailedModal } from "presentation/components/register-user/failed-modal";
-import { CustomButton } from "presentation/components/atomic-reusable/custom-button";
 import {
   validateEmail,
   validatePasswordLength
 } from "presentation/validation/validation";
 import { ApplicationProptype } from "prop-types/application-type";
+import { CustomButton } from "presentation/components/atomic-reusable/custom-button";
 import { EmailInput } from "presentation/components/register-user/inputs/email-input";
 import { NameInput } from "presentation/components/register-user/inputs/name-input";
 import { PasswordInput } from "presentation/components/register-user/inputs/password-input";
 import { PasswordCheckInput } from "presentation/components/register-user/inputs/password-check-input";
+import { Modal } from "presentation/components/register-user/modal";
 
 const Wrapper = styled.section`
   background-color: #ffffff;
@@ -46,6 +46,14 @@ const ButtonWrapper = styled.section`
   justify-content: flex-end;
 `;
 
+enum ModalMessage {
+  "REGISTER_FAILED" = "회원 가입이 실패했습니다.",
+  "EMAIL_EXISTED" = "이미 있는 이메일입니다.",
+  "EMAIL_EMPTY" = "이메일을 입력하세요.",
+  "NOT_ELEGIBLE_FORM" = "제한 조건을 확인해주세요",
+  "ELEGIBLE_FORM" = "사용 가능한 이메일입니다."
+}
+
 export const RegisterUserForm: React.FC<ApplicationProptype> = ({
   Application
 }) => {
@@ -54,13 +62,15 @@ export const RegisterUserForm: React.FC<ApplicationProptype> = ({
   const [password, setPassword] = useState("");
   const [passwordCheck, setPasswordCheck] = useState("");
 
-  const [isEmailFormId, setIsEmailFormId] = useState(true);
-  const [isNotDuplicatedId, setIsNotDuplicatedId] = useState(true);
-  const [isValidPassword, setIsValidPassword] = useState(true);
-  const [isPasswordSame, setIsPasswordSame] = useState(true);
-  const [modalOn, setModalOn] = useState(false);
+  const [isEmailFormId, setIsEmailFormId] = useState(false);
+  const [isNotDuplicatedId, setIsNotDuplicatedId] = useState(false);
+  const [isValidPassword, setIsValidPassword] = useState(false);
+  const [isPasswordSame, setIsPasswordSame] = useState(false);
 
-  const handleModalChange = () => {
+  const [modalOn, setModalOn] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+
+  const closeModal = () => {
     setModalOn(false);
   };
 
@@ -95,16 +105,37 @@ export const RegisterUserForm: React.FC<ApplicationProptype> = ({
     [passwordCheck]
   );
 
+  const openModalWithMessage = (message: ModalMessage) => {
+    setModalMessage(message);
+    setModalOn(true);
+  };
+
   const handleSumbit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     const result = await Application.services.userService.create({
       email,
       name,
       password
     });
     if (!!result) return;
-    setModalOn(true);
+    openModalWithMessage(ModalMessage.REGISTER_FAILED);
+  };
+
+  const doesEmailExist = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    if (email === "") {
+      setModalMessage(ModalMessage.EMAIL_EMPTY);
+      setModalOn(true);
+      return;
+    }
+    const result = await Application.services.userService.doesExist(email);
+    if (!result) {
+      setIsNotDuplicatedId(true);
+      openModalWithMessage(ModalMessage.ELEGIBLE_FORM);
+      return;
+    }
+    setIsNotDuplicatedId(false);
+    openModalWithMessage(ModalMessage.EMAIL_EXISTED);
   };
 
   return (
@@ -112,17 +143,23 @@ export const RegisterUserForm: React.FC<ApplicationProptype> = ({
       <DescriptionWrapper>
         <SnugDescription>회원 가입을 지금 바로 해보세요!</SnugDescription>
       </DescriptionWrapper>
-      {modalOn && <RegisterUserFailedModal onClick={handleModalChange} />}
+      {modalOn && <Modal onClick={closeModal} message={modalMessage} />}
       <InputWrapper onSubmit={handleSumbit}>
-        <EmailInput onChange={handleEmailChange} isWarningOn={isEmailFormId} />
+        <EmailInput
+          onChange={handleEmailChange}
+          isWarningOn={email.length > 0 && !isEmailFormId}
+          onClick={doesEmailExist}
+          disabled={!isEmailFormId}
+          disabledColor={"rgba(253, 166, 0, 0.5)"}
+        />
         <NameInput onChange={handleNameChange} />
         <PasswordInput
           onChange={handlePasswordChange}
-          isWarningOn={isValidPassword}
+          isWarningOn={password.length > 0 && !isValidPassword}
         />
         <PasswordCheckInput
           onChange={handlePasswordCheckChange}
-          isWarningOn={isPasswordSame}
+          isWarningOn={passwordCheck.length > 0 && !isPasswordSame}
         />
         <ButtonWrapper>
           <CustomButton
@@ -134,6 +171,13 @@ export const RegisterUserForm: React.FC<ApplicationProptype> = ({
             fontColor={"#ffffff"}
             fontWeight={"bold"}
             height={"auto"}
+            disabledColor={"rgba(253, 166, 0, 0.5)"}
+            disabled={
+              !isEmailFormId ||
+              !isNotDuplicatedId ||
+              !isValidPassword ||
+              !isPasswordSame
+            }
           ></CustomButton>
         </ButtonWrapper>
       </InputWrapper>

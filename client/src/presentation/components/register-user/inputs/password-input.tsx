@@ -27,8 +27,8 @@ export const PasswordInput: React.FC<InputsPropTypes> = ({
         placeholder={"Password"}
         type={"password"}
         onChange={onChange}
-      ></CustomLoginInput>
-      {!isWarningOn && <WarningText>비밀번호는 8자 이상입니다.</WarningText>}
+      />
+      {isWarningOn && <WarningText>비밀번호는 8자 이상입니다.</WarningText>}
     </Input>
   );
 };
