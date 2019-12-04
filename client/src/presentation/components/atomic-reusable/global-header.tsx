@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 import Dubu from "assets/dubu.png";
-import Notification from "assets/notification.png";
 
 import { CustomButton } from "./custom-button";
 import { IconBox } from "./icon-box";
+import { InvitationAlarm } from "presentation/components/invitation-alarm";
 
 // 참고 : https://www.w3schools.com/css/tryit.asp?filename=trycss_dropdown_button
 const Wrapper = styled.header`
@@ -27,7 +27,6 @@ const IconBoxWrapper = styled.section`
 const DropDown = styled.section`
   position: relative;
   display: inline-block;
-
   &:hover {
     display: block;
     > div {
@@ -84,7 +83,6 @@ export const GlobalHeader: React.FC = () => {
               <Content href="#">로그아웃</Content>
             </ContentWrapper>
           </DropDown>
-          <IconBox imageSrc={Notification} />
         </IconBoxWrapper>
       ) : (
         <CustomButton
@@ -95,6 +93,7 @@ export const GlobalHeader: React.FC = () => {
           fontWeight={"bold"}
         ></CustomButton>
       )}
+      <InvitationAlarm />
     </Wrapper>
   );
 };
