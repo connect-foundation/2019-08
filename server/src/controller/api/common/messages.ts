@@ -21,3 +21,7 @@ export const NOT_ELEGIBLE_USER_FORM =
 export const CANNOT_CREATE_USER = "cannot create user";
 
 export const CREATE_USER_SUCCESSFULLY = "created user successfully";
+
+export const FOUND_EMAIL_USER = "found user with this email";
+
+export const NO_USER_WITH_EMAIL = "no user with this email";
