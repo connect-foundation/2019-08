@@ -19,4 +19,13 @@ export class SnugRepository implements SnugRepositoryType {
             return false;
         }
     }
+
+    async getList(): Promise<Snug[] | boolean> {
+        try {
+            const responseEntity = await this.api.getList();
+            return (<ResponseEntity<Snug[]>>responseEntity).payload;
+        } catch (error) {
+            return false;
+        }
+    }
 }

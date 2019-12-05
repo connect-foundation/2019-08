@@ -32,4 +32,21 @@ export class SnugApi{
             )
         );
     }
+
+    getList(): Promise<ResponseEntity<Snug[]> | boolean> {
+        return this.axios.get(`/api/snugs`)
+            .then((response: AxiosResponse<ResponseEntity<Snug[]>>) => {
+                if (StatusCodes.isOk(response.status)) {
+                    return response.data;
+                } else {
+                    return false;
+                }
+            })
+            .catch((error: AxiosError) =>
+                AxiosErrorHandler.handleError(
+                    error,
+                    `채널을 불러오는 과정에서 예기치 못한 에러가 발생했습니다.`
+                )
+            );
+    }
 }

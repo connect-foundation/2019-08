@@ -16,4 +16,8 @@ export class SnugService {
     const snug: Snug = {name, description, thumbnail};
     return await this.repository.create(snug);
   }
+
+  async getList( ): Promise<Snug[] | boolean> {
+    return await this.repository.getList();
+  }
 }
