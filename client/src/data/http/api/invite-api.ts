@@ -13,7 +13,7 @@ export class InviteApi {
 
   sendEmails(snugId: string, emails: string[]) {
     return this.axios
-            .post(`/api/snug/${snugId}/invite`, {snugId, emails})
+            .post(`/api/snugs/${snugId}/invite`, {snugId, emails})
             .then((response: AxiosResponse<ResponseEntity<string[]>>) => StatusCodes.isOk(response.status))
             .catch((error: AxiosError) =>
                     AxiosErrorHandler.handleError(

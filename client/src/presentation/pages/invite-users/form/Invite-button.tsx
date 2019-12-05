@@ -14,12 +14,13 @@ const ButtonWrapper = styled.section`
 
 interface PropType {
   sendEmails(parameter: any | void): any | void;
+  snugId: string;
 }
 
-export const InviteButton: React.FC<PropType> = ({sendEmails}) => {
+export const InviteButton: React.FC<PropType> = ({sendEmails, snugId}) => {
   const goHome = (event: React.MouseEvent) => {
     event.preventDefault();
-    window.location.assign("/");
+    window.location.assign(`/snug/${snugId}`);
   };
 
   return (

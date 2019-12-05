@@ -2,6 +2,7 @@ import {Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "type
 import {Profile} from "./Profile";
 import {Room} from "./Room";
 import {Base} from "./Base";
+import {Paginator} from "../../controller/api/common/pagenation/paginator";
 
 @Entity()
 export class Post extends Base {
@@ -26,7 +27,8 @@ export class Post extends Base {
   )
   childCategories: Post[];
 
-  static findByChannelId(id: string, pageable: object): Promise<Post[]> {
-    return this.find({where: {room: id}, ...pageable});
+  static findByChannelId(id: string, paginator: Paginator): Promise<Post[]> {
+    paginator.addOptions({where: {room: id}});
+    return this.find(paginator.support());
   }
 }

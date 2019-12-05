@@ -1,5 +1,5 @@
 import * as ChannelApiController from "../../../src/controller/api/channel-controller";
-import {Room} from "../../../src/entity/Room";
+import {Room} from "../../../src/domain/entity/Room";
 import {FOUND_CHANNEL, NOT_FOUND_CHANNEL} from "../../../src/controller/api/common/error-message";
 
 jest.mock( "../../../src/entity/Room");
