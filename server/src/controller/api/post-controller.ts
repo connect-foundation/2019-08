@@ -1,9 +1,9 @@
-import { Post } from "../../entity/Post";
+import { Post } from "../../domain/entity/Post";
 import { Request, Response } from "express";
 import { Paginator } from "./common/paginator";
 import ResponseForm from "../../utils/response-form";
 import { publishIO } from "../../socket/socket-manager";
-import { Profile } from "../../entity/Profile";
+import { Profile } from "../../domain/entity/Profile";
 import { CREATED, NOT_FOUND, OK } from "./common/status-code";
 import {
   FOUND_CHANNEL,

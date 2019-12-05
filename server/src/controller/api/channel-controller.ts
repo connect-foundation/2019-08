@@ -1,4 +1,4 @@
-import {Room} from "../../entity/Room";
+import {Room} from "../../domain/entity/Room";
 import {NextFunction, Request, Response} from "express";
 import ResponseForm from "../../utils/response-form";
 import {CONFLICT, CREATED, INTERNAL_SERVER_ERROR, NOT_FOUND, OK} from "./common/status-code";

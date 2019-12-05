@@ -46,7 +46,7 @@ const common = {
     dropSchema: false,
     maxQueryExecutionTime: 1000,    // milliseconds
     entities: [
-        process.env.BASE_DIR + "entity/**/*.{ts,js}"
+        process.env.BASE_DIR + "domain/**/*.{ts,js}"
     ],
     migrations: [
         process.env.BASE_DIR + "migration/**/*.{ts,js}"
@@ -56,7 +56,7 @@ const common = {
     ],
     migrationsRun: false,
     cli: {
-        entitiesDir: "src/entity",
+        entitiesDir: "src/domain",
         migrationsDir: "src/migration",
         subscribersDir: "src/subscriber"
     },
