@@ -7,9 +7,9 @@ describe("Test Order", () => {
       expect(order.add("", "DESC").support()).toEqual({order: {}});
     });
 
-    test("ASC or DESC 가 아닌 값이 value 로 입력된 경우, default 인 ASC 가 설정되어야 한다", () => {
+    test("ASC or DESC 가 아닌 값이 value 로 입력된 경우, default 인 DESC 가 설정되어야 한다", () => {
       const order = new Order();
-      expect(order.add("first", "wrong_value").support()).toEqual({order: {first: "ASC"}});
+      expect(order.add("first", "wrong_value").support()).toEqual({order: {first: "DESC"}});
     });
 
     test("ASC 가 value 로 입력된 경우, ASC 가 설정되어야 한다", () => {

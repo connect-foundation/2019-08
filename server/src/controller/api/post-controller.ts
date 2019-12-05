@@ -1,6 +1,6 @@
-import { Post } from "../../entity/Post";
-import { Request, Response } from "express";
-import { Paginator } from "./common/paginator";
+import {Post} from "../../entity/Post";
+import {Request, Response} from "express";
+import {Paginator} from "./common/pagenation/paginator";
 import ResponseForm from "../../utils/response-form";
 import { publishIO } from "../../socket/socket-manager";
 import { Profile } from "../../entity/Profile";
@@ -19,7 +19,7 @@ import { PUBLISH_EVENT } from "../../socket/common/events/publish-type";
  * @param request
  * @param response
  *
- * */
+ */
 export const create = async (request: Request, response: Response) => {
   const { profileId, contents, roomId } = request.body;
   console.log(request.body);
@@ -41,19 +41,33 @@ export const create = async (request: Request, response: Response) => {
 
 /**
  *
+ * post id 존재 여부에 따라 페이징 전략 선택
+ *
+ * @param postId
+ * @param size
+ *
+ */
+const choosePage = (postId: number, size: number): Page => {
+  return !!postId ? new IdPage(postId, size) : new DefaultPage(0, size);
+};
+
+/**
+ *
  * channel id 에 해당하는 posts 조회
  *
  * @param request
  * @param response
  *
- * */
+ */
 export const findByChannelId = async (request: Request, response: Response) => {
-  const { id } = request.params;
-  const pageable = new Paginator(request.query)
-    .addOrder("id", request.query.order)
-    .support();
-  const posts = await Post.findByChannelId(id, pageable);
+  const { channelId } = request.params;
+  const { postId, size, order } = request.query;
+
+  const page: Page = choosePage(postId, size);
+  const paginator = new Paginator(page).addOrder("id", order);
+
+  const posts = await Post.findByChannelId(channelId, paginator);
   return response.status(OK).json(
-    ResponseForm.of<object>(FOUND_CHANNEL, { posts: posts })
+          ResponseForm.of<object>(FOUND_CHANNEL, { posts: posts.reverse() })
   );
 };

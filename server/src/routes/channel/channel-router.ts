@@ -23,12 +23,12 @@ router
  * /api/channels/:id/posts 경로 매핑
  *
  * */
-router.use("/:id/posts", PostRouter);
+router.use("/:channelId/posts", PostRouter);
 
 /**
  *
  * isNumber() 메소드에서 path variable 인 id 대한 유효성 검사
  *
  * */
-router.param("id", isNumeric);
+router.param("channelId", isNumeric);
 export default router;

@@ -2,6 +2,7 @@ import React from "react";
 import styled, { css } from "styled-components";
 
 export interface CustomLoginInput {
+  value?: string;
   color?: string;
   fontSize?: string;
   activeHoverColor?: string;
@@ -48,6 +49,7 @@ const Input = styled.input`
 `;
 
 export const CustomLoginInput: React.FC<CustomLoginInput> = ({
+  value,
   color,
   fontSize,
   activeHoverColor,
@@ -59,6 +61,7 @@ export const CustomLoginInput: React.FC<CustomLoginInput> = ({
 }) => {
   return (
     <Input
+      value={value}
       color={color}
       fontSize={fontSize}
       activeHoverColor={activeHoverColor}
