@@ -18,9 +18,9 @@ export const login = async (request: Request, response: Response) => {
     const payload = {
       email: email
     };
-    const token = jwt.sign(payload, secret);
     if (crypto.compareSync(password, user.password))
       throw new Error("패스워드가 틀렸습니다.");
+    const token = jwt.sign(payload, secret);
     return response
       .status(OK)
       .json(ResponseForm.of("토큰입니다.", { jwt: token }));
