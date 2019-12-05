@@ -4,6 +4,7 @@ import { PostApi } from "data/http/api/post-api";
 import { SnugApi } from "data/http/api/snug-api";
 import { UserApi } from "data/http/api/user-api";
 import { AuthApi } from "data/http/api/auth-api";
+import { InviteApi } from "data/http/api/invite-api";
 
 export class HttpProviderDependencies {
   private readonly channel: ChannelApi;
@@ -11,6 +12,7 @@ export class HttpProviderDependencies {
   private readonly snug: SnugApi;
   private readonly auth: AuthApi;
   private readonly user: UserApi;
+  private readonly invite: InviteApi;
   private readonly axiosWrapper: AxiosWrapper;
 
   constructor() {
@@ -20,6 +22,7 @@ export class HttpProviderDependencies {
     this.snug = new SnugApi(this.axiosWrapper);
     this.auth = new AuthApi(this.axiosWrapper);
     this.user = new UserApi(this.axiosWrapper);
+    this.invite = new InviteApi(this.axiosWrapper);
   }
 
   getChannel(): ChannelApi {
@@ -33,12 +36,16 @@ export class HttpProviderDependencies {
   getSnug(): SnugApi {
     return this.snug;
   }
-  
+
   getAuth(): AuthApi {
     return this.auth;
   }
 
   getUser(): UserApi {
     return this.user;
+  }
+
+  getInvite(): InviteApi {
+    return this.invite;
   }
 }

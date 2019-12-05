@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { User } from "../entity/User";
+import { User } from "../domain/entity/User";
 
 enum Numbers {
   MIN_CHARACTER_DIGIT = 0,

@@ -1,13 +1,12 @@
-import { getManager } from "typeorm";
-import { User } from "../../entity/User";
-import { Snug } from "../../entity/Snug";
-import { Profile } from "../../entity/Profile";
-import { Room } from "../../entity/Room";
-import { ParticipateIn } from "../../entity/ParticipateIn";
-import { NextFunction, Request, Response } from "express";
+import {getManager} from "typeorm";
+import {User} from "../../domain/entity/User";
+import {Snug} from "../../domain/entity/Snug";
+import {Profile} from "../../domain/entity/Profile";
+import {Room} from "../../domain/entity/Room";
+import {ParticipateIn} from "../../domain/entity/ParticipateIn";
+import {NextFunction, Request, Response} from "express";
 import ResponseForm from "../../utils/response-form";
 import { OK, CREATED, INTERNAL_SERVER_ERROR } from "http-status-codes";
-import jwt from "jsonwebtoken";
 import { offerTokenInfo, UserInfo } from "../../validator/identifier-validator";
 import { CREATED_SNUG, OK_SNUG } from "./common/messages"
 

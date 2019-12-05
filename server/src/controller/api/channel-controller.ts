@@ -1,4 +1,4 @@
-import { Room } from "../../entity/Room";
+import { Room } from "../../domain/entity/Room";
 import { NextFunction, Request, Response } from "express";
 import ResponseForm from "../../utils/response-form";
 import {
@@ -16,7 +16,7 @@ import {
   NOT_FOUND_CHANNEL,
   NOT_FOUND_CHANNELS
 } from "./common/messages";
-import HttpException from "../../util/HttpException";
+import HttpException from "../../utils/exception/HttpException";
 
 /**
  *

@@ -1,4 +1,4 @@
-import { User } from "../../entity/User";
+import { User } from "../../domain/entity/User";
 import { Request, Response } from "express";
 import ResponseForm from "../../utils/response-form";
 import { CREATED, OK, NOT_FOUND } from "./common/status-code";
@@ -8,6 +8,7 @@ import {
   NO_USER_WITH_EMAIL
 } from "./common/messages";
 import { generateHashedPassword } from "../../utils/password/generate-password";
+import {Email} from "../../domain/vo/Email";
 
 /**
  *
@@ -20,8 +21,9 @@ import { generateHashedPassword } from "../../utils/password/generate-password";
 export const create = async (request: Request, response: Response) => {
   const { email, name, password } = request.body;
   const hashedPassword = await generateHashedPassword(password);
+  const emailModel = new Email(email);
   const user = await User.save({
-    email,
+    email: emailModel,
     name,
     password: hashedPassword
   } as User);
@@ -31,8 +33,10 @@ export const create = async (request: Request, response: Response) => {
 
 export const findByEmail = async (request: Request, response: Response) => {
   const email = request.params.email;
+  const emailModel = new Email(email);
+
   try {
-    const user = await User.findOneOrFail({ email });
+    const user = await User.findOneOrFail({ email: emailModel });
     return response
       .status(OK)
       .json(ResponseForm.of<User>(FOUND_EMAIL_USER, user));
