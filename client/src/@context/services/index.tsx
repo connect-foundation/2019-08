@@ -3,9 +3,11 @@ import { ChannelService } from "core/service/channel-service";
 import { PostService } from "core/service/post-service";
 import { SnugService } from "core/service/snug-service";
 import { AuthService } from "core/service/auth-service";
+import { UserService } from "core/service/user-service";
 
 export class ServiceDependencies {
   readonly channelService: ChannelService;
+  readonly userService: UserService;
   readonly postService: PostService;
   readonly snugService: SnugService;
   readonly authService: AuthService;
@@ -21,5 +23,8 @@ export class ServiceDependencies {
       repositories.getSnug().getSnugRepository()
     );
     this.authService = new AuthService(repositories.getAuth());
+    this.userService = new UserService(
+      repositories.getUser().getUserRepository()
+    );
   }
 }

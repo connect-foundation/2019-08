@@ -4,6 +4,7 @@ import { ChatRoomRepositoryDependency } from "./chat-room";
 import { PostingRepositoryDependency } from "./posting";
 import { SnugRepositoryDependency } from "./snug";
 import { AuthRepository } from "data/repository/auth-repository";
+import { UserRepositoryDependency } from "./user";
 
 export class RepositoryDependencies {
   private readonly chatRoom: ChatRoomRepositoryDependency;
@@ -11,6 +12,8 @@ export class RepositoryDependencies {
   private readonly snug: SnugRepositoryDependency;
 
   private readonly auth: AuthRepository;
+  private readonly user: UserRepositoryDependency;
+
   constructor(
     apies: HttpProviderDependencies,
     storage: StorageProviderDependencies
@@ -19,6 +22,7 @@ export class RepositoryDependencies {
     this.posting = new PostingRepositoryDependency(apies.getPost());
     this.snug = new SnugRepositoryDependency(apies.getSnug());
     this.auth = new AuthRepository(apies.getAuth(), storage.getJwtLocal());
+    this.user = new UserRepositoryDependency(apies.getUser());
   }
 
   getChatRoom() {
@@ -34,5 +38,9 @@ export class RepositoryDependencies {
   }
   getAuth() {
     return this.auth;
+  }
+
+  getUser() {
+    return this.user;
   }
 }

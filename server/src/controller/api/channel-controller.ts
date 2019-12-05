@@ -15,7 +15,7 @@ import {
   FOUND_CHANNELS,
   NOT_FOUND_CHANNEL,
   NOT_FOUND_CHANNELS
-} from "./common/error-message";
+} from "./common/messages";
 import HttpException from "../../util/HttpException";
 
 /**
