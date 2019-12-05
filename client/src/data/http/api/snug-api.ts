@@ -51,4 +51,25 @@ export class SnugApi {
         )
       );
   }
+
+  responseToInvitation(snug: Snug): Promise<ResponseEntity<Snug> | boolean> {
+    return this.axios
+      .post(`/api/invite`, {
+        name: snug.name,
+        id: snug.id
+      })
+      .then((response: AxiosResponse<ResponseEntity<Snug>>) => {
+        if (StatusCodes.isOk(response.status)) {
+          return response.data;
+        } else {
+          return false;
+        }
+      })
+      .catch((error: AxiosError) =>
+        AxiosErrorHandler.handleError(
+          error,
+          `${snug.name} 추가 과정에서 예기치 못한 에러가 발생했습니다.`
+        )
+      );
+  }
 }

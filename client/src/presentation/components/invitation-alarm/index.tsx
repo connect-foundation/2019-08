@@ -94,16 +94,16 @@ export const InvitationAlarm: React.FC = () => {
   const application = useContext(globalApplication);
   const socket = useContext(globalSocket);
 
-  // useEffect(() => {
-  //   const fetchInvitationLists = async () => {
-  //     const result = await application.services.snugService.getInvitedSnugs(
-  //       "yahan@naver.com"
-  //     );
-  //     if (!result) return;
-  //     setInvitedSnugs(result as Snug[]);
-  //   };
-  //   fetchInvitationLists();
-  // }, []);
+  useEffect(() => {
+    const fetchInvitationLists = async () => {
+      const result = await application.services.snugService.getInvitedSnugs(
+        "yahan@naver.com"
+      );
+      if (!result) return;
+      setInvitedSnugs(result as Snug[]);
+    };
+    fetchInvitationLists();
+  }, []);
 
   useEffect(() => {
     socket.on("tellInvitation", (snug: Snug) => {
@@ -113,10 +113,14 @@ export const InvitationAlarm: React.FC = () => {
     });
   }, []);
 
-  const acceptDeclineHandler = (invitedSnugs: Snug[], snug: Snug) => {
+  const acceptDeclineHandler = async (invitedSnugs: Snug[], snug: Snug) => {
     const idx = invitedSnugs.indexOf(snug);
     invitedSnugs.splice(idx, 1);
     setInvitedSnugs([...invitedSnugs]);
+    const result = await application.services.snugService.responseToInvitation(
+      snug
+    );
+    if (!result) return;
   };
 
   return (
@@ -154,7 +158,7 @@ export const InvitationAlarm: React.FC = () => {
           ))}
         </DropDown>
       )}
-      <InvitationNumber>5</InvitationNumber>
+      <InvitationNumber>{invitedSnugs.length}</InvitationNumber>
       <IconBox
         size={"50px"}
         imageSrc={Notification}

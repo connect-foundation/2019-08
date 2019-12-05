@@ -8,4 +8,6 @@ export interface SnugRepositoryType {
   create(snug: Snug): Promise<Snug | boolean>;
 
   getInvitedSnugs(email: string): Promise<Snug[] | boolean>;
+
+  responseToInvitation(snug: Snug): Promise<Snug | boolean>;
 }

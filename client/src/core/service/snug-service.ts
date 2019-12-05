@@ -20,4 +20,8 @@ export class SnugService {
   async getInvitedSnugs(email: string): Promise<Snug[] | boolean> {
     return await this.repository.getInvitedSnugs(email);
   }
+
+  async responseToInvitation(snug: Snug): Promise<Snug | boolean> {
+    return await this.repository.responseToInvitation(snug);
+  }
 }
