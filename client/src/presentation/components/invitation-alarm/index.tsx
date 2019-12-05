@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useCallback,
-  useContext,
-  useMemo,
-  useEffect
-} from "react";
+import React, { useState, useCallback, useContext, useEffect } from "react";
 import styled from "styled-components";
 import { IconBox } from "presentation/components/atomic-reusable/icon-box";
 import { CustomButton } from "presentation/components/atomic-reusable/custom-button";
@@ -80,9 +74,18 @@ const InvitationNumber = styled.span`
   bottom: 0;
 `;
 
+const HiddenInput = styled.input.attrs({ hidden: true, value: "5" })``;
+
 export const InvitationAlarm: React.FC = () => {
   const [onDropdown, setOnDropdown] = useState(false);
-  const [invitedSnugs, setInvitedSnugs] = useState<Snug[]>([]);
+  const [invitedSnugs, setInvitedSnugs] = useState<Snug[]>([
+    { name: "안녕", id: 1 },
+    { name: "하세요", id: 2 },
+    { name: "하세요1", id: 3 },
+    { name: "하세요2", id: 4 },
+    { name: "하세요3", id: 5 },
+    { name: "하세요4", id: 6 }
+  ]);
 
   const toggleDropdown = useCallback(() => {
     setOnDropdown(!onDropdown);
@@ -91,49 +94,64 @@ export const InvitationAlarm: React.FC = () => {
   const application = useContext(globalApplication);
   const socket = useContext(globalSocket);
 
-  useEffect(() => {
-    const fetchInvitationLists = async () => {
-      const result = await application.services.snugService.getInvitedSnugs(
-        "yahan@naver.com"
-      );
-      if (!result) return;
-      setInvitedSnugs(result as Snug[]);
-    };
-    fetchInvitationLists();
-  }, []);
+  // useEffect(() => {
+  //   const fetchInvitationLists = async () => {
+  //     const result = await application.services.snugService.getInvitedSnugs(
+  //       "yahan@naver.com"
+  //     );
+  //     if (!result) return;
+  //     setInvitedSnugs(result as Snug[]);
+  //   };
+  //   fetchInvitationLists();
+  // }, []);
 
   useEffect(() => {
-    socket.on("tellInvitation", (data: Snug) => {
+    socket.on("tellInvitation", (snug: Snug) => {
       const currentInvitation = invitedSnugs;
-      currentInvitation.push(data);
+      currentInvitation.push(snug);
       setInvitedSnugs(currentInvitation);
     });
   }, []);
+
+  const acceptDeclineHandler = (invitedSnugs: Snug[], snug: Snug) => {
+    const idx = invitedSnugs.indexOf(snug);
+    invitedSnugs.splice(idx, 1);
+    setInvitedSnugs([...invitedSnugs]);
+  };
 
   return (
     <Wrapper>
       {onDropdown && (
         <DropDown>
           {invitedSnugs.map(snug => (
-            <DropDownMenu>${snug.name}</DropDownMenu>
+            <DropDownMenu key={snug.id}>
+              ${snug.name}
+              <Buttons>
+                <CustomButton
+                  color={"#0069d9"}
+                  name={"수락"}
+                  fontColor={"#ffffff"}
+                  fontSize={"0.8rem"}
+                  onClick={acceptDeclineHandler.bind(
+                    acceptDeclineHandler,
+                    invitedSnugs,
+                    snug
+                  )}
+                />
+                <CustomButton
+                  color={"#c82333"}
+                  name={"거절"}
+                  fontColor={"#ffffff"}
+                  fontSize={"0.8rem"}
+                  onClick={acceptDeclineHandler.bind(
+                    acceptDeclineHandler,
+                    invitedSnugs,
+                    snug
+                  )}
+                />
+              </Buttons>
+            </DropDownMenu>
           ))}
-          <DropDownMenu>
-            snug 초대됨
-            <Buttons>
-              <CustomButton
-                color={"#0069d9"}
-                name={"수락"}
-                fontColor={"#ffffff"}
-                fontSize={"0.8rem"}
-              />
-              <CustomButton
-                color={"#c82333"}
-                name={"거절"}
-                fontColor={"#ffffff"}
-                fontSize={"0.8rem"}
-              />
-            </Buttons>
-          </DropDownMenu>
         </DropDown>
       )}
       <InvitationNumber>5</InvitationNumber>
