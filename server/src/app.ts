@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import { Connection, createConnection } from "typeorm";
 import postRouter from "./routes/post/post-router";
 import channelRouter from "./routes/channel/channel-router";
+import snugRouter from "./routes/snug/snug-router";
 import userRouter from "./routes/user/user-router";
 import authRouter from "./routes/auth/auth-router";
 
@@ -32,6 +33,7 @@ export default class App {
     this.app.use(cookieParser(process.env.COOKIE_SECRET));
     this.app.use("/api/posts", postRouter);
     this.app.use("/api/channels", channelRouter);
+    this.app.use("/api/snugs", snugRouter); 
     this.app.use("/api/auth", authRouter);
     this.app.use("/api/users", userRouter);
     return this.app;

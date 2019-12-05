@@ -5,6 +5,7 @@ import Notification from "assets/notification.png";
 import { CustomButton } from "./custom-button";
 import { IconBox } from "./icon-box";
 import { ApplicationProptype } from "prop-types/application-type";
+import { Link } from "react-router-dom";
 
 const Wrapper = styled.header`
   display: flex;
@@ -87,27 +88,31 @@ export const GlobalHeader: React.FC<ApplicationProptype> = ({
 
   return (
     <Wrapper>
-      <Title> Snug </Title>
+      <Link to="/"><Title> Snug </Title></Link>
       {isLoggedIn ? (
         <IconBoxWrapper>
           <DropDown onClick={clickDropdown} onMouseLeave={mouseLeave}>
             <IconBox imageSrc={Dubu} />
             <ContentWrapper on={on}>
               <Content>프로필</Content>
-              <Content>Snug 만들기</Content>
+              <Link to="register-snug">
+                <Content>Snug 만들기</Content>
+              </Link>
               <Content onClick={logout}>로그아웃</Content>
             </ContentWrapper>
           </DropDown>
           <IconBox imageSrc={Notification} />
         </IconBoxWrapper>
       ) : (
-        <CustomButton
-          color={"#fda600"}
-          size={"big"}
-          name={"회원가입"}
-          fontColor={"#ffffff"}
-          fontWeight={"bold"}
+        <Link to="/register-user">
+          <CustomButton
+            color={"#fda600"}
+            size={"big"}
+            name={"회원가입"}
+            fontColor={"#ffffff"}
+            fontWeight={"bold"}
         ></CustomButton>
+        </Link>
       )}
     </Wrapper>
   );

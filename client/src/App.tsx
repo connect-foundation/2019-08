@@ -3,7 +3,7 @@ import { Route, BrowserRouter } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import { Home } from "./presentation/pages/home/index";
 import { Snug } from "./presentation/pages/snug/index";
-import { RegisterSnug } from "./presentation/pages/register-snug/index";
+import { RegisterSnug } from "./presentation/pages/register-snug";
 import { RegisterUser } from "./presentation/pages/register-user/index";
 import { Application } from "./context.instance";
 import { createGlobalStyle } from "styled-components";
@@ -34,6 +34,7 @@ const App: React.FC = () => {
           <Home {...props} Application={Application} />
         )}
       ></Route>
+
       <Route
         exact
         path="/register-snug"

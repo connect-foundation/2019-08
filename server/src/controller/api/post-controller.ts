@@ -11,6 +11,9 @@ import {
   NOT_FOUND_PROFILE
 } from "./common/messages";
 import { PUBLISH_EVENT } from "../../socket/common/events/publish-type";
+import { Page } from "./common/pagenation/strategy/page";
+import { IdPage } from "./common/pagenation/strategy/id-page";
+import { DefaultPage } from "./common/pagenation/strategy/default-page";
 
 /**
  *

@@ -1,6 +1,6 @@
 import { ResponseEntity } from "data/http/api/response/ResponseEntity";
 import { Post } from "core/entity/post";
-import { Profile } from "core/entity/post";
+import { Profile } from "core/entity/profile";
 import { Channel } from "core/entity/channel";
 import { PostRepositoryType } from "core/use-case/post-repository-type";
 import { PostApi, posts } from "data/http/api/post-api";

@@ -13,5 +13,5 @@ export class Snug extends Base {
   thumbnail: string;
 
   @Column({ nullable: true })
-  description: boolean;
+  description: string;
 }
