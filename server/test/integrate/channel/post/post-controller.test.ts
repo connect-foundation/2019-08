@@ -38,7 +38,7 @@ const parsePosts = (posts: Post[]) => {
 };
 
 describe("Test /api/channels", () => {
-  describe("Test GET /:id/posts", () => {
+  describe("Test GET /:channelId/posts", () => {
     let app: SuperTest<Test>;
 
     beforeAll(done => {

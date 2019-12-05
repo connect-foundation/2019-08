@@ -7,6 +7,8 @@ import { ParticipateIn } from "../../entity/ParticipateIn";
 import { NextFunction, Request, Response } from "express";
 import ResponseForm from "../../utils/response-form";
 import { CREATED, INTERNAL_SERVER_ERROR } from "http-status-codes";
+import jwt from "jsonwebtoken";
+import { offerTokenInfo, UserInfo } from "../../validator/identifier-validator";
 
 /**
  * client에서 보내온 메시지를 기반으로 snug를 DB에 저장
@@ -16,7 +18,8 @@ import { CREATED, INTERNAL_SERVER_ERROR } from "http-status-codes";
  *
  * */
 export const create = async (request: Request, response: Response, next: NextFunction) => {
-    const { name, description, thumbnail, userId } = request.body;
+    const { name, description, thumbnail } = request.body;
+    const userInfo: UserInfo = offerTokenInfo(request);
 
     try {
         await getManager().transaction(async transactionalEntityManager => {
@@ -33,10 +36,10 @@ export const create = async (request: Request, response: Response, next: NextFun
             const resultSnug = await transactionalEntityManager.save(snug);
 
             // 미들웨어에 user 객체가 존재 or db 조회
-            const user: User = await transactionalEntityManager.findOne(User, userId);
+            const user: User = await transactionalEntityManager.findOne(User, userInfo.id);
 
             const profile: Profile = new Profile();
-            profile.name = "이상원";
+            profile.name = user.email;
             profile.status = "";
             profile.role = "admin";
             profile.user = user;
@@ -44,6 +47,7 @@ export const create = async (request: Request, response: Response, next: NextFun
             
             // room 생성
             const room: Room = new Room();
+
             room.title = "기본 채널";
             room.description = "기본 채널"
             room.isPrivate = false;

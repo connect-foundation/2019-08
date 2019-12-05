@@ -10,9 +10,9 @@ export class SnugRepository implements SnugRepositoryType {
         this.api = api;
     }
 
-    async create(snug: Snug, userId: number): Promise<Snug | boolean> {
+    async create(snug: Snug): Promise<Snug | boolean> {
         try {
-            const responseEntity = await this.api.create(snug, userId);
+            const responseEntity = await this.api.create(snug);
             if (typeof responseEntity === "boolean") return false;
             return (<ResponseEntity<Snug>>responseEntity).payload;
         } catch (error) {

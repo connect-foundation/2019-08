@@ -8,7 +8,7 @@ export const RegisterSnug: React.FC<ApplicationProptype> = (props) => {
   const { Application } = props;
 
   return (
-    <PageLayout>
+    <PageLayout Application={Application}>
       <RegisterSnugForm Application={Application}></RegisterSnugForm>
     </PageLayout>
   );

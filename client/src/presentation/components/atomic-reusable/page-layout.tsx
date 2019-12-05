@@ -1,6 +1,7 @@
-import React from "react";
+import React, { Props } from "react";
 import styled from "styled-components";
 import { GlobalHeader } from "./global-header";
+import { ApplicationProptype } from "prop-types/application-type";
 
 const Wrapper = styled.section`
   display: flex;
@@ -15,10 +16,13 @@ const ContentsWrapper = styled.section`
   width: 100vw;
 `;
 
-export const PageLayout: React.FC = ({ children }) => {
+export const PageLayout: React.FC<ApplicationProptype> = ({
+  children,
+  Application
+}) => {
   return (
     <Wrapper>
-      <GlobalHeader></GlobalHeader>
+      <GlobalHeader Application={Application}></GlobalHeader>
       <ContentsWrapper>{children}</ContentsWrapper>
     </Wrapper>
   );

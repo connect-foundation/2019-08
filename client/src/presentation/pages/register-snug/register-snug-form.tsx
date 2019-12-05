@@ -4,6 +4,7 @@ import { CustomLoginInput } from "presentation/components/atomic-reusable/custom
 import { CustomButton } from "presentation/components/atomic-reusable/custom-button";
 import { ApplicationProptype } from "prop-types/application-type";
 import { Modal } from "./modal";
+import { User } from "core/entity/user";
 
 const Wrapper = styled.section`
   background-color: #ffffff;
@@ -98,7 +99,7 @@ export const RegisterSnugForm: React.FC<ApplicationProptype> = (props) => {
     event.preventDefault();
 
     // local storage에 저장된 데이터를 이용
-    const userId: number = 1;
+    const user: User = Application.services.authService.getUserInfo();
     
     // input의 널 값 체크
     if(name.length == 0 || description.length == 0) {
@@ -107,7 +108,7 @@ export const RegisterSnugForm: React.FC<ApplicationProptype> = (props) => {
       return;
     }
 
-    const result = await Application.services.snugService.createSnug(name, description, "", userId);
+    const result = await Application.services.snugService.createSnug(name, description, "");
 
     // snug 생성 메세지 출력
     if(typeof result === "boolean") {
