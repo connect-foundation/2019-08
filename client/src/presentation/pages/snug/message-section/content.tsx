@@ -4,7 +4,7 @@ import { ChatContent } from "presentation/components/snug/chat-container";
 import { ChatInputBox } from "presentation/components/snug/chat-input-box";
 import { MessageContextProvider } from "contexts/messages-context";
 import { AppSocketChannelMatchProps } from "prop-types/match-extends-types";
-
+import { Preview } from "presentation/components/snug/preview";
 const MessageSectionContentWrapper = styled.section`
   width: 100%;
   height: 100%;

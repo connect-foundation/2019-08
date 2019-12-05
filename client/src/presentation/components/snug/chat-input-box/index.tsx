@@ -12,7 +12,8 @@ import { Post } from "core/entity/post";
 import { usePathParameter } from "contexts/path-parameter-context";
 const InputWrapper = styled.section`
   width: 100%;
-  height: 75px;
+  min-height: 75px;
+  max-height: 75px;
   background-color: ${({ theme }) => theme.snug};
   padding-top: 10px;
   padding-bottom: 20px;

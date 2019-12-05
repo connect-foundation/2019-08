@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { useMessages, useMessagesDispatch } from "contexts/messages-context";
 import { AppSocketChannelMatchProps } from "prop-types/match-extends-types";
 import { PostCard } from "presentation/components/snug/post-card";
@@ -9,13 +9,14 @@ import { usePathParameter } from "contexts/path-parameter-context";
 const ChatContentWrapper = styled.section.attrs({
   id: "scroll"
 })`
-  min-height: 90%;
-  max-height: 90%;
+  min-height: ${props => css`calc(100% - 75px)`};
+  max-height: calc(100% - 75px);
   width: 100%;
   overflow-y: auto;
   display: flex;
   flex-flow: column nowrap;
 `;
+
 const Wrapper = styled.section.attrs({})`
   margin-top: auto !important;
 `;
@@ -25,6 +26,7 @@ export const ChatContent: React.FC<AppSocketChannelMatchProps> = props => {
   const posts: Post[] = useMessages();
   const dispatch = useMessagesDispatch();
   const pathParameter = usePathParameter();
+
   useEffect(() => {
     (async function() {
       dispatch({
