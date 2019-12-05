@@ -68,13 +68,19 @@ const ButtonWrapper = styled.section`
   align-items: center;
 `;
 
-
+enum ModalMessage {
+  "nullCheck" = "입력값을 확인해주세요.",
+  "failMessage" = "스너그 생성에 실패했습니다."
+}
 
 export const RegisterSnugForm: React.FC<ApplicationProptype> = (props) => {
   const { Application } = props;
+
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+
   const [onModal, setOnModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");  
 
   const nameHandle = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setName(event.target.value);
@@ -91,10 +97,21 @@ export const RegisterSnugForm: React.FC<ApplicationProptype> = (props) => {
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const result = await Application.services.snugService.createSnug(name, description, "");
+    // local storage에 저장된 데이터를 이용
+    const userId: number = 1;
+    
+    // input의 널 값 체크
+    if(name.length == 0 || description.length == 0) {
+      setModalMessage(ModalMessage.nullCheck);
+      setOnModal(true);
+      return;
+    }
 
-    // 오류 메세지 출력
+    const result = await Application.services.snugService.createSnug(name, description, "", userId);
+
+    // snug 생성 메세지 출력
     if(typeof result === "boolean") {
+      setModalMessage(ModalMessage.failMessage);
       return setOnModal(true);
     }
 
@@ -107,7 +124,7 @@ export const RegisterSnugForm: React.FC<ApplicationProptype> = (props) => {
       <DescriptionWrapper>
         <SnugDescription>오직 '우리'를 위한 Snug 만들기</SnugDescription>
       </DescriptionWrapper>
-      {onModal && <Modal onClick={closeModal} message={"채널 생성에 실패했습니다."}/>}
+      {onModal && <Modal onClick={closeModal} message={modalMessage}/>}
       <FormWrapper onSubmit={onSubmit}>
         <InputHorizontal>
           <CustomLoginInput

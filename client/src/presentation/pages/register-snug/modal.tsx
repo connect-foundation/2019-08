@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { CustomButton } from "presentation/components/atomic-reusable/custom-button";
+
 const Wrapper = styled.section`
   position: absolute;
   z-index: 1;
@@ -17,13 +18,16 @@ const Wrapper = styled.section`
   border-radius: 10px;
   transform: translateY(-50%);
 `;
+
 const content = styled.main`
   margin-bottom: 10px;
 `;
+
 interface PropTypes {
   onClick?(parameter: any | void): any | void;
   message?: string;
 }
+
 export const Modal: React.FC<PropTypes> = ({ onClick, message }) => {
   return (
     <Wrapper>
