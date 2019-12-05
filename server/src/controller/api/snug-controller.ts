@@ -39,7 +39,7 @@ export const create = async (request: Request, response: Response, next: NextFun
             const user: User = await transactionalEntityManager.findOne(User, userInfo.id);
 
             const profile: Profile = new Profile();
-            profile.name = user.email;
+            profile.name = user.name;
             profile.status = "";
             profile.role = "admin";
             profile.user = user;
@@ -49,7 +49,6 @@ export const create = async (request: Request, response: Response, next: NextFun
             const room: Room = new Room();
 
             room.title = "기본 채널";
-            room.description = "기본 채널"
             room.isPrivate = false;
             room.isChannel = true;
             room.snug = resultSnug;

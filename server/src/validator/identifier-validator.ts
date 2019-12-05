@@ -114,5 +114,6 @@ export const isVerifyLogined = async (
 
 export type UserInfo = {
   id: number;
+  name: string;
   email: string;
 };

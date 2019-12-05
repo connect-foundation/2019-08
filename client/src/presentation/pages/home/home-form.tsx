@@ -46,7 +46,8 @@ const ButtonWrapper = styled.section`
   justify-content: flex-end;
 `;
 
-export const HomeForm: React.FC = () => {
+export const HomeForm: React.FC<ApplicationProptype> = (props) => {
+  const { Application } = props;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [validEmail, setValidEmail] = useState(true);
@@ -99,6 +100,7 @@ export const HomeForm: React.FC = () => {
             backgroundColor={"#ffffff"}
             placeholder={"Password"}
             onChange={onChangePassword}
+            type={"password"}
           ></CustomLoginInput>
         </Input>
         <ButtonWrapper>

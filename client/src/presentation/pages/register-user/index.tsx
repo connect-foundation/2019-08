@@ -6,7 +6,7 @@ import { AppSocketChannelMatchProps } from "prop-types/match-extends-types";
 export const RegisterUser: React.FC<AppSocketChannelMatchProps> = props => {
   const { Application } = props;
   return (
-    <PageLayout>
+    <PageLayout Application={Application}>
       <RegisterUserForm Application={Application} />
     </PageLayout>
   );
