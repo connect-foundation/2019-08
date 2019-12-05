@@ -25,4 +25,8 @@ export class AuthService {
   isLogined(): boolean {
     return this.repository.isLogined();
   }
+
+  logout(): boolean {
+    return this.repository.logout();
+  }
 }
