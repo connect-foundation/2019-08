@@ -12,18 +12,18 @@ const Form = styled.form`
   width: 40%;
 `;
 
-export const InviteForm: React.FC<AppSocketInviteMatchProps> = ({match, history, Application}) => {
+export const InviteForm: React.FC<AppSocketInviteMatchProps> = ({match, Application}) => {
   const [emails, changeEmails] = useState<EmailModel[]>([]);
   if (!match.params.snugId) return null;
   const sendEmails = (event: React.MouseEvent) => {
     event.preventDefault();
     Application.services.inviteService.send(match.params.snugId, emails);
-    history.push("/");
+    window.location.assign("/");
   };
   return (
           <Form>
             <InviteUsers emails={emails} changeEmails={changeEmails}/>
-            <InviteButton history={history} sendEmails={sendEmails}/>
+            <InviteButton sendEmails={sendEmails}/>
           </Form>
   );
 };

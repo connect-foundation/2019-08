@@ -7,7 +7,6 @@ export class HttpProviderDependencies {
   private readonly channel: ChannelApi;
   private readonly post: PostApi;
   private readonly invite: InviteApi;
-
   private readonly axiosWrapper: AxiosWrapper;
 
   constructor() {

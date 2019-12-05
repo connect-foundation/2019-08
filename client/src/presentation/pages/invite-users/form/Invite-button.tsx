@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import {CustomButton} from "presentation/components/atomic-reusable/custom-button";
-import {History} from "history";
 
 const Wrapper = styled.section`
   display: flex;
@@ -14,12 +13,15 @@ const ButtonWrapper = styled.section`
 `;
 
 interface PropType {
-  history: History<any>;
   sendEmails(parameter: any | void): any | void;
 }
 
-export const InviteButton: React.FC<PropType> = ({history, sendEmails}) => {
-  const goHome = () => history.push("/");
+export const InviteButton: React.FC<PropType> = ({sendEmails}) => {
+  const goHome = (event: React.MouseEvent) => {
+    event.preventDefault();
+    window.location.assign("/");
+  };
+
   return (
           <Wrapper>
             <ButtonWrapper>
