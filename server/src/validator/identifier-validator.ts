@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { User } from "../entity/User";
+
 enum Numbers {
   MIN_CHARACTER_DIGIT = 0,
   MAX_CHARACTER_DIGIT = 9,
@@ -86,15 +87,14 @@ export const isNumeric = (
   next();
 };
 
-interface VerifirdRequest extends Request {
-  user: {
-    id: number;
-    email: string;
-  };
-}
+export const offerTokenInfo = (request: Request) => {
+  const token = request.headers["auth-token"];
+  const decoded = <jwtVerify>jwt.verify(<string>token, process.env.SECRET_KEY);
+  return decoded;
+};
 
 export const isVerifyLogined = async (
-  request: VerifirdRequest,
+  request: Request,
   response: Response,
   next: NextFunction
 ) => {
@@ -106,7 +106,6 @@ export const isVerifyLogined = async (
     );
     const result = await User.findOne({ where: { email: decoded.email } });
     if (!result) throw new Error("없는 유저입니다.");
-    request.user = { id: decoded.id, email: decoded.email };
     next();
   } catch (error) {
     next(error);

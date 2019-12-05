@@ -19,7 +19,7 @@ export const login = async (request: Request, response: Response) => {
       id: user.id,
       email: email
     };
-    if (crypto.compareSync(password, user.password))
+    if (await crypto.compare(password, user.password))
       throw new Error("패스워드가 틀렸습니다.");
     const token = jwt.sign(payload, secret);
     return response
