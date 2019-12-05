@@ -117,7 +117,10 @@ export const RegisterUserForm: React.FC<ApplicationProptype> = ({
       name,
       password
     });
-    if (!!result) return;
+    if (!!result) {
+      window.location.href = "/";
+      return;
+    }
     openModalWithMessage(ModalMessage.REGISTER_FAILED);
   };
 
