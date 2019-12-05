@@ -1,9 +1,9 @@
-import {Column} from "typeorm";
+import {PrimaryColumn} from "typeorm";
 
 export class Email {
-  @Column({length: 64})
+  @PrimaryColumn({length: 64})
   localPart: string;
-  @Column({length: 255})
+  @PrimaryColumn({length: 255})
   domain: string;
   private static readonly DELIMITER = "@";
 

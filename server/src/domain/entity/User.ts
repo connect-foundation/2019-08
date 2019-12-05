@@ -12,6 +12,9 @@ export class User extends Base {
   email: Email;
 
   @Column()
+  name: string;
+
+  @Column()
   password: string;
 
   constructor(email?: Email) {

@@ -15,8 +15,7 @@ export const NOT_FOUND_PROFILE = "not found profile, you must right profile id";
 
 export const ALREADY_EXIST_CHANNEL = "given channel title already exists";
 
-export const NOT_ELEGIBLE_USER_FORM =
-  "included not appropriate user register form";
+export const NOT_ELEGIBLE_USER_FORM = "included not appropriate user register form";
 
 export const CANNOT_CREATE_USER = "cannot create user";
 
@@ -25,3 +24,7 @@ export const CREATE_USER_SUCCESSFULLY = "created user successfully";
 export const FOUND_EMAIL_USER = "found user with this email";
 
 export const NO_USER_WITH_EMAIL = "no user with this email";
+
+export const SUCCESS_INVITE="successfully sent all your emails and alarm";
+
+export const FAIL_INVITE="All emails and alarms have failed";

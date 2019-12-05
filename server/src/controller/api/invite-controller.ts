@@ -4,7 +4,7 @@ import {Invite} from "../../domain/entity/Invite";
 import {Inviter} from "../../model/inviter";
 import {EmailNotifier} from "../../model/notifier/email-notifier";
 import {InviteNotifier} from "../../model/notifier/invite-notifier";
-import {FAIL_INVITE, SUCCESS_INVITE} from "./common/error-message";
+import {FAIL_INVITE, SUCCESS_INVITE} from "./common/messages";
 import {isLongerThan} from "../../utils/array-helper";
 import ResponseForm from "../../utils/response-form";
 import UrlInfo from "../../utils/url-info";
