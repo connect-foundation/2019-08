@@ -9,4 +9,6 @@ export interface AuthRepositoryType {
   login(user: User): Promise<WebToken<string>>;
 
   isLogined(): boolean;
+
+  logout(): boolean;
 }

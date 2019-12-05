@@ -57,4 +57,13 @@ export class AuthRepository implements AuthRepositoryType {
       return false;
     }
   }
+
+  logout(): boolean {
+    try {
+      this.storage.clear();
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
 }
