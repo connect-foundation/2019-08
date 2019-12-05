@@ -22,4 +22,12 @@ export class EmailModel {
   public getId() {
     return this.id;
   }
+
+  public toString() {
+    return this.localPart + EmailModel.DELIMITER + this.domain;
+  }
+
+  public hasEmail() {
+    return this.localPart && this.domain;
+  }
 }

@@ -65,7 +65,7 @@ const App: React.FC = () => {
       ></Route>
       <Route
         exact
-        path="/invite-users"
+        path="/invite-users/:snugId"
         component={(props: any) => (
           <InviteUsers {...props} Application={Application} />
         )}
