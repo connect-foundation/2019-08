@@ -3,7 +3,7 @@ import { Route, BrowserRouter } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import { Home } from "./presentation/pages/home/index";
 import { Snug } from "./presentation/pages/snug/index";
-import { RegisterSnug } from "./presentation/pages/register-snug/index";
+import { RegisterSnug } from "./presentation/pages/register-snug";
 import { RegisterUser } from "./presentation/pages/register-user/index";
 import { Application } from "./context.instance";
 import { createGlobalStyle } from "styled-components";
@@ -28,46 +28,43 @@ const App: React.FC = () => {
   const socket = socketIO(process.env.REACT_APP_SOCKET_SERVER_HOST!);
   return (
     <BrowserRouter>
-      <globalApplication.Provider value={Application}>
-        <globalSocket.Provider value={socket}>
-          <GlobalStyle></GlobalStyle>
-          <Route
-            exact
-            path="/"
-            component={(props: any) => (
-              <Home {...props} Application={Application} />
-            )}
-          ></Route>
-          <Route
-            exact
-            path="/register-snug"
-            component={(props: any) => (
-              <RegisterSnug {...props} Application={Application} />
-            )}
-          ></Route>
-          <Route
-            exact
-            path="/register-user"
-            component={(props: any) => (
-              <RegisterUser {...props} Application={Application} />
-            )}
-          ></Route>
-          <Route
-            exact
-            path="/snug"
-            component={(props: any) => (
-              <Snug {...props} Application={Application} socket={socket}></Snug>
-            )}
-          />
-          <Route
-            exact
-            path="/snug/:channelId"
-            component={(props: any) => (
-              <Snug {...props} Application={Application} socket={socket}></Snug>
-            )}
-          ></Route>
-        </globalSocket.Provider>
-      </globalApplication.Provider>
+      <GlobalStyle></GlobalStyle>
+      <Route
+        exact
+        path="/"
+        component={(props: any) => (
+          <Home {...props} Application={Application} />
+        )}
+      ></Route>
+
+      <Route
+        exact
+        path="/register-snug"
+        component={(props: any) => (
+          <RegisterSnug {...props} Application={Application} />
+        )}
+      ></Route>
+      <Route
+        exact
+        path="/register-user"
+        component={(props: any) => (
+          <RegisterUser {...props} Application={Application} />
+        )}
+      ></Route>
+      <Route
+        exact
+        path="/snug"
+        component={(props: any) => (
+          <Snug {...props} Application={Application} socket={socket}></Snug>
+        )}
+      />
+      <Route
+        exact
+        path="/snug/:channelId"
+        component={(props: any) => (
+          <Snug {...props} Application={Application} socket={socket}></Snug>
+        )}
+      ></Route>
     </BrowserRouter>
   );
 };

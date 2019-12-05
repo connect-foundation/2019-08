@@ -6,21 +6,25 @@ import { PostCard } from "presentation/components/snug/post-card";
 import { Post } from "core/entity/post";
 import { usePathParameter } from "contexts/path-parameter-context";
 
-const ChatContentWrapper = styled.section`
-  height: 100%;
+const ChatContentWrapper = styled.section.attrs({
+  id: "scroll"
+})`
+  min-height: 90%;
+  max-height: 90%;
   width: 100%;
+  overflow-y: auto;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+  flex-flow: column nowrap;
+`;
+const Wrapper = styled.section.attrs({})`
+  margin-top: auto !important;
 `;
 
 export const ChatContent: React.FC<AppSocketChannelMatchProps> = props => {
   const { Application } = props;
   const posts: Post[] = useMessages();
   const dispatch = useMessagesDispatch();
-  const { socket } = props;
   const pathParameter = usePathParameter();
-
   useEffect(() => {
     (async function() {
       dispatch({
@@ -38,6 +42,12 @@ export const ChatContent: React.FC<AppSocketChannelMatchProps> = props => {
     })();
   }, [pathParameter]);
 
+  useEffect(() => {
+    const obj: HTMLElement = document.getElementById("scroll")!;
+    console.log(obj);
+    obj.scrollTop = obj.scrollHeight;
+  }, [posts]);
+
   function messageList(): React.ReactNode {
     if (!posts) return <></>;
     return posts!.map((post: Post) => (
@@ -51,5 +61,9 @@ export const ChatContent: React.FC<AppSocketChannelMatchProps> = props => {
     ));
   }
 
-  return <ChatContentWrapper>{messageList()}</ChatContentWrapper>;
+  return (
+    <ChatContentWrapper>
+      <Wrapper>{messageList()}</Wrapper>
+    </ChatContentWrapper>
+  );
 };

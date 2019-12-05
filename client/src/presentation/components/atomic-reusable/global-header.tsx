@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-
 import Dubu from "assets/dubu.png";
-
+import Notification from "assets/notification.png";
 import { CustomButton } from "./custom-button";
 import { IconBox } from "./icon-box";
+import { ApplicationProptype } from "prop-types/application-type";
+import { Link } from "react-router-dom";
 import { InvitationAlarm } from "presentation/components/invitation-alarm";
 
-// 참고 : https://www.w3schools.com/css/tryit.asp?filename=trycss_dropdown_button
 const Wrapper = styled.header`
   display: flex;
   justify-content: space-between;
@@ -27,18 +27,19 @@ const IconBoxWrapper = styled.section`
 const DropDown = styled.section`
   position: relative;
   display: inline-block;
-  &:hover {
-    display: block;
-    > div {
-      display: block;
-    }
-  }
 `;
 
-const ContentWrapper = styled.div`
-  display: none;
+interface On {
+  on: boolean;
+}
+
+const ContentWrapper = styled.section<On>`
+  display: ${({ on }) => {
+    if (!on) return "none";
+    return "block";
+  }};
   position: absolute;
-  transform: translateX(-90%);
+  transform: translateX(-80%);
   background-color: #f9f9f9;
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
@@ -46,13 +47,9 @@ const ContentWrapper = styled.div`
   color: black;
   padding: 12px 16px;
   text-decoration: none;
-  &:hover {
-    background-color: #f1f1f1;
-    display: block;
-  }
 `;
 
-const Content = styled.a`
+const Content = styled.article`
   color: black;
   padding: 12px 16px;
   text-decoration: none;
@@ -67,31 +64,55 @@ const Title = styled.section`
   font-size: 1.4rem;
 `;
 
-export const GlobalHeader: React.FC = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState("false");
+export const GlobalHeader: React.FC<ApplicationProptype> = ({
+  Application
+}) => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [on, setOn] = useState(false);
+
+  useEffect(() => {
+    setIsLoggedIn(Application.services.authService.isLogined());
+  });
+
+  function clickDropdown() {
+    setOn(on == false);
+  }
+
+  function mouseLeave() {
+    if (on) setOn(false);
+  }
+
+  function logout() {
+    Application.services.authService.logout();
+    window.location.href = "/";
+  }
 
   return (
     <Wrapper>
-      <Title> Snug </Title>
+      <Link to="/"><Title> Snug </Title></Link>
       {isLoggedIn ? (
         <IconBoxWrapper>
-          <DropDown>
+          <DropDown onClick={clickDropdown} onMouseLeave={mouseLeave}>
             <IconBox imageSrc={Dubu} />
-            <ContentWrapper>
-              <Content href="#">프로필</Content>
-              <Content href="#">Snug 만들기</Content>
-              <Content href="#">로그아웃</Content>
+            <ContentWrapper on={on}>
+              <Content>프로필</Content>
+              <Link to="register-snug">
+                <Content>Snug 만들기</Content>
+              </Link>
+              <Content onClick={logout}>로그아웃</Content>
             </ContentWrapper>
           </DropDown>
         </IconBoxWrapper>
       ) : (
-        <CustomButton
-          color={"#fda600"}
-          size={"big"}
-          name={"회원가입"}
-          fontColor={"#ffffff"}
-          fontWeight={"bold"}
+        <Link to="/register-user">
+          <CustomButton
+            color={"#fda600"}
+            size={"big"}
+            name={"회원가입"}
+            fontColor={"#ffffff"}
+            fontWeight={"bold"}
         ></CustomButton>
+        </Link>
       )}
       <InvitationAlarm />
     </Wrapper>
