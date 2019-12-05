@@ -13,3 +13,7 @@ export const FOUND_POST_PROFILE = "found post with profile";
 export const NOT_FOUND_PROFILE = "not found profile, you must right profile id";
 
 export const ALREADY_EXIST_CHANNEL="given channel title already exists";
+
+export const SUCCESS_INVITE="successfully sent all your emails and alarm";
+
+export const FAIL_INVITE="All emails and alarms have failed";

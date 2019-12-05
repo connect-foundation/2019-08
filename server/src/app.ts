@@ -6,12 +6,17 @@ import cookieParser from "cookie-parser";
 import { Connection, createConnection } from "typeorm";
 import postRouter from "./routes/post/post-router";
 import channelRouter from "./routes/channel/channel-router";
+import snugRouter from "./routes/snug/snug-router";
+import inviteRouter from "./routes/invite/invite-router";
+import indexRouter from "./routes/index";
+import dotenv from "dotenv";
 
 export default class App {
   private static app: Express;
   private static connection: Connection;
 
   static async start() {
+    dotenv.config({path: __dirname.concat("/../")});
     return await createConnection()
       .then(connection => {
         this.connection = connection;
@@ -24,12 +29,16 @@ export default class App {
     this.app = express();
     this.app.set("port", process.env.PORT || 3000);
     this.app.set("env", process.env.NODE_ENV);
+    this.app.use(express.static("public"));
     this.app.use(morgan("dev"));
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: false }));
     this.app.use(cookieParser(process.env.COOKIE_SECRET));
     this.app.use("/api/posts", postRouter);
     this.app.use("/api/channels", channelRouter);
+    this.app.use("/api/snug", snugRouter);
+    this.app.use("/api/invite", inviteRouter);
+    this.app.use("/", indexRouter);
     return this.app;
   }
 
