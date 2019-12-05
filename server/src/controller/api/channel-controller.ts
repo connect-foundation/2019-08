@@ -1,14 +1,21 @@
-import {Room} from "../../domain/entity/Room";
-import {NextFunction, Request, Response} from "express";
+import { Room } from "../../domain/entity/Room";
+import { NextFunction, Request, Response } from "express";
 import ResponseForm from "../../utils/response-form";
-import {CONFLICT, CREATED, INTERNAL_SERVER_ERROR, NOT_FOUND, OK} from "./common/status-code";
+import {
+  CONFLICT,
+  CREATED,
+  INTERNAL_SERVER_ERROR,
+  NOT_FOUND,
+  OK
+} from "./common/status-code";
 import {
   ALREADY_EXIST_CHANNEL,
   CREATE_CHANNEL,
   FOUND_CHANNEL,
   FOUND_CHANNELS,
-  NOT_FOUND_CHANNEL, NOT_FOUND_CHANNELS
-} from "./common/error-message";
+  NOT_FOUND_CHANNEL,
+  NOT_FOUND_CHANNELS
+} from "./common/messages";
 import HttpException from "../../util/HttpException";
 
 /**
@@ -23,23 +30,29 @@ export const find = async (request: Request, response: Response) => {
   const title = request.params.title;
   const channel = await Room.findByTitle(title);
   if (!!channel) {
-    return response.status(OK).json(ResponseForm.of<Room>(FOUND_CHANNEL, channel));
+    return response
+      .status(OK)
+      .json(ResponseForm.of<Room>(FOUND_CHANNEL, channel));
   } else {
     return response.status(NOT_FOUND).json(ResponseForm.of(NOT_FOUND_CHANNEL));
   }
 };
 
-export const findAll = async (request: Request, response: Response, next: NextFunction) => {
+export const findAll = async (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
   try {
     const channels = await Room.find();
     if (!!channels) {
       return response
-              .status(OK)
-              .json(ResponseForm.of<Room[]>(FOUND_CHANNELS, channels));
+        .status(OK)
+        .json(ResponseForm.of<Room[]>(FOUND_CHANNELS, channels));
     } else {
       next(new HttpException(NOT_FOUND_CHANNELS, NOT_FOUND));
     }
-  } catch (error){
+  } catch (error) {
     next(new HttpException(error.message, INTERNAL_SERVER_ERROR));
   }
 };
@@ -61,7 +74,9 @@ export const create = async (request: Request, response: Response) => {
   const isExisting = await Room.findByTitle(title);
 
   if (!!isExisting) {
-    return response.status(CONFLICT).json(ResponseForm.of(ALREADY_EXIST_CHANNEL));
+    return response
+      .status(CONFLICT)
+      .json(ResponseForm.of(ALREADY_EXIST_CHANNEL));
   }
 
   const channel = await Room.create({
@@ -71,5 +86,7 @@ export const create = async (request: Request, response: Response) => {
     isChannel: true
   }).save();
 
-  return response.status(CREATED).json(ResponseForm.of<Room>(CREATE_CHANNEL, channel));
+  return response
+    .status(CREATED)
+    .json(ResponseForm.of<Room>(CREATE_CHANNEL, channel));
 };

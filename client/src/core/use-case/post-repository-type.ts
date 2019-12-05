@@ -1,5 +1,6 @@
 import { Channel } from "core/entity/channel";
-import { Post, Profile } from "core/entity/post";
+import { Post } from "core/entity/post";
+import { Profile } from "core/entity/profile";
 
 export interface PostRepositoryType {
   getList(channel: Channel): Promise<Post[] | boolean>;

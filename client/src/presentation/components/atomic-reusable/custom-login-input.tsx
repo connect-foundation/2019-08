@@ -2,11 +2,14 @@ import React from "react";
 import styled, { css } from "styled-components";
 
 export interface CustomLoginInput {
+  value?: string;
   color?: string;
   fontSize?: string;
   activeHoverColor?: string;
   backgroundColor?: string;
   placeholder?: string;
+  type?: string;
+  width?: string;
   onChange?(parameter: any | void): any | void;
 }
 
@@ -15,7 +18,7 @@ const Input = styled.input`
   min-height: 50px;
   max-height: 50px;
   height: 50px;
-  width: 100%;
+  min-height: 50px;
   appearance: none;
   border: none;
   border-radius: 10px;
@@ -31,6 +34,7 @@ const Input = styled.input`
     let backgroundColor = props.backgroundColor
       ? props.backgroundColor
       : "#263237";
+    let width = props.width ? props.width : "100%";
     return css`
       color: ${color};
       font-size: ${fontSize};
@@ -39,26 +43,33 @@ const Input = styled.input`
         border: 1px solid ${activeHoverColor};
       }
       background-color: ${backgroundColor};
+      width: ${width};
     `;
   }}
 `;
 
 export const CustomLoginInput: React.FC<CustomLoginInput> = ({
+  value,
   color,
   fontSize,
   activeHoverColor,
   backgroundColor,
   placeholder,
-  onChange
+  type,
+  onChange,
+  width
 }) => {
   return (
     <Input
+      value={value}
       color={color}
       fontSize={fontSize}
       activeHoverColor={activeHoverColor}
       backgroundColor={backgroundColor}
       placeholder={placeholder}
       onChange={onChange}
+      type={type}
+      width={width}
     ></Input>
   );
 };

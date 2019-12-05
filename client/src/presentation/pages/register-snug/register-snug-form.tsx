@@ -1,9 +1,12 @@
-import React from "react";
+import React , {useState}from "react";
 import styled, { css } from "styled-components";
 import { CustomLoginInput } from "presentation/components/atomic-reusable/custom-login-input";
 import { CustomButton } from "presentation/components/atomic-reusable/custom-button";
+import { ApplicationProptype } from "prop-types/application-type";
+import { Modal } from "./modal";
+import { User } from "core/entity/user";
 
-const Wrapper = styled.form`
+const Wrapper = styled.section`
   background-color: #ffffff;
   height: 100%;
   width: 100%;
@@ -24,7 +27,7 @@ const SnugDescription = styled.span`
   font-size: 2rem;
 `;
 
-const InputWrapper = styled.section`
+const FormWrapper = styled.form`
   height: 40%;
   width: 30%;
   display: flex;
@@ -66,13 +69,64 @@ const ButtonWrapper = styled.section`
   align-items: center;
 `;
 
-export const RegisterSnugForm: React.FC = () => {
+enum ModalMessage {
+  "nullCheck" = "입력값을 확인해주세요.",
+  "failMessage" = "스너그 생성에 실패했습니다."
+}
+
+export const RegisterSnugForm: React.FC<ApplicationProptype> = (props) => {
+  const { Application } = props;
+
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+
+  const [onModal, setOnModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");  
+
+  const nameHandle = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    setName(event.target.value);
+  }
+
+  const descriptionHandle = (event: React.ChangeEvent<HTMLInputElement>): void  => {
+    setDescription(event.target.value)
+  }
+
+  const closeModal = () => {
+    setOnModal(false);
+  }
+
+  async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    // local storage에 저장된 데이터를 이용
+    const user: User = Application.services.authService.getUserInfo();
+    
+    // input의 널 값 체크
+    if(name.length == 0 || description.length == 0) {
+      setModalMessage(ModalMessage.nullCheck);
+      setOnModal(true);
+      return;
+    }
+
+    const result = await Application.services.snugService.createSnug(name, description, "");
+
+    // snug 생성 메세지 출력
+    if(typeof result === "boolean") {
+      setModalMessage(ModalMessage.failMessage);
+      return setOnModal(true);
+    }
+
+    // 유저 초대
+    window.location.href = `/invite-user/${result.id}`;
+  }
+
   return (
     <Wrapper>
       <DescriptionWrapper>
         <SnugDescription>오직 '우리'를 위한 Snug 만들기</SnugDescription>
       </DescriptionWrapper>
-      <InputWrapper>
+      {onModal && <Modal onClick={closeModal} message={modalMessage}/>}
+      <FormWrapper onSubmit={onSubmit}>
         <InputHorizontal>
           <CustomLoginInput
             color={"bdbdbd"}
@@ -86,6 +140,7 @@ export const RegisterSnugForm: React.FC = () => {
             color={"bdbdbd"}
             backgroundColor={"#ffffff"}
             placeholder={"Snug 이름"}
+            onChange={nameHandle}
           ></CustomLoginInput>
           <Text fontSize={"0.7rem"} paddingTop={"5px"}>
             Snug 이름을 지어주세요.
@@ -96,6 +151,7 @@ export const RegisterSnugForm: React.FC = () => {
             color={"bdbdbd"}
             backgroundColor={"#ffffff"}
             placeholder={"Snug 설명"}
+            onChange={descriptionHandle}
           ></CustomLoginInput>
           <Text fontSize={"0.7rem"} paddingTop={"5px"}>
             이 공간이 갖는 목표를 적어주세요.
@@ -112,7 +168,7 @@ export const RegisterSnugForm: React.FC = () => {
             height={"auto"}
           ></CustomButton>
         </ButtonWrapper>
-      </InputWrapper>
+      </FormWrapper>
     </Wrapper>
   );
 };
