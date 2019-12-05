@@ -11,11 +11,13 @@
   },
   "dependencies": {
     "@types/jsonwebtoken": "^8.3.5",
+    "@types/lodash": "^4.14.149",
     "@types/socket.io": "^2.1.4",
     "cookie-parser": "^1.4.4",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.15",
     "morgan": "^1.9.1",
     "mysql": "^2.14.1",
     "reflect-metadata": "^0.1.10",
