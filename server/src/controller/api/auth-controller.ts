@@ -16,6 +16,7 @@ export const login = async (request: Request, response: Response) => {
     const secret = process.env.SECRET_KEY;
     const user = await User.findOne({ where: { email: email } });
     const payload = {
+      id: user.id,
       email: email
     };
     if (crypto.compareSync(password, user.password))

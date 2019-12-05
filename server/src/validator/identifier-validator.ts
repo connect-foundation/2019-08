@@ -86,19 +86,27 @@ export const isNumeric = (
   next();
 };
 
+interface VerifirdRequest extends Request {
+  user: {
+    id: number;
+    email: string;
+  };
+}
+
 export const isVerifyLogined = async (
-  request: Request,
+  request: VerifirdRequest,
   response: Response,
   next: NextFunction
 ) => {
   try {
-    const token = request.headers["Authorization"];
+    const token = request.headers["auth-token"];
     if (!token) throw new Error("토큰이 존재하지 않습니다.");
     const decoded = <jwtVerify>(
       jwt.verify(<string>token, process.env.SECRET_KEY)
     );
     const result = await User.findOne({ where: { email: decoded.email } });
     if (!result) throw new Error("없는 유저입니다.");
+    request.user = { id: decoded.id, email: decoded.email };
     next();
   } catch (error) {
     next(error);
@@ -106,5 +114,6 @@ export const isVerifyLogined = async (
 };
 
 type jwtVerify = {
+  id: number;
   email: string;
 };
