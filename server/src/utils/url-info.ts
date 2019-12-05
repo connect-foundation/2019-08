@@ -4,24 +4,24 @@ export default class UrlInfo {
   private static readonly URL_SEPARATOR = "/";
   private static readonly DOMAIN_SEPARATOR = ":";
 
-  static aboutRegister() {
-    return _.join([process.env.CLIENT_DOMAIN!, "register-user"], UrlInfo.URL_SEPARATOR);
+  static aboutRegister(): string {
+    return _.join([process.env.CLIENT_DOMAIN, "register-user"], UrlInfo.URL_SEPARATOR);
   };
 
-  static aboutVerification(ticket: string) {
+  static aboutVerification(ticket: string): string {
     const serverDomain = UrlInfo.aboutServerDomain();
     return _.join([serverDomain, "api/invite", ticket], UrlInfo.URL_SEPARATOR);
   }
 
-  static aboutServerDomain() {
-    return _.join([process.env.HOST!, process.env.PORT!], UrlInfo.DOMAIN_SEPARATOR);
+  static aboutServerDomain(): string {
+    return _.join([process.env.HOST, process.env.PORT], UrlInfo.DOMAIN_SEPARATOR);
   }
 
-  static aboutSnugById(snugId: number) {
-    return _.join([process.env.CLIENT_DOMAIN!, "snug", snugId], UrlInfo.URL_SEPARATOR);
+  static aboutSnugById(snugId: number): string {
+    return _.join([process.env.CLIENT_DOMAIN, "snugs", snugId], UrlInfo.URL_SEPARATOR);
   }
 
-  static aboutHome() {
-    return process.env.CLIENT_DOMAIN!;
+  static aboutHome(): string {
+    return process.env.CLIENT_DOMAIN;
   }
 }
