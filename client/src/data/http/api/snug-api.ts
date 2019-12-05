@@ -12,11 +12,12 @@ export class SnugApi{
         this.axios = axios.getAxios();
     }
 
-    create(input: Snug): Promise<ResponseEntity<Snug> | boolean> {
+    create(input: Snug, userId: number): Promise<ResponseEntity<Snug> | boolean> {
         return this.axios.post(`/api/snugs`, {
             name: input.name,
             description: input.description,
-            thumbnail: input.thumbnail
+            thumbnail: input.thumbnail,
+            userId
         })
         .then((response: AxiosResponse<ResponseEntity<Snug>>) => {
             if (StatusCodes.isCreated(response.status)) {

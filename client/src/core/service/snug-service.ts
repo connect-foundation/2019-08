@@ -11,9 +11,10 @@ export class SnugService {
   async createSnug(
     name: string,
     description: string,
-    thumbnail: string
+    thumbnail: string,
+    userId: number
   ): Promise<Snug | boolean> {
     const snug: Snug = {name, description, thumbnail};
-    return await this.repository.create(snug);
+    return await this.repository.create(snug, userId);
   }
 }

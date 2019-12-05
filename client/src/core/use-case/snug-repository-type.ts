@@ -5,5 +5,5 @@ export interface SnugRepositoryType {
      * snug를 생성한다.
      * @param userId snug creator
      */
-    create(snug: Snug): Promise<Snug | boolean>;
+    create(snug: Snug, userId: number): Promise<Snug | boolean>;
 }
