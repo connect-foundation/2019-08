@@ -2,7 +2,7 @@ import {Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "type
 import {Profile} from "./Profile";
 import {Room} from "./Room";
 import {Base} from "./Base";
-import {Paginator} from "../controller/api/common/pagenation/paginator";
+import {Paginator} from "../../controller/api/common/pagenation/paginator";
 
 @Entity()
 export class Post extends Base {

@@ -1,9 +1,9 @@
 import request from "supertest";
 import {SuperTest, Test} from "supertest";
 import Application from "../../../../src/app";
-import {Room} from "../../../../src/entity/Room";
+import {Room} from "../../../../src/domain/entity/Room";
 import {runInTransaction, initialiseTestTransactions} from "typeorm-test-transactions";
-import {Post} from "../../../../src/entity/Post";
+import {Post} from "../../../../src/domain/entity/Post";
 import {FOUND_CHANNEL} from "../../../../src/controller/api/common/error-message";
 
 initialiseTestTransactions();

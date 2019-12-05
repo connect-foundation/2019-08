@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Base } from "./Base";
+import {Invite} from "./Invite";
 
 @Entity()
 export class Snug extends Base {
@@ -14,4 +15,7 @@ export class Snug extends Base {
 
   @Column({ nullable: true })
   description: string;
+
+  @OneToMany(type => Invite, invite => invite.snug)
+  invitations: Invite[];
 }

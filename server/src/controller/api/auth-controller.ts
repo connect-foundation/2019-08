@@ -1,4 +1,4 @@
-import { User } from "./../../entity/User";
+import { User } from "../../domain/entity/User";
 import { Request, Response } from "express";
 import { OK, NOT_FOUND } from "./common/status-code";
 import ResponseForm from "../../utils/response-form";
