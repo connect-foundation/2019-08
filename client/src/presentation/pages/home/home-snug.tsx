@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { ApplicationProptype } from "prop-types/application-type";
 import { HomeDetailSnug } from "./home-detail-snug";
+import { Snug } from "core/entity/snug";
 
 const Wrapper = styled.section`
   background-color: #ffffff;
@@ -39,7 +41,17 @@ const Title = styled.header`
   font-size: 1.25rem;
 `;
 
-export const HomeSnug: React.FC = () => {
+export const HomeSnug: React.FC<ApplicationProptype> = (props) => {
+  const { Application } = props;
+  const [snugs, setSnugs] = useState<Snug[] | boolean>([]);
+  
+  useEffect(() => {
+    (async () =>{
+      const initialSnugs = await Application.services.snugService.getList();   
+      setSnugs(initialSnugs)
+    })();
+  }, []);
+
   return (
     <Wrapper>
       <DescriptionWrapper>
@@ -47,11 +59,9 @@ export const HomeSnug: React.FC = () => {
       </DescriptionWrapper>
       <DetailSnugWrapper>
         <Title>내 Snug</Title>
-        <HomeDetailSnug />
-        <HomeDetailSnug />
-        <HomeDetailSnug />
-        <HomeDetailSnug />
-        <HomeDetailSnug />
+        {snugs && (snugs as Snug[]).map((snug: Snug) => {
+          return <HomeDetailSnug name={snug.name!} description={snug.description!} link={snug.id!}/>
+        })}
       </DetailSnugWrapper>
     </Wrapper>
   );
