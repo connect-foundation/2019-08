@@ -73,7 +73,6 @@ export const CustomButton: React.FC<CustomButtonConfig> = ({
   type,
   fontWeight,
   fontSize,
-  value,
   onClick,
   borderColor,
   height,
@@ -87,7 +86,6 @@ export const CustomButton: React.FC<CustomButtonConfig> = ({
       color={color}
       size={size}
       fontWeight={fontWeight}
-      value={value}
       fontSize={fontSize}
       borderColor={borderColor}
       height={height}

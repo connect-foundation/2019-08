@@ -89,7 +89,9 @@ export const GlobalHeader: React.FC<ApplicationProptype> = ({
 
   return (
     <Wrapper>
-      <Link to="/"><Title> Snug </Title></Link>
+      <Link to="/">
+        <Title> Snug </Title>
+      </Link>
       {isLoggedIn ? (
         <IconBoxWrapper>
           <DropDown onClick={clickDropdown} onMouseLeave={mouseLeave}>
@@ -111,7 +113,7 @@ export const GlobalHeader: React.FC<ApplicationProptype> = ({
             name={"회원가입"}
             fontColor={"#ffffff"}
             fontWeight={"bold"}
-        ></CustomButton>
+          ></CustomButton>
         </Link>
       )}
       <InvitationAlarm />

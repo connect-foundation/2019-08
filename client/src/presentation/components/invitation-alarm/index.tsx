@@ -11,7 +11,7 @@ const Wrapper = styled.section`
   position: fixed;
   right: 0;
   bottom: 0;
-  height: 100%;
+  height: 30%;
   width: 28%;
   display: flex;
   justify-content: flex-end;
