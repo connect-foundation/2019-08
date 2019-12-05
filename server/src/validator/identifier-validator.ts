@@ -70,8 +70,8 @@ export const isOutOfRange = (target: string): boolean => {
  * @param id
  *
  * */
-export const isNumeric = (request: Request, response: Response, next: NextFunction, id: string) => {
-  if(hasNotValue(id) || hasNotEveryNumber(id) || isOutOfRange(id)) {
+export const isNumeric = (request: Request, response: Response, next: NextFunction, channelId: string) => {
+  if(hasNotValue(channelId) || hasNotEveryNumber(channelId) || isOutOfRange(channelId)) {
     return next("Invalid id format. Must be an Number");
   }
 
