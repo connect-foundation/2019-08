@@ -1,6 +1,4 @@
-import { NextFunction, Request, Response } from "express";
-
-enum Numbers {
+export enum Numbers {
   MIN_CHARACTER_DIGIT = 0,
   MAX_CHARACTER_DIGIT = 9,
   MIN_INTEGER_ID = 0,
@@ -58,51 +56,4 @@ export const hasNotValue = (target: string) => {
 export const isOutOfRange = (target: string): boolean => {
   const digits = parseInt(target);
   return !(Numbers.MIN_INTEGER_ID < digits && digits < Numbers.MAX_INTEGER_ID);
-};
-
-/**
- *
- * request path variable 인 id 대한 유효성 검사
- * 유효한 경우, next() 메소드가 err 인자 없이 호출되고
- * 유효하지 않은 경우, next(err) 메소드가 err 인자를 가지고 호출
- *
- * @param request express Request
- * @param response express Response
- * @param next express Next
- * @param id
- *
- * */
-export const isNumeric = (
-  request: Request,
-  response: Response,
-  next: NextFunction,
-  id: string
-) => {
-  if (hasNotValue(id) || hasNotEveryNumber(id) || isOutOfRange(id)) {
-    return next("Invalid id format. Must be an Number");
-  }
-
-  next();
-};
-
-/**
- *
- * email이 유효한 형식(XXX@XXX.XXX) 검사
- * @param email string
- *
- * */
-export const validateEmail = (email: string) => {
-  const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return re.test(email);
-};
-
-/**
- *
- * password가 8자리 이상 문자열 여부 확인
- * @param string string
- *
- * */
-
-export const validatePasswordLength = (password: string) => {
-  return password.length >= 8;
 };
