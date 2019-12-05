@@ -1,7 +1,9 @@
 import { Router } from "express";
-import { create } from "../../controller/api/snug-controller"
+import { create, findByUserId } from "../../controller/api/snug-controller"
 
 const router = Router();
+
+router.get("/", findByUserId);
 
 router.post("/", create);
 

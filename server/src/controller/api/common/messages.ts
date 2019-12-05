@@ -25,3 +25,7 @@ export const CREATE_USER_SUCCESSFULLY = "created user successfully";
 export const FOUND_EMAIL_USER = "found user with this email";
 
 export const NO_USER_WITH_EMAIL = "no user with this email";
+
+export const CREATED_SNUG = "snug was created";
+
+export const OK_SNUG = "found snug";
