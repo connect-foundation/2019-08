@@ -24,7 +24,7 @@ export const login = async (request: Request, response: Response) => {
     const token = jwt.sign(payload, secret);
     return response
       .status(OK)
-      .json(ResponseForm.of("토큰입니다.", { jwt: token }));
+      .json(ResponseForm.of("토큰입니다.", { token: token }));
   } catch (error) {
     return response.status(NOT_FOUND).json(ResponseForm.of(error.message));
   }
