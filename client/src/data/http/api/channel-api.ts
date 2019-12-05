@@ -1,18 +1,18 @@
 import { AxiosErrorHandler } from "data/http/api/axiosErrorHandler";
 import { Channel } from "core/entity/channel";
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse, AxiosInstance } from "axios";
 import { ResponseEntity } from "./response/ResponseEntity";
 import { StatusCodes } from "./status-codes";
 import { AxiosWrapper } from "./axios-wrapper";
 
 export class ChannelApi {
-  private axios: any;
+  private axios: AxiosInstance;
 
   constructor(axios: AxiosWrapper) {
     this.axios = axios.getAxios();
   }
 
-  create(channel: Channel): ResponseEntity<Channel> | boolean {
+  create(channel: Channel): Promise<ResponseEntity<Channel> | boolean> {
     return this.axios
       .post(`/api/channels`, {
         title: channel.title!,
@@ -34,7 +34,7 @@ export class ChannelApi {
       );
   }
 
-  findByTitle(title: string): ResponseEntity<Channel> | boolean {
+  findByTitle(title: string): Promise<ResponseEntity<Channel> | boolean> {
     return this.axios
       .get(`/api/channels/${title}`)
       .then((response: AxiosResponse<ResponseEntity<Channel>>) => {
@@ -52,7 +52,7 @@ export class ChannelApi {
       );
   }
 
-  getList(): ResponseEntity<Channel[]> | boolean {
+  getList(): Promise<ResponseEntity<Channel[]> | boolean> {
     return this.axios
       .get("/api/channels")
       .then((response: AxiosResponse<ResponseEntity<Channel[]>>) => {
@@ -60,7 +60,7 @@ export class ChannelApi {
         return false;
       })
       .catch((error: AxiosError) => {
-        AxiosErrorHandler.handleError(
+        return AxiosErrorHandler.handleError(
           error,
           `채널 목록을 불러오는 과정에서 예기치 못한 에러가 발생했습니다.`
         );
