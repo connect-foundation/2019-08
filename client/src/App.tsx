@@ -21,6 +21,9 @@ const GlobalStyle = createGlobalStyle`
       width:100vw;
       height:100vh;
     }
+    a {
+      text-decoration: none;
+    }
 `;
 const App: React.FC = () => {
   const history = createBrowserHistory();

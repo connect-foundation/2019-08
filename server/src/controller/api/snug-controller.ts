@@ -28,15 +28,18 @@ export const create = async (request: Request, response: Response, next: NextFun
              * 2. 전달된 userID를 통해 profile row를 저장
              * 3. 생성된 snug를 통해 room row 저장
              * 4. 생성된 profile과 room을 통해 particiapte in 저장
-             */
+             */;
+            // 미들웨어에 user 객체가 존재 or db 조회
+            const user: User = await transactionalEntityManager.findOne(User, {id:userInfo.id});
+            
+            console.log(userInfo);
+            console.log(user);
+
             const snug: Snug = new Snug();
             snug.name = name;
             snug.description = description;
             snug.thumbnail = thumbnail;
             const resultSnug = await transactionalEntityManager.save(snug);
-
-            // 미들웨어에 user 객체가 존재 or db 조회
-            const user: User = await transactionalEntityManager.findOne(User, userInfo.id);
 
             const profile: Profile = new Profile();
             profile.name = user.name;
@@ -74,8 +77,8 @@ export const findByUserId = async (request: Request, response: Response, next: N
     try {
         const userInfo: UserInfo = offerTokenInfo(request);
         
-        const user: User = await User.findOne(userInfo.id);
-        const profiles: Profile[] = await getManager().find(Profile ,{ where: { user: user }, relations: ["snug"] });
+        const user: User = await User.findOne({where: {id: userInfo.id}});
+        const profiles: Profile[] = await getManager().find(Profile ,{ where: { user: user.id }, relations: ["snug"] });
         const snugs: Snug[] = profiles.map((profile) => {
             return profile.snug
         });

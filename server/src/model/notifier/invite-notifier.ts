@@ -1,5 +1,5 @@
 import {Notifier} from "./notifier";
-import {Invite} from "../../domain/entity/invite";
+import {Invite} from "../../domain/entity/Invite";
 import {publishIO} from "../../socket/socket-manager";
 import {tellInvitation} from "../../socket/action/invite";
 import _ from "lodash";
