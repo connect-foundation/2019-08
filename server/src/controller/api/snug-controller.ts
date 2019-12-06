@@ -6,8 +6,9 @@ import {Room} from "../../domain/entity/Room";
 import {ParticipateIn} from "../../domain/entity/ParticipateIn";
 import {NextFunction, Request, Response} from "express";
 import ResponseForm from "../../utils/response-form";
-import {CREATED, INTERNAL_SERVER_ERROR} from "http-status-codes";
-import {offerTokenInfo, UserInfo} from "../../validator/identifier-validator";
+import { OK, CREATED, INTERNAL_SERVER_ERROR } from "http-status-codes";
+import { offerTokenInfo, UserInfo } from "../../validator/identifier-validator";
+import { CREATED_SNUG, OK_SNUG } from "./common/messages"
 
 /**
  * client에서 보내온 메시지를 기반으로 snug를 DB에 저장
@@ -42,6 +43,7 @@ export const create = async (request: Request, response: Response, next: NextFun
             profile.status = "";
             profile.role = "admin";
             profile.user = user;
+            profile.snug = resultSnug;
             const resultProfile = await transactionalEntityManager.save(profile);
             
             // room 생성
@@ -60,7 +62,7 @@ export const create = async (request: Request, response: Response, next: NextFun
             particiapteIn.room = resultRoom;
             const particiapteInResult = await transactionalEntityManager.save(particiapteIn);
             
-            const responseForm = ResponseForm.of<Snug>("", resultSnug);
+            const responseForm = ResponseForm.of<Snug>(CREATED_SNUG, resultSnug);
             response.status(CREATED).json(responseForm);
         });
     } catch (error) {
@@ -69,5 +71,17 @@ export const create = async (request: Request, response: Response, next: NextFun
 };
 
 export const findByUserId = async (request: Request, response: Response, next: NextFunction) => {
-    const { userId } = request.body;
+    try {
+        const userInfo: UserInfo = offerTokenInfo(request);
+        
+        const user: User = await User.findOne(userInfo.id);
+        const profiles: Profile[] = await getManager().find(Profile ,{ where: { user: user }, relations: ["snug"] });
+        const snugs: Snug[] = profiles.map((profile) => {
+            return profile.snug
+        });
+
+        response.status(OK).json(ResponseForm.of<Snug[]>(OK_SNUG, snugs));
+    } catch(error) {
+        return response.status(INTERNAL_SERVER_ERROR).json(ResponseForm.of(error.messagenp));
+    }
 }

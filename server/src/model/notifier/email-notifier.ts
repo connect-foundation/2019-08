@@ -1,5 +1,5 @@
 import {Notifier} from "./notifier";
-import {Invite} from "../../domain/entity/invite";
+import {Invite} from "../../domain/entity/Invite";
 import nodemailer from "nodemailer";
 import _ from "lodash";
 

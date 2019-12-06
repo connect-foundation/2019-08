@@ -13,7 +13,7 @@ export const Home: React.FC<ApplicationProptype> = ({ Application }) => {
 
   return (
     <PageLayout Application={Application}>
-      {isLoggedIn ? <HomeSnug /> : <HomeForm Application={Application} />}
+      {isLoggedIn ? <HomeSnug Application={Application} /> : <HomeForm Application={Application} />}
     </PageLayout>
   );
 };

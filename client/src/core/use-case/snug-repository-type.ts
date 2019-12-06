@@ -2,8 +2,10 @@ import { Snug } from "core/entity/snug";
 
 export interface SnugRepositoryType {
     /**
-     * snug¸¦ »ı¼ºÇÑ´Ù.
+     * snugë¥¼ ìƒì„±í•œë‹¤.
      * @param userId snug creator
      */
     create(snug: Snug): Promise<Snug | boolean>;
+
+    getList(): Promise<Snug[] | boolean>
 }
