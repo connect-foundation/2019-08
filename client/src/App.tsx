@@ -10,6 +10,8 @@ import { Application } from "./context.instance";
 import { createGlobalStyle } from "styled-components";
 import socketIO from "socket.io-client";
 import dotenv from "dotenv";
+import { globalApplication } from "contexts/application-context";
+import { globalSocket } from "contexts/socket-context";
 
 dotenv.config();
 const GlobalStyle = createGlobalStyle`
