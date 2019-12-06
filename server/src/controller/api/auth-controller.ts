@@ -1,4 +1,5 @@
 import { User } from "../../domain/entity/User";
+import { Email } from "../../domain/vo/Email";
 import { Request, Response } from "express";
 import { OK, NOT_FOUND } from "./common/status-code";
 import ResponseForm from "../../utils/response-form";
@@ -13,11 +14,10 @@ type bodyType = {
 export const login = async (request: Request, response: Response) => {
   try {
     const { email, password }: bodyType = request.body;
-    console.log(email, password);
-
+    const emailModel = new Email(email);
 
     const secret = process.env.SECRET_KEY;
-    const user = await User.findOne({ where: { email: email } });
+    const user = await User.findOne({ where: { email: emailModel } });
     const payload = {
       id: user.id,
       name: user.name,
