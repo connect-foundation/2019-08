@@ -117,7 +117,7 @@ export const RegisterSnugForm: React.FC<ApplicationProptype> = (props) => {
     }
 
     // 유저 초대
-    window.location.href = `/invite-user/${result.id}`;
+    window.location.href = `/invite-users/${result.id}`;
   }
 
   return (
