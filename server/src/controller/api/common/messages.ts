@@ -28,6 +28,7 @@ export const NO_USER_WITH_EMAIL = "no user with this email";
 export const CREATED_SNUG = "snug was created";
 
 export const OK_SNUG = "found snug";
+
 export const SUCCESS_INVITE="successfully sent all your emails and alarm";
 
 export const FAIL_INVITE="All emails and alarms have failed";
