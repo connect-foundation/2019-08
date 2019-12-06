@@ -7,27 +7,6 @@ import { IconBox } from "./icon-box";
 import { ApplicationProptype } from "prop-types/application-type";
 import { Link } from "react-router-dom";
 
-const Wrapper = styled.header`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #4096cb;
-  padding: 10px;
-  height: 5vh;
-  box-sizing: border-box;
-`;
-
-const IconBoxWrapper = styled.section`
-  display: flex;
-  justify-content: flex-end;
-  width: 80%;
-`;
-
-const DropDown = styled.section`
-  position: relative;
-  display: inline-block;
-`;
-
 interface On {
   on: boolean;
 }
@@ -88,7 +67,9 @@ export const GlobalHeader: React.FC<ApplicationProptype> = ({
 
   return (
     <Wrapper>
-      <Link to="/"><Title> Snug </Title></Link>
+      <Link to="/">
+        <Title> Snug </Title>
+      </Link>
       {isLoggedIn ? (
         <IconBoxWrapper>
           <DropDown onClick={clickDropdown} onMouseLeave={mouseLeave}>
@@ -111,7 +92,7 @@ export const GlobalHeader: React.FC<ApplicationProptype> = ({
             name={"회원가입"}
             fontColor={"#ffffff"}
             fontWeight={"bold"}
-        ></CustomButton>
+          ></CustomButton>
         </Link>
       )}
     </Wrapper>
