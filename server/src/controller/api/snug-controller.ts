@@ -8,7 +8,7 @@ import {NextFunction, Request, Response} from "express";
 import ResponseForm from "../../utils/response-form";
 import { OK, CREATED, INTERNAL_SERVER_ERROR } from "http-status-codes";
 import { offerTokenInfo, UserInfo } from "../../validator/identifier-validator";
-import { CREATED_SNUG, OK_SNUG } from "./common/messages"
+import { CREATED_SNUG, OK_SNUG } from "./common/messages";
 
 /**
  * client에서 보내온 메시지를 기반으로 snug를 DB에 저장

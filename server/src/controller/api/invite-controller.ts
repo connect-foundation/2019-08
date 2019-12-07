@@ -1,5 +1,5 @@
 import {Request, Response} from "express";
-import {OK, UNPROCESSABLE_ENTITY} from "../../controller/api/common/status-code";
+import {OK, UNPROCESSABLE_ENTITY} from "http-status-codes";
 import {Invite} from "../../domain/entity/Invite";
 import {Inviter} from "../../model/invite/inviter";
 import {EmailNotifier} from "../../model/notifier/email-notifier";

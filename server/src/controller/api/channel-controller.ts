@@ -7,7 +7,7 @@ import {
   INTERNAL_SERVER_ERROR,
   NOT_FOUND,
   OK
-} from "./common/status-code";
+} from "http-status-codes";
 import {
   ALREADY_EXIST_CHANNEL,
   CREATE_CHANNEL,

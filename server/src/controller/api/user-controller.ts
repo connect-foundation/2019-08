@@ -1,7 +1,7 @@
 import { User } from "../../domain/entity/User";
 import { Request, Response } from "express";
 import ResponseForm from "../../utils/response-form";
-import { CREATED, OK, NOT_FOUND } from "./common/status-code";
+import { CREATED, OK, NOT_FOUND } from "http-status-codes";
 import {
   CREATE_USER_SUCCESSFULLY,
   FOUND_EMAIL_USER,

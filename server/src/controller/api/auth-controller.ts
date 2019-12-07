@@ -1,6 +1,6 @@
 import { User } from "../../domain/entity/User";
 import { Request, Response } from "express";
-import { OK, NOT_FOUND } from "./common/status-code";
+import { OK, NOT_FOUND } from "http-status-codes";
 import ResponseForm from "../../utils/response-form";
 import jwt from "jsonwebtoken";
 import * as crypto from "bcryptjs";
