@@ -24,7 +24,7 @@ export class User extends Base {
 
   static findByEmails(emails: string[]): Promise<User[]> {
     const emailOptions = emails
-            .map(email => new Email(email))
+            .map(Email.build)
             .map(email => email.asObject())
             .map(email => {return {email};});
 

@@ -4,15 +4,20 @@ export class Ticket {
   @Column({unique: true})
   private readonly id: string;
 
-  constructor(id?: string) {
-    this.id = id || this.generate();
+  private constructor(id: string) {
+    this.id = id;
   }
 
-  private generate() {
-    return this.rand() + this.rand();
+  static generate(): Ticket {
+    return new Ticket(Ticket.rand() + Ticket.rand());
   };
 
-  private rand() {
+  static from(id: string): Ticket {
+    return new Ticket(id);
+  };
+
+  // https://stackoverflow.com/questions/8532406/create-a-random-token-in-javascript-based-on-user-details
+  static rand(): string {
     return Math.random().toString(36).substr(2);
   };
 
@@ -20,7 +25,7 @@ export class Ticket {
     return {id: this.id};
   };
 
-  getId() {
+  getValue(): string {
     return this.id;
   }
 }

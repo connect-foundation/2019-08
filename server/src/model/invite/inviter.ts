@@ -16,12 +16,11 @@ export class Inviter {
   }
 
   async invite(snugId: string, emails: string[]): Promise<InviteInfo[]> {
-    const snug = await Snug.findOne(snugId);
+    const snug = await Snug.findOneOrFail(snugId);
     const signedInvitees = await User.findByEmails(emails);
     const unsignedInvitees = _.differenceWith(emails, signedInvitees, (email, user) => user.hasSameEmail(email))
-            .map(email => new Email(email))
+            .map(Email.build)
             .map(email => new User(email));
-
 
     const invitationsForSignedPeople = this.makeInvitations(signedInvitees, snug);
     const invitationsForUnsignedPeople = this.makeInvitations(unsignedInvitees, snug);

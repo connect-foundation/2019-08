@@ -31,6 +31,8 @@ export const OK_SNUG = "found snug";
 
 export const SUCCESS_INVITE="successfully sent all your emails and alarm";
 
-export const FAIL_INVITE="All emails and alarms have failed";
+export const NOT_FOUND="not found snug. you should give invalid snug id";
 
 export const FOUND_INVITATIONS="found invitations list about invitee";
+
+export const UNSUPPORTED_EMAIL = "find out invalid invite email";

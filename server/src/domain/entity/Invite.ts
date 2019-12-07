@@ -32,7 +32,7 @@ export class Invite extends Base {
     super();
     this.user = user;
     this.snug = snug;
-    this.ticket = new Ticket();
+    this.ticket = Ticket.generate();
     if(this.user) {
       this.email = user.email;
     }
@@ -43,7 +43,7 @@ export class Invite extends Base {
   }
 
   public provideContents(): string {
-    const link = this.isUnsignedUser() ? UrlInfo.aboutRegister() : UrlInfo.aboutVerification(this.ticket.getId());
+    const link = this.isUnsignedUser() ? UrlInfo.aboutRegister() : UrlInfo.aboutVerification(this.ticket.getValue());
     return EmailContents.getTemplate(this.snug.name, link);
   }
 

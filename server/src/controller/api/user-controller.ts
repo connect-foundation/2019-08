@@ -21,7 +21,7 @@ import {Email} from "../../domain/vo/Email";
 export const create = async (request: Request, response: Response) => {
   const { email, name, password } = request.body;
   const hashedPassword = await generateHashedPassword(password);
-  const emailModel = new Email(email);
+  const emailModel = Email.build(email);
   const user = await User.save({
     email: emailModel,
     name,
@@ -33,7 +33,7 @@ export const create = async (request: Request, response: Response) => {
 
 export const findByEmail = async (request: Request, response: Response) => {
   const email = request.params.email;
-  const emailModel = new Email(email);
+  const emailModel = Email.build(email);
 
   try {
     const user = await User.findOneOrFail({ email: emailModel });

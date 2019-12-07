@@ -19,7 +19,7 @@ export class InviteInfo {
 
   static fromInvite(invite: Invite): InviteInfo {
     const {id, ticket, createdAt, email, snug} = invite;
-    const link = UrlInfo.aboutVerification(ticket.getId());
+    const link = UrlInfo.aboutVerification(ticket.getValue());
     return new InviteInfo(id, email.asFormat(), snug.name, link, createdAt);
   }
 }
