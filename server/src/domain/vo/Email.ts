@@ -2,9 +2,9 @@ import {PrimaryColumn} from "typeorm";
 
 export class Email {
   @PrimaryColumn({length: 64})
-  localPart: string;
+  private readonly localPart: string;
   @PrimaryColumn({length: 255})
-  domain: string;
+  private readonly domain: string;
   private static readonly DELIMITER = "@";
 
   constructor(email?: string) {
@@ -28,5 +28,9 @@ export class Email {
 
   asFormat(): string {
     return this.localPart + Email.DELIMITER + this.domain;
+  }
+
+  asObject(): object {
+    return {localPart: this.localPart, domain: this.domain};
   }
 }

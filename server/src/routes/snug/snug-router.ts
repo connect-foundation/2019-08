@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { create, findByUserId } from "../../controller/api/snug-controller"
+import { create, findByUserId } from "../../controller/api/snug-controller";
 import inviteRouter from "./invite/invite-router";
 import {isNumeric} from "../../validator/identifier-validator";
 
