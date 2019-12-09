@@ -73,9 +73,9 @@ export const HomeSnug: React.FC<ApplicationProptype> = (props) => {
       </DescriptionWrapper>
       <DetailSnugWrapper>
         <Title>내 Snug</Title>
-        {snugs && (snugs as Snug[]).map((snug: Snug) => {
-          return <HomeDetailSnug name={snug.name!} description={snug.description!} link={snug.id!}/>
-        })}
+        {snugs ? (snugs as Snug[]).map((snug: Snug) => {
+          return <HomeDetailSnug key={snug.id!} name={snug.name!} description={snug.description!} link={snug.id!}/>
+        }) : undefined}
       </DetailSnugWrapper>
     </Wrapper>
   );
