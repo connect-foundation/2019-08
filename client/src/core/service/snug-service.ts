@@ -17,15 +17,7 @@ export class SnugService {
     return await this.repository.create(snug);
   }
 
-  async getList( ): Promise<Snug[] | boolean> {
+  async getList(): Promise<Snug[] | boolean> {
     return await this.repository.getList();
-  }
-
-  async getInvitedSnugs(email: string): Promise<Snug[] | boolean> {
-    return await this.repository.getInvitedSnugs(email);
-  }
-
-  async responseToInvitation(snug: Snug): Promise<Snug | boolean> {
-    return await this.repository.responseToInvitation(snug);
   }
 }

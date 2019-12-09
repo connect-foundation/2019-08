@@ -33,26 +33,9 @@ export class SnugApi {
       );
   }
 
-
-    getList(): Promise<ResponseEntity<Snug[]> | boolean> {
-        return this.axios.get(`/api/snugs`)
-            .then((response: AxiosResponse<ResponseEntity<Snug[]>>) => {
-                if (StatusCodes.isOk(response.status)) {
-                    return response.data;
-                } else {
-                    return false;
-                }
-            })
-            .catch((error: AxiosError) =>
-                AxiosErrorHandler.handleError(
-                    error,
-                    `ä���� �ҷ����� �������� ����ġ ���� ������ �߻��߽��ϴ�.`
-                )
-            );
-    }
-  getInvitedSnugs(email: string): Promise<ResponseEntity<Snug[]> | boolean> {
+  getList(): Promise<ResponseEntity<Snug[]> | boolean> {
     return this.axios
-      .get(`/api/user/${email}/invite`)
+      .get(`/api/snugs`)
       .then((response: AxiosResponse<ResponseEntity<Snug[]>>) => {
         if (StatusCodes.isOk(response.status)) {
           return response.data;
@@ -63,28 +46,7 @@ export class SnugApi {
       .catch((error: AxiosError) =>
         AxiosErrorHandler.handleError(
           error,
-          `${email} 기반으로 snug 조회 과정에서 예기치 못한 에러가 발생했습니다.`
-        )
-      );
-  }
-
-  responseToInvitation(snug: Snug): Promise<ResponseEntity<Snug> | boolean> {
-    return this.axios
-      .post(`/api/invite`, {
-        name: snug.name,
-        id: snug.id
-      })
-      .then((response: AxiosResponse<ResponseEntity<Snug>>) => {
-        if (StatusCodes.isOk(response.status)) {
-          return response.data;
-        } else {
-          return false;
-        }
-      })
-      .catch((error: AxiosError) =>
-        AxiosErrorHandler.handleError(
-          error,
-          `${snug.name} 추가 과정에서 예기치 못한 에러가 발생했습니다.`
+          `채널을 불러오는 과정에서 예기치 못한 에러가 발생했습니다.`
         )
       );
   }

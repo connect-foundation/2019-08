@@ -19,32 +19,13 @@ export class SnugRepository implements SnugRepositoryType {
       return false;
     }
   }
-  async getInvitedSnugs(email: string): Promise<Snug[] | boolean> {
+
+  async getList(): Promise<Snug[] | boolean> {
     try {
-      const responseEntity = await this.api.getInvitedSnugs(email);
-      if (!responseEntity) return false;
+      const responseEntity = await this.api.getList();
       return (<ResponseEntity<Snug[]>>responseEntity).payload;
     } catch (error) {
       return false;
-    }
-  }
-
-  async responseToInvitation(snug: Snug): Promise<Snug | boolean> {
-    try {
-      const responseEntity = await this.api.responseToInvitation(snug);
-      if (!responseEntity) return false;
-      return (<ResponseEntity<Snug>>responseEntity).payload;
-    } catch (error) {
-      return false;
-    }
-
-    async getList(): Promise<Snug[] | boolean> {
-        try {
-            const responseEntity = await this.api.getList();
-            return (<ResponseEntity<Snug[]>>responseEntity).payload;
-        } catch (error) {
-            return false;
-        }
     }
   }
 }
