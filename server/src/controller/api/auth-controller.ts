@@ -40,18 +40,22 @@ export const login = async (request: Request, response: Response) => {
 
 export const getProfileToken = async (request: Request, response: Response) => {
   const { snugId } = request.params;
-  const { id } = offerTokenInfo(request);
-  //안 될 수도 있음
-  const profile: Profile = await Profile.findOne({
-    snug: { id: Number(snugId) },
-    user: { id: id }
-  });
-  const payload = {
-    id: profile.id,
-    name: profile.thumbnail,
-    thumnail: profile.thumbnail
-  };
-  const token = jwt.sign(payload, process.env.SECRET_KEY);
-  response.cookie("profile", token);
-  response.status(OK).json(ResponseForm.of("토큰 입니다."));
+  try {
+    const { id } = offerTokenInfo(request);
+    //안 될 수도 있음
+    const profile: Profile = await Profile.findOne({
+      snug: { id: Number(snugId) },
+      user: { id: id }
+    });
+    const payload = {
+      id: profile.id,
+      name: profile.thumbnail,
+      thumnail: profile.thumbnail
+    };
+    const token = jwt.sign(payload, process.env.SECRET_KEY);
+    response.cookie("profile", token);
+    response.status(OK).json(ResponseForm.of("토큰 입니다."));
+  } catch (error) {
+    response.status(NOT_FOUND).json(ResponseForm.of(error.message));
+  }
 };
