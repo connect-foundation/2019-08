@@ -15,7 +15,6 @@ export const login = async (request: Request, response: Response) => {
     const { email, password }: bodyType = request.body;
     console.log(email, password);
 
-
     const secret = process.env.SECRET_KEY;
     const user = await User.findOne({ where: { email: email } });
     const payload = {
@@ -23,7 +22,7 @@ export const login = async (request: Request, response: Response) => {
       name: user.name,
       email: email
     };
-    if (!crypto.compareSync(password, user.password)){
+    if (!crypto.compareSync(password, user.password)) {
       console.log("비교 실패");
       throw new Error("패스워드가 틀렸습니다.");
     }
@@ -35,4 +34,22 @@ export const login = async (request: Request, response: Response) => {
   } catch (error) {
     return response.status(NOT_FOUND).json(ResponseForm.of(error.message));
   }
+};
+
+export const getProfileToken = async (request: Request, response: Response) => {
+  const { snugId } = request.params;
+  const { id } = offerTokenInfo(request);
+  //안 될 수도 있음
+  const profile: Profile = await Profile.findOne({
+    snug: { id: Number(snugId) },
+    user: { id: id }
+  });
+  const payload = {
+    id: profile.id,
+    name: profile.thumbnail,
+    thumnail: profile.thumbnail
+  };
+  const token = jwt.sign(payload, process.env.SECRET_KEY);
+  response.cookie("profile", token);
+  response.status(OK).json(ResponseForm.of("토큰 입니다."));
 };
