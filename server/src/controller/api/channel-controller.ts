@@ -1,3 +1,6 @@
+import { Profile } from "./../../domain/entity/Profile";
+import { ParticipateIn } from "./../../domain/entity/ParticipateIn";
+import { offerProfileTokenInfo } from "./../../validator/identifier-validator";
 import { Room } from "../../domain/entity/Room";
 import { NextFunction, Request, Response } from "express";
 import ResponseForm from "../../utils/response-form";
@@ -89,4 +92,21 @@ export const create = async (request: Request, response: Response) => {
   return response
     .status(CREATED)
     .json(ResponseForm.of<Room>(CREATE_CHANNEL, channel));
+};
+
+export const join = async (request: Request, response: Response) => {
+  try {
+    const payload: any = <object>offerProfileTokenInfo(request);
+    const { id } = request.body;
+    const room = await Room.findOne({ id: id });
+    const profile = await Profile.findOne({ id: payload.id });
+    const result = await ParticipateIn.create({
+      room: room,
+      participant: profile
+    });
+    if (!result) throw new Error("조인실패");
+    response.status(OK).json(ResponseForm.of("성공", result));
+  } catch (error) {
+    response.status(NOT_FOUND).json(ResponseForm.of(error.message));
+  }
 };
