@@ -6,4 +6,6 @@ export interface ChannelRepositoryType {
   hasByTitle(title: string): Promise<boolean>;
 
   getChannels(): Promise<Channel[] | boolean>;
+
+  join(channel: Channel): Promise<boolean>;
 }

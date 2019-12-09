@@ -64,4 +64,9 @@ export class ChannelService {
   async getChannelList(): Promise<Channel[] | boolean> {
     return await this.repository.getChannels();
   }
+
+  async join(channelId: number): Promise<boolean> {
+    const channel: Channel = { id: channelId };
+    return await this.repository.join(channel);
+  }
 }

@@ -66,4 +66,16 @@ export class ChannelApi {
         );
       });
   }
+
+  join(channel: Channel): Promise<boolean> {
+    return this.axios
+      .get(`/api/channels/${channel.id}/join`)
+      .then((response: AxiosResponse<ResponseEntity<{}>>) => {
+        if (response.status == 200) return true;
+        return false;
+      })
+      .catch(() => {
+        return false;
+      });
+  }
 }
