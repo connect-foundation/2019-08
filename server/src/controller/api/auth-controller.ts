@@ -4,6 +4,8 @@ import { OK, NOT_FOUND } from "./common/status-code";
 import ResponseForm from "../../utils/response-form";
 import jwt from "jsonwebtoken";
 import * as crypto from "bcryptjs";
+import { offerTokenInfo } from "../../validator/identifier-validator";
+import { Profile } from "../../domain/entity/Profile";
 
 type bodyType = {
   email: string;
