@@ -4,7 +4,7 @@ import { IconBox } from "presentation/components/atomic-reusable/icon-box";
 import { CustomButton } from "presentation/components/atomic-reusable/custom-button";
 import Notification from "assets/notification.png";
 import { globalApplication } from "contexts/application-context";
-import { Snug } from "core/entity/snug";
+import { Invite } from "core/entity/invite";
 import { globalSocket } from "contexts/socket-context";
 
 const Wrapper = styled.section`
@@ -74,51 +74,52 @@ const InvitationNumber = styled.span`
   bottom: 0;
 `;
 
-const HiddenInput = styled.input.attrs({ hidden: true, value: "5" })``;
-
 export const InvitationAlarm: React.FC = () => {
   const [onDropdown, setOnDropdown] = useState(false);
-  const [invitedSnugs, setInvitedSnugs] = useState<Snug[]>([
-    { name: "안녕", id: 1 },
-    { name: "하세요", id: 2 },
-    { name: "하세요1", id: 3 },
-    { name: "하세요2", id: 4 },
-    { name: "하세요3", id: 5 },
-    { name: "하세요4", id: 6 }
-  ]);
+  const [invitedSnugs, setInvitedSnugs] = useState<Invite[]>([]);
+
+  const application = useContext(globalApplication);
+  const socket = useContext(globalSocket);
+
+  const user = application.services.authService.getUserInfo();
 
   const toggleDropdown = useCallback(() => {
     setOnDropdown(!onDropdown);
   }, [onDropdown]);
 
-  const application = useContext(globalApplication);
-  const socket = useContext(globalSocket);
-
   useEffect(() => {
     const fetchInvitationLists = async () => {
-      const result = await application.services.snugService.getInvitedSnugs(
-        "yahan@naver.com"
+      if (!user.email) return;
+      const result = await application.services.inviteService.getInvitedSnugs(
+        user.email
       );
       if (!result) return;
-      setInvitedSnugs(result as Snug[]);
+      setInvitedSnugs(result as Invite[]);
     };
     fetchInvitationLists();
   }, []);
 
   useEffect(() => {
-    socket.on("tellInvitation", (snug: Snug) => {
+    socket.off("tellInvitation");
+    const id = user.id;
+    socket.emit("login", { userId: id });
+    socket.on("tellInvitation", (invitation: any) => {
+      const invitedSnug = invitation.payload;
       const currentInvitation = invitedSnugs;
-      currentInvitation.push(snug);
-      setInvitedSnugs(currentInvitation);
+      currentInvitation.push(invitedSnug);
+      setInvitedSnugs([...currentInvitation]);
     });
-  }, []);
+  }, [invitedSnugs]);
 
-  const acceptDeclineHandler = async (invitedSnugs: Snug[], snug: Snug) => {
-    const idx = invitedSnugs.indexOf(snug);
+  const acceptDeclineHandler = async (
+    invitedSnugs: Invite[],
+    invitation: Invite
+  ) => {
+    const idx = invitedSnugs.indexOf(invitation);
     invitedSnugs.splice(idx, 1);
     setInvitedSnugs([...invitedSnugs]);
-    const result = await application.services.snugService.responseToInvitation(
-      snug
+    const result = await application.services.inviteService.responseToInvitation(
+      invitation
     );
     if (!result) return;
   };
@@ -127,9 +128,9 @@ export const InvitationAlarm: React.FC = () => {
     <Wrapper>
       {onDropdown && (
         <DropDown>
-          {invitedSnugs.map(snug => (
-            <DropDownMenu key={snug.id}>
-              ${snug.name}
+          {invitedSnugs.map(invitation => (
+            <DropDownMenu key={invitation.id}>
+              ${invitation.snug}
               <Buttons>
                 <CustomButton
                   color={"#0069d9"}
@@ -139,7 +140,7 @@ export const InvitationAlarm: React.FC = () => {
                   onClick={acceptDeclineHandler.bind(
                     acceptDeclineHandler,
                     invitedSnugs,
-                    snug
+                    invitation
                   )}
                 />
                 <CustomButton
@@ -150,7 +151,7 @@ export const InvitationAlarm: React.FC = () => {
                   onClick={acceptDeclineHandler.bind(
                     acceptDeclineHandler,
                     invitedSnugs,
-                    snug
+                    invitation
                   )}
                 />
               </Buttons>

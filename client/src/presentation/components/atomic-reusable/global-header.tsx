@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Dubu from "assets/dubu.png";
-import Notification from "assets/notification.png";
 import { CustomButton } from "./custom-button";
 import { IconBox } from "./icon-box";
 import { ApplicationProptype } from "prop-types/application-type";
@@ -30,12 +29,12 @@ const DropDown = styled.section`
 `;
 
 interface On {
-  on: boolean;
+  toggle: boolean;
 }
 
 const ContentWrapper = styled.section<On>`
-  display: ${({ on }) => {
-    if (!on) return "none";
+  display: ${({ toggle }) => {
+    if (!toggle) return "none";
     return "block";
   }};
   position: absolute;
@@ -74,18 +73,18 @@ export const GlobalHeader: React.FC<ApplicationProptype> = ({
     setIsLoggedIn(Application.services.authService.isLogined());
   });
 
-  function clickDropdown() {
-    setOn(on == false);
-  }
+  const clickDropdown = () => {
+    setOn(on === false);
+  };
 
-  function mouseLeave() {
+  const mouseLeave = () => {
     if (on) setOn(false);
-  }
+  };
 
-  function logout() {
+  const logout = () => {
     Application.services.authService.logout();
     window.location.href = "/";
-  }
+  };
 
   return (
     <Wrapper>
@@ -96,7 +95,7 @@ export const GlobalHeader: React.FC<ApplicationProptype> = ({
         <IconBoxWrapper>
           <DropDown onClick={clickDropdown} onMouseLeave={mouseLeave}>
             <IconBox imageSrc={Dubu} />
-            <ContentWrapper on={on}>
+            <ContentWrapper toggle={on}>
               <Content>프로필</Content>
               <Link to="register-snug">
                 <Content>Snug 만들기</Content>
