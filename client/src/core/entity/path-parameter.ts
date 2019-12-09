@@ -1,3 +1,4 @@
 export interface PathParameter {
-  channelId: number;
+  snugId?: number;
+  channelId?: number;
 }
