@@ -1,4 +1,4 @@
-import {Room} from "../../entity/Room";
+import {Room} from "../../domain/entity/Room";
 import SocketIO from "socket.io";
 
 const takeId = (room: Room): string => room.id.toString();
@@ -13,6 +13,7 @@ export const join = async (socket: SocketIO.Socket, profileId: string): Promise<
     rooms.map(takeId)
             .forEach(roomId => {
               socket.join(roomId);
+
             });
   } catch (error) {
     console.error(error);

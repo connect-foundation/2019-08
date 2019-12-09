@@ -1,5 +1,5 @@
 import  {Router ,Request, Response, NextFunction } from "express";
-import HttpException from "../util/HttpException";
+import HttpException from "src/utils/HttpException.js";
 
 const router = Router();
 

@@ -3,8 +3,9 @@ import { Route, BrowserRouter } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import { Home } from "./presentation/pages/home/index";
 import { Snug } from "./presentation/pages/snug/index";
-import { RegisterSnug } from "./presentation/pages/register-snug/index";
+import { RegisterSnug } from "./presentation/pages/register-snug";
 import { RegisterUser } from "./presentation/pages/register-user/index";
+import {InviteUsers} from "presentation/pages/invite-users";
 import { Application } from "./context.instance";
 import { createGlobalStyle } from "styled-components";
 import socketIO from "socket.io-client";
@@ -20,6 +21,9 @@ const GlobalStyle = createGlobalStyle`
       width:100vw;
       height:100vh;
     }
+    a {
+      text-decoration: none;
+    }
 `;
 const App: React.FC = () => {
   const history = createBrowserHistory();
@@ -34,6 +38,7 @@ const App: React.FC = () => {
           <Home {...props} Application={Application} />
         )}
       ></Route>
+
       <Route
         exact
         path="/register-snug"
@@ -60,6 +65,13 @@ const App: React.FC = () => {
         path="/snug/:channelId"
         component={(props: any) => (
           <Snug {...props} Application={Application} socket={socket}></Snug>
+        )}
+      ></Route>
+      <Route
+        exact
+        path="/invite-users/:snugId"
+        component={(props: any) => (
+          <InviteUsers {...props} Application={Application} />
         )}
       ></Route>
     </BrowserRouter>

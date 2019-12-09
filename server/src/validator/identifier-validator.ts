@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { User } from "../entity/User";
+import { User } from "../domain/entity/User";
 
 enum Numbers {
   MIN_CHARACTER_DIGIT = 0,
@@ -87,9 +87,9 @@ export const isNumeric = (
   next();
 };
 
-export const offerTokenInfo = (request: Request) => {
+export const offerTokenInfo = (request: Request): UserInfo => {
   const token = request.headers["auth-token"];
-  const decoded = <jwtVerify>jwt.verify(<string>token, process.env.SECRET_KEY);
+  const decoded = <UserInfo>jwt.verify(<string>token, process.env.SECRET_KEY);
   return decoded;
 };
 
@@ -101,7 +101,7 @@ export const isVerifyLogined = async (
   try {
     const token = request.headers["auth-token"];
     if (!token) throw new Error("토큰이 존재하지 않습니다.");
-    const decoded = <jwtVerify>(
+    const decoded = <UserInfo>(
       jwt.verify(<string>token, process.env.SECRET_KEY)
     );
     const result = await User.findOne({ where: { email: decoded.email } });
@@ -112,7 +112,8 @@ export const isVerifyLogined = async (
   }
 };
 
-type jwtVerify = {
+export type UserInfo = {
   id: number;
+  name: string;
   email: string;
 };

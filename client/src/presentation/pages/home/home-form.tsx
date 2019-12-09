@@ -4,6 +4,7 @@ import { CustomLoginInput } from "presentation/components/atomic-reusable/custom
 import { CustomButton } from "presentation/components/atomic-reusable/custom-button";
 import { User } from "core/entity/user";
 import { ApplicationProptype } from "prop-types/application-type";
+import { validateEmail } from "presentation/validation/validation";
 
 const Wrapper = styled.form`
   background-color: #ffffff;
@@ -45,12 +46,8 @@ const ButtonWrapper = styled.section`
   justify-content: flex-end;
 `;
 
-const validateEmail = (email: string) => {
-  const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return re.test(email);
-};
-
-export const HomeForm: React.FC<ApplicationProptype> = ({ Application }) => {
+export const HomeForm: React.FC<ApplicationProptype> = (props) => {
+  const { Application } = props;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [validEmail, setValidEmail] = useState(true);
@@ -103,6 +100,7 @@ export const HomeForm: React.FC<ApplicationProptype> = ({ Application }) => {
             backgroundColor={"#ffffff"}
             placeholder={"Password"}
             onChange={onChangePassword}
+            type={"password"}
           ></CustomLoginInput>
         </Input>
         <ButtonWrapper>

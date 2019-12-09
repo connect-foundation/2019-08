@@ -31,7 +31,7 @@ const Description = styled.section`
   justify-content: space-between;
 `;
 
-const Title = styled.header`
+const Name = styled.header`
   font-size: 1.5rem;
   font-weight: bold;
 `;
@@ -53,18 +53,24 @@ const Square = styled.section`
   }
 `;
 
-export const HomeDetailSnug: React.FC = () => {
+interface PropTypes {
+  name: string;
+  description: string;
+  link: number;
+}
+
+export const HomeDetailSnug: React.FC<PropTypes> = (props) => {
   return (
     <Wrapper>
       <DescriptionWrapper>
         <Square />
         <Description>
-          <Title>우리 동네 축구팀</Title>
-          <Address>football.snug.com</Address>
+          <Name>{props.name}</Name>
+          <Address>{props.description}</Address>
         </Description>
       </DescriptionWrapper>
       <ButtonWrapper>
-        <Link to="/snug">
+        <Link to={`/snug/${props.link}`}>
           <CustomButton
             color={"#ffffff"}
             fontColor={"#000000"}
