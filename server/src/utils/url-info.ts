@@ -10,7 +10,7 @@ export default class UrlInfo {
 
   static aboutVerification(ticket: string): string {
     const serverDomain = UrlInfo.aboutServerDomain();
-    return _.join([serverDomain, "api/invite", ticket], UrlInfo.URL_SEPARATOR);
+    return _.join([serverDomain, "invite", ticket], UrlInfo.URL_SEPARATOR);
   }
 
   static aboutServerDomain(): string {

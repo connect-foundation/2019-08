@@ -12,6 +12,7 @@ import authRouter from "./routes/auth/auth-router";
 import inviteRouter from "./routes/invite/invite-router";
 import indexRouter from "./routes/index";
 import dotenv from "dotenv";
+import { initializeTransactionalContext, patchTypeORMRepositoryWithBaseRepository } from "typeorm-transactional-cls-hooked";
 
 export default class App {
   private static app: Express;
@@ -22,6 +23,7 @@ export default class App {
     return await createConnection()
       .then(connection => {
         this.connection = connection;
+        this.setUpTransactions();
         return this.initializeExpress();
       })
       .catch(error => console.error("TypeORM Connection Error: ", error));
@@ -48,5 +50,10 @@ export default class App {
 
   static getEntityManager() {
     return this.connection.manager;
+  }
+
+  static setUpTransactions(): void {
+    initializeTransactionalContext();
+    patchTypeORMRepositoryWithBaseRepository();
   }
 }

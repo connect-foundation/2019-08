@@ -47,8 +47,9 @@ export class Invite extends Base {
     return EmailContents.getTemplate(this.snug.name, link);
   }
 
-  public static findOneWithSnugByTicket(ticket: Ticket): Promise<Invite> {
-    return Invite.findOne({where: {ticket: ticket.asObject(), deletedAt: IsNull()}});
+  public prepareDeleted(): Invite {
+    this.deletedAt = new Date();
+    return this;
   }
 
 }
