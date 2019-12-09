@@ -7,10 +7,10 @@ import {InviteInfo, toInvitations} from "./invite-info";
 import _ from "lodash";
 
 export class Inviter {
-  private emailNotifier: Notifier<Invite>;
-  private alarmNotifier: Notifier<Invite>;
+  private emailNotifier: Notifier<Invite[]>;
+  private alarmNotifier: Notifier<Invite[]>;
 
-  constructor(emailNotifier: Notifier<Invite>, alarmNotifier: Notifier<Invite>) {
+  constructor(emailNotifier: Notifier<Invite[]>, alarmNotifier: Notifier<Invite[]>) {
     this.emailNotifier = emailNotifier;
     this.alarmNotifier = alarmNotifier;
   }
