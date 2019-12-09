@@ -33,11 +33,11 @@ export class InviteService {
     }
   }
 
-  async getInvitedSnugs(email: string): Promise<Invite[] | boolean> {
-    return await this.repository.getInvitedSnugs(email);
+  async getInvitedSnugs(userId: number): Promise<Invite[] | boolean> {
+    return await this.repository.getInvitedSnugs(userId);
   }
 
-  async responseToInvitation(invitation: Invite): Promise<Invite | boolean> {
-    return await this.repository.responseToInvitation(invitation);
+  async responseToInvitation(invitation: Invite, agree: boolean): Promise<Invite | boolean> {
+    return await this.repository.responseToInvitation(invitation, agree);
   }
 }

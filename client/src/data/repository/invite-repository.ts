@@ -14,9 +14,9 @@ export class InviteRepository implements InviteRepositoryType {
     return await this.inviteApi.sendEmails(snugId, emails);
   }
 
-  async getInvitedSnugs(email: string): Promise<Invite[] | boolean> {
+  async getInvitedSnugs(userId: number): Promise<Invite[] | boolean> {
     try {
-      const responseEntity = await this.inviteApi.getInvitedSnugs(email);
+      const responseEntity = await this.inviteApi.getInvitedSnugs(userId);
       if (!responseEntity) return false;
       return (<ResponseEntity<Invite[]>>responseEntity).payload;
     } catch (error) {
@@ -24,11 +24,9 @@ export class InviteRepository implements InviteRepositoryType {
     }
   }
 
-  async responseToInvitation(invitation: Invite): Promise<Invite | boolean> {
+  async responseToInvitation(invitation: Invite, agree: boolean): Promise<Invite | boolean> {
     try {
-      const responseEntity = await this.inviteApi.responseToInvitation(
-        invitation
-      );
+      const responseEntity = await this.inviteApi.responseToInvitation(invitation, agree);
       if (!responseEntity) return false;
       return (<ResponseEntity<Invite>>responseEntity).payload;
     } catch (error) {

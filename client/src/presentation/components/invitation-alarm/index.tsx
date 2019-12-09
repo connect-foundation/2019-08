@@ -89,12 +89,10 @@ export const InvitationAlarm: React.FC = () => {
 
   useEffect(() => {
     const fetchInvitationLists = async () => {
-      if (!user.email) return;
-      const result = await application.services.inviteService.getInvitedSnugs(
-        user.email
-      );
-      if (!result) return;
-      setInvitedSnugs(result as Invite[]);
+      if (!user.id) return;
+      const {invitations} = await application.services.inviteService.getInvitedSnugs(user.id) as any;
+      if (invitations.length === 0){ setInvitedSnugs([]); return;}
+      setInvitedSnugs(invitations as Invite[]);
     };
     fetchInvitationLists();
   }, []);
@@ -113,14 +111,16 @@ export const InvitationAlarm: React.FC = () => {
 
   const acceptDeclineHandler = async (
     invitedSnugs: Invite[],
-    invitation: Invite
+    invitation: Invite,
+    agree: boolean
   ) => {
     const idx = invitedSnugs.indexOf(invitation);
     invitedSnugs.splice(idx, 1);
     setInvitedSnugs([...invitedSnugs]);
     const result = await application.services.inviteService.responseToInvitation(
-      invitation
-    );
+      invitation, agree
+    ) as any;
+    window.location.href = result.snug.link!;
     if (!result) return;
   };
 
@@ -130,7 +130,7 @@ export const InvitationAlarm: React.FC = () => {
         <DropDown>
           {invitedSnugs.map(invitation => (
             <DropDownMenu key={invitation.id}>
-              ${invitation.snug}
+              {invitation.snug}
               <Buttons>
                 <CustomButton
                   color={"#0069d9"}
@@ -140,7 +140,8 @@ export const InvitationAlarm: React.FC = () => {
                   onClick={acceptDeclineHandler.bind(
                     acceptDeclineHandler,
                     invitedSnugs,
-                    invitation
+                    invitation,
+                          true
                   )}
                 />
                 <CustomButton
@@ -151,7 +152,8 @@ export const InvitationAlarm: React.FC = () => {
                   onClick={acceptDeclineHandler.bind(
                     acceptDeclineHandler,
                     invitedSnugs,
-                    invitation
+                    invitation,
+                          false
                   )}
                 />
               </Buttons>

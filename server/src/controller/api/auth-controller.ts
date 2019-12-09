@@ -14,10 +14,8 @@ type bodyType = {
 export const login = async (request: Request, response: Response) => {
   try {
     const { email, password }: bodyType = request.body;
-    console.log(email, password);
-
     const secret = process.env.SECRET_KEY;
-    const emailModel = new Email(email);
+    const emailModel = Email.build(email);
     const user = await User.findOne({ where: { email: emailModel } });
     const payload = {
       id: user.id,

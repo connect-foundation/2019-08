@@ -72,7 +72,7 @@ export const responseBySnug = (request: Request, response: Response): Response =
               .json(ResponseForm.of<object>(SUCCESS_JOIN_SNUG, {snug: snug}));
     } else {
       return response.status(ACCEPTED)
-              .json(ResponseForm.of<object>(SUCCESS_REJECT_INVITATION_SNUG, {link: UrlInfo.aboutHome()}));
+              .json(ResponseForm.of<object>(SUCCESS_REJECT_INVITATION_SNUG, {snug: {link: UrlInfo.aboutHome()}}));
     }
   } else if(!!inviteSnug) {
     return response.status(CONFLICT)
@@ -80,5 +80,5 @@ export const responseBySnug = (request: Request, response: Response): Response =
   }
 
   return response.status(FORBIDDEN)
-          .json(ResponseForm.of<object>(INVALID_TICKET, {link: UrlInfo.aboutHome()}));
+          .json(ResponseForm.of<object>(INVALID_TICKET, {snug: {link: UrlInfo.aboutHome()}}));
 };

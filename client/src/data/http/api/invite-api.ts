@@ -26,9 +26,9 @@ export class InviteApi {
       );
   }
 
-  getInvitedSnugs(email: string): Promise<ResponseEntity<Invite[]> | boolean> {
+  getInvitedSnugs(userId: number): Promise<ResponseEntity<Invite[]> | boolean> {
     return this.axios
-      .get(`/api/user/${email}/invite`)
+      .get(`/api/users/${userId}/invite`)
       .then((response: AxiosResponse<ResponseEntity<Invite[]>>) => {
         if (StatusCodes.isOk(response.status)) {
           return response.data;
@@ -39,21 +39,19 @@ export class InviteApi {
       .catch((error: AxiosError) =>
         AxiosErrorHandler.handleError(
           error,
-          `${email} 기반으로 snug 조회 과정에서 예기치 못한 에러가 발생했습니다.`
+          `${userId} 기반으로 snug 조회 과정에서 예기치 못한 에러가 발생했습니다.`
         )
       );
   }
 
   responseToInvitation(
-    invite: Invite
+    invite: Invite, agree: boolean
   ): Promise<ResponseEntity<Invite> | boolean> {
     return this.axios
-      .post(`/api/invite`, {
-        snug: invite.snug,
-        id: invite.id
-      })
+      .post(invite.link, { agree })
       .then((response: AxiosResponse<ResponseEntity<Invite>>) => {
-        if (StatusCodes.isOk(response.status)) {
+        console.log(response);
+        if (StatusCodes.isAccepted(response.status)) {
           return response.data;
         } else {
           return false;

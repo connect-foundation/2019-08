@@ -8,6 +8,10 @@ export default class UrlInfo {
     return _.join([process.env.CLIENT_DOMAIN, "register-user"], UrlInfo.URL_SEPARATOR);
   };
 
+  static aboutApiVerification(ticket: string): string {
+    return _.join(["/api/invite", ticket], UrlInfo.URL_SEPARATOR);
+  }
+
   static aboutVerification(ticket: string): string {
     const serverDomain = UrlInfo.aboutServerDomain();
     return _.join([serverDomain, "invite", ticket], UrlInfo.URL_SEPARATOR);
@@ -18,7 +22,7 @@ export default class UrlInfo {
   }
 
   static aboutSnugById(snugId: number): string {
-    return _.join([process.env.CLIENT_DOMAIN, "snugs", snugId], UrlInfo.URL_SEPARATOR);
+    return _.join([process.env.CLIENT_DOMAIN, "snug", snugId], UrlInfo.URL_SEPARATOR);
   }
 
   static aboutHome(): string {
