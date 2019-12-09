@@ -1,13 +1,14 @@
 import nodemailer, {Transporter} from "nodemailer";
 import {isNotEmpty} from "../utils/array-helper";
-import {Invite} from "../domain/entity/Invite";
+import {Email} from "../domain/vo/Email";
+import _ from "lodash";
 
 export class MailManager {
   private static readonly MAX_TRY_COUNT = 5;
+  private static readonly FIRST_TRY_COUNT = 0;
   private static readonly IDLE_EVENT = "idle";
   private readonly transporter;
   private static manager: MailManager;
-  private readonly queue = [];
 
   constructor() {
     this.transporter = this.setUp();
@@ -28,44 +29,40 @@ export class MailManager {
     });
   }
 
-  subscribes(): void {
+  private subscribes(): void {
     const sender = process.env.MIAL_SENDER!;
-    this.transporter.on(MailManager.IDLE_EVENT, this.handleIdleEvent.bind(this, sender));
+    this.transporter.on(MailManager.IDLE_EVENT, (emails: Email[]) => this.handleIdleEvent(sender, emails));
   }
 
-  handleIdleEvent(sender: string): void {
-    while (this.transporter.isIdle() && isNotEmpty(this.queue)) {
-      const invite = this.queue.shift();
-      this.send(sender, invite, 0);
+  private handleIdleEvent(sender: string, emails: Email[]): void {
+    const cloneEmails = _.cloneDeep<Email[]>(emails);
+    while (this.transporter.isIdle() && isNotEmpty(cloneEmails)) {
+      const email = cloneEmails.shift();
+      this.send(sender, email, MailManager.FIRST_TRY_COUNT);
     }
   }
 
-  private async send(sender: string, invite: Invite, tryCount: number): Promise<void> {
-    if(tryCount < MailManager.MAX_TRY_COUNT) {
+  private async send(sender: string, email: Email, tryCount: number): Promise<void> {
+    if (tryCount < MailManager.MAX_TRY_COUNT) {
       try {
-        await invite.email.sendTo(this.transporter, sender, invite.provideContents());
-        console.log(invite.email.asFormat(), ":", tryCount + " 시도 전송 성공");
+        await email.sendTo(this.transporter, sender);
+        console.log(`${email.asFormat()} : ${tryCount} 시도 전송 성공`);
       } catch (error) {
-        console.error(invite.email.asFormat(), ":", tryCount + " 시도 전송 실패");
-        this.send(sender, invite, tryCount + 1);
+        console.error(`${email.asFormat()} : ${tryCount} 시도 전송 실패`);
+        this.send(sender, email, tryCount + 1);
       }
     }
   }
 
-  static initializeMailManger(): MailManager {
+  public static initializeMailManger(): MailManager {
     return MailManager.manager = new MailManager();
   }
 
-  private add(items: Invite[]): number {
-    return this.queue.push(...items);
-  }
-
-  static publish(items: Invite[]): boolean {
-    MailManager.manager.add(items);
-    return MailManager.manager.transporter.emit(MailManager.IDLE_EVENT);
+  public static publish(emails: Email[]): boolean {
+    const cloneEmails = _.cloneDeep<Email[]>(emails);
+    return MailManager.manager.transporter.emit(MailManager.IDLE_EVENT, cloneEmails);
   }
 }
 
 export const initializeMailManger = MailManager.initializeMailManger;
-
 export const publish = MailManager.publish;

@@ -10,6 +10,7 @@ export class Email {
   @PrimaryColumn({length: 255})
   private readonly domain: string;
   private static readonly DELIMITER = "@";
+  private contents: string;
 
   private constructor(localPart: string, domain: string) {
     this.localPart = localPart;
@@ -29,12 +30,16 @@ export class Email {
     return email.split(Email.DELIMITER);
   }
 
-  public sendTo(transporter: Transporter, sender: string, contents: string): Promise<void> {
+  public setUpContents(contents: string): void {
+    this.contents = contents;
+  }
+
+  public sendTo(transporter: Transporter, sender: string): Promise<void> {
     return transporter.sendMail({
       from: sender,
       to: this.asFormat(),
       subject: "✔ Snug confirmation link",
-      html: contents
+      html: this.contents
     }).catch(this.handleTransferEmailError);
   }
 
