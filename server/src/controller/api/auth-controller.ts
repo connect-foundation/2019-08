@@ -4,6 +4,7 @@ import { OK, NOT_FOUND } from "http-status-codes";
 import ResponseForm from "../../utils/response-form";
 import jwt from "jsonwebtoken";
 import * as crypto from "bcryptjs";
+import { Email } from "../../domain/vo/Email";
 
 type bodyType = {
   email: string;
@@ -15,15 +16,15 @@ export const login = async (request: Request, response: Response) => {
     const { email, password }: bodyType = request.body;
     console.log(email, password);
 
-
     const secret = process.env.SECRET_KEY;
-    const user = await User.findOne({ where: { email: email } });
+    const emailModel = new Email(email);
+    const user = await User.findOne({ where: { email: emailModel } });
     const payload = {
       id: user.id,
       name: user.name,
       email: email
     };
-    if (!crypto.compareSync(password, user.password)){
+    if (!crypto.compareSync(password, user.password)) {
       console.log("비교 실패");
       throw new Error("패스워드가 틀렸습니다.");
     }
