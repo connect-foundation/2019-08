@@ -25,6 +25,8 @@ router
  * */
 router.use("/:channelId/posts", PostRouter);
 
+router.post("join");
+
 /**
  *
  * isNumber() 메소드에서 path variable 인 id 대한 유효성 검사
