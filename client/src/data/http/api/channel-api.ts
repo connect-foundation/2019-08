@@ -71,8 +71,7 @@ export class ChannelApi {
     return this.axios
       .get(`/api/channels/${channel.id}/join`)
       .then((response: AxiosResponse<ResponseEntity<{}>>) => {
-        if (response.status == 200) return true;
-        return false;
+        return StatusCodes.isOk(response.status);
       })
       .catch(() => {
         return false;
