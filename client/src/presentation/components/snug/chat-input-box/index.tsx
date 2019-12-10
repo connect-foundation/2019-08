@@ -101,7 +101,7 @@ export const ChatInputBox: React.FC<AppSocketChannelMatchProps> = ({
     const result = await Application.services.postService.createMessage(
       1,
       message,
-      pathPrameter.channelId
+      pathPrameter.channelId!
     );
     if (!result) return;
     setId(id + 1);
