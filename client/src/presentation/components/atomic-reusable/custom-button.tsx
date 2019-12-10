@@ -38,6 +38,7 @@ const Button = styled.button`
   &:hover {
     opacity: 0.5;
   }
+  cursor: pointer;
   ${(props: CustomButtonConfig) => {
     const size = props.size ? determineSize(props.size) : "";
     const fontColor = props.fontColor ? props.fontColor : "#000000";
