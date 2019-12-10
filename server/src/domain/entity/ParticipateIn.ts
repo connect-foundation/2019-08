@@ -1,6 +1,7 @@
 import { BaseEntity, Entity, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
 import { Profile } from "./Profile";
 import { Room } from "./Room";
+import _ from "lodash";
 
 @Entity()
 export class ParticipateIn extends BaseEntity {
@@ -12,4 +13,10 @@ export class ParticipateIn extends BaseEntity {
 
   @ManyToOne(type => Room)
   room: Room;
+
+  constructor(participant: Profile, room: Room) {
+    super();
+    this.participant = _.cloneDeep(participant);
+    this.room = _.cloneDeep(room);
+  }
 }

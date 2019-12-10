@@ -10,9 +10,9 @@ router.use("/:snugId/channels", channelRouter);
 
 router.use("/:snugId/invite", inviteRouter);
 
-router.get("/", findByUserId);
-
-router.post("/", create);
+router.route("/")
+        .get(findByUserId)
+        .post(create);
 
 router.param("snugId", isNumeric);
 export default router;
