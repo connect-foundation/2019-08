@@ -13,11 +13,11 @@ export class SnugService {
     description: string,
     thumbnail: string
   ): Promise<Snug | boolean> {
-    const snug: Snug = {name, description, thumbnail};
+    const snug: Snug = { name, description, thumbnail };
     return await this.repository.create(snug);
   }
 
-  async getList( ): Promise<Snug[] | boolean> {
+  async getList(): Promise<Snug[] | boolean> {
     return await this.repository.getList();
   }
 }

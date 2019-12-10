@@ -6,6 +6,7 @@ import { CustomOnOffButton } from "presentation/components/atomic-reusable/custo
 import { useChannelDispatch } from "contexts/channel-context";
 import { useModalToggledDispatch } from "contexts/modal-context";
 import { ApplicationProptype } from "prop-types/application-type";
+import { usePathParameter } from "contexts/path-parameter-context";
 
 const ContentsForm = styled.form`
   display: flex;
@@ -51,11 +52,13 @@ export const ChannelPlusModalContents: React.FC<ApplicationProptype> = ({
 
   const channelDispatch = useChannelDispatch();
   const modalDispatch = useModalToggledDispatch();
+  const parameter = usePathParameter();
 
   const submitHandler = async (event: React.FormEvent<HTMLElement>) => {
     event.preventDefault();
-
+    
     const result = await Application.services.channelService.create(
+      parameter.snugId!,
       title,
       description,
       privacy

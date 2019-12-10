@@ -4,6 +4,10 @@ import { PathParameter } from "core/entity/path-parameter";
 type Action = {
   type: "IN";
   channelId: number;
+  
+} | {
+  type: "GETSNUGID";
+  snugId: number;
 };
 
 type PathParameterDispatch = Dispatch<Action>;
@@ -20,10 +24,13 @@ const PathParameterReducer = (
   state: PathParameter,
   action: Action
 ): PathParameter => {
+  let newState: PathParameter = JSON.parse(JSON.stringify(state));
   switch (action.type) {
     case "IN":
-      const newState: PathParameter = JSON.parse(JSON.stringify(state));
       newState.channelId = action.channelId;
+      return newState;
+    case "GETSNUGID":
+      newState.snugId = action.snugId;
       return newState;
   }
 };
@@ -33,10 +40,7 @@ export const PathParameterContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  let path: PathParameter = {
-    channelId: -1
-  };
-  const [state, dispatch] = useReducer(PathParameterReducer, path);
+  const [state, dispatch] = useReducer(PathParameterReducer, {});
 
   return (
     <PathParameterDispatchContext.Provider value={dispatch}>

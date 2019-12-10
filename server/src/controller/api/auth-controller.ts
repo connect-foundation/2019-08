@@ -1,7 +1,7 @@
 import { User } from "../../domain/entity/User";
 import { Email } from "../../domain/vo/Email";
 import { Request, Response } from "express";
-import { OK, NOT_FOUND } from "./common/status-code";
+import { OK, NOT_FOUND } from "http-status-codes";
 import ResponseForm from "../../utils/response-form";
 import jwt from "jsonwebtoken";
 import * as crypto from "bcryptjs";
@@ -16,7 +16,7 @@ type bodyType = {
 export const login = async (request: Request, response: Response) => {
   try {
     const { email, password }: bodyType = request.body;
-    const emailModel = new Email(email);
+    const emailModel = Email.from(email);
     const secret = process.env.SECRET_KEY;
     const user = await User.findOne({ where: { email: emailModel } });
     const payload = {
