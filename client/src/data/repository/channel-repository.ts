@@ -39,4 +39,8 @@ export class ChannelRepository implements ChannelRepositoryType {
       return false;
     }
   }
+
+  async join(channel: Channel): Promise<boolean> {
+    return await this.api.join(channel);
+  }
 }
