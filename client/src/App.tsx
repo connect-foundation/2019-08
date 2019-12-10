@@ -1,6 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route } from "react-router-dom";
-import { createBrowserHistory } from "history";
+import { Route, BrowserRouter } from "react-router-dom";
 import { Home } from "./presentation/pages/home/index";
 import { Snug } from "./presentation/pages/snug/index";
 import { RegisterSnug } from "./presentation/pages/register-snug";
@@ -14,10 +13,13 @@ import { ApplicationContextProvider } from "contexts/application-context";
 import { SocketContextProvider } from "contexts/socket-context";
 
 dotenv.config();
+
 const GlobalStyle = createGlobalStyle`
+    @import url(https://fonts.googleapis.com/css?family=Nanum+Gothic:regular,700,800);
     body{
         padding: 0;
         margin: 0;
+        font-family: "Nanum Gothic",sans-serif;
     }
     #root{
       width:100vw;
@@ -27,8 +29,8 @@ const GlobalStyle = createGlobalStyle`
       text-decoration: none;
     }
 `;
+
 const App: React.FC = () => {
-  const history = createBrowserHistory();
   return (
     <ApplicationContextProvider>
       <SocketContextProvider>
@@ -83,4 +85,5 @@ const App: React.FC = () => {
     </ApplicationContextProvider>
   );
 };
+
 export default App;

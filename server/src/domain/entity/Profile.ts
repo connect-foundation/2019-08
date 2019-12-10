@@ -1,7 +1,7 @@
-import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
-import {Snug} from "./Snug";
-import {User} from "./User";
-import {Base} from "./Base";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Snug } from "./Snug";
+import { User } from "./User";
+import { Base } from "./Base";
 
 export type UserRoleType = "admin" | "member";
 
