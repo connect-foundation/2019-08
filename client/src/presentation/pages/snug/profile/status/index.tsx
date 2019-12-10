@@ -14,8 +14,8 @@ export const StatusSection: React.FC = () => {
       <StatusBarHeader header={"젓갈될래"} contents={"제목 바꾸기"} />
       <StatusBar header={"상태"} contents={"상태 설정하기"}></StatusBar>
       <StatusBar
-        header={"Snug에서 내 이름"}
-        contents={"이름 설정하기"}
+        header={"역할"}
+        contents={"Admin"}
         cursor={"default"}
       ></StatusBar>
       <StatusBar header={"현지 시간"} contents={"시간"}></StatusBar>

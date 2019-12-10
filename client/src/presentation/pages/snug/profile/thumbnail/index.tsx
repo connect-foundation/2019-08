@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import Gipyoo from "assets/gipyoo.png";
 
 const Wrapper = styled.section`
-  height: 50%;
+  height: 100%;
   width: 100%;
 `;
 

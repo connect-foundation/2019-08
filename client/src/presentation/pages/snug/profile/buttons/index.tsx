@@ -1,8 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import { CustomButton } from "presentation/components/atomic-reusable/custom-button";
-import { IconBox } from "presentation/components/atomic-reusable/icon-box";
-import More from "assets/more.png";
 
 const Wrapper = styled.section`
   display: flex;
@@ -11,12 +9,17 @@ const Wrapper = styled.section`
   height: 10%;
 `;
 
-export const Buttons: React.FC = () => {
+interface PropTypes {
+  toggleModal?(parameter: any | void): any | void;
+}
+
+export const Buttons: React.FC<PropTypes> = props => {
+  const { toggleModal } = props;
   return (
     <Wrapper>
       <CustomButton
         color={"#148567"}
-        name={"Message 보내기"}
+        name={"File 올리기"}
         size={"big"}
         fontColor={"#ffffff"}
         borderColor={"#000000"}
@@ -27,8 +30,8 @@ export const Buttons: React.FC = () => {
         size={"big"}
         fontColor={"#ffffff"}
         borderColor={"#000000"}
+        onClick={toggleModal}
       />
-      <IconBox imageSrc={More} />
     </Wrapper>
   );
 };
