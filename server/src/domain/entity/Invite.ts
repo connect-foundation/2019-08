@@ -47,9 +47,16 @@ export class Invite extends Base {
     return EmailContents.getTemplate(this.snug.name, link);
   }
 
-  public prepareDeleted(): Invite {
-    this.deletedAt = new Date();
-    return this;
+  public static findWithUserByTicket(ticket: Ticket): Promise<Invite> {
+    return Invite.findOneOrFail( {relations: ["user"], where: {ticket: ticket.asObject(), deletedAt: IsNull()}});
   }
 
+  public static findByTicket(ticket: Ticket): Promise<Invite> {
+    return Invite.findOne({where: {ticket: ticket.asObject()}});
+  }
+
+  public static deleteBy(invite: Invite): Promise<Invite> {
+    invite.deletedAt = new Date();
+    return Invite.save(invite);
+  }
 }

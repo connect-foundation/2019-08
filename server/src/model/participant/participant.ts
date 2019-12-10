@@ -4,12 +4,10 @@ import {ParticipateIn} from "../../domain/entity/ParticipateIn";
 import {IsolationLevel, Propagation, Transactional} from "typeorm-transactional-cls-hooked";
 
 export class Participant {
-
   @Transactional({propagation: Propagation.REQUIRED, isolationLevel: IsolationLevel.REPEATABLE_READ})
   public async joinDefaultRoom(profile: Profile): Promise<ParticipateIn> {
-    const participateIn = new ParticipateIn();
-    participateIn.participant = profile;
-    participateIn.room = await Room.findOneOrFail({where: {isPrivate: false, isChannel: true, snug: profile.snug}, order: {id: "ASC"}});
+    const room = await Room.findDefaultChannelBySnug(profile.snug);
+    const participateIn = new ParticipateIn(profile, room);
     return await ParticipateIn.save(participateIn);
   }
 }

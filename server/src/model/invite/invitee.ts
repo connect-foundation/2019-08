@@ -15,20 +15,20 @@ export class Invitee {
 
   @Transactional({propagation: Propagation.REQUIRED, isolationLevel: IsolationLevel.REPEATABLE_READ})
   async joinSnug(ticket: Ticket, agree: boolean): Promise<SnugInfo> {
-    const invite = await Invite.findOneOrFail( {relations: ["user"], where: {ticket: ticket.asObject(), deletedAt: IsNull()}});
-    const joinedInvitation = await Invite.save(invite.prepareDeleted());
-    if(agree) {
+    const invite = await Invite.findWithUserByTicket(ticket);
+    const joinedInvitation = await Invite.deleteBy(invite);
+    if (agree) {
       const profile = Profile.builder(joinedInvitation.snug, joinedInvitation.user).build();
-      const savedProfile = await Profile.save(profile);
+      const joinedProfile = await Profile.save(profile);
       const participant = new Participant();
-      await participant.joinDefaultRoom(savedProfile);
+      await participant.joinDefaultRoom(joinedProfile);
     }
 
     return SnugInfo.fromSnug(joinedInvitation.snug);
   }
 
   async findInvitationByTicket(ticket: Ticket): Promise<SnugInfo> {
-    const invite = await Invite.findOne({where: {ticket: ticket.asObject()}});
+    const invite = await Invite.findByTicket(ticket);
     return SnugInfo.fromSnug(invite.snug);
   }
 }

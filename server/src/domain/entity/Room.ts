@@ -2,6 +2,7 @@ import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 import {Profile} from "./Profile";
 import {Snug} from "./Snug";
 import {Base} from "./Base";
+import {Order} from "../../controller/api/common/order";
 
 @Entity()
 export class Room extends Base {
@@ -28,5 +29,12 @@ export class Room extends Base {
 
   static findByTitle(title: string): Promise<Room> {
     return Room.findOne({where: {title: title}});
+  }
+
+  static findDefaultChannelBySnug(snug: Snug): Promise<Room> {
+    const order = new Order()
+            .add("id", "ASC")
+            .support();
+    return Room.findOneOrFail({where: {isPrivate: false, isChannel: true, snug: snug.id}, ...order});
   }
 }

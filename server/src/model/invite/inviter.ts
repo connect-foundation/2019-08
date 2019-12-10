@@ -7,10 +7,10 @@ import {InviteInfo, toInvitations} from "./invite-info";
 import _ from "lodash";
 
 export class Inviter {
-  private emailNotifier: Notifier<Invite>;
-  private alarmNotifier: Notifier<Invite>;
+  private emailNotifier: Notifier<Invite[]>;
+  private alarmNotifier: Notifier<Invite[]>;
 
-  constructor(emailNotifier: Notifier<Invite>, alarmNotifier: Notifier<Invite>) {
+  constructor(emailNotifier: Notifier<Invite[]>, alarmNotifier: Notifier<Invite[]>) {
     this.emailNotifier = emailNotifier;
     this.alarmNotifier = alarmNotifier;
   }
@@ -19,7 +19,7 @@ export class Inviter {
     const snug = await Snug.findOneOrFail(snugId);
     const signedInvitees = await User.findByEmails(emails);
     const unsignedInvitees = _.differenceWith(emails, signedInvitees, (email, user) => user.hasSameEmail(email))
-            .map(Email.build)
+            .map(email => Email.from(email))
             .map(email => new User(email));
 
     const invitationsForSignedPeople = this.makeInvitations(signedInvitees, snug);

@@ -5,7 +5,7 @@ import {tellInvitation} from "../../socket/action/invite";
 import {InviteInfo} from "../../model/invite/invite-info";
 import _ from "lodash";
 
-export class InviteNotifier implements Notifier<Invite> {
+export class InviteNotifier implements Notifier<Invite[]> {
   public send(invitations: Invite[]): boolean {
     return _.every(invitations, this.generate);
   }

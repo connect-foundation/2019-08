@@ -1,4 +1,4 @@
-import {Any, Column, Entity, Equal, In, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
 import {Base} from "./Base";
 import {Email} from "../vo/Email";
 import _ from "lodash";
@@ -24,7 +24,7 @@ export class User extends Base {
 
   static findByEmails(emails: string[]): Promise<User[]> {
     const emailOptions = emails
-            .map(Email.build)
+            .map(email => Email.from(email))
             .map(email => email.asObject())
             .map(email => {return {email};});
 
