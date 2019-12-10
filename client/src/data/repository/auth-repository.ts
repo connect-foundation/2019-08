@@ -21,7 +21,8 @@ export class AuthRepository implements AuthRepositoryType {
       if (result == null) return {};
       const payload: { [key: string]: any } = <object>jwt.decode(result.token);
       const user: User = {
-        email: payload.email
+        email: payload.email,
+        id: payload.id
       };
       return user;
     } catch (error) {

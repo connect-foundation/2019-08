@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import styled from "styled-components";
-import { ApplicationProptype } from "prop-types/application-type";
-import { HomeDetailSnug } from "./home-detail-snug";
-import { Snug } from "core/entity/snug";
+import {ApplicationProptype} from "prop-types/application-type";
+import {HomeDetailSnug} from "./home-detail-snug";
+import {Snug} from "core/entity/snug";
+import {globalSocket} from "contexts/socket-context";
 
 const Wrapper = styled.section`
   background-color: #ffffff;
@@ -44,13 +45,26 @@ const Title = styled.header`
 export const HomeSnug: React.FC<ApplicationProptype> = (props) => {
   const { Application } = props;
   const [snugs, setSnugs] = useState<Snug[] | boolean>([]);
-  
+  const socket = useContext(globalSocket);
+
   useEffect(() => {
     (async () =>{
-      const initialSnugs = await Application.services.snugService.getList();   
+      const initialSnugs = await Application.services.snugService.getList();
       setSnugs(initialSnugs)
     })();
   }, []);
+
+  useEffect(() => {
+    socket.off("acceptInvitation");
+    const user = Application.services.authService.getUserInfo();
+    const id = user.id;
+    socket.emit("login", { userId: id });
+    socket.on("acceptInvitation", (invitation: any) => {
+      const invitedSnug = invitation.payload;
+      const currentSnugs = snugs as Snug[];
+      setSnugs(currentSnugs.concat(invitedSnug));
+    });
+  });
 
   return (
     <Wrapper>
@@ -59,9 +73,9 @@ export const HomeSnug: React.FC<ApplicationProptype> = (props) => {
       </DescriptionWrapper>
       <DetailSnugWrapper>
         <Title>내 Snug</Title>
-        {snugs && (snugs as Snug[]).map((snug: Snug) => {
-          return <HomeDetailSnug name={snug.name!} description={snug.description!} link={snug.id!}/>
-        })}
+        {snugs ? (snugs as Snug[]).map((snug: Snug) => {
+          return <HomeDetailSnug key={snug.id!} name={snug.name!} description={snug.description!} link={snug.id!}/>
+        }) : undefined}
       </DetailSnugWrapper>
     </Wrapper>
   );

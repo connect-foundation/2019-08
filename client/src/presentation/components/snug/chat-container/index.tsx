@@ -33,7 +33,7 @@ export const ChatContent: React.FC<AppSocketChannelMatchProps> = props => {
         type: "CLEAR_ALL"
       });
       const resultPosts = await Application.services.postService.getList(
-        pathParameter.channelId
+        pathParameter.channelId!
       );
       if (typeof resultPosts == "boolean") return;
       console.log(resultPosts);

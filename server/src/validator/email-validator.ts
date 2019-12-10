@@ -9,6 +9,10 @@ export const validateEmail = (email: string) => {
   return re.test(email);
 };
 
+export const checkInvalidEmail = (email: string) => {
+  return !validateEmail(email);
+};
+
 /**
  *
  * password가 8자리 이상 문자열 여부 확인

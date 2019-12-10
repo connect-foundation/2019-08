@@ -1,3 +1,3 @@
 export interface Notifier<T> {
-  send(data: T[]): boolean;
+  send(data: T): boolean;
 }

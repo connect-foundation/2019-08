@@ -31,4 +31,16 @@ export const OK_SNUG = "found snug";
 
 export const SUCCESS_INVITE="successfully sent all your emails and alarm";
 
-export const FAIL_INVITE="All emails and alarms have failed";
+export const NOT_FOUND="not found snug. you should give invalid snug id";
+
+export const FOUND_INVITATIONS="found invitations list about invitee";
+
+export const UNSUPPORTED_EMAIL = "find out invalid invite email";
+
+export const SUCCESS_JOIN_SNUG = "successfully join snug through invitation ticket";
+
+export const SUCCESS_REJECT_INVITATION_SNUG = "successfully reject invitation snug through ticket";
+
+export const ALREADY_JOINED_SNUG ="already joined snug, you cannot join through this ticket";
+
+export const INVALID_TICKET = "reject request because invaild ticket";
