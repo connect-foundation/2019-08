@@ -15,10 +15,6 @@ export const NOT_FOUND_PROFILE = "not found profile, you must right profile id";
 
 export const ALREADY_EXIST_CHANNEL = "given channel title already exists";
 
-export const NOT_ELEGIBLE_USER_FORM = "included not appropriate user register form";
-
-export const CANNOT_CREATE_USER = "cannot create user";
-
 export const CREATE_USER_SUCCESSFULLY = "created user successfully";
 
 export const FOUND_EMAIL_USER = "found user with this email";
@@ -43,4 +39,10 @@ export const SUCCESS_REJECT_INVITATION_SNUG = "successfully reject invitation sn
 
 export const ALREADY_JOINED_SNUG ="already joined snug, you cannot join through this ticket";
 
-export const INVALID_TICKET = "reject request because invaild ticket";
+export const INVALID_TICKET = "reject request because invalid ticket";
+
+export const INACCESSIBLE_PROFILE = "cannot accessible profile, because you do not have permission for that profile";
+
+export const SUCCESS_UPDATE_PROFILE = "successfully update profile";
+
+export const SUCCESS_FIND_PROFILE = "successfully find profile";
