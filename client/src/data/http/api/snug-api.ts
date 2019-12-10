@@ -5,48 +5,49 @@ import { AxiosInstance, AxiosResponse, AxiosError } from "axios";
 import { AxiosWrapper } from "./axios-wrapper";
 import { ResponseEntity } from "./response/ResponseEntity";
 
-export class SnugApi{
-    private axios: AxiosInstance;
+export class SnugApi {
+  private axios: AxiosInstance;
+  constructor(axios: AxiosWrapper) {
+    this.axios = axios.getAxios();
+  }
 
-    constructor(axios: AxiosWrapper){
-        this.axios = axios.getAxios();
-    }
+  create(input: Snug): Promise<ResponseEntity<Snug> | boolean> {
+    return this.axios
+      .post(`/api/snugs`, {
+        name: input.name,
+        description: input.description,
+        thumbnail: input.thumbnail
+      })
+      .then((response: AxiosResponse<ResponseEntity<Snug>>) => {
+        if (StatusCodes.isCreated(response.status)) {
+          return response.data;
+        } else {
+          return false;
+        }
+      })
+      .catch((error: AxiosError) =>
+        AxiosErrorHandler.handleError(
+          error,
+          `${input.name!} ì¶”ê°€ ê³¼ì •ì—ì„œ ì˜ˆê¸°ì¹˜ ëª»í•œ ì—ëŸ¬ê°€ ë°œìƒí–ˆìŠµë‹ˆë‹¤.`
+        )
+      );
+  }
 
-    create(input: Snug): Promise<ResponseEntity<Snug> | boolean> {
-        return this.axios.post(`/api/snugs`, {
-            name: input.name,
-            description: input.description,
-            thumbnail: input.thumbnail
-        })
-        .then((response: AxiosResponse<ResponseEntity<Snug>>) => {
-            if (StatusCodes.isCreated(response.status)) {
-                return response.data;
-            } else {
-                return false;
-            }
-        })
-        .catch((error: AxiosError) =>
-            AxiosErrorHandler.handleError(
-                error,
-                `${input.name!} Ãß°¡ °úÁ¤¿¡¼­ ¿¹±âÄ¡ ¸øÇÑ ¿¡·¯°¡ ¹ß»ıÇß½À´Ï´Ù.`
-            )
-        );
-    }
-
-    getList(): Promise<ResponseEntity<Snug[]> | boolean> {
-        return this.axios.get(`/api/snugs`)
-            .then((response: AxiosResponse<ResponseEntity<Snug[]>>) => {
-                if (StatusCodes.isOk(response.status)) {
-                    return response.data;
-                } else {
-                    return false;
-                }
-            })
-            .catch((error: AxiosError) =>
-                AxiosErrorHandler.handleError(
-                    error,
-                    `Ã¤³ÎÀ» ºÒ·¯¿À´Â °úÁ¤¿¡¼­ ¿¹±âÄ¡ ¸øÇÑ ¿¡·¯°¡ ¹ß»ıÇß½À´Ï´Ù.`
-                )
-            );
-    }
+  getList(): Promise<ResponseEntity<Snug[]> | boolean> {
+    return this.axios
+      .get(`/api/snugs`)
+      .then((response: AxiosResponse<ResponseEntity<Snug[]>>) => {
+        if (StatusCodes.isOk(response.status)) {
+          return response.data;
+        } else {
+          return false;
+        }
+      })
+      .catch((error: AxiosError) =>
+        AxiosErrorHandler.handleError(
+          error,
+          `ì±„ë„ì„ ë¶ˆëŸ¬ì˜¤ëŠ” ê³¼ì •ì—ì„œ ì˜ˆê¸°ì¹˜ ëª»í•œ ì—ëŸ¬ê°€ ë°œìƒí–ˆìŠµë‹ˆë‹¤.`
+        )
+      );
+  }
 }

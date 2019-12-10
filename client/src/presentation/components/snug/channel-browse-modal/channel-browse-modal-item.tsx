@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 const Wrapper = styled.section`
+  position: relative;
   display: flex;
   width: 100%;
+  height: 60px;
   color: ${({ theme }) => theme.snugSubFont};
   flex-direction: column;
   border-top: 1px solid ${({ theme }) => theme.snugBorderColor};
@@ -30,6 +32,25 @@ const Footer = styled.footer`
   margin-left: 10px;
 `;
 
+const Button = styled.button.attrs({
+  id: "join--button"
+})<{ on: boolean }>`
+  display: ${({ on }) => (on ? "" : "none")};
+  position: absolute;
+  box-sizing: content-box;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 35px;
+  height: 20px;
+  background-color: #00b20090;
+  border: none;
+  border-radius: 5px;
+  font-size: 9pt;
+  font-weight: bold;
+  color: white;
+`;
+
 interface ChannelBrowseModal {
   title?: string;
   description?: string;
@@ -39,14 +60,25 @@ interface ChannelBrowseModal {
 }
 
 export const ChannelBrowseModalItem: React.FC<ChannelBrowseModal> = props => {
+  const [on, setOn] = useState(false);
+
+  function enter() {
+    setOn(true);
+  }
+
+  function leave() {
+    setOn(false);
+  }
+
   return (
-    <Wrapper>
+    <Wrapper onMouseEnter={enter} onMouseLeave={leave}>
       <Header>{props.title}</Header>
       <Contents>{props.description}</Contents>
       <Footer>
         Created by {props.user} on{" "}
         {props.createdAt && props.createdAt.toLocaleString()}
       </Footer>
+      <Button on={on}>프리뷰</Button>
     </Wrapper>
   );
 };

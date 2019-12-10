@@ -1,7 +1,8 @@
 import { Response, Request, NextFunction } from "express";
 import ResponseForm from "../utils/response-form";
-import { NOT_FOUND } from "../controller/api/common/status-code";
-import { NO_USER_WITH_EMAIL } from "../controller/api/common/messages";
+import {NO_USER_WITH_EMAIL, UNSUPPORTED_EMAIL} from "../controller/api/common/messages";
+import _ from "lodash";
+
 import {
   hasNotEveryNumber,
   hasNotValue,
@@ -11,6 +12,8 @@ import {
   validateEmail,
   validatePasswordLength
 } from "../validator/email-validator";
+import UrlInfo from "../utils/url-info";
+import {BAD_REQUEST, NOT_FOUND} from "http-status-codes";
 
 /**
  *
@@ -50,4 +53,18 @@ export const isValidUserForm = (
   }
 
   return response.status(NOT_FOUND).json(ResponseForm.of(NO_USER_WITH_EMAIL));
+};
+
+export const isValidInviteForm = (
+        request: Request,
+        response: Response,
+        next: NextFunction
+) => {
+
+  const {emails} = request.body;
+  if (_.every(emails, validateEmail)) {
+    return next();
+  }
+
+  return response.status(BAD_REQUEST).json(ResponseForm.of<object>(UNSUPPORTED_EMAIL, {link: UrlInfo.aboutHome()}));
 };

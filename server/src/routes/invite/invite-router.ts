@@ -4,6 +4,6 @@ import * as InviteApiController from "../../controller/api/invite-controller";
 const router = Router({mergeParams: true});
 
 router.route("/:ticket")
-        .get(InviteApiController.verify);
+        .post(InviteApiController.verify, InviteApiController.responseBySnug);
 
 export default router;

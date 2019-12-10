@@ -4,7 +4,7 @@ import {Paginator} from "./common/pagenation/paginator";
 import ResponseForm from "../../utils/response-form";
 import { publishIO } from "../../socket/socket-manager";
 import { Profile } from "../../domain/entity/Profile";
-import { CREATED, NOT_FOUND, OK } from "./common/status-code";
+import { CREATED, NOT_FOUND, OK } from "http-status-codes";
 import {
   FOUND_CHANNEL,
   FOUND_POST_PROFILE,
