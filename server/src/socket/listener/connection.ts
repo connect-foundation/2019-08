@@ -1,12 +1,12 @@
 import SocketIO from "socket.io";
-import * as room from "../action/room";
+import * as room from "../action/snug";
 import {CONSUME_EVENT} from "../common/events/consume-type";
 
 export const connect = (io: SocketIO.Server) => {
-  const roomIo = io.of("/room");
+  const snugIo = io.of("/snug");
   const userIo = io.of("/user");
 
-  roomIo.on(CONSUME_EVENT.CONNECTION, (socket: SocketIO.Socket) => {
+  snugIo.on(CONSUME_EVENT.CONNECTION, (socket: SocketIO.Socket) => {
     const req = socket.request;
     const { headers: { referer } } = req;
     console.log(`${socket.id} ${referer} 클라이언트 접속`);

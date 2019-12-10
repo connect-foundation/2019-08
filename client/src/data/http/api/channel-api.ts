@@ -4,6 +4,7 @@ import { AxiosError, AxiosResponse, AxiosInstance } from "axios";
 import { ResponseEntity } from "./response/ResponseEntity";
 import { StatusCodes } from "./status-codes";
 import { AxiosWrapper } from "./axios-wrapper";
+import { Snug } from "core/entity/snug";
 
 export class ChannelApi {
   private axios: AxiosInstance;
@@ -12,9 +13,10 @@ export class ChannelApi {
     this.axios = axios.getAxios();
   }
 
-  create(channel: Channel): Promise<ResponseEntity<Channel> | boolean> {
+  create(snug: Snug, channel: Channel): Promise<ResponseEntity<Channel> | boolean> {
     return this.axios
       .post(`/api/channels`, {
+        snugId: snug.id!,
         title: channel.title!,
         description: channel.description!,
         privacy: channel.privacy!
@@ -52,9 +54,9 @@ export class ChannelApi {
       );
   }
 
-  getList(): Promise<ResponseEntity<Channel[]> | boolean> {
+  getList(snug: Snug): Promise<ResponseEntity<Channel[]> | boolean> {
     return this.axios
-      .get("/api/channels")
+      .get(`/api/snugs/${snug.id!}/channels`)
       .then((response: AxiosResponse<ResponseEntity<Channel[]>>) => {
         if (StatusCodes.isOk(response.status)) return response.data;
         return false;
