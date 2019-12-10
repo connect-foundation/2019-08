@@ -10,11 +10,23 @@ export class ProfileRepository implements ProfileRepositoryType {
     this.api = api;
   }
 
-  async getList(): Promise<Profile[] | boolean> {
+  async getProfile(id: number): Promise<Profile | boolean> {
     try {
-      const responseEntity = await this.api.getList();
-      if ((<ResponseEntity<Profile[]>>responseEntity).payload) {
-        return (<ResponseEntity<Profile[]>>responseEntity).payload;
+      const responseEntity = await this.api.getProfile(id);
+      if ((<ResponseEntity<Profile>>responseEntity).payload) {
+        return (<ResponseEntity<Profile>>responseEntity).payload;
+      }
+      return <boolean>responseEntity;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  async updateProfile(profile: Profile): Promise<Profile | boolean> {
+    try {
+      const responseEntity = await this.api.updateProfile(profile);
+      if ((<ResponseEntity<Profile>>responseEntity).payload) {
+        return (<ResponseEntity<Profile>>responseEntity).payload;
       }
       return <boolean>responseEntity;
     } catch (error) {

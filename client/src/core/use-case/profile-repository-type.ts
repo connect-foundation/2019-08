@@ -1,5 +1,6 @@
 import { Profile } from "core/entity/profile";
 
 export interface ProfileRepositoryType {
-  getList(): Promise<Profile[] | boolean>;
+  getProfile(id: number): Promise<Profile | boolean>;
+  updateProfile(profile: Profile): Promise<Profile | boolean>;
 }
