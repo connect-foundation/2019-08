@@ -13,7 +13,10 @@ export class ChannelApi {
     this.axios = axios.getAxios();
   }
 
-  create(snug: Snug, channel: Channel): Promise<ResponseEntity<Channel> | boolean> {
+  create(
+    snug: Snug,
+    channel: Channel
+  ): Promise<ResponseEntity<Channel> | boolean> {
     return this.axios
       .post(`/api/channels`, {
         snugId: snug.id!,
@@ -71,7 +74,9 @@ export class ChannelApi {
 
   join(channel: Channel): Promise<boolean> {
     return this.axios
-      .get(`/api/channels/${channel.id}/join`)
+      .post(`/api/channels/join`, {
+        channelId: channel.id
+      })
       .then((response: AxiosResponse<ResponseEntity<{}>>) => {
         return StatusCodes.isOk(response.status);
       })

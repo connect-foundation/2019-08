@@ -1,14 +1,33 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled, { css } from "styled-components";
+import { globalApplication } from "contexts/application-context";
+import { usePathParameter } from "contexts/path-parameter-context";
+import { AppSocketChannelMatchProps } from "prop-types/match-extends-types";
 
-export const Preview: React.FC = () => {
+type PropsType = {
+  setIsParticipated: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export const Preview: React.FC<AppSocketChannelMatchProps &
+  PropsType> = props => {
+  const Application = useContext(globalApplication);
+  const pathParameter = usePathParameter();
+  const { setIsParticipated } = props;
+
+  async function join() {
+    const result = await Application.services.channelService.join(
+      pathParameter.channelId!
+    );
+    setIsParticipated(result);
+  }
+
   return (
     <PreviewWrrapper>
       <article>
         <H1>이 채널은 블라블라</H1>
         <P> 블라블라블라블라블라블라블라 </P>
       </article>
-      <StyledJoinButton>참가하기</StyledJoinButton>
+      <StyledJoinButton onClick={join}>참가하기</StyledJoinButton>
       <StyledBackButton>나가기</StyledBackButton>
     </PreviewWrrapper>
   );

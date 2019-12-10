@@ -8,9 +8,11 @@ import { usePathParameter } from "contexts/path-parameter-context";
 
 const ChatContentWrapper = styled.section.attrs({
   id: "scroll"
-})`
-  min-height: ${props => css`calc(100% - 75px)`};
-  max-height: calc(100% - 75px);
+})<{ isParticipated: boolean }>`
+  min-height: ${({ isParticipated }) =>
+    isParticipated ? css`calc(100% - 75px)` : css`calc(100% - 150px)`};
+  max-height: ${({ isParticipated }) =>
+    isParticipated ? css`calc(100% - 75px)` : css`calc(100% - 150px)`};
   width: 100%;
   overflow-y: auto;
   display: flex;
@@ -21,8 +23,10 @@ const Wrapper = styled.section.attrs({})`
   margin-top: auto !important;
 `;
 
-export const ChatContent: React.FC<AppSocketChannelMatchProps> = props => {
-  const { Application } = props;
+export const ChatContent: React.FC<AppSocketChannelMatchProps & {
+  isParticipated: boolean;
+}> = props => {
+  const { Application, isParticipated } = props;
   const posts: Post[] = useMessages();
   const dispatch = useMessagesDispatch();
   const pathParameter = usePathParameter();
@@ -64,7 +68,7 @@ export const ChatContent: React.FC<AppSocketChannelMatchProps> = props => {
   }
 
   return (
-    <ChatContentWrapper>
+    <ChatContentWrapper isParticipated={isParticipated}>
       <Wrapper>{messageList()}</Wrapper>
     </ChatContentWrapper>
   );

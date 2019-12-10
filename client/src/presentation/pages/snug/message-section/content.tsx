@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { ChatContent } from "presentation/components/snug/chat-container";
 import { ChatInputBox } from "presentation/components/snug/chat-input-box";
@@ -15,12 +15,16 @@ const MessageSectionContentWrapper = styled.section`
 `;
 
 export const MessageSectionContent: React.FC<AppSocketChannelMatchProps> = props => {
+  const [isParticipated, setIsParticipated] = useState(false);
   return (
     <MessageContextProvider>
       <MessageSectionContentWrapper>
-        <ChatContent {...props} />
-        <Preview></Preview>
-        <ChatInputBox {...props} />
+        <ChatContent {...props} isParticipated={isParticipated} />
+        {isParticipated ? (
+          <ChatInputBox {...props} />
+        ) : (
+          <Preview {...props} setIsParticipated={setIsParticipated}></Preview>
+        )}
       </MessageSectionContentWrapper>
     </MessageContextProvider>
   );
