@@ -1,22 +1,17 @@
 import {Notifier} from "./notifier";
+import {Email} from "../../domain/vo/Email";
+import {publish} from "../../mail/mail-manager";
 import {Invite} from "../../domain/entity/Invite";
-import nodemailer from "nodemailer";
 import _ from "lodash";
 
-export class EmailNotifier implements Notifier<Invite> {
-  send(invitations: Invite[]): boolean {
-    const transporter = nodemailer.createTransport({
-      host: process.env.MAIL_HOST!,
-      port: parseInt(process.env.MAIL_PORT!),
-      secure: !!process.env.MAIL_SECURE!,
-      auth: {
-        user: process.env.MAIL_ADMIN!,
-        pass: process.env.MAIL_PASSWORD!
-      }
-    });
+export class EmailNotifier implements Notifier<Invite[]> {
+  public send(invitations: Invite[]): boolean {
+    const emails = _.map(invitations, this.addContentsToEmail);
+    return publish([...emails]);
+  }
 
-    return _.every(invitations, (invite: Invite) => {
-      return invite.email.sendTo(transporter, invite.provideContents());
-    });
+  private addContentsToEmail(invite: Invite): Email {
+    const {email} = invite;
+    return Email.from(email.asFormat(), invite.provideContents());
   }
 }
