@@ -7,7 +7,10 @@ import { match } from "react-router";
 import { ChannelMatchType } from "prop-types/channel-match-type";
 import { History } from "history";
 import { Context } from "context.instance";
-import { usePathParameter, usePathParameterDispatch } from "contexts/path-parameter-context";
+import {
+  usePathParameter,
+  usePathParameterDispatch
+} from "contexts/path-parameter-context";
 
 const Wrapper = styled.section`
   padding: 10px 0px;
@@ -15,14 +18,12 @@ const Wrapper = styled.section`
 
 interface PropTypes {
   match: match<ChannelMatchType>;
-  socket: SocketIO.Server;
   history: History<any>;
   Application: Context;
 }
 
 export const ChannelList: React.FC<PropTypes> = ({
   match,
-  socket,
   history,
   Application
 }) => {
@@ -32,14 +33,17 @@ export const ChannelList: React.FC<PropTypes> = ({
   const pathParameterDispatch = usePathParameterDispatch();
 
   useEffect(() => {
-    pathParameterDispatch({type:"GETSNUGID", snugId: Number(match.params.snugId)});
-  }, [])
-  
-  useEffect(() => {
-    if (!match.params.channelId) socket.emit("join", match.params.channelId);
+    pathParameterDispatch({
+      type: "GETSNUGID",
+      snugId: Number(match.params.snugId)
+    });
+  }, []);
 
+  useEffect(() => {
     (async function() {
-      const channel = await Application.services.channelService.getChannelList(Number(match.params.snugId));
+      const channel = await Application.services.channelService.getChannelList(
+        Number(match.params.snugId)
+      );
       if (typeof channel === "boolean" || !dispatch) return;
       dispatch({
         type: "MULTI",

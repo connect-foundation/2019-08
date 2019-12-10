@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { ChatContent } from "presentation/components/snug/chat-container";
 import { ChatInputBox } from "presentation/components/snug/chat-input-box";
 import { MessageContextProvider } from "contexts/messages-context";
-import { AppSocketChannelMatchProps } from "prop-types/match-extends-types";
+import { AppChannelMatchProps } from "prop-types/match-extends-types";
 
 const MessageSectionContentWrapper = styled.section`
   width: 100%;
@@ -14,7 +14,7 @@ const MessageSectionContentWrapper = styled.section`
   overflow: auto;
 `;
 
-export const MessageSectionContent: React.FC<AppSocketChannelMatchProps> = props => {
+export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
   return (
     <MessageContextProvider>
       <MessageSectionContentWrapper>

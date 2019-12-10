@@ -90,18 +90,26 @@ export const InvitationAlarm: React.FC = () => {
   useEffect(() => {
     const fetchInvitationLists = async () => {
       if (!user.id) return;
-      const {invitations} = await application.services.inviteService.getInvitedSnugs(user.id) as any;
-      if (invitations.length === 0){ setInvitedSnugs([]); return;}
+      const {
+        invitations
+      } = (await application.services.inviteService.getInvitedSnugs(
+        user.id
+      )) as any;
+      if (invitations.length === 0) {
+        setInvitedSnugs([]);
+        return;
+      }
       setInvitedSnugs(invitations as Invite[]);
     };
     fetchInvitationLists();
   }, []);
 
   useEffect(() => {
-    socket.off("tellInvitation");
+    const { userSocket } = socket;
+    userSocket.off("tellInvitation");
     const id = user.id;
-    socket.emit("login", { userId: id });
-    socket.on("tellInvitation", (invitation: any) => {
+    userSocket.emit("login", { userId: id });
+    userSocket.on("tellInvitation", (invitation: any) => {
       const invitedSnug = invitation.payload;
       const currentInvitation = invitedSnugs;
       currentInvitation.push(invitedSnug);
@@ -117,9 +125,10 @@ export const InvitationAlarm: React.FC = () => {
     const idx = invitedSnugs.indexOf(invitation);
     invitedSnugs.splice(idx, 1);
     setInvitedSnugs([...invitedSnugs]);
-    const result = await application.services.inviteService.responseToInvitation(
-      invitation, agree
-    ) as any;
+    const result = (await application.services.inviteService.responseToInvitation(
+      invitation,
+      agree
+    )) as any;
     window.location.href = result.snug.link!;
     if (!result) return;
   };
@@ -141,7 +150,7 @@ export const InvitationAlarm: React.FC = () => {
                     acceptDeclineHandler,
                     invitedSnugs,
                     invitation,
-                          true
+                    true
                   )}
                 />
                 <CustomButton
@@ -153,7 +162,7 @@ export const InvitationAlarm: React.FC = () => {
                     acceptDeclineHandler,
                     invitedSnugs,
                     invitation,
-                          false
+                    false
                   )}
                 />
               </Buttons>
