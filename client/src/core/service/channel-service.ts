@@ -1,6 +1,7 @@
 import { ChannelRepositoryType } from "core/use-case/channel-repository-type";
 import { ChannelModel } from "core/model/channel-model";
 import { Channel } from "core/entity/channel";
+import { Snug } from "core/entity/snug";
 
 /**
  *
@@ -25,14 +26,16 @@ export class ChannelService {
    *
    * */
   async create(
+    snugId: number,
     title: string,
     description: string,
     privacy: boolean
   ): Promise<boolean | Channel> {
+    const snug: Snug = {id: snugId};
     const channel: ChannelModel = new ChannelModel(title, description, privacy);
     const satisfaction = await this.isSatisfied(channel);
     if (satisfaction) {
-      return this.repository.create(channel);
+      return this.repository.create(snug, channel);
     }
     return false;
   }
@@ -61,7 +64,8 @@ export class ChannelService {
     return !redundancy;
   }
 
-  async getChannelList(): Promise<Channel[] | boolean> {
-    return await this.repository.getChannels();
+  async getChannelList(snugId: number): Promise<Channel[] | boolean> {
+    const snug: Snug = {id: snugId};
+    return await this.repository.getChannels(snug);
   }
 }

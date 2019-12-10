@@ -35,6 +35,6 @@ export class Room extends Base {
     const order = new Order()
             .add("id", "ASC")
             .support();
-    return Room.findOneOrFail({where: {isPrivate: false, isChannel: true, snug: snug.id}, ...order});
+    return Room.findOneOrFail({where: {isPrivate: false, isChannel: true, snug: snug}, ...order});
   }
 }

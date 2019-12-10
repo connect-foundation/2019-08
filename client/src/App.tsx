@@ -30,7 +30,7 @@ const GlobalStyle = createGlobalStyle`
 `;
 const App: React.FC = () => {
   const history = createBrowserHistory();
-  let socket = socketIO(process.env.REACT_APP_SOCKET_SERVER_HOST!);
+  let socket = socketIO(process.env.REACT_APP_SOCKET_SERVER_HOST! + "/snug");
   return (
           <ApplicationContextProvider>
             <SocketContextProvider>

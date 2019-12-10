@@ -17,6 +17,7 @@ import {
   NOT_FOUND_CHANNELS
 } from "./common/messages";
 import HttpException from "../../utils/exception/HttpException";
+import { Snug } from "../../domain/entity/Snug";
 
 /**
  *
@@ -44,7 +45,10 @@ export const findAll = async (
   next: NextFunction
 ) => {
   try {
-    const channels = await Room.find();
+    const { snugId } = request.params;
+    const exSnug = await Snug.findOne({where: { id:snugId } });
+
+    const channels = await Room.find({ where: { snug: exSnug} });
     if (!!channels) {
       return response
         .status(OK)
@@ -67,10 +71,8 @@ export const findAll = async (
  *
  * */
 export const create = async (request: Request, response: Response) => {
-  const title = request.body.title;
-  const description = request.body.description;
-  const privacy = request.body.privacy;
-
+  const {title, description, privacy, snugId} = request.body
+  
   const isExisting = await Room.findByTitle(title);
 
   if (!!isExisting) {
@@ -78,12 +80,13 @@ export const create = async (request: Request, response: Response) => {
       .status(CONFLICT)
       .json(ResponseForm.of(ALREADY_EXIST_CHANNEL));
   }
-
+  const snug = await Snug.findOne({where: { id: snugId }});
   const channel = await Room.create({
     title: title,
     description: description,
     isPrivate: privacy,
-    isChannel: true
+    isChannel: true,
+    snug: snug
   }).save();
 
   return response

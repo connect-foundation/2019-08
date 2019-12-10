@@ -1,7 +1,8 @@
 import { RouteComponentProps } from "react-router";
 
 export interface ChannelMatchType {
-  channelId: string;
+  snugId: string;
+  channelId?: string;
 }
 
 export interface ChannelRouteComponentType
