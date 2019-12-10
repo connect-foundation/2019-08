@@ -14,7 +14,7 @@ export class ProfileRepository implements ProfileRepositoryType {
     try {
       const responseEntity = await this.api.getList();
       if ((<ResponseEntity<Profile[]>>responseEntity).payload) {
-        return (<ResponseEntity<Profile[]>>responseEntity).payload.posts;
+        return (<ResponseEntity<Profile[]>>responseEntity).payload;
       }
       return <boolean>responseEntity;
     } catch (error) {
