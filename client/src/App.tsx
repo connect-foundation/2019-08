@@ -9,6 +9,7 @@ import { Application } from "./context.instance";
 import { createGlobalStyle } from "styled-components";
 import socketIO from "socket.io-client";
 import dotenv from "dotenv";
+import { PathParameterContextProvider } from "contexts/path-parameter-context";
 
 dotenv.config();
 
@@ -32,50 +33,51 @@ const App: React.FC = () => {
   const socket = socketIO(process.env.REACT_APP_SOCKET_SERVER_HOST!);
   return (
     <BrowserRouter>
-      <GlobalStyle></GlobalStyle>
-      <Route
-        exact
-        path="/"
-        component={(props: any) => (
-          <Home {...props} Application={Application} />
-        )}
-      ></Route>
-
-      <Route
-        exact
-        path="/register-snug"
-        component={(props: any) => (
-          <RegisterSnug {...props} Application={Application} />
-        )}
-      ></Route>
-      <Route
-        exact
-        path="/register-user"
-        component={(props: any) => (
-          <RegisterUser {...props} Application={Application} />
-        )}
-      ></Route>
-      <Route
-        exact
-        path="/snug"
-        component={(props: any) => (
-          <Snug {...props} Application={Application} socket={socket}></Snug>
-        )}
-      />
-      <Route
-        exact
-        path="/snug/:channelId"
-        component={(props: any) => (
-          <Snug {...props} Application={Application} socket={socket}></Snug>
-        )}
-      ></Route>
-      <Route
-        exact
-        path="/invite-users/:snugId"
-        component={(props: any) => (
-          <InviteUsers {...props} Application={Application} />
-        )}
-      ></Route>
+      <PathParameterContextProvider>
+        <GlobalStyle></GlobalStyle>
+        <Route
+          exact
+          path="/"
+          component={(props: any) => (
+            <Home {...props} Application={Application} />
+          )}
+        ></Route>
+        <Route
+          exact
+          path="/register-user"
+          component={(props: any) => (
+            <RegisterUser {...props} Application={Application} />
+          )}
+        ></Route>
+        <Route
+          exact
+          path="/register-snug"
+          component={(props: any) => (
+            <RegisterSnug {...props} Application={Application} />
+          )}
+        ></Route>
+        <Route
+          exact
+          path="/invite-users/:snugId"
+          component={(props: any) => (
+            <InviteUsers {...props} Application={Application} />
+          )}
+        ></Route>
+        <Route
+          exact
+          path="/snug/:snugId/"
+          component={(props: any) => (
+            <Snug {...props} Application={Application} socket={socket}></Snug>
+          )}
+        ></Route>
+        <Route
+          exact
+          path="/snug/:snugId/channel/:channelId"
+          component={(props: any) => (
+            <Snug {...props} Application={Application} socket={socket}></Snug>
+          )}
+        ></Route>
+      </PathParameterContextProvider>
     </BrowserRouter>
   );
 };
