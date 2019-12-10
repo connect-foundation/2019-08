@@ -5,6 +5,6 @@ const router = Router();
 
 router.post("/login", AuthApiController.login);
 
-router.get("/snug/:snugId/profiles", AuthApiController.getProfileToken);
+router.get("/snugs/:snugId/profiles", AuthApiController.getProfileToken);
 
 export default router;
