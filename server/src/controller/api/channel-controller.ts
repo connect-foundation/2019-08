@@ -97,13 +97,11 @@ export const create = async (request: Request, response: Response) => {
 export const join = async (request: Request, response: Response) => {
   try {
     const payload: any = <object>offerProfileTokenInfo(request);
-    const { id } = request.body;
-    const room = await Room.findOne({ id: id });
-    const profile = await Profile.findOne({ id: payload.id });
+    const { channelId } = request.body;
     const result = await ParticipateIn.create({
-      room: room,
-      participant: profile
-    });
+      room: { id: channelId },
+      participant: { id: payload.id }
+    }).save();
     if (!result) throw new Error("조인실패");
     response.status(OK).json(ResponseForm.of("성공", result));
   } catch (error) {
