@@ -1,21 +1,23 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Route, BrowserRouter } from "react-router-dom";
-import { createBrowserHistory } from "history";
 import { Home } from "./presentation/pages/home/index";
 import { Snug } from "./presentation/pages/snug/index";
 import { RegisterSnug } from "./presentation/pages/register-snug";
 import { RegisterUser } from "./presentation/pages/register-user/index";
-import {InviteUsers} from "presentation/pages/invite-users";
+import { InviteUsers } from "presentation/pages/invite-users";
 import { Application } from "./context.instance";
 import { createGlobalStyle } from "styled-components";
 import socketIO from "socket.io-client";
 import dotenv from "dotenv";
 
 dotenv.config();
+
 const GlobalStyle = createGlobalStyle`
+    @import url(https://fonts.googleapis.com/css?family=Nanum+Gothic:regular,700,800);
     body{
         padding: 0;
         margin: 0;
+        font-family: "Nanum Gothic",sans-serif;
     }
     #root{
       width:100vw;
@@ -25,8 +27,8 @@ const GlobalStyle = createGlobalStyle`
       text-decoration: none;
     }
 `;
+
 const App: React.FC = () => {
-  const history = createBrowserHistory();
   const socket = socketIO(process.env.REACT_APP_SOCKET_SERVER_HOST!);
   return (
     <BrowserRouter>
@@ -77,4 +79,5 @@ const App: React.FC = () => {
     </BrowserRouter>
   );
 };
+
 export default App;
