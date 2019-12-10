@@ -2,9 +2,9 @@ import { Router } from "express";
 import { create, findByUserId } from "../../controller/api/snug-controller";
 import channelRouter from "./channel/channel-router";
 import inviteRouter from "./invite/invite-router";
-import {isNumeric} from "../../validator/identifier-validator";
+import { isNumeric } from "../../validator/identifier-validator";
 
-const router = Router({mergeParams: true});
+const router = Router({ mergeParams: true });
 
 router.use("/:snugId/channels", channelRouter);
 
