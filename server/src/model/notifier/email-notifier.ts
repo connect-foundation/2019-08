@@ -12,8 +12,6 @@ export class EmailNotifier implements Notifier<Invite[]> {
 
   private addContentsToEmail(invite: Invite): Email {
     const {email} = invite;
-    const cloneEmail = _.cloneDeep(email);
-    cloneEmail.setUpContents(invite.provideContents());
-    return cloneEmail;
+    return Email.from(email.asFormat(), invite.provideContents());
   }
 }
