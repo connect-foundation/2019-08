@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useMessages, useMessagesDispatch } from "contexts/messages-context";
-import { AppSocketChannelMatchProps } from "prop-types/match-extends-types";
+import { AppChannelMatchProps } from "prop-types/match-extends-types";
 import { PostCard } from "presentation/components/snug/post-card";
 import { Post } from "core/entity/post";
 import { usePathParameter } from "contexts/path-parameter-context";
@@ -16,15 +16,17 @@ const ChatContentWrapper = styled.section.attrs({
   display: flex;
   flex-flow: column nowrap;
 `;
+
 const Wrapper = styled.section.attrs({})`
   margin-top: auto !important;
 `;
 
-export const ChatContent: React.FC<AppSocketChannelMatchProps> = props => {
+export const ChatContent: React.FC<AppChannelMatchProps> = props => {
   const { Application } = props;
   const posts: Post[] = useMessages();
   const dispatch = useMessagesDispatch();
   const pathParameter = usePathParameter();
+
   useEffect(() => {
     (async function() {
       dispatch({
@@ -34,7 +36,6 @@ export const ChatContent: React.FC<AppSocketChannelMatchProps> = props => {
         pathParameter.channelId!
       );
       if (typeof resultPosts == "boolean") return;
-      console.log(resultPosts);
       dispatch({
         type: "MULTI_INPUT",
         posts: resultPosts
@@ -44,7 +45,6 @@ export const ChatContent: React.FC<AppSocketChannelMatchProps> = props => {
 
   useEffect(() => {
     const obj: HTMLElement = document.getElementById("scroll")!;
-    console.log(obj);
     obj.scrollTop = obj.scrollHeight;
   }, [posts]);
 

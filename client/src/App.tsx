@@ -7,7 +7,6 @@ import { RegisterUser } from "./presentation/pages/register-user/index";
 import { InviteUsers } from "presentation/pages/invite-users";
 import { Application } from "./context.instance";
 import { createGlobalStyle } from "styled-components";
-import socketIO from "socket.io-client";
 import dotenv from "dotenv";
 import { PathParameterContextProvider } from "contexts/path-parameter-context";
 import { ApplicationContextProvider } from "contexts/application-context";
@@ -32,7 +31,6 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const App: React.FC = () => {
-  let socket = socketIO(process.env.REACT_APP_SOCKET_SERVER_HOST! + "/snug");
   return (
     <ApplicationContextProvider>
       <SocketContextProvider>
@@ -71,22 +69,14 @@ const App: React.FC = () => {
               exact
               path="/snug/:snugId/"
               component={(props: any) => (
-                <Snug
-                  {...props}
-                  Application={Application}
-                  socket={socket}
-                ></Snug>
+                <Snug {...props} Application={Application}></Snug>
               )}
             ></Route>
             <Route
               exact
               path="/snug/:snugId/channel/:channelId"
               component={(props: any) => (
-                <Snug
-                  {...props}
-                  Application={Application}
-                  socket={socket}
-                ></Snug>
+                <Snug {...props} Application={Application}></Snug>
               )}
             ></Route>
           </PathParameterContextProvider>
