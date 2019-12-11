@@ -35,14 +35,23 @@ const Wrapper = styled.section`
 interface PropTypes {
   toggleModal(parameter: any | void): any | void;
   updateProfile(profile: Profile): void;
+  currentProfile: Profile;
 }
 
-export const Modal: React.FC<PropTypes> = ({ toggleModal, updateProfile }) => {
+export const Modal: React.FC<PropTypes> = ({
+  toggleModal,
+  updateProfile,
+  currentProfile
+}) => {
   return (
     <BlackBackground>
       <Wrapper>
         <ModalHeader onClick={toggleModal} />
-        <ModalBody toggleModal={toggleModal} updateProfile={updateProfile} />
+        <ModalBody
+          toggleModal={toggleModal}
+          updateProfile={updateProfile}
+          currentProfile={currentProfile}
+        />
       </Wrapper>
     </BlackBackground>
   );

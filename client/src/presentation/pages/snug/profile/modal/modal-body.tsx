@@ -36,11 +36,13 @@ const Button = styled.button`
 interface PropTypes {
   toggleModal(parameter: any | void): any | void;
   updateProfile(profile: Profile): void;
+  currentProfile: Profile;
 }
 
 export const ModalBody: React.FC<PropTypes> = ({
   toggleModal,
-  updateProfile
+  updateProfile,
+  currentProfile
 }) => {
   const application = useContext(globalApplication);
 
@@ -69,6 +71,7 @@ export const ModalBody: React.FC<PropTypes> = ({
 
   const handleSubmit = async () => {
     const profile = {
+      ...currentProfile,
       name,
       description,
       status,

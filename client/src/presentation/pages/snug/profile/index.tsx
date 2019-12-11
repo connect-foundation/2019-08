@@ -55,7 +55,11 @@ export const ProfileSection: React.FC = () => {
   return (
     <Wrapper>
       {modalDisplay && (
-        <Modal toggleModal={toggleModal} updateProfile={updateProfile}></Modal>
+        <Modal
+          toggleModal={toggleModal}
+          updateProfile={updateProfile}
+          currentProfile={currentProfile}
+        />
       )}
       <Header />
       <ImageWrapper>
