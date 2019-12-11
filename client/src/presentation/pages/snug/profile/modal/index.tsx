@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { ModalHeader } from "./modal-header";
 import { ModalBody } from "./modal-body";
+import { Profile } from "core/entity/profile";
 
 const BlackBackground = styled.section`
   position: fixed;
@@ -32,16 +33,16 @@ const Wrapper = styled.section`
 `;
 
 interface PropTypes {
-  toggleModal?(parameter: any | void): any | void;
-  message?: string;
+  toggleModal(parameter: any | void): any | void;
+  updateProfile(profile: Profile): void;
 }
 
-export const Modal: React.FC<PropTypes> = ({ toggleModal, message }) => {
+export const Modal: React.FC<PropTypes> = ({ toggleModal, updateProfile }) => {
   return (
     <BlackBackground>
       <Wrapper>
         <ModalHeader onClick={toggleModal} />
-        <ModalBody />
+        <ModalBody toggleModal={toggleModal} updateProfile={updateProfile} />
       </Wrapper>
     </BlackBackground>
   );

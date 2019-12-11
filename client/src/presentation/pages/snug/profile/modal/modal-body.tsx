@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { ModalLeftBody } from "./modal-left-body";
 import { ModalRightBody } from "./modal-right-body";
+import { globalApplication } from "contexts/application-context";
+import { Profile } from "core/entity/profile";
 
 const Wrapper = styled.form`
   display: flex;
@@ -31,14 +33,73 @@ const Button = styled.button`
   margin-left: 10px;
 `;
 
-export const ModalBody: React.FC = () => {
+interface PropTypes {
+  toggleModal(parameter: any | void): any | void;
+  updateProfile(profile: Profile): void;
+}
+
+export const ModalBody: React.FC<PropTypes> = ({
+  toggleModal,
+  updateProfile
+}) => {
+  const application = useContext(globalApplication);
+
+  const [description, setDescription] = useState("");
+  const [phone, setPhone] = useState("");
+  const [name, setName] = useState("");
+  const [status, setStatus] = useState("");
+
+  const handleStatusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setStatus(event.target.value);
+  };
+
+  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setName(event.target.value);
+  };
+
+  const handleDescriptionChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setDescription(event.target.value);
+  };
+
+  const handlePhoneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPhone(event.target.value);
+  };
+
+  const handleSubmit = async () => {
+    const profile = {
+      name,
+      description,
+      status,
+      phone
+    } as Profile;
+
+    const result = await application.services.profileService.updateProfile(
+      profile
+    );
+    // todo : update Profile Logic 생성
+    if (!result) return;
+  };
+
   return (
-    <Wrapper>
-      <ModalLeftBody />
+    <Wrapper onSubmit={handleSubmit}>
+      <ModalLeftBody
+        handleNameChange={handleNameChange}
+        handleDescriptionChange={handleDescriptionChange}
+        handleStatusChange={handleStatusChange}
+        handlePhoneChange={handlePhoneChange}
+        name={name}
+        status={status}
+        description={description}
+        phone={phone}
+      />
       <ModalRightBody />
       <ButtonWrapper>
-        <Button>취소</Button>
-        <Button>제출</Button>
+        <Button type={"button"} onClick={toggleModal}>
+          취소
+        </Button>
+        <Button type={"submit"}>제출</Button>
       </ButtonWrapper>
     </Wrapper>
   );

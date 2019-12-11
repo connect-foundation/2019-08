@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { ChatContent } from "presentation/components/snug/chat-container";
 import { ChatInputBox } from "presentation/components/snug/chat-input-box";
 import { MessageContextProvider } from "contexts/messages-context";
-import { Profile } from "presentation/pages/snug/profile";
+import { ProfileSection } from "presentation/pages/snug/profile";
 import { AppSocketChannelMatchProps } from "prop-types/match-extends-types";
 
 const MessageSectionContentWrapper = styled.section`
@@ -30,7 +30,7 @@ export const MessageSectionContent: React.FC<AppSocketChannelMatchProps> = props
           <ChatContent {...props} />
           <ChatInputBox {...props} />
         </MessageSectionContentWrapper>
-        <Profile></Profile>
+        <ProfileSection />
       </Wrapper>
     </MessageContextProvider>
   );

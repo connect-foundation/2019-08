@@ -10,13 +10,51 @@ const Wrapper = styled.section`
   flex-direction: column;
 `;
 
-export const ModalLeftBody: React.FC = () => {
+interface PropTypes {
+  handleNameChange(parameter: any | void): any | void;
+  handleDescriptionChange(parameter: any | void): any | void;
+  handleStatusChange(parameter: any | void): any | void;
+  handlePhoneChange(parameter: any | void): any | void;
+  name: string;
+  description: string;
+  status: string;
+  phone: string;
+}
+
+export const ModalLeftBody: React.FC<PropTypes> = props => {
+  const {
+    handleDescriptionChange,
+    handleNameChange,
+    handlePhoneChange,
+    handleStatusChange,
+    name,
+    description,
+    status,
+    phone
+  } = props;
+
   return (
     <Wrapper>
-      <ModalInput title={"이름"}></ModalInput>
-      <ModalInput title={"설명"}></ModalInput>
-      <ModalInput title={"상태"}></ModalInput>
-      <ModalInput title={"전화번호"}></ModalInput>
+      <ModalInput
+        title={"이름"}
+        placeholder={name}
+        onChange={handleNameChange}
+      ></ModalInput>
+      <ModalInput
+        title={"설명"}
+        placeholder={description}
+        onChange={handleDescriptionChange}
+      ></ModalInput>
+      <ModalInput
+        title={"상태"}
+        placeholder={status}
+        onChange={handleStatusChange}
+      ></ModalInput>
+      <ModalInput
+        placeholder={phone}
+        title={"전화번호"}
+        onChange={handlePhoneChange}
+      ></ModalInput>
     </Wrapper>
   );
 };
