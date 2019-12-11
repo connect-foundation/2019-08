@@ -31,7 +31,7 @@ export class ChannelService {
     description: string,
     privacy: boolean
   ): Promise<boolean | Channel> {
-    const snug: Snug = {id: snugId};
+    const snug: Snug = { id: snugId };
     const channel: ChannelModel = new ChannelModel(title, description, privacy);
     const satisfaction = await this.isSatisfied(channel);
     if (satisfaction) {
@@ -65,7 +65,13 @@ export class ChannelService {
   }
 
   async getChannelList(snugId: number): Promise<Channel[] | boolean> {
-    const snug: Snug = {id: snugId};
+    const snug: Snug = { id: snugId };
     return await this.repository.getChannels(snug);
+  }
+
+  async getParticipate(): Promise<Channel[]> {
+    if (document.cookie.indexOf("progile") == -1)
+      throw new Error("프로필 쿠키가 존재하지 않습니다.");
+    return await this.repository.getParticipateChannel();
   }
 }
