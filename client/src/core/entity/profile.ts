@@ -11,4 +11,5 @@ export interface Profile {
   role?: Role;
   description?: string;
   phoneNumber?: string;
+  email?: string;
 }
