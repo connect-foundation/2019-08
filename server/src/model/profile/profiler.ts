@@ -4,7 +4,7 @@ import {ProfileInfo} from "./profile-info";
 export class Profiler {
   public async update(id: string, profile: Profile): Promise<ProfileInfo> {
     const profileModel = await Profile.findById(id);
-    const profileRevision = await Profile.merge(profileModel, profile);
+    const profileRevision = await Profile.merge(profileModel, profile).save();
     return ProfileInfo.fromProfile(profileRevision);
   }
 

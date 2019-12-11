@@ -24,6 +24,6 @@ export class ProfileInfo {
   static fromProfile(profile: Profile): ProfileInfo {
     const {id, name, status, phone, thumbnail, description, updatedAt, user} = profile;
     const email = user && user.email.asFormat();
-    return new ProfileInfo(id, name, status, phone, thumbnail, description, updatedAt, email);
+    return new ProfileInfo(id, name, phone, status, thumbnail, description, updatedAt, email);
   }
 }
