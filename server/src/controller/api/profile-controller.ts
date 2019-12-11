@@ -5,6 +5,9 @@ import ResponseForm from "../../utils/response-form";
 import {ACCEPTED, OK, UNAUTHORIZED} from "http-status-codes";
 import {offerTokenInfo, UserInfo} from "../../validator/identifier-validator";
 import {INACCESSIBLE_PROFILE, SUCCESS_FIND_PROFILE, SUCCESS_UPDATE_PROFILE} from "./common/messages";
+import {Token} from "./common/token/token";
+import {ProfileInfo} from "../../model/profile/profile-info";
+import {ProfileToken} from "./common/token/profile-token";
 
 export const isAccessibleProfile = async (request: Request, response: Response, next: NextFunction): Promise<void> => {
   const {profileId} = request.params;
@@ -30,7 +33,10 @@ export const update = async (request: Request, response: Response): Promise<Resp
 
   const profiler = new Profiler();
   const profileRevision = await profiler.update(profileId, profile);
-  return response.status(ACCEPTED).json(ResponseForm.of(SUCCESS_UPDATE_PROFILE, {profile: profileRevision}));
+  const profileToken: Token<ProfileInfo> = new ProfileToken();
+  return response.status(ACCEPTED)
+          .cookie("profile", profileToken.tokenize(profileRevision))
+          .json(ResponseForm.of(SUCCESS_UPDATE_PROFILE, {profile: profileRevision}));
 };
 
 export const findById = async (request: Request, response: Response): Promise<Response> => {

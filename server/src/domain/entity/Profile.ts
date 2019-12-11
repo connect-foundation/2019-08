@@ -9,32 +9,24 @@ export type UserRoleType = "admin" | "member";
 export class Profile extends Base {
   @PrimaryGeneratedColumn()
   id: number;
-
   @Column({length: 64})
   name: string;
-
   @Column({nullable: true, length: 128})
   status: string;
-
   @Column({nullable: true, length: 256, default: "/image/default-thumbnail.jpeg"})
   thumbnail: string;
-
   @Column({nullable: true, length: 512})
   description: string;
-
   @Column({nullable: true})
   phone: string;
-
   @Column({
     type: "enum",
     enum: ["admin", "member"],
     default: "member"
   })
   role: UserRoleType;
-
   @ManyToOne(type => Snug)
   snug: Snug;
-
   @ManyToOne(type => User)
   @JoinColumn({referencedColumnName: "id"})
   user: User;
@@ -46,7 +38,11 @@ export class Profile extends Base {
   }
 
   static findById(profileId: string): Promise<Profile> {
-    return Profile.findOne(profileId, {relations: ["user"]});
+    return Profile.findOne(profileId, {relations: ["user", "snug"]});
+  }
+
+  static findOneByUserIdAndSnugId(userId: string, snugId: string): Promise<Profile> {
+    return Profile.findOneOrFail({where: {user: userId, snug: snugId}, relations: ["user", "snug"]});
   }
 
   static build(builder: Builder): Profile {
