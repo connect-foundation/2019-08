@@ -73,4 +73,9 @@ export class ChannelService {
   async getParticipate(): Promise<Channel[]> {
     return await this.repository.getParticipateChannel();
   }
+
+  async isInParticipating(channelId: number): Promise<boolean> {
+    const channel: Channel = { id: channelId };
+    return await this.repository.isInParticipating(channel);
+  }
 }
