@@ -1,0 +1,106 @@
+import React, { useContext, useState } from "react";
+import styled from "styled-components";
+import { ModalLeftBody } from "./modal-left-body";
+import { ModalRightBody } from "./modal-right-body";
+import { globalApplication } from "contexts/application-context";
+import { Profile } from "core/entity/profile";
+
+const Wrapper = styled.form`
+  display: flex;
+  width: 90%;
+  height: 70%;
+  justify-content: space-between;
+  flex-wrap: wrap;
+`;
+
+const ButtonWrapper = styled.section`
+  width: 100%;
+  min-width: 100%;
+  display: flex;
+  height: 40px;
+  justify-content: flex-end;
+`;
+
+const Button = styled.button`
+  cursor: pointer;
+  background-color: ${({ theme }) => theme.snugMenuColor};
+  color: ${({ theme }) => theme.snugMainFont};
+  width: 20%;
+  border-radius: 5px;
+  border-color: ${({ theme }) => theme.snugMainFont};
+  border: 1px solid;
+  margin-bottom: 10px;
+  margin-left: 10px;
+`;
+
+interface PropTypes {
+  toggleModal(parameter: any | void): any | void;
+  updateProfile(profile: Profile): void;
+}
+
+export const ModalBody: React.FC<PropTypes> = ({
+  toggleModal,
+  updateProfile
+}) => {
+  const application = useContext(globalApplication);
+
+  const [description, setDescription] = useState("");
+  const [phone, setPhone] = useState("");
+  const [name, setName] = useState("");
+  const [status, setStatus] = useState("");
+
+  const handleStatusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setStatus(event.target.value);
+  };
+
+  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setName(event.target.value);
+  };
+
+  const handleDescriptionChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setDescription(event.target.value);
+  };
+
+  const handlePhoneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPhone(event.target.value);
+  };
+
+  const handleSubmit = async () => {
+    const profile = {
+      name,
+      description,
+      status,
+      phone
+    } as Profile;
+
+    const result = await application.services.profileService.updateProfile(
+      profile
+    );
+    if (!result) return;
+    updateProfile(profile);
+  };
+
+  return (
+    <Wrapper onSubmit={handleSubmit}>
+      <ModalLeftBody
+        handleNameChange={handleNameChange}
+        handleDescriptionChange={handleDescriptionChange}
+        handleStatusChange={handleStatusChange}
+        handlePhoneChange={handlePhoneChange}
+        name={name}
+        status={status}
+        description={description}
+        phone={phone}
+      />
+      <ModalRightBody />
+      <ButtonWrapper>
+        <Button type={"button"} onClick={toggleModal}>
+          취소
+        </Button>
+        <Button type={"submit"}>제출</Button>
+      </ButtonWrapper>
+    </Wrapper>
+  );
+};
