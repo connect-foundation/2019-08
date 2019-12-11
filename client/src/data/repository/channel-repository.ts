@@ -32,12 +32,19 @@ export class ChannelRepository implements ChannelRepositoryType {
 
   async getChannels(snug: Snug): Promise<Channel[] | boolean> {
     try {
-      const ResponseEntity = await this.api.getList(snug);
-      if (ResponseEntity)
-        return (<ResponseEntity<Channel[]>>ResponseEntity).payload;
+      const responseEntity = await this.api.getList(snug);
+      if (responseEntity)
+        return (<ResponseEntity<Channel[]>>responseEntity).payload;
       return false;
     } catch (error) {
       return false;
     }
+  }
+
+  async getParticipateChannel(): Promise<Channel[]> {
+    if (document.cookie.indexOf("progile") == -1)
+      throw new Error("프로필 쿠키가 존재하지 않습니다.");
+    const responseEntity = await this.api.getParticipate();
+    return responseEntity.payload;
   }
 }
