@@ -8,8 +8,8 @@ export class ProfileService {
     this.repository = repository;
   }
 
-  async getProfile(id: number): Promise<Profile | boolean> {
-    return await this.repository.getProfile(id);
+  async getProfile(): Promise<Profile> {
+    return await this.repository.getProfile();
   }
 
   async updateProfile(profile: Profile): Promise<Profile | boolean> {

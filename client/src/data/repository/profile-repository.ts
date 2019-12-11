@@ -2,6 +2,8 @@ import { ResponseEntity } from "data/http/api/response/ResponseEntity";
 import { ProfileRepositoryType } from "core/use-case/profile-repository-type";
 import { ProfileApi } from "data/http/api/profile-api";
 import { Profile } from "core/entity/profile";
+import { getCookie } from "util/cookie";
+import jwt from "jsonwebtoken";
 
 export class ProfileRepository implements ProfileRepositoryType {
   private api: ProfileApi;
@@ -10,15 +12,15 @@ export class ProfileRepository implements ProfileRepositoryType {
     this.api = api;
   }
 
-  async getProfile(id: number): Promise<Profile | boolean> {
+  async getProfile(): Promise<Profile> {
     try {
-      const responseEntity = await this.api.getProfile(id);
-      if ((<ResponseEntity<Profile>>responseEntity).payload) {
-        return (<ResponseEntity<Profile>>responseEntity).payload;
-      }
-      return <boolean>responseEntity;
+      const token: string | boolean = getCookie("profile");
+      if (typeof token === "boolean")
+        throw new Error("프로필 쿠키가 존재하지 않습니다.");
+      const profile: Profile = <Profile>jwt.decode(token);
+      return profile;
     } catch (error) {
-      return false;
+      throw new Error(error.message);
     }
   }
 
