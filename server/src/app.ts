@@ -10,6 +10,7 @@ import snugRouter from "./routes/snug/snug-router";
 import userRouter from "./routes/user/user-router";
 import authRouter from "./routes/auth/auth-router";
 import inviteRouter from "./routes/invite/invite-router";
+import profileRouter from "./routes/profile/profile-router";
 import indexRouter from "./routes/index";
 import dotenv from "dotenv";
 import { initializeTransactionalContext, patchTypeORMRepositoryWithBaseRepository } from "typeorm-transactional-cls-hooked";
@@ -44,6 +45,7 @@ export default class App {
     this.app.use("/api/auth", authRouter);
     this.app.use("/api/users", userRouter);
     this.app.use("/api/invite", inviteRouter);
+    this.app.use("/api/profiles", profileRouter);
     this.app.use("/", indexRouter);
     return this.app;
   }

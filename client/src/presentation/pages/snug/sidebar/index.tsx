@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { ChannelList } from "presentation/components/snug/channel-list";
-import { AppSocketChannelMatchProps } from "prop-types/match-extends-types";
+import { AppChannelMatchProps } from "prop-types/match-extends-types";
 
 const SidebarWrapper = styled.section`
   color: ${({ theme }) => theme.sidebarFont};
@@ -12,9 +12,8 @@ const SidebarWrapper = styled.section`
   background-color: ${({ theme }) => theme.sidebar};
 `;
 
-export const Sidebar: React.FC<AppSocketChannelMatchProps> = ({
+export const Sidebar: React.FC<AppChannelMatchProps> = ({
   match,
-  socket,
   history,
   Application
 }) => {
@@ -22,7 +21,6 @@ export const Sidebar: React.FC<AppSocketChannelMatchProps> = ({
     <SidebarWrapper>
       <ChannelList
         match={match}
-        socket={socket}
         history={history}
         Application={Application}
       ></ChannelList>

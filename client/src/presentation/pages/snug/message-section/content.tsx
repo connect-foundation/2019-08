@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { ChatContent } from "presentation/components/snug/chat-container";
 import { ChatInputBox } from "presentation/components/snug/chat-input-box";

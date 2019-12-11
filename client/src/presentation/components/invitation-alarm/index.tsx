@@ -105,10 +105,11 @@ export const InvitationAlarm: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    socket.off("tellInvitation");
+    const { userSocket } = socket;
+    userSocket.off("tellInvitation");
     const id = user.id;
-    socket.emit("login", { userId: id });
-    socket.on("tellInvitation", (invitation: any) => {
+    userSocket.emit("login", { userId: id });
+    userSocket.on("tellInvitation", (invitation: any) => {
       const invitedSnug = invitation.payload;
       const currentInvitation = invitedSnugs;
       currentInvitation.push(invitedSnug);
