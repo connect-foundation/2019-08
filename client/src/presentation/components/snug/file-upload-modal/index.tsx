@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { CustomButton } from "presentation/components/atomic-reusable/custom-button";
+import { FileDropArea } from "./file-drop-area";
+import { FilePreview } from "../file-preview";
 
 const Modal = styled.div`
   position: fixed;
@@ -16,17 +18,18 @@ const Modal = styled.div`
 
 const ModalContent = styled.div`
   position: relative;
+  height: auto;
   background-color: ${({ theme }) => theme.snug};
-  margin: 15% auto;
+  margin: 10% auto;
   padding: 20px;
   border: 1px solid black;
   border-radius: 1rem;
-  width: 40%;
+  width: 30%;
   box-sizing: border-box;
 `;
 
 const ModalHeader = styled.header`
-  padding: 1rem 1.5rem;
+  padding: 1rem;
   font-size: 200%;
   font-weight: bold;
   color: white;
@@ -34,12 +37,14 @@ const ModalHeader = styled.header`
 `;
 
 const ModalBody = styled.body`
-  padding: 1rem 1.5rem;
+  padding: 1rem;
   box-sizing: border-box;
 `;
 
 const ModalFooter = styled.footer`
-  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+  padding: 1rem;
   box-sizing: border-box;
 `;
 
@@ -69,7 +74,7 @@ const CustomInput = styled.section`
   margin-bottom: 2rem;
 `;
 
-const StyledInput = styled.input.attrs({
+const StyledInput = styled.textarea.attrs({
   placeholder: "메세지를 입력하세요."
 })`
   --webkit-appearance: none;
@@ -85,20 +90,30 @@ const StyledInput = styled.input.attrs({
   }
 `;
 
-const ImgPreview = styled.div`
-  text-align: center
-  height: 200px;
-  border: 1px solid ${({ theme }) => theme.snugBorderColor};
-  border-radius: 0.5rem;
-  box-sizing: border-box;
+const HiddenInput = styled.input.attrs({
+  type: "file"
+})`
+  display: none;
 `;
 
-export const FileUploadModal = () => {
+interface PropTypes {
+  closeModal: () => void;
+}
+
+export const FileUploadModal: React.FC<PropTypes> = props => {
+  const [file, setFile] = useState(new File([], ""));
+  const onChange: (event: React.ChangeEvent<HTMLInputElement>) => void = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    event.preventDefault();
+    setFile(event.target.files![0]);
+  };
+
   return (
     <Modal>
       <ModalContent>
         <ModalHeader>
-          <CloseButton>&times;</CloseButton>
+          <CloseButton onClick={props.closeModal}>&times;</CloseButton>
           파일 업로드
         </ModalHeader>
 
@@ -106,9 +121,12 @@ export const FileUploadModal = () => {
           <CustomInput>
             <StyledInput />
           </CustomInput>
-          <ImgPreview>
-            <img />
-          </ImgPreview>
+
+          <label htmlFor="fileInput">
+            <FileDropArea setFile={setFile} />
+          </label>
+          <HiddenInput id="fileInput" onChange={onChange} />
+          {file.size > 0 ? <FilePreview file={file} /> : undefined}
         </ModalBody>
 
         <ModalFooter>
@@ -119,6 +137,7 @@ export const FileUploadModal = () => {
             size={"big"}
             fontWeight={"bold"}
             fontSize={"1rem"}
+            height={"2.5rem"}
           />
         </ModalFooter>
       </ModalContent>

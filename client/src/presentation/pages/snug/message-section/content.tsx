@@ -32,10 +32,10 @@ export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
   // 파일 내용 state
   return (
     <MessageContextProvider>
-      {onModal && <FileUploadModal />}
+      {onModal && <FileUploadModal closeModal={closeModal} />}
       <MessageSectionContentWrapper>
         <ChatContent {...props} />
-        <ChatInputBox {...props} />
+        <ChatInputBox {...props} openModal={openModal} />
       </MessageSectionContentWrapper>
     </MessageContextProvider>
   );
