@@ -10,28 +10,21 @@ const Wrapper = styled.section`
 `;
 
 interface PropTypes {
-  currentProfile: Profile | undefined;
+  currentProfile: Profile;
 }
 
 export const StatusSection: React.FC<PropTypes> = ({ currentProfile }) => {
-  // const {name, status, role, email} = currentProfile;
-
+  const { name, status, role, email } = currentProfile;
   return (
     <Wrapper>
-      <StatusBarHeader header={"젓갈돌래"} contents={"제목 바꾸기"} />
-      <StatusBar
-        header={"젓갈 담그는 중"}
-        contents={"상태 설정하기"}
-      ></StatusBar>
+      <StatusBarHeader header={name!} contents={"제목 바꾸기"} />
+      <StatusBar header={status!} contents={"상태 설정하기"}></StatusBar>
       <StatusBar
         header={"역할"}
-        contents={"Admin"}
+        contents={role!}
         cursor={"default"}
       ></StatusBar>
-      <StatusBar
-        header={"Email 주소"}
-        contents={"gipyoo@naver.com"}
-      ></StatusBar>
+      <StatusBar header={email!} contents={"gipyoo@naver.com"}></StatusBar>
     </Wrapper>
   );
 };

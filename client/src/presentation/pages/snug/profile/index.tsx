@@ -31,17 +31,17 @@ const ImageWrapper = styled.section`
 `;
 
 export const ProfileSection: React.FC = () => {
-  const [modalDisplay, setModalDisplay] = useState(false);
-  const [currentProfile, setCurrentProfile] = useState<Profile>();
-
   const application = useContext(globalApplication);
+  const [modalDisplay, setModalDisplay] = useState(false);
+  const [currentProfile, setCurrentProfile] = useState<Profile>({} as Profile);
 
-  // todo : 현재 profile가져오기
   useEffect(() => {
-    // api 요청
-    //const result = application.services.profileService.getProfile();
-    //if (!result) return;
-    //setCurrentProfile(result);
+    const requestProfile = async () => {
+      const profile = await application.services.profileService.getProfile();
+      if (!profile) return;
+      setCurrentProfile(profile);
+    };
+    requestProfile();
   }, []);
 
   const toggleModal = () => {

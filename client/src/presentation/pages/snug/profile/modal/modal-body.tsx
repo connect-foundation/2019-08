@@ -78,8 +78,8 @@ export const ModalBody: React.FC<PropTypes> = ({
     const result = await application.services.profileService.updateProfile(
       profile
     );
-    // todo : update Profile Logic 생성
     if (!result) return;
+    updateProfile(profile);
   };
 
   return (
