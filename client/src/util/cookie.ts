@@ -9,3 +9,5 @@ export function getCookie(cookieName: string) {
   if (endIndex == -1) endIndex = cookie.length;
   return unescape(cookie.substring(startIndex, endIndex));
 }
+
+// 참고 출처 : https://caronjuni.tistory.com/entry/documentcookie%EC%97%90-%EB%8C%80%ED%95%B4%EC%84%9C
