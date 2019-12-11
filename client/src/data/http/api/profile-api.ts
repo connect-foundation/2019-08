@@ -11,24 +11,6 @@ export class ProfileApi {
     this.axios = axios.getAxios();
   }
 
-  getProfile(id: number): Promise<ResponseEntity<Profile> | boolean> {
-    return this.axios
-      .get(`/api/profiles/${id}`)
-      .then((response: AxiosResponse<ResponseEntity<Profile>>) => {
-        if (StatusCodes.isOk(response.status)) {
-          return response.data;
-        } else {
-          return false;
-        }
-      })
-      .catch((error: AxiosError) =>
-        AxiosErrorHandler.handleError(
-          error,
-          `프로필을 불러오는 과정에서 예기치 못한 에러가 발생했습니다.`
-        )
-      );
-  }
-
   updateProfile(profile: Profile): Promise<ResponseEntity<Profile> | boolean> {
     return this.axios
       .patch(`/api/profiles/${profile.id}`, profile)
