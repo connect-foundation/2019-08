@@ -49,9 +49,9 @@ export const findAll = async (
 ) => {
   try {
     const { snugId } = request.params;
-    const exSnug = await Snug.findOne({where: { id:snugId } });
+    const exSnug = await Snug.findOne({ where: { id: snugId } });
 
-    const channels = await Room.find({ where: { snug: exSnug} });
+    const channels = await Room.find({ where: { snug: exSnug } });
     if (!!channels) {
       return response
         .status(OK)
@@ -74,8 +74,8 @@ export const findAll = async (
  *
  * */
 export const create = async (request: Request, response: Response) => {
-  const {title, description, privacy, snugId} = request.body
-  
+  const { title, description, privacy, snugId } = request.body;
+
   const isExisting = await Room.findByTitle(title);
 
   if (!!isExisting) {
@@ -83,7 +83,7 @@ export const create = async (request: Request, response: Response) => {
       .status(CONFLICT)
       .json(ResponseForm.of(ALREADY_EXIST_CHANNEL));
   }
-  const snug = await Snug.findOne({where: { id: snugId }});
+  const snug = await Snug.findOne({ where: { id: snugId } });
   const channel = await Room.create({
     title: title,
     description: description,

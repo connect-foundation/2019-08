@@ -47,8 +47,9 @@ export const getProfileToken = async (request: Request, response: Response) => {
     });
     const payload = {
       id: profile.id,
-      name: profile.thumbnail,
-      thumnail: profile.thumbnail
+      name: profile.name,
+      thumnail: profile.thumbnail,
+      snugId: profile.snug.id
     };
     const token = jwt.sign(payload, process.env.SECRET_KEY);
     response.cookie("profile", token);
