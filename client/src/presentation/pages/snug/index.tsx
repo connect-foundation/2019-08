@@ -12,6 +12,7 @@ import {
   usePathParameterDispatch,
   usePathParameter
 } from "contexts/path-parameter-context";
+import { async } from "q";
 
 const SnugWrapper = styled.section`
   width: inherit;
@@ -27,6 +28,15 @@ export const Snug: React.FC<AppChannelMatchProps> = props => {
   const { Application, match } = props;
   const pathParameterDispatch = usePathParameterDispatch();
   const pathParameter = usePathParameter();
+
+  useEffect(() => {
+    const id: number = pathParameter.snugId!;
+    (async function(snigid: number) {
+      await Application.services.profileService.getProfile(
+        pathParameter.snugId!
+      );
+    })(id);
+  }, [pathParameter]);
 
   useEffect(() => {
     if (
