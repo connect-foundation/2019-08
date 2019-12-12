@@ -7,6 +7,7 @@ import { StatusSection } from "./status";
 import { Modal } from "./modal";
 import { Profile } from "core/entity/profile";
 import { globalApplication } from "contexts/application-context";
+import { ChannelRouteComponentType } from "prop-types/channel-match-type";
 
 const Wrapper = styled.section`
   color: white;
@@ -30,15 +31,18 @@ const ImageWrapper = styled.section`
   height: 40%;
 `;
 
-export const ProfileSection: React.FC = () => {
+export const ProfileSection: React.FC<ChannelRouteComponentType> = props => {
   const application = useContext(globalApplication);
   const [modalDisplay, setModalDisplay] = useState(false);
   const [currentProfile, setCurrentProfile] = useState<Profile>({} as Profile);
-
+  const { snugId } = props.match.params;
   useEffect(() => {
     const requestProfile = async () => {
-      const profile = await application.services.profileService.getProfile();
+      const profile = await application.services.profileService.getProfile(
+        parseInt(snugId)
+      );
       if (!profile) return;
+      console.log("useEffect를 써서 불러온 첫 profile", profile);
       setCurrentProfile(profile);
     };
     requestProfile();

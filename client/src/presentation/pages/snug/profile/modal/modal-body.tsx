@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import styled from "styled-components";
 import { ModalLeftBody } from "./modal-left-body";
 import { ModalRightBody } from "./modal-right-body";
@@ -34,7 +34,7 @@ const Button = styled.button`
 `;
 
 interface PropTypes {
-  toggleModal(parameter: any | void): any | void;
+  toggleModal(): any | void;
   updateProfile(profile: Profile): void;
   currentProfile: Profile;
 }
@@ -46,19 +46,26 @@ export const ModalBody: React.FC<PropTypes> = ({
 }) => {
   const application = useContext(globalApplication);
 
-  const [description, setDescription] = useState("");
-  const [phone, setPhone] = useState("");
-  const [name, setName] = useState("");
-  const [status, setStatus] = useState("");
-
-  const handleStatusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setStatus(event.target.value);
-  };
+  const [description, setDescription] = useState(
+    currentProfile.description ? currentProfile.description : ""
+  );
+  const [phone, setPhone] = useState(
+    currentProfile.phone ? currentProfile.phone : ""
+  );
+  const [name, setName] = useState(
+    currentProfile.name ? currentProfile.name : ""
+  );
+  const [status, setStatus] = useState(
+    currentProfile.status ? currentProfile.status : ""
+  );
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
   };
 
+  const handleStatusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setStatus(event.target.value);
+  };
   const handleDescriptionChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -69,7 +76,8 @@ export const ModalBody: React.FC<PropTypes> = ({
     setPhone(event.target.value);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
     const profile = {
       ...currentProfile,
       name,
@@ -77,12 +85,12 @@ export const ModalBody: React.FC<PropTypes> = ({
       status,
       phone
     } as Profile;
-
-    const result = await application.services.profileService.updateProfile(
+    const profilePayload = await application.services.profileService.updateProfile(
       profile
     );
-    if (!result) return;
-    updateProfile(profile);
+    if (!profilePayload) return;
+    updateProfile(profilePayload as Profile);
+    toggleModal();
   };
 
   return (

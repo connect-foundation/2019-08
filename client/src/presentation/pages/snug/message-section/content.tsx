@@ -4,7 +4,7 @@ import { ChatContent } from "presentation/components/snug/chat-container";
 import { ChatInputBox } from "presentation/components/snug/chat-input-box";
 import { MessageContextProvider } from "contexts/messages-context";
 import { ProfileSection } from "presentation/pages/snug/profile";
-import { AppSocketChannelMatchProps } from "prop-types/match-extends-types";
+import { ChannelRouteComponentType } from "prop-types/channel-match-type";
 
 const MessageSectionContentWrapper = styled.section`
   width: 100%;
@@ -22,15 +22,15 @@ const Wrapper = styled.section`
   width: 100%;
 `;
 
-export const MessageSectionContent: React.FC<AppSocketChannelMatchProps> = props => {
+export const MessageSectionContent: React.FC<ChannelRouteComponentType> = props => {
   return (
     <MessageContextProvider>
       <Wrapper>
         <MessageSectionContentWrapper>
           <ChatContent {...props} />
-          <ChatInputBox {...props} />
+          <ChatInputBox />
         </MessageSectionContentWrapper>
-        <ProfileSection />
+        <ProfileSection {...props} />
       </Wrapper>
     </MessageContextProvider>
   );

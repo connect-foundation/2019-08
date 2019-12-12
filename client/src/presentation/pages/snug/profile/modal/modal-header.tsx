@@ -17,7 +17,7 @@ const Title = styled.section`
 `;
 
 interface PropTypes {
-  onClick?(parameter: any | void): any | void;
+  onClick?(): any | void;
 }
 
 export const ModalHeader: React.FC<PropTypes> = props => {

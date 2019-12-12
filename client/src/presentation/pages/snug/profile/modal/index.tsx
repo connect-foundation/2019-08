@@ -33,7 +33,7 @@ const Wrapper = styled.section`
 `;
 
 interface PropTypes {
-  toggleModal(parameter: any | void): any | void;
+  toggleModal(): any | void;
   updateProfile(profile: Profile): void;
   currentProfile: Profile;
 }

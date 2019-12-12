@@ -6,11 +6,11 @@ import FaceWhite from "assets/face-white.png";
 import { IconBox } from "presentation/components/atomic-reusable/icon-box";
 import { useMessagesDispatch, useMessages } from "contexts/messages-context";
 import dubu from "assets/dubu.png";
-import { AppChannelMatchProps } from "prop-types/match-extends-types";
 import { ResponseEntity } from "data/http/api/response/ResponseEntity";
 import { Post } from "core/entity/post";
 import { usePathParameter } from "contexts/path-parameter-context";
 import { globalSocket } from "contexts/socket-context";
+import { globalApplication } from "contexts/application-context";
 
 const InputWrapper = styled.section`
   width: 100%;
@@ -56,9 +56,8 @@ const StyledInput = styled.input.attrs({
   }
 `;
 
-export const ChatInputBox: React.FC<AppChannelMatchProps> = ({
-  Application
-}) => {
+export const ChatInputBox: React.FC = () => {
+  const application = useContext(globalApplication);
   const KEY_PRESS_EVENT_KEY = "Enter";
   const [message, setMessage] = useState("");
   const [id, setId] = useState(0);
@@ -100,7 +99,7 @@ export const ChatInputBox: React.FC<AppChannelMatchProps> = ({
     if (!message.trim()) return;
     if (!dispatch) return;
 
-    const result = await Application.services.postService.createMessage(
+    const result = await application.services.postService.createMessage(
       1,
       message,
       pathPrameter.channelId!

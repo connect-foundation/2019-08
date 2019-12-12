@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import { Sidebar } from "./sidebar";
 import { SnugHeader } from "./header";
@@ -20,8 +20,7 @@ const ViewWrapper = styled.section`
   display: flex;
 `;
 export const Snug: React.FC<AppChannelMatchProps> = props => {
-  const { Application } = props;
-
+  const { Application, match } = props;
   return (
     <ThemeProvider theme={colorTheme}>
       <SnugWrapper>
