@@ -32,9 +32,9 @@ export class ChannelRepository implements ChannelRepositoryType {
 
   async getChannels(snug: Snug): Promise<Channel[] | boolean> {
     try {
-      const ResponseEntity = await this.api.getList(snug);
-      if (ResponseEntity)
-        return (<ResponseEntity<Channel[]>>ResponseEntity).payload;
+      const responseEntity = await this.api.getList(snug);
+      if (responseEntity)
+        return (<ResponseEntity<Channel[]>>responseEntity).payload;
       return false;
     } catch (error) {
       return false;
@@ -43,5 +43,23 @@ export class ChannelRepository implements ChannelRepositoryType {
 
   async join(channel: Channel): Promise<boolean> {
     return await this.api.join(channel);
+  }
+
+  async getParticipateChannel(): Promise<Channel[]> {
+    if (document.cookie.indexOf("progile") == -1)
+      throw new Error("프로필 쿠키가 존재하지 않습니다.");
+    const responseEntity = await this.api.getParticipate();
+    return responseEntity.payload;
+  }
+
+  async isInParticipating(channel: Channel): Promise<boolean> {
+    if (document.cookie.indexOf("progile") == -1)
+      throw new Error("프로필 쿠키가 존재하지 않습니다.");
+    const { payload } = await this.api.getParticipate();
+    const result = payload.filter(
+      channelParameter => channelParameter.id == channel.id
+    );
+    if (result.length <= 0) return false;
+    return true;
   }
 }

@@ -57,9 +57,13 @@ const StyledInput = styled.input.attrs({
   }
 `;
 
-export const ChatInputBox: React.FC<AppChannelMatchProps> = ({
-  Application
-}) => {
+interface PropType extends AppChannelMatchProps {
+  openModal: () => void;
+}
+
+export const ChatInputBox: React.FC<PropType> = props => {
+  const { Application, openModal } = props;
+
   const KEY_PRESS_EVENT_KEY = "Enter";
   const [message, setMessage] = useState("");
   const [id, setId] = useState(0);
@@ -115,7 +119,7 @@ export const ChatInputBox: React.FC<AppChannelMatchProps> = ({
     <InputWrapper>
       <MarginBox></MarginBox>
       <CustomInput>
-        <IconBox imageSrc={ClipWhite}></IconBox>
+        <IconBox imageSrc={ClipWhite} onClick={openModal}></IconBox>
         <StyledInput
           value={message}
           onChange={inputChangeEventHandler}

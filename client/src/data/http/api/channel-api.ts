@@ -7,10 +7,10 @@ import { AxiosWrapper } from "./axios-wrapper";
 import { Snug } from "core/entity/snug";
 
 export class ChannelApi {
-  private axios: AxiosInstance;
+  private axios: AxiosWrapper;
 
   constructor(axios: AxiosWrapper) {
-    this.axios = axios.getAxios();
+    this.axios = axios;
   }
 
   create(
@@ -18,6 +18,7 @@ export class ChannelApi {
     channel: Channel
   ): Promise<ResponseEntity<Channel> | boolean> {
     return this.axios
+      .getAxios()
       .post(`/api/channels`, {
         snugId: snug.id!,
         title: channel.title!,
@@ -41,6 +42,7 @@ export class ChannelApi {
 
   findByTitle(title: string): Promise<ResponseEntity<Channel> | boolean> {
     return this.axios
+      .getAxios()
       .get(`/api/channels/${title}`)
       .then((response: AxiosResponse<ResponseEntity<Channel>>) => {
         if (StatusCodes.isOk(response.status)) {
@@ -59,6 +61,7 @@ export class ChannelApi {
 
   getList(snug: Snug): Promise<ResponseEntity<Channel[]> | boolean> {
     return this.axios
+      .getAxios()
       .get(`/api/snugs/${snug.id!}/channels`)
       .then((response: AxiosResponse<ResponseEntity<Channel[]>>) => {
         if (StatusCodes.isOk(response.status)) return response.data;
@@ -74,6 +77,7 @@ export class ChannelApi {
 
   join(channel: Channel): Promise<boolean> {
     return this.axios
+      .getAxios()
       .post(`/api/channels/join`, {
         channelId: channel.id
       })
@@ -82,6 +86,19 @@ export class ChannelApi {
       })
       .catch(() => {
         return false;
+      });
+  }
+
+  getParticipate(): Promise<ResponseEntity<Channel[]>> {
+    return this.axios
+      .getAxios()
+      .get("/api/participateins")
+      .then(({ status, data }: AxiosResponse<ResponseEntity<Channel[]>>) => {
+        if (StatusCodes.isOk(status)) return data;
+        throw new Error("참여한 채널을 가지고 오는 과정에서 문제가 있습니다.");
+      })
+      .catch(err => {
+        throw new Error(err.message);
       });
   }
 }

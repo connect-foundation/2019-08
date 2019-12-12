@@ -2,14 +2,13 @@ import React, { useContext } from "react";
 import styled, { css } from "styled-components";
 import { globalApplication } from "contexts/application-context";
 import { usePathParameter } from "contexts/path-parameter-context";
-import { AppSocketChannelMatchProps } from "prop-types/match-extends-types";
+import { AppChannelMatchProps } from "prop-types/match-extends-types";
 
 type PropsType = {
   setIsParticipated: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export const Preview: React.FC<AppSocketChannelMatchProps &
-  PropsType> = props => {
+export const Preview: React.FC<AppChannelMatchProps & PropsType> = props => {
   const Application = useContext(globalApplication);
   const pathParameter = usePathParameter();
   const { setIsParticipated } = props;

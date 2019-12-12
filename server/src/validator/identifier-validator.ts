@@ -89,12 +89,14 @@ export const isNumeric = (
 
 export const offerTokenInfo = (request: Request): UserInfo => {
   const token = request.headers["auth-token"];
+  if (!token) throw new Error("토큰이 존재하지 않습니다.");
   const decoded = <UserInfo>jwt.verify(<string>token, process.env.SECRET_KEY);
   return decoded;
 };
 
 export const offerProfileTokenInfo = (request: Request) => {
-  const token = request.headers["auth-token"];
+  const token = request.cookies["profile"];
+  if (!token) throw new Error("토큰이 존재하지 않습니다.");
   const decoded = jwt.verify(<string>token, process.env.SECRET_KEY);
   return decoded;
 };
@@ -105,9 +107,7 @@ export const isVerifyLogined = async (
   next: NextFunction
 ) => {
   try {
-    const token = request.headers["auth-token"];
-    if (!token) throw new Error("토큰이 존재하지 않습니다.");
-    const decoded = <UserInfo>jwt.verify(<string>token, process.env.SECRET_KEY);
+    const decoded = offerTokenInfo(request);
     const result = await User.findOne({ where: { email: decoded.email } });
     if (!result) throw new Error("없는 유저입니다.");
     next();
@@ -122,9 +122,8 @@ export const isVerifyProfile = async (
   next: NextFunction
 ) => {
   try {
-    const token = request.cookies["profile"];
-    if (!token) throw new Error("토큰이 존재하지 않습니다.");
-    const decoded = jwt.verify(<string>token, process.env.SECRET_KEY);
+    const decoded = offerProfileTokenInfo(request);
+    if (typeof decoded != "object") throw new Error("토큰이 잘 못 되었습니다.");
     next();
   } catch (error) {
     next(error);

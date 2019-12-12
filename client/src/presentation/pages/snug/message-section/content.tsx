@@ -5,6 +5,7 @@ import { ChatInputBox } from "presentation/components/snug/chat-input-box";
 import { MessageContextProvider } from "contexts/messages-context";
 import { Preview } from "presentation/components/snug/preview";
 import { AppChannelMatchProps } from "prop-types/match-extends-types";
+import { FileUploadModal } from "presentation/components/snug/file-upload-modal";
 
 const MessageSectionContentWrapper = styled.section`
   width: 100%;
@@ -17,12 +18,27 @@ const MessageSectionContentWrapper = styled.section`
 
 export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
   const [isParticipated, setIsParticipated] = useState(false);
+  // file upload 모달
+  // modal state 관리하는 함수 전달
+  // file input changed 발생시 modal 활성화
+  const [onModal, setModal] = useState(false);
+
+  const openModal = () => {
+    setModal(true);
+  };
+
+  const closeModal = () => {
+    setModal(false);
+  };
+
+  // 파일 내용 state
   return (
     <MessageContextProvider>
+      {onModal && <FileUploadModal closeModal={closeModal} />}
       <MessageSectionContentWrapper>
         <ChatContent {...props} isParticipated={isParticipated} />
         {isParticipated ? (
-          <ChatInputBox {...props} />
+          <ChatInputBox {...props} openModal={openModal} />
         ) : (
           <Preview {...props} setIsParticipated={setIsParticipated}></Preview>
         )}

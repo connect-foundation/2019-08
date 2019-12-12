@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import { Sidebar } from "./sidebar";
 import { SnugHeader } from "./header";
@@ -8,6 +8,10 @@ import { MessageSection } from "./message-section";
 import { AppChannelMatchProps } from "prop-types/match-extends-types";
 import { Modals } from "presentation/components/snug/modals";
 import { colorTheme } from "presentation/theme/color-theme";
+import {
+  usePathParameterDispatch,
+  usePathParameter
+} from "contexts/path-parameter-context";
 
 const SnugWrapper = styled.section`
   width: inherit;
@@ -20,7 +24,27 @@ const ViewWrapper = styled.section`
   display: flex;
 `;
 export const Snug: React.FC<AppChannelMatchProps> = props => {
-  const { Application } = props;
+  const { Application, match } = props;
+  const pathParameterDispatch = usePathParameterDispatch();
+  const pathParameter = usePathParameter();
+
+  useEffect(() => {
+    if (
+      Number(match.params.channelId) == pathParameter.channelId &&
+      Number(match.params.snugId) == pathParameter.snugId
+    )
+      return;
+
+    pathParameterDispatch({
+      type: "IN",
+      channelId: Number(match.params.channelId!)
+    });
+
+    pathParameterDispatch({
+      type: "GETSNUGID",
+      snugId: Number(match.params.snugId)
+    });
+  }, []);
 
   return (
     <ThemeProvider theme={colorTheme}>
