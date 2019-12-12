@@ -69,6 +69,10 @@ export class ChannelService {
     return await this.repository.getChannels(snug);
   }
 
+  async join(channelId: number): Promise<boolean> {
+    const channel: Channel = { id: channelId };
+    return await this.repository.join(channel);
+  }
   // 이 서비스는 에러를 하단에서 보내기만 하고 처리해 주지 않으므로 ui내에서 error을 캐치하여 사용해야함
   async getParticipate(): Promise<Channel[]> {
     return await this.repository.getParticipateChannel();

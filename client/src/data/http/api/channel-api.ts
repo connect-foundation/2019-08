@@ -75,6 +75,20 @@ export class ChannelApi {
       });
   }
 
+  join(channel: Channel): Promise<boolean> {
+    return this.axios
+      .getAxios()
+      .post(`/api/channels/join`, {
+        channelId: channel.id
+      })
+      .then((response: AxiosResponse<ResponseEntity<{}>>) => {
+        return StatusCodes.isOk(response.status);
+      })
+      .catch(() => {
+        return false;
+      });
+  }
+
   getParticipate(): Promise<ResponseEntity<Channel[]>> {
     return this.axios
       .getAxios()

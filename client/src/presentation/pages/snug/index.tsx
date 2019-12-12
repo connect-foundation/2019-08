@@ -51,7 +51,7 @@ export const Snug: React.FC<AppChannelMatchProps> = props => {
       <SnugWrapper>
         <ChannelsProvider>
           <ModalProvider>
-            <Modals Application={Application} />
+            <Modals {...props} />
             <SnugHeader />
             <ViewWrapper>
               <Sidebar {...props} />

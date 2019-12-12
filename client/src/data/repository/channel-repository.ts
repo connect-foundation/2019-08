@@ -41,6 +41,10 @@ export class ChannelRepository implements ChannelRepositoryType {
     }
   }
 
+  async join(channel: Channel): Promise<boolean> {
+    return await this.api.join(channel);
+  }
+
   async getParticipateChannel(): Promise<Channel[]> {
     if (document.cookie.indexOf("progile") == -1)
       throw new Error("프로필 쿠키가 존재하지 않습니다.");

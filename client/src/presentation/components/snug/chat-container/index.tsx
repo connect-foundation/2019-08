@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { useMessages, useMessagesDispatch } from "contexts/messages-context";
 import { AppChannelMatchProps } from "prop-types/match-extends-types";
 import { PostCard } from "presentation/components/snug/post-card";
@@ -8,9 +8,11 @@ import { usePathParameter } from "contexts/path-parameter-context";
 
 const ChatContentWrapper = styled.section.attrs({
   id: "scroll"
-})`
-  min-height: 90%;
-  max-height: 90%;
+})<{ isParticipated: boolean }>`
+  min-height: ${({ isParticipated }) =>
+    isParticipated ? css`calc(100% - 75px)` : css`calc(100% - 150px)`};
+  max-height: ${({ isParticipated }) =>
+    isParticipated ? css`calc(100% - 75px)` : css`calc(100% - 150px)`};
   width: 100%;
   overflow-y: auto;
   display: flex;
@@ -21,8 +23,10 @@ const Wrapper = styled.section.attrs({})`
   margin-top: auto !important;
 `;
 
-export const ChatContent: React.FC<AppChannelMatchProps> = props => {
-  const { Application } = props;
+export const ChatContent: React.FC<AppChannelMatchProps & {
+  isParticipated: boolean;
+}> = props => {
+  const { Application, isParticipated } = props;
   const posts: Post[] = useMessages();
   const dispatch = useMessagesDispatch();
   const pathParameter = usePathParameter();
@@ -62,7 +66,7 @@ export const ChatContent: React.FC<AppChannelMatchProps> = props => {
   }
 
   return (
-    <ChatContentWrapper>
+    <ChatContentWrapper isParticipated={isParticipated}>
       <Wrapper>{messageList()}</Wrapper>
     </ChatContentWrapper>
   );

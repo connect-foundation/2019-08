@@ -1,5 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { ApplicationProptype } from "prop-types/application-type";
+import { RouteComponentProps } from "react-router";
+import {
+  usePathParameterDispatch,
+  usePathParameter
+} from "contexts/path-parameter-context";
+import { useModalToggledDispatch } from "contexts/modal-context";
 
 const Wrapper = styled.section`
   position: relative;
@@ -53,14 +60,21 @@ const Button = styled.button.attrs({
 
 interface ChannelBrowseModal {
   title?: string;
+  id?: number;
   description?: string;
   privacy?: boolean;
   user?: string;
   createdAt?: Date;
 }
 
-export const ChannelBrowseModalItem: React.FC<ChannelBrowseModal> = props => {
+export const ChannelBrowseModalItem: React.FC<ChannelBrowseModal &
+  ApplicationProptype &
+  RouteComponentProps> = props => {
   const [on, setOn] = useState(false);
+  const { history, id } = props;
+  const pathParameter = usePathParameter();
+  const pathPatameterDispatch = usePathParameterDispatch();
+  const ModalToggle = useModalToggledDispatch();
 
   function enter() {
     setOn(true);
@@ -68,6 +82,18 @@ export const ChannelBrowseModalItem: React.FC<ChannelBrowseModal> = props => {
 
   function leave() {
     setOn(false);
+  }
+
+  function moveChannel() {
+    pathPatameterDispatch({
+      type: "IN",
+      channelId: id!
+    });
+    history.push(`/snug/${pathParameter.snugId}/channel/id`);
+
+    ModalToggle!({
+      type: "TOGGLE_CHANNEL_BROWSE_MODAL"
+    });
   }
 
   return (
@@ -78,7 +104,9 @@ export const ChannelBrowseModalItem: React.FC<ChannelBrowseModal> = props => {
         Created by {props.user} on{" "}
         {props.createdAt && props.createdAt.toLocaleString()}
       </Footer>
-      <Button on={on}>프리뷰</Button>
+      <Button on={on} onClick={moveChannel}>
+        프리뷰
+      </Button>
     </Wrapper>
   );
 };
