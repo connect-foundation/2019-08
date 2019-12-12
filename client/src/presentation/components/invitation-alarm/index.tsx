@@ -95,7 +95,7 @@ export const InvitationAlarm: React.FC = () => {
       } = (await application.services.inviteService.getInvitedSnugs(
         user.id
       )) as any;
-      if (invitations.length === 0) {
+      if (!invitations || invitations.length === 0) {
         setInvitedSnugs([]);
         return;
       }

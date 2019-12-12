@@ -1,51 +1,88 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn
+} from "typeorm";
 import { Snug } from "./Snug";
 import { User } from "./User";
 import { Base } from "./Base";
 
-export type UserRoleType = "admin" | "member";
+export enum UserRole {
+  ADMIN = "admin",
+  MEMBER = "member"
+}
 
 @Entity()
 export class Profile extends Base {
   @PrimaryGeneratedColumn()
   id: number;
-
-  @Column()
+  @Column({ length: 64 })
   name: string;
-
-  @Column()
+  @Column({ nullable: true, length: 128 })
   status: string;
-
-  @Column({ nullable: true })
+  @Column({
+    nullable: true,
+    length: 256,
+    default: "/image/default-thumbnail.jpeg"
+  })
   thumbnail: string;
-
-  @Column({ nullable: true })
+  @Column({ nullable: true, length: 512 })
   description: string;
-
+  @Column({ nullable: true })
+  phone: string;
   @Column({
     type: "enum",
-    enum: ["admin", "member"]
+    enum: UserRole,
+    default: UserRole.MEMBER
   })
-  role: UserRoleType;
-
+  role: UserRole;
   @ManyToOne(type => Snug)
   snug: Snug;
-
   @ManyToOne(type => User)
+  @JoinColumn({ referencedColumnName: "id" })
   user: User;
+
+  static async hasProfileByUserId(
+    profileId: string,
+    userId: number
+  ): Promise<boolean> {
+    const user = User.create({ id: userId });
+    const profile = await Profile.findOne({
+      where: { id: profileId, user: user }
+    });
+    return profile && profile.hasId();
+  }
+
+  static findById(profileId: string): Promise<Profile> {
+    return Profile.findOne(profileId, { relations: ["user", "snug"] });
+  }
+
+  static findOneByUserIdAndSnugId(
+    userId: string,
+    snugId: string
+  ): Promise<Profile> {
+    return Profile.findOneOrFail({
+      where: { user: userId, snug: snugId },
+      relations: ["user", "snug"]
+    });
+  }
 
   static build(builder: Builder): Profile {
     const profile = new Profile();
     profile.name = builder.getName();
     profile.status = builder.getStatus();
+    profile.thumbnail = builder.getThumbnail();
     profile.description = builder.getDescription();
+    profile.phone = builder.getPhone();
     profile.role = builder.getRole();
     profile.snug = builder.getSnug();
     profile.user = builder.getUser();
     return profile;
   }
 
-  static builder(snug: Snug, user: User): Builder {
+  static builder(snug?: Snug, user?: User): Builder {
     return new Builder(snug, user);
   }
 }
@@ -53,66 +90,82 @@ export class Profile extends Base {
 class Builder {
   private readonly snug: Snug;
   private readonly user: User;
-
   private name: string;
   private status: string;
+  private thumbnail: string;
   private description: string;
-  private role: UserRoleType;
+  private phone: string;
+  private role: UserRole;
 
   constructor(snug: Snug, user: User) {
     this.snug = snug;
     this.user = user;
-    this.name = user.name;
-    this.status = "";
-    this.description = "";
-    this.role = "member";
+    this.name = user && user.name;
   }
 
   build(): Profile {
     return Profile.build(this);
   }
 
-  addName(name: string) {
+  addName(name: string): Builder {
     this.name = name;
     return this;
   }
 
-  addStatus(status: string) {
+  addStatus(status: string): Builder {
     this.status = status;
     return this;
   }
 
-  addDescription(description: string) {
+  addThumbnail(thumbnail: string): Builder {
+    this.thumbnail = thumbnail;
+    return this;
+  }
+
+  addDescription(description: string): Builder {
     this.description = description;
     return this;
   }
 
-  addRole(role: UserRoleType) {
+  addPhone(phone: string): Builder {
+    this.phone = phone;
+    return this;
+  }
+
+  addRole(role: UserRole): Builder {
     this.role = role;
     return this;
   }
 
-  getName() {
+  getName(): string {
     return this.name;
   }
 
-  getStatus() {
+  getStatus(): string {
     return this.status;
   }
 
-  getDescription() {
+  getThumbnail(): string {
+    return this.thumbnail;
+  }
+
+  getDescription(): string {
     return this.description;
   }
 
-  getRole() {
+  getPhone(): string {
+    return this.phone;
+  }
+
+  getRole(): UserRole {
     return this.role;
   }
 
-  getSnug() {
+  getSnug(): Snug {
     return this.snug;
   }
 
-  getUser() {
+  getUser(): User {
     return this.user;
   }
 }

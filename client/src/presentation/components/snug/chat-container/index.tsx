@@ -1,16 +1,19 @@
-import React, { useEffect } from "react";
-import styled from "styled-components";
+import React, { useEffect, useContext } from "react";
+import styled, { css } from "styled-components";
 import { useMessages, useMessagesDispatch } from "contexts/messages-context";
-import { AppChannelMatchProps } from "prop-types/match-extends-types";
+import { ChannelRouteComponentType } from "prop-types/channel-match-type";
 import { PostCard } from "presentation/components/snug/post-card";
 import { Post } from "core/entity/post";
 import { usePathParameter } from "contexts/path-parameter-context";
+import { globalApplication } from "contexts/application-context";
 
 const ChatContentWrapper = styled.section.attrs({
   id: "scroll"
-})`
-  min-height: 90%;
-  max-height: 90%;
+})<{ isParticipated: boolean }>`
+  min-height: ${({ isParticipated }) =>
+    isParticipated ? css`calc(100% - 75px)` : css`calc(100% - 150px)`};
+  max-height: ${({ isParticipated }) =>
+    isParticipated ? css`calc(100% - 75px)` : css`calc(100% - 150px)`};
   width: 100%;
   overflow-y: auto;
   display: flex;
@@ -21,8 +24,11 @@ const Wrapper = styled.section.attrs({})`
   margin-top: auto !important;
 `;
 
-export const ChatContent: React.FC<AppChannelMatchProps> = props => {
-  const { Application } = props;
+export const ChatContent: React.FC<ChannelRouteComponentType & {
+  isParticipated: boolean;
+}> = props => {
+  const { isParticipated } = props;
+  const application = useContext(globalApplication);
   const posts: Post[] = useMessages();
   const dispatch = useMessagesDispatch();
   const pathParameter = usePathParameter();
@@ -32,7 +38,7 @@ export const ChatContent: React.FC<AppChannelMatchProps> = props => {
       dispatch({
         type: "CLEAR_ALL"
       });
-      const resultPosts = await Application.services.postService.getList(
+      const resultPosts = await application.services.postService.getList(
         pathParameter.channelId!
       );
       if (typeof resultPosts == "boolean") return;
@@ -62,7 +68,7 @@ export const ChatContent: React.FC<AppChannelMatchProps> = props => {
   }
 
   return (
-    <ChatContentWrapper>
+    <ChatContentWrapper isParticipated={isParticipated}>
       <Wrapper>{messageList()}</Wrapper>
     </ChatContentWrapper>
   );

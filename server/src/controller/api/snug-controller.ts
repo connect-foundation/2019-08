@@ -1,7 +1,7 @@
 import {getManager} from "typeorm";
 import {User} from "../../domain/entity/User";
 import {Snug} from "../../domain/entity/Snug";
-import {Profile} from "../../domain/entity/Profile";
+import {Profile, UserRole} from "../../domain/entity/Profile";
 import {Room} from "../../domain/entity/Room";
 import {ParticipateIn} from "../../domain/entity/ParticipateIn";
 import {NextFunction, Request, Response} from "express";
@@ -44,7 +44,7 @@ export const create = async (request: Request, response: Response, next: NextFun
             const profile: Profile = new Profile();
             profile.name = user.name;
             profile.status = "";
-            profile.role = "admin";
+            profile.role = UserRole.ADMIN;
             profile.user = user;
             profile.snug = resultSnug;
             const resultProfile = await transactionalEntityManager.save(profile);

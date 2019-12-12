@@ -4,6 +4,8 @@ import { useChannels, Channels } from "contexts/channel-context";
 import { ChannelBrowseModalItem } from "./channel-browse-modal-item";
 import { Channel } from "core/entity/channel";
 import styled from "styled-components";
+import { ApplicationProptype } from "prop-types/application-type";
+import { RouteComponentProps } from "react-router";
 
 interface Criterion {
   DisplayType: DisplayType;
@@ -56,7 +58,9 @@ const filterPrivateChannels = (channels: Channels, props: DisplayType) => {
   return null;
 };
 
-export const ChannelBrowseModalSortList: React.FC<Criterion> = props => {
+export const ChannelBrowseModalSortList: React.FC<Criterion &
+  ApplicationProptype &
+  RouteComponentProps> = props => {
   const channels = useChannels();
 
   const sortChannels = () => {
@@ -76,7 +80,9 @@ export const ChannelBrowseModalSortList: React.FC<Criterion> = props => {
         sortChannels()!.map(channel => {
           return (
             <ChannelBrowseModalItem
+              {...props}
               key={channel.title}
+              id={channel.id}
               title={channel.title}
               description={channel.description}
               privacy={channel.privacy}
