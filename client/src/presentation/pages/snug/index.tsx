@@ -5,7 +5,7 @@ import { SnugHeader } from "./header";
 import { ChannelsProvider } from "contexts/channel-context";
 import { ModalProvider } from "contexts/modal-context";
 import { MessageSection } from "./message-section";
-import { AppSocketChannelMatchProps } from "prop-types/match-extends-types";
+import { AppChannelMatchProps } from "prop-types/match-extends-types";
 import { Modals } from "presentation/components/snug/modals";
 import { colorTheme } from "presentation/theme/color-theme";
 
@@ -19,8 +19,8 @@ const ViewWrapper = styled.section`
   height: 100%;
   display: flex;
 `;
-export const Snug: React.FC<AppSocketChannelMatchProps> = props => {
-  const { Application, match } = props;
+export const Snug: React.FC<AppChannelMatchProps> = props => {
+  const { Application } = props;
 
   return (
     <ThemeProvider theme={colorTheme}>

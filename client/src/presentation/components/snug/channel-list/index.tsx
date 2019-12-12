@@ -18,14 +18,12 @@ const Wrapper = styled.section`
 
 interface PropTypes {
   match: match<ChannelMatchType>;
-  socket: SocketIO.Server;
   history: History<any>;
   Application: Context;
 }
 
 export const ChannelList: React.FC<PropTypes> = ({
   match,
-  socket,
   history,
   Application
 }) => {
@@ -42,8 +40,6 @@ export const ChannelList: React.FC<PropTypes> = ({
   }, []);
 
   useEffect(() => {
-    if (!match.params.channelId) socket.emit("join", match.params.channelId);
-
     (async function() {
       const channel = await Application.services.channelService.getChannelList(
         Number(match.params.snugId)

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import styled, { css } from "styled-components";
 import { useMessages, useMessagesDispatch } from "contexts/messages-context";
-import { AppSocketChannelMatchProps } from "prop-types/match-extends-types";
+import { AppChannelMatchProps } from "prop-types/match-extends-types";
 import { PostCard } from "presentation/components/snug/post-card";
 import { Post } from "core/entity/post";
 import { usePathParameter } from "contexts/path-parameter-context";
@@ -23,7 +23,7 @@ const Wrapper = styled.section.attrs({})`
   margin-top: auto !important;
 `;
 
-export const ChatContent: React.FC<AppSocketChannelMatchProps & {
+export const ChatContent: React.FC<AppChannelMatchProps & {
   isParticipated: boolean;
 }> = props => {
   const { Application, isParticipated } = props;
@@ -40,7 +40,6 @@ export const ChatContent: React.FC<AppSocketChannelMatchProps & {
         pathParameter.channelId!
       );
       if (typeof resultPosts == "boolean") return;
-      console.log(resultPosts);
       dispatch({
         type: "MULTI_INPUT",
         posts: resultPosts
@@ -50,7 +49,6 @@ export const ChatContent: React.FC<AppSocketChannelMatchProps & {
 
   useEffect(() => {
     const obj: HTMLElement = document.getElementById("scroll")!;
-    console.log(obj);
     obj.scrollTop = obj.scrollHeight;
   }, [posts]);
 
