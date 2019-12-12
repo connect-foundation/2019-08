@@ -1,7 +1,7 @@
 import request from "supertest";
 import {SuperTest, Test} from "supertest";
 import Application from "../../../src/app";
-import {Room} from "../../../src/entity/Room";
+import {Room} from "../../../src/domain/entity/Room";
 import {runInTransaction, initialiseTestTransactions} from "typeorm-test-transactions";
 import {
   ALREADY_EXIST_CHANNEL,

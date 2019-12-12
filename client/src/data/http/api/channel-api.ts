@@ -1,20 +1,26 @@
 import { AxiosErrorHandler } from "data/http/api/axiosErrorHandler";
 import { Channel } from "core/entity/channel";
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse, AxiosInstance } from "axios";
 import { ResponseEntity } from "./response/ResponseEntity";
 import { StatusCodes } from "./status-codes";
 import { AxiosWrapper } from "./axios-wrapper";
+import { Snug } from "core/entity/snug";
 
 export class ChannelApi {
-  private axios: any;
+  private axios: AxiosWrapper;
 
   constructor(axios: AxiosWrapper) {
-    this.axios = axios.getAxios();
+    this.axios = axios;
   }
 
-  create(channel: Channel): ResponseEntity<Channel> | boolean {
+  create(
+    snug: Snug,
+    channel: Channel
+  ): Promise<ResponseEntity<Channel> | boolean> {
     return this.axios
+      .getAxios()
       .post(`/api/channels`, {
+        snugId: snug.id!,
         title: channel.title!,
         description: channel.description!,
         privacy: channel.privacy!
@@ -34,8 +40,9 @@ export class ChannelApi {
       );
   }
 
-  findByTitle(title: string): ResponseEntity<Channel> | boolean {
+  findByTitle(title: string): Promise<ResponseEntity<Channel> | boolean> {
     return this.axios
+      .getAxios()
       .get(`/api/channels/${title}`)
       .then((response: AxiosResponse<ResponseEntity<Channel>>) => {
         if (StatusCodes.isOk(response.status)) {
@@ -52,18 +59,46 @@ export class ChannelApi {
       );
   }
 
-  getList(): ResponseEntity<Channel[]> | boolean {
+  getList(snug: Snug): Promise<ResponseEntity<Channel[]> | boolean> {
     return this.axios
-      .get("/api/channels")
+      .getAxios()
+      .get(`/api/snugs/${snug.id!}/channels`)
       .then((response: AxiosResponse<ResponseEntity<Channel[]>>) => {
         if (StatusCodes.isOk(response.status)) return response.data;
         return false;
       })
       .catch((error: AxiosError) => {
-        AxiosErrorHandler.handleError(
+        return AxiosErrorHandler.handleError(
           error,
           `채널 목록을 불러오는 과정에서 예기치 못한 에러가 발생했습니다.`
         );
+      });
+  }
+
+  join(channel: Channel): Promise<boolean> {
+    return this.axios
+      .getAxios()
+      .post(`/api/channels/join`, {
+        channelId: channel.id
+      })
+      .then((response: AxiosResponse<ResponseEntity<{}>>) => {
+        return StatusCodes.isOk(response.status);
+      })
+      .catch(() => {
+        return false;
+      });
+  }
+
+  getParticipate(): Promise<ResponseEntity<Channel[]>> {
+    return this.axios
+      .getAxios()
+      .get("/api/participateins")
+      .then(({ status, data }: AxiosResponse<ResponseEntity<Channel[]>>) => {
+        if (StatusCodes.isOk(status)) return data;
+        throw new Error("참여한 채널을 가지고 오는 과정에서 문제가 있습니다.");
+      })
+      .catch(err => {
+        throw new Error(err.message);
       });
   }
 }

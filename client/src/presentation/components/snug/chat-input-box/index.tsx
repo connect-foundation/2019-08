@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import ClipWhite from "assets/clip-white.png";
 import AtWhite from "assets/at-white.png";
@@ -6,13 +6,17 @@ import FaceWhite from "assets/face-white.png";
 import { IconBox } from "presentation/components/atomic-reusable/icon-box";
 import { useMessagesDispatch, useMessages } from "contexts/messages-context";
 import dubu from "assets/dubu.png";
-import { AppSocketChannelMatchProps } from "prop-types/match-extends-types";
 import { ResponseEntity } from "data/http/api/response/ResponseEntity";
 import { Post } from "core/entity/post";
 import { usePathParameter } from "contexts/path-parameter-context";
+import { globalSocket } from "contexts/socket-context";
+import { globalApplication } from "contexts/application-context";
+import { AppChannelMatchProps } from "prop-types/match-extends-types";
+
 const InputWrapper = styled.section`
   width: 100%;
-  height: 75px;
+  min-height: 75px;
+  max-height: 75px;
   background-color: ${({ theme }) => theme.snug};
   padding-top: 10px;
   padding-bottom: 20px;
@@ -54,16 +58,21 @@ const StyledInput = styled.input.attrs({
   }
 `;
 
-export const ChatInputBox: React.FC<AppSocketChannelMatchProps> = ({
-  Application,
-  socket
-}) => {
+interface PropType extends AppChannelMatchProps {
+  openModal: () => void;
+}
+
+export const ChatInputBox: React.FC<PropType> = props => {
+  const { Application, openModal } = props;
+  const application = useContext(globalApplication);
+
   const KEY_PRESS_EVENT_KEY = "Enter";
   const [message, setMessage] = useState("");
   const [id, setId] = useState(0);
-  const messages = useMessages();
   const dispatch = useMessagesDispatch();
   const pathPrameter = usePathParameter();
+  const { snugSocket } = useContext(globalSocket);
+
   const inputChangeEventHandler = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -71,22 +80,23 @@ export const ChatInputBox: React.FC<AppSocketChannelMatchProps> = ({
   };
 
   useEffect(() => {
-    socket.on("newPost", (resultData: ResponseEntity<Post>) => {
-      console.log("(성공)");
+    snugSocket.off("newPost");
+    snugSocket.on("newPost", (resultData: ResponseEntity<Post>) => {
       const { payload } = resultData;
+      if (payload.room != pathPrameter.channelId) return;
       dispatch({
         type: "CREATE",
         id: payload.id!,
         profile: {
           name: payload.profile!.name! || "두부",
-          thumbnail: dubu
+          thumbnail: payload.profile!.thumbnail!
         },
         createdAt: payload.createdAt!,
         updatedAt: payload.updatedAt!,
         contents: payload.contents!
       });
     });
-  }, []);
+  }, [pathPrameter]);
 
   //이 부분은 mock 데이터로 되어 있으니 차후 수정이 필요함
   const inputKeyPressEventHandler = async (
@@ -97,10 +107,10 @@ export const ChatInputBox: React.FC<AppSocketChannelMatchProps> = ({
     if (!message.trim()) return;
     if (!dispatch) return;
 
-    const result = await Application.services.postService.createMessage(
+    const result = await application.services.postService.createMessage(
       1,
       message,
-      pathPrameter.channelId
+      pathPrameter.channelId!
     );
     if (!result) return;
     setId(id + 1);
@@ -111,7 +121,7 @@ export const ChatInputBox: React.FC<AppSocketChannelMatchProps> = ({
     <InputWrapper>
       <MarginBox></MarginBox>
       <CustomInput>
-        <IconBox imageSrc={ClipWhite}></IconBox>
+        <IconBox imageSrc={ClipWhite} onClick={openModal}></IconBox>
         <StyledInput
           value={message}
           onChange={inputChangeEventHandler}

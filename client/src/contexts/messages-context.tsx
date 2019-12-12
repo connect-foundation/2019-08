@@ -1,5 +1,6 @@
 import React, { createContext, Dispatch, useReducer, useContext } from "react";
-import { Post, Profile } from "core/entity/post";
+import { Post } from "core/entity/post";
+import { Profile } from "core/entity/profile";
 
 //코그 출처 https://velog.io/@velopert/typescript-context-api
 export type Action =

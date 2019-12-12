@@ -1,8 +1,4 @@
-export interface Profile {
-  id?: number;
-  thumbnail?: string;
-  name?: string;
-}
+import { Profile } from "./profile";
 
 export interface Post {
   id?: number;
@@ -10,4 +6,5 @@ export interface Post {
   updatedAt?: string;
   contents?: string;
   profile?: Profile;
+  room?: number;
 }

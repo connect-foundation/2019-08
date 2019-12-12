@@ -15,6 +15,13 @@
     "quotes": [
       "error",
       "double"
+    ],
+    "@typescript-eslint/no-use-before-define": [
+      "error",
+      {
+        "functions": false,
+        "classes": false
+      }
     ]
   }
 }

@@ -81,7 +81,7 @@ typings/
 .nuxt
 
 # react / gatsby
-public/
+# public/
 
 # vuepress build output
 .vuepress/dist
@@ -596,7 +596,7 @@ MigrationBackup/
 dist
 
 ## env
-.env
+.env.local
 
 ## typeorm
 .idea/

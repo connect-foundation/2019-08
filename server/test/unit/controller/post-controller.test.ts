@@ -1,5 +1,5 @@
 import * as PostApiController from "../../../src/controller/api/post-controller";
-import {Post} from "../../../src/entity/Post";
+import {Post} from "../../../src/domain/entity/Post";
 jest.mock( "../../../src/entity/Post");
 import {mockRequest, mockResponse} from "mock-req-res";
 import {FOUND_CHANNEL} from "../../../src/controller/api/common/error-message";

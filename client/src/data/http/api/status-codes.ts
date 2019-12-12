@@ -1,6 +1,7 @@
 enum StatusCode {
   CREATED = 201,
-  OK = 200
+  OK = 200,
+  ACCEPTED = 202
 }
 
 export class StatusCodes {
@@ -8,7 +9,15 @@ export class StatusCodes {
     return StatusCode.OK === code;
   }
 
+  public static isNotOk(code: number): boolean {
+    return !StatusCodes.isOk(code);
+  }
+
   public static isCreated(code: number): boolean {
     return StatusCode.CREATED === code;
+  }
+
+  public static isAccepted(code: number): boolean {
+    return StatusCode.ACCEPTED === code;
   }
 }
