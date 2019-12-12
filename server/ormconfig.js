@@ -13,6 +13,15 @@ const profiles = {
         synchronize: true,
         logger: "advanced-console",
         logging: ["query", "warn", "error"],
+        cache: {
+            type: "redis",
+            duration: process.env.LOCAL_CACHE_DURATION, // milliseconds
+            options: {
+                host: process.env.LOCAL_CACHE_HOST,
+                port: process.env.LOCAL_CACHE_PORT,
+                password: process.env.LOCAL_CACHE_PASSWORD
+            }
+        }
     },
     development: {
         host: process.env.DEV_DB_HOST,
@@ -23,6 +32,15 @@ const profiles = {
         synchronize: false,
         logger: "file",
         logging: "all",
+        cache: {
+            type: "redis",
+            duration: process.env.DEV_CACHE_DURATION,   // milliseconds
+            options: {
+                host: process.env.DEV_CACHE_HOST,
+                port: process.env.DEV_CACHE_PORT,
+                password: process.env.DEV_CACHE_PASSWORD
+            }
+        }
     },
     production: {
         host: process.env.PROD_DB_HOST,
@@ -33,6 +51,15 @@ const profiles = {
         synchronize: false,
         logger: "file",
         logging: ["query", "error"],
+        cache: {
+            type: "redis",
+            duration: process.env.PROD_CACHE_DURATION,  // milliseconds
+            options: {
+                host: process.env.PROD_CACHE_HOST,
+                port: process.env.PROD_CACHE_PORT,
+                password: process.env.PROD_CACHE_PASSWORD
+            }
+        }
     }
 };
 
