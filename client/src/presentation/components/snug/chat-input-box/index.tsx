@@ -14,7 +14,7 @@ import { globalSocket } from "contexts/socket-context";
 
 const InputWrapper = styled.section`
   width: 100%;
-  height: 75px
+  height: 75px;
   background-color: ${({ theme }) => theme.snug};
   padding-top: 10px;
   padding-bottom: 20px;

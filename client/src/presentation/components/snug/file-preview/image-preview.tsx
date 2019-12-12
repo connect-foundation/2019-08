@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 interface PropTypes {
@@ -6,18 +6,22 @@ interface PropTypes {
 }
 
 const ImgPreview = styled.img`
-  width: 100%;
+  max-width: 100%;
+  max-height: 250px;
 `;
 
 export const ImagePreview: React.FC<PropTypes> = props => {
   const { file } = props;
   const [previewUrl, setPreviewUrl] = useState("");
 
-  const reader = new FileReader();
-  reader.readAsDataURL(file);
-  reader.onloadend = () => {
-    setPreviewUrl(reader.result as string);
-  };
+  useEffect(() => {
+    const reader = new FileReader();
+
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setPreviewUrl(reader.result as string);
+    };
+  });
 
   return <ImgPreview src={previewUrl} />;
 };
