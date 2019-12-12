@@ -25,4 +25,20 @@ export class ProfileApi {
         );
       });
   }
+
+  getProfileToken(snugId: number): Promise<void> {
+    return this.axios
+      .get(`/api/auth/snugs/${snugId}/profiles`)
+      .then(({ status }: AxiosResponse<ResponseEntity<void>>) => {
+        if (StatusCodes.isNotOk(status)) {
+          throw new Error("프로필 토큰 조회에 실패 했습니다.");
+        }
+      })
+      .catch((error: AxiosError) => {
+        AxiosErrorHandler.handleError(
+          error,
+          `프로필 토큰을 조회하는 과정에서 문제가 발생했습니다. : ${error.message}`
+        );
+      });
+  }
 }

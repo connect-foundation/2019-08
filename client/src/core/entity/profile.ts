@@ -1,6 +1,6 @@
 export enum Role {
   "admin" = "admin",
-  "participant" = "participant"
+  "member" = "member"
 }
 
 export interface Profile {
@@ -10,6 +10,7 @@ export interface Profile {
   status?: string;
   role?: Role;
   description?: string;
-  phoneNumber?: string;
+  phone?: string;
   email?: string;
+  snugId?: number;
 }

@@ -35,4 +35,8 @@ export class ProfileRepository implements ProfileRepositoryType {
       return false;
     }
   }
+
+  async getProfileToken(snugId: number): Promise<void> {
+    return await this.api.getProfileToken(snugId);
+  }
 }
