@@ -1,48 +1,72 @@
-import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
-import {Snug} from "./Snug";
-import {User} from "./User";
-import {Base} from "./Base";
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn
+} from "typeorm";
+import { Snug } from "./Snug";
+import { User } from "./User";
+import { Base } from "./Base";
 
-export type UserRoleType = "admin" | "member";
+export enum UserRole {
+  ADMIN = "admin",
+  MEMBER = "member"
+}
 
 @Entity()
 export class Profile extends Base {
   @PrimaryGeneratedColumn()
   id: number;
-  @Column({length: 64})
+  @Column({ length: 64 })
   name: string;
-  @Column({nullable: true, length: 128})
+  @Column({ nullable: true, length: 128 })
   status: string;
-  @Column({nullable: true, length: 256, default: "/image/default-thumbnail.jpeg"})
+  @Column({
+    nullable: true,
+    length: 256,
+    default: "/image/default-thumbnail.jpeg"
+  })
   thumbnail: string;
-  @Column({nullable: true, length: 512})
+  @Column({ nullable: true, length: 512 })
   description: string;
-  @Column({nullable: true})
+  @Column({ nullable: true })
   phone: string;
   @Column({
     type: "enum",
-    enum: ["admin", "member"],
-    default: "member"
+    enum: UserRole,
+    default: UserRole.MEMBER
   })
-  role: UserRoleType;
+  role: UserRole;
   @ManyToOne(type => Snug)
   snug: Snug;
   @ManyToOne(type => User)
-  @JoinColumn({referencedColumnName: "id"})
+  @JoinColumn({ referencedColumnName: "id" })
   user: User;
 
-  static async hasProfileByUserId(profileId: string, userId: number): Promise<boolean> {
-    const user = User.create({id: userId});
-    const profile = await Profile.findOne({where: {id: profileId, user: user}});
+  static async hasProfileByUserId(
+    profileId: string,
+    userId: number
+  ): Promise<boolean> {
+    const user = User.create({ id: userId });
+    const profile = await Profile.findOne({
+      where: { id: profileId, user: user }
+    });
     return profile && profile.hasId();
   }
 
   static findById(profileId: string): Promise<Profile> {
-    return Profile.findOne(profileId, {relations: ["user", "snug"]});
+    return Profile.findOne(profileId, { relations: ["user", "snug"] });
   }
 
-  static findOneByUserIdAndSnugId(userId: string, snugId: string): Promise<Profile> {
-    return Profile.findOneOrFail({where: {user: userId, snug: snugId}, relations: ["user", "snug"]});
+  static findOneByUserIdAndSnugId(
+    userId: string,
+    snugId: string
+  ): Promise<Profile> {
+    return Profile.findOneOrFail({
+      where: { user: userId, snug: snugId },
+      relations: ["user", "snug"]
+    });
   }
 
   static build(builder: Builder): Profile {
@@ -71,7 +95,7 @@ class Builder {
   private thumbnail: string;
   private description: string;
   private phone: string;
-  private role: UserRoleType;
+  private role: UserRole;
 
   constructor(snug: Snug, user: User) {
     this.snug = snug;
@@ -108,7 +132,7 @@ class Builder {
     return this;
   }
 
-  addRole(role: UserRoleType): Builder {
+  addRole(role: UserRole): Builder {
     this.role = role;
     return this;
   }
@@ -133,7 +157,7 @@ class Builder {
     return this.phone;
   }
 
-  getRole(): UserRoleType {
+  getRole(): UserRole {
     return this.role;
   }
 
