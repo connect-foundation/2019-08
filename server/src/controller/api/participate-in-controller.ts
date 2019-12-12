@@ -9,7 +9,8 @@ export const getChannels = async (request: Request, response: Response) => {
   try {
     const profile: Profile = <Profile>offerProfileTokenInfo(request);
     const rooms = await ParticipateIn.find({
-      where: { Participant: profile.id }
+      where: { Participant: profile.id },
+      relations: ["room"]
     });
     response.status(OK).json(ResponseForm.of("", rooms));
   } catch (error) {
