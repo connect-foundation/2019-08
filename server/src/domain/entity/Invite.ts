@@ -43,8 +43,14 @@ export class Invite extends Base {
   }
 
   public provideContents(): string {
-    const link = this.isUnsignedUser() ? UrlInfo.aboutRegister() : UrlInfo.aboutVerification(this.ticket.getValue());
-    return EmailContents.getTemplate(this.snug.name, link);
+    if(this.isUnsignedUser()) {
+      const registerLink = UrlInfo.aboutRegister();
+      return EmailContents.getTemplateForRegister(this.snug.name, registerLink);
+    } else {
+      const verificationLink = UrlInfo.aboutVerification(this.ticket.getValue());
+      return EmailContents.getTemplateForVerification(this.snug.name, verificationLink);
+    }
+
   }
 
   public static findWithUserByTicket(ticket: Ticket): Promise<Invite> {

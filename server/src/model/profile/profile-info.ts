@@ -1,4 +1,5 @@
 import { Profile, UserRole } from "../../domain/entity/Profile";
+import _ from "lodash";
 
 export class ProfileInfo {
   private id: number;
@@ -63,5 +64,9 @@ export class ProfileInfo {
       email,
       snugId
     );
+  }
+
+  public asObject(): object {
+    return _.toPlainObject(this);
   }
 }

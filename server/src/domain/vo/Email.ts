@@ -1,13 +1,14 @@
-import {PrimaryColumn} from "typeorm";
+import {Column, Index} from "typeorm";
 import {checkInvalidEmail} from "../../validator/email-validator";
 import InvalidEmailException from "../../utils/exception/InvalidEmailException";
 import {Transporter} from "nodemailer";
 import TransferEmailException from "../../utils/exception/TransferEmailException";
 
+@Index("email_uniq_index", ["localPart", "domain"], { unique: true })
 export class Email {
-  @PrimaryColumn({length: 64})
+  @Column({length: 64})
   private readonly localPart: string;
-  @PrimaryColumn({length: 255})
+  @Column({length: 255})
   private readonly domain: string;
   private static readonly DELIMITER = "@";
   private contents: string;
