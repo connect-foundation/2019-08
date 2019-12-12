@@ -14,14 +14,11 @@ export const ImagePreview: React.FC<PropTypes> = props => {
   const { file } = props;
   const [previewUrl, setPreviewUrl] = useState("");
 
-  useEffect(() => {
-    const reader = new FileReader();
-
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setPreviewUrl(reader.result as string);
-    };
-  });
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onloadend = () => {
+    setPreviewUrl(reader.result as string);
+  };
 
   return <ImgPreview src={previewUrl} />;
 };
