@@ -1,9 +1,9 @@
-import "dotenv/config";
+import dotenv from "dotenv";
 import "reflect-metadata";
-import express, { Express } from "express";
+import express, {Express} from "express";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
-import { Connection, createConnection } from "typeorm";
+import {Connection, createConnection} from "typeorm";
 import postRouter from "./routes/post/post-router";
 import channelRouter from "./routes/channel/channel-router";
 import snugRouter from "./routes/snug/snug-router";
@@ -13,7 +13,6 @@ import inviteRouter from "./routes/invite/invite-router";
 import profileRouter from "./routes/profile/profile-router";
 import participateInRouter from "./routes/participate-in/index";
 import indexRouter from "./routes/index";
-import dotenv from "dotenv";
 import {
   initializeTransactionalContext,
   patchTypeORMRepositoryWithBaseRepository
@@ -24,7 +23,8 @@ export default class App {
   private static connection: Connection;
 
   static async start() {
-    dotenv.config({ path: __dirname.concat("/../") });
+    const envPath = __dirname.concat("/../.env." + process.env.NODE_ENV!);
+    dotenv.config({ path: envPath });
     return await createConnection()
       .then(connection => {
         this.connection = connection;
