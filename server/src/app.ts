@@ -2,6 +2,8 @@ import dotenv from "dotenv";
 import "reflect-metadata";
 import express, { Express } from "express";
 import morgan from "morgan";
+import hpp from "hpp";
+import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import apiRouter from "./routes/apiRouter";
 import indexRouter from "./routes/index";
@@ -36,6 +38,8 @@ export default class App {
     this.app.set("env", process.env.NODE_ENV);
     if (process.env.NODE_ENV === "production") {
       this.app.use(morgan("combined"));
+      this.app.use(helmet());
+      this.app.use(hpp());
     } else {
       this.app.use(morgan("dev"));
     }
