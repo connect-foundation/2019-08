@@ -16,7 +16,7 @@ router.use("/snugs", snugRouter);
 router.use("/auth", authRouter);
 router.use("/users", userRouter);
 router.use("/invite", inviteRouter);
-this.app.use("/profiles", profileRouter);
-this.app.use("/participateIns", participateInRouter);
+router.use("/profiles", profileRouter);
+router.use("/participateIns", participateInRouter);
 
 export default router;

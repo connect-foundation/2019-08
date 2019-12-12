@@ -7,7 +7,7 @@
     "build": "tsc",
     "test": "jest",
     "lint": "eslint src/**/*.ts",
-    "start": "ts-node src/server.ts",
+    "start": "cross-env NODE_ENV=local ts-node src/server.ts",
     "typeorms": "NODE_ENV=local ts-node ./node_modules/typeorm/cli.js"
   },
   "dependencies": {
