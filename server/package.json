@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "serve": "node dist/server.js",
+    "serve": "npm run build && node NODE_ENV=production dist/server.js",
     "build": "tsc",
     "test": "jest",
     "lint": "eslint src/**/*.ts",
     "start": "ts-node src/server.ts",
-    "typeorms": "ts-node ./node_modules/typeorm/cli.js"
+    "typeorms": "NODE_ENV=local ts-node ./node_modules/typeorm/cli.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
