@@ -6,20 +6,32 @@ import { Profile } from "core/entity/profile";
 
 const Wrapper = styled.section`
   height: auto;
-  border-bottom: 1px black solid;
+  max-width: 400px;
+  border-bottom: 1px ${({ theme }) => theme.snugBorderColor} solid;
 `;
 
 interface PropTypes {
   currentProfile: Profile;
+  toggleModal(): any | void;
 }
 
-export const StatusSection: React.FC<PropTypes> = ({ currentProfile }) => {
+export const StatusSection: React.FC<PropTypes> = ({
+  currentProfile,
+  toggleModal
+}) => {
   const { name, status, role, email } = currentProfile;
-  console.log("Profile의 status", currentProfile);
   return (
     <Wrapper>
-      <StatusBarHeader header={name!} contents={"제목 바꾸기"} />
-      <StatusBar header={status!} contents={"상태 설정하기"}></StatusBar>
+      <StatusBarHeader
+        header={name!}
+        contents={"이름 바꾸기"}
+        toggleModal={toggleModal}
+      />
+      <StatusBar
+        header={status!}
+        contents={"상태 설정하기"}
+        toggleModal={toggleModal}
+      ></StatusBar>
       <StatusBar
         header={"역할"}
         contents={role!}

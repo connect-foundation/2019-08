@@ -22,9 +22,10 @@ const Input = styled.input`
   height: 30px;
   width: 100%;
   box-sizing: border-box;
+  padding-left: 4px;
   &:active,
   :focus {
-    border: 2px solid #2c5af7;
+    border: 1px solid #2c5af7;
   }
 `;
 

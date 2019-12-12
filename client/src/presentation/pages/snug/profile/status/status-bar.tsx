@@ -5,15 +5,16 @@ const Wrapper = styled.section`
   height: 70px;
   min-height: 70px;
   max-heigth: 70px;
-  border-bottom: 1px black solid;
+  border-bottom: 1px ${({ theme }) => theme.snugBorderColor} solid;
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: 10px;
+  max-width: 400px;
 `;
 
 const Header = styled.header`
-  color: #000000;
+  color: ${({ theme }) => theme.snugMainFont};
   font-size: 0.7rem;
   margin-bottom: 3px;
   &: hover {
@@ -38,6 +39,7 @@ const Contents = styled.main`
 export interface PropTypes {
   header: string;
   contents: string;
+  toggleModal?(): any | void;
   cursor?: string;
 }
 
@@ -46,11 +48,13 @@ export interface PointerTypes {
 }
 
 export const StatusBar: React.FC<PropTypes> = props => {
-  const { header, contents, cursor } = props;
+  const { header, contents, cursor, toggleModal } = props;
   return (
     <Wrapper>
       <Header>{header}</Header>
-      <Contents cursor={cursor}>{contents}</Contents>
+      <Contents cursor={cursor} onClick={toggleModal}>
+        {contents}
+      </Contents>
     </Wrapper>
   );
 };
