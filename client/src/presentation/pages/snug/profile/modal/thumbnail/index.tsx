@@ -3,9 +3,9 @@ import styled from "styled-components";
 import Gipyoo from "assets/gipyoo.png";
 
 const Image = styled.img`
-  max-width: 400px;
+  max-width: 100%;
 `;
 
-export const Thumbnail: React.FC = () => {
+export const ModalThumbnail: React.FC = () => {
   return <Image src={Gipyoo} />;
 };

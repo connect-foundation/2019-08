@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Thumbnail } from "presentation/pages/snug/profile/thumbnail";
+import { ModalThumbnail } from "./thumbnail";
 
 const Wrapper = styled.section`
   width: 35%;
@@ -41,7 +41,7 @@ export const ModalRightBody: React.FC = () => {
   return (
     <Wrapper>
       <ImageWrapper>
-        <Thumbnail />
+        <ModalThumbnail />
       </ImageWrapper>
       <Button>Image 올리기</Button>
       <Remove>Image 삭제하기</Remove>

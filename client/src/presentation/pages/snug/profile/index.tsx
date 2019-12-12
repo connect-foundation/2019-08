@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import styled from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 import { Header } from "./header";
 import { Thumbnail } from "./thumbnail";
 import { Buttons } from "./buttons";
@@ -12,8 +12,9 @@ import { ChannelRouteComponentType } from "prop-types/channel-match-type";
 const Wrapper = styled.section`
   color: white;
   background-color: white;
-  width: 700px;
   height: 100%;
+  width: 0px;
+  min-width: 0px;
   overflow-y: scroll;
   &::-webkit-scrollbar {
     width: 4px;
@@ -25,13 +26,31 @@ const Wrapper = styled.section`
   &::-webkit-scrollbar-track {
     background-color: grey;
   }
+  transition: 400ms;
+  ${(props: WrapperPropTypes) => {
+    if (props.toggleProfile)
+      return css`
+        width: 0px;
+        min-width: 400px;
+      `;
+    return css`
+      width: 0px;
+    `;
+  }};
 `;
 
 const ImageWrapper = styled.section`
-  height: 40%;
+  max-width: 400px;
+  max-height: 40%;
 `;
+interface WrapperPropTypes {
+  toggleProfile: boolean;
+}
+interface PropTypes extends ChannelRouteComponentType {
+  toggleProfile?: boolean;
+}
 
-export const ProfileSection: React.FC<ChannelRouteComponentType> = props => {
+export const ProfileSection: React.FC<PropTypes> = props => {
   const application = useContext(globalApplication);
   const [modalDisplay, setModalDisplay] = useState(false);
   const [currentProfile, setCurrentProfile] = useState<Profile>({} as Profile);
@@ -57,7 +76,7 @@ export const ProfileSection: React.FC<ChannelRouteComponentType> = props => {
   };
 
   return (
-    <Wrapper>
+    <Wrapper toggleProfile={props.toggleProfile!}>
       {modalDisplay && (
         <Modal
           toggleModal={toggleModal}
@@ -65,12 +84,19 @@ export const ProfileSection: React.FC<ChannelRouteComponentType> = props => {
           currentProfile={currentProfile}
         />
       )}
-      <Header />
-      <ImageWrapper>
-        <Thumbnail />
-      </ImageWrapper>
-      <Buttons toggleModal={toggleModal} />
-      <StatusSection currentProfile={currentProfile} />
+      <FixedBox>
+        <Header />
+        <ImageWrapper>
+          <Thumbnail />
+        </ImageWrapper>
+        <Buttons toggleModal={toggleModal} />
+        <StatusSection currentProfile={currentProfile} />
+      </FixedBox>
     </Wrapper>
   );
 };
+
+const FixedBox = styled.section`
+  width: 700px;
+  height: auto;
+`;
