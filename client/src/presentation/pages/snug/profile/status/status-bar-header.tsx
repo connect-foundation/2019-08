@@ -6,7 +6,8 @@ const Wrapper = styled.section`
   height: 80px;
   min-height: 80px;
   max-heigth: 80px;
-  border-bottom: 1px black solid;
+  max-width: 400px;
+  border-bottom: 1px ${({ theme }) => theme.snugBorderColor} solid;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -14,7 +15,7 @@ const Wrapper = styled.section`
 `;
 
 const Header = styled.header`
-  color: #000000;
+  color: ${({ theme }) => theme.snugMainFont};
   font-size: 1.2rem;
   font-weight: bold;
   margin-bottom: 3px;
@@ -33,11 +34,11 @@ const Contents = styled.main`
 `;
 
 export const StatusBarHeader: React.FC<PropTypes> = props => {
-  const { header, contents } = props;
+  const { header, contents, toggleModal } = props;
   return (
     <Wrapper>
       <Header>{header}</Header>
-      <Contents>{contents}</Contents>
+      <Contents onClick={toggleModal}>{contents}</Contents>
     </Wrapper>
   );
 };

@@ -49,7 +49,6 @@ export class ChannelRepository implements ChannelRepositoryType {
     if (document.cookie.indexOf("profile") == -1)
       throw new Error("프로필 쿠키가 존재하지 않습니다.");
     const responseEntity = await this.api.getParticipate();
-    console.log(responseEntity);
     return responseEntity.payload;
   }
 
@@ -57,7 +56,6 @@ export class ChannelRepository implements ChannelRepositoryType {
     if (document.cookie.indexOf("profile") == -1)
       throw new Error("프로필 쿠키가 존재하지 않습니다.");
     const { payload } = await this.api.getParticipate();
-    console.log(payload);
     const result = payload.filter(
       channelParameter => channelParameter.id == channel.id
     );

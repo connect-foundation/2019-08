@@ -10,15 +10,13 @@ import { globalApplication } from "contexts/application-context";
 import { ChannelRouteComponentType } from "prop-types/channel-match-type";
 
 const Wrapper = styled.section`
-  color: white;
-  background-color: white;
-  height: 100%;
+  background-color: ${({ theme }) => theme.snug};
+  border: 1px ${({ theme }) => theme.snugBorderColor} solid;
+  height: auto;
   width: 0px;
   min-width: 0px;
   overflow-y: scroll;
-  &::-webkit-scrollbar {
-    width: 4px;
-  }
+
   &::-webkit-scrollbar-thumb {
     background: #1d8fc0;
     opacity: 0.4;
@@ -30,16 +28,24 @@ const Wrapper = styled.section`
   ${(props: WrapperPropTypes) => {
     if (props.toggleProfile)
       return css`
-        width: 0px;
+        width: 400px;
         min-width: 400px;
+        max-width: 400px;
+        &::-webkit-scrollbar {
+          width: 4px;
+        }
       `;
     return css`
       width: 0px;
+      &::-webkit-scrollbar {
+        width: 0px;
+      }
     `;
   }};
 `;
 
 const ImageWrapper = styled.section`
+  min-width: 400px;
   max-width: 400px;
   max-height: 40%;
 `;
@@ -61,7 +67,6 @@ export const ProfileSection: React.FC<PropTypes> = props => {
         parseInt(snugId)
       );
       if (!profile) return;
-      console.log("useEffect를 써서 불러온 첫 profile", profile);
       setCurrentProfile(profile);
     };
     requestProfile();
@@ -84,19 +89,15 @@ export const ProfileSection: React.FC<PropTypes> = props => {
           currentProfile={currentProfile}
         />
       )}
-      <FixedBox>
-        <Header />
-        <ImageWrapper>
-          <Thumbnail />
-        </ImageWrapper>
-        <Buttons toggleModal={toggleModal} />
-        <StatusSection currentProfile={currentProfile} />
-      </FixedBox>
+      <Header />
+      <ImageWrapper>
+        <Thumbnail />
+      </ImageWrapper>
+      <Buttons toggleModal={toggleModal} />
+      <StatusSection
+        currentProfile={currentProfile}
+        toggleModal={toggleModal}
+      />
     </Wrapper>
   );
 };
-
-const FixedBox = styled.section`
-  width: 700px;
-  height: auto;
-`;

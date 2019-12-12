@@ -37,6 +37,7 @@ const ToggleButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
   text-align: center;
   font-weight: 900;
   font-size: 1.6rem;
@@ -71,7 +72,6 @@ export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
       const result = await Application.services.channelService.isInParticipating(
         pathParameter.channelId!
       );
-      console.log(result);
       setIsParticipated(result);
     } catch (error) {
       console.log(error);
