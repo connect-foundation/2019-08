@@ -1,6 +1,6 @@
-import {Post} from "../../domain/entity/Post";
-import {Request, Response} from "express";
-import {Paginator} from "./common/pagenation/paginator";
+import { Post } from "../../domain/entity/Post";
+import { Request, Response } from "express";
+import { Paginator } from "./common/pagenation/paginator";
 import ResponseForm from "../../utils/response-form";
 import { publishIO } from "../../socket/socket-manager";
 import { Profile } from "../../domain/entity/Profile";
@@ -35,7 +35,10 @@ export const create = async (request: Request, response: Response) => {
       room: roomId
     } as Post);
     const responseForm = ResponseForm.of<Post>(FOUND_POST_PROFILE, post);
-    publishIO().emit(PUBLISH_EVENT.SEND_MESSAGE, responseForm);
+    publishIO()
+      .of("/snug")
+      .to(roomId)
+      .emit(PUBLISH_EVENT.SEND_MESSAGE, responseForm);
     return response.status(CREATED).json(responseForm);
   } catch (error) {
     return response.status(NOT_FOUND).json(ResponseForm.of(NOT_FOUND_PROFILE));
@@ -71,6 +74,6 @@ export const findByChannelId = async (request: Request, response: Response) => {
 
   const posts = await Post.findByChannelId(channelId, paginator);
   return response.status(OK).json(
-          ResponseForm.of<object>(FOUND_CHANNEL, { posts: posts.reverse() })
+    ResponseForm.of<object>(FOUND_CHANNEL, { posts: posts.reverse() })
   );
 };

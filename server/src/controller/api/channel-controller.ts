@@ -1,3 +1,4 @@
+import { Participant } from "./../../model/participant/participant";
 import { Profile } from "./../../domain/entity/Profile";
 import { ParticipateIn } from "./../../domain/entity/ParticipateIn";
 import { offerProfileTokenInfo } from "./../../validator/identifier-validator";
@@ -76,6 +77,8 @@ export const findAll = async (
 export const create = async (request: Request, response: Response) => {
   const { title, description, privacy, snugId } = request.body;
 
+  const profile = <Profile>offerProfileTokenInfo(request);
+
   const isExisting = await Room.findByTitle(title);
 
   if (!!isExisting) {
@@ -90,6 +93,11 @@ export const create = async (request: Request, response: Response) => {
     isPrivate: privacy,
     isChannel: true,
     snug: snug
+  }).save();
+
+  await ParticipateIn.create({
+    room: { id: channel.id },
+    participant: { id: profile.id }
   }).save();
 
   return response

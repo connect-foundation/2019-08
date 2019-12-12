@@ -89,7 +89,7 @@ export const ChatInputBox: React.FC<PropType> = props => {
         id: payload.id!,
         profile: {
           name: payload.profile!.name! || "두부",
-          thumbnail: dubu
+          thumbnail: payload.profile!.thumbnail!
         },
         createdAt: payload.createdAt!,
         updatedAt: payload.updatedAt!,
