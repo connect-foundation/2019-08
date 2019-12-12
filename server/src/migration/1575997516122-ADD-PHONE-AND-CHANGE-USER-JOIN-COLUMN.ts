@@ -17,11 +17,9 @@ export class ADDPHONEANDCHANGEUSERJOINCOLUMN1575997516122 implements MigrationIn
         await queryRunner.query("ALTER TABLE `profile` DROP COLUMN `description`", undefined);
         await queryRunner.query("ALTER TABLE `profile` ADD `description` varchar(512) NULL", undefined);
         await queryRunner.query("ALTER TABLE `profile` CHANGE `role` `role` enum ('admin', 'member') NOT NULL DEFAULT 'member'", undefined);
-        await queryRunner.query("ALTER TABLE `profile` ADD CONSTRAINT `FK_a24972ebd73b106250713dcddd9` FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION", undefined);
     }
 
     public async down(queryRunner: QueryRunner): Promise<any> {
-        await queryRunner.query("ALTER TABLE `profile` DROP FOREIGN KEY `FK_a24972ebd73b106250713dcddd9`", undefined);
         await queryRunner.query("ALTER TABLE `profile` CHANGE `role` `role` enum ('admin', 'member') NOT NULL", undefined);
         await queryRunner.query("ALTER TABLE `profile` DROP COLUMN `description`", undefined);
         await queryRunner.query("ALTER TABLE `profile` ADD `description` varchar(255) NULL", undefined);

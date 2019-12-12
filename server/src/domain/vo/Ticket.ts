@@ -1,7 +1,8 @@
-import {Column} from "typeorm";
+import {Column, Index} from "typeorm";
 
+@Index("ticket_uniq_index", ["id"], { unique: true })
 export class Ticket {
-  @Column({unique: true})
+  @Column()
   private readonly id: string;
 
   private constructor(id: string) {
