@@ -72,7 +72,8 @@ export const findByChannelId = async (request: Request, response: Response) => {
   const page: Page = choosePage(postId, size);
   const paginator = new Paginator(page).addOrder("id", order);
 
-  const posts = await Post.findByChannelId(channelId, paginator);
+  const cacheKey = Post.generateCacheKeyByPosts(channelId, postId || "default");
+  const posts = await Post.findByChannelId(channelId, cacheKey, paginator);
   return response.status(OK).json(
     ResponseForm.of<object>(FOUND_CHANNEL, { posts: posts.reverse() })
   );
