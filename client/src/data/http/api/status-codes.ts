@@ -9,6 +9,10 @@ export class StatusCodes {
     return StatusCode.OK === code;
   }
 
+  public static isNotOk(code: number): boolean {
+    return !StatusCodes.isOk(code);
+  }
+
   public static isCreated(code: number): boolean {
     return StatusCode.CREATED === code;
   }

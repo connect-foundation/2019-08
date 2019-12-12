@@ -10,11 +10,9 @@ export class ADDTICKETTYPE1575729716556 implements MigrationInterface {
         await queryRunner.query("ALTER TABLE `invite` DROP COLUMN `userLocalPart`", undefined);
         await queryRunner.query("ALTER TABLE `invite` ADD `deletedAt` datetime NULL", undefined);
         await queryRunner.query("ALTER TABLE `invite` ADD `ticketId` varchar(255) NOT NULL", undefined);
-        await queryRunner.query("ALTER TABLE `invite` ADD CONSTRAINT `FK_91bfeec7a9574f458e5b592472d` FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION", undefined);
     }
 
     public async down(queryRunner: QueryRunner): Promise<any> {
-        await queryRunner.query("ALTER TABLE `invite` DROP FOREIGN KEY `FK_91bfeec7a9574f458e5b592472d`", undefined);
         await queryRunner.query("ALTER TABLE `invite` DROP COLUMN `ticketId`", undefined);
         await queryRunner.query("ALTER TABLE `invite` DROP COLUMN `deletedAt`", undefined);
         await queryRunner.query("ALTER TABLE `invite` ADD `userLocalPart` varchar(64) NULL", undefined);

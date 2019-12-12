@@ -4,7 +4,8 @@ import { PostService } from "core/service/post-service";
 import { SnugService } from "core/service/snug-service";
 import { AuthService } from "core/service/auth-service";
 import { UserService } from "core/service/user-service";
-import {InviteService} from "core/service/invite-service";
+import { InviteService } from "core/service/invite-service";
+import { ProfileService } from "core/service/profile-service";
 
 export class ServiceDependencies {
   readonly channelService: ChannelService;
@@ -13,6 +14,7 @@ export class ServiceDependencies {
   readonly snugService: SnugService;
   readonly authService: AuthService;
   readonly inviteService: InviteService;
+  readonly profileService: ProfileService;
 
   constructor(repositories: RepositoryDependencies) {
     this.channelService = new ChannelService(
@@ -29,7 +31,10 @@ export class ServiceDependencies {
       repositories.getUser().getUserRepository()
     );
     this.inviteService = new InviteService(
-            repositories.getInvite().getInviteRepository()
+      repositories.getInvite().getInviteRepository()
+    );
+    this.profileService = new ProfileService(
+      repositories.getProfile().getProfileRepository()
     );
   }
 }
