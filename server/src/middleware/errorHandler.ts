@@ -25,5 +25,6 @@ export function errorResopnseHandler(
       ? error.name
       : error.message || "Something went wrong";
 
+  logger.error(error.message);
   response.status(status).json(ResponseForm.of(message));
 }
