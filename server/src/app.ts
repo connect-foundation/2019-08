@@ -5,6 +5,10 @@ import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import apiRouter from "./routes/apiRouter";
 import indexRouter from "./routes/index";
+import {
+  notFoundHandler,
+  errorResopnseHandler
+} from "./middleware/errorHandler";
 import { Connection, createConnection } from "typeorm";
 import {
   initializeTransactionalContext,
@@ -30,13 +34,14 @@ export default class App {
     this.app = express();
     this.app.set("port", process.env.PORT || 3000);
     this.app.set("env", process.env.NODE_ENV);
-
     this.app.use(morgan("dev"));
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: false }));
     this.app.use(cookieParser(process.env.COOKIE_SECRET));
     this.app.use("/api", apiRouter);
     this.app.use("/", indexRouter);
+    this.app.use(notFoundHandler);
+    this.app.use(errorResopnseHandler);
     return this.app;
   }
 
