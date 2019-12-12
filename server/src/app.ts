@@ -34,7 +34,13 @@ export default class App {
     this.app = express();
     this.app.set("port", process.env.PORT || 3000);
     this.app.set("env", process.env.NODE_ENV);
-    this.app.use(morgan("dev"));
+    if (process.env.NODE_ENV === "production") {
+      this.app.use(morgan("combined"));
+    } else {
+      this.app.use(morgan("dev"));
+    }
+
+    this.app.use(express.static("/"));
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: false }));
     this.app.use(cookieParser(process.env.COOKIE_SECRET));
@@ -42,6 +48,7 @@ export default class App {
     this.app.use("/", indexRouter);
     this.app.use(notFoundHandler);
     this.app.use(errorResopnseHandler);
+
     return this.app;
   }
 
