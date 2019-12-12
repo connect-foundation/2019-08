@@ -10,16 +10,20 @@ import snugRouter from "./routes/snug/snug-router";
 import userRouter from "./routes/user/user-router";
 import authRouter from "./routes/auth/auth-router";
 import inviteRouter from "./routes/invite/invite-router";
+import participateInRouter from "./routes/participate-in/index";
 import indexRouter from "./routes/index";
 import dotenv from "dotenv";
-import { initializeTransactionalContext, patchTypeORMRepositoryWithBaseRepository } from "typeorm-transactional-cls-hooked";
+import {
+  initializeTransactionalContext,
+  patchTypeORMRepositoryWithBaseRepository
+} from "typeorm-transactional-cls-hooked";
 
 export default class App {
   private static app: Express;
   private static connection: Connection;
 
   static async start() {
-    dotenv.config({path: __dirname.concat("/../")});
+    dotenv.config({ path: __dirname.concat("/../") });
     return await createConnection()
       .then(connection => {
         this.connection = connection;
@@ -44,6 +48,7 @@ export default class App {
     this.app.use("/api/auth", authRouter);
     this.app.use("/api/users", userRouter);
     this.app.use("/api/invite", inviteRouter);
+    this.app.use("/api/participateIns", participateInRouter);
     this.app.use("/", indexRouter);
     return this.app;
   }
