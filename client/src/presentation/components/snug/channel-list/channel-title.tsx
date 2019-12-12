@@ -48,7 +48,11 @@ export const ChannelTitle: React.FC<PropsTypes> = props => {
   const { history, match, id } = props;
 
   useEffect(() => {
-    history.push(`/snug/${pathParameter.snugId}/channel/${pathParameter.channelId ? pathParameter.channelId : 0}`);
+    history.push(
+      `/snug/${pathParameter.snugId}/channel/${
+        pathParameter.channelId ? pathParameter.channelId : 0
+      }`
+    );
     if (pathParameter.channelId == id) return setOn(true);
     setOn(false);
   }, [pathParameter]);

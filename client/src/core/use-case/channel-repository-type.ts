@@ -6,5 +6,11 @@ export interface ChannelRepositoryType {
 
   hasByTitle(title: string): Promise<boolean>;
 
+  join(channel: Channel): Promise<boolean>;
+  
   getChannels(snug: Snug): Promise<Channel[] | boolean>;
+
+  getParticipateChannel(): Promise<Channel[]>;
+
+  isInParticipating(channel: Channel): Promise<boolean>;
 }

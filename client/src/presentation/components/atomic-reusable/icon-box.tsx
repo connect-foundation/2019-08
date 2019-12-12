@@ -27,7 +27,7 @@ const CustomImgBox = styled.section<CustomImgBoxProps>`
   width: ${props => (props.size ? props.size : "30px")};
   height: ${props => (props.size ? props.size : "30px")};
   background-color: ${props =>
-    props.backgroundColor ? props.backgroundColor : ""}
+    props.backgroundColor ? props.backgroundColor : ""};
   &:hover {
     background-color: #39515a;
   }

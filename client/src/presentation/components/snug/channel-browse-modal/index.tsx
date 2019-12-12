@@ -6,11 +6,8 @@ import { ChannelBrowseModalSortList } from "./channel-browse-modal-sort-list";
 import { ChannelBrowseModalDropdown } from "./channel-browse-modal-dropdown";
 import { ChannelBrowseModalHeader } from "./channel-browse-modal-header";
 import { ChannelBrowseModalInformation } from "./channel-browse-modal-information";
-
-const MarginBox = styled.section`
-  width: 30%;
-  height: 100%;
-`;
+import { RouteComponentProps } from "react-router";
+import { ApplicationProptype } from "prop-types/application-type";
 
 const Content = styled.section`
   max-height: 80vh;
@@ -38,7 +35,8 @@ export enum SortType {
 }
 
 // todo : 해당 section뿐만 아니라 전역적으로 keydown 이벤트가 적용될 수 있도록 함수 위치 변경
-export const ChannelBrowseModal: React.FC = () => {
+export const ChannelBrowseModal: React.FC<ApplicationProptype &
+  RouteComponentProps> = props => {
   const [selectedDisplayType, setSelectedDisplayType] = useState(
     DisplayType.all
   );
@@ -78,6 +76,7 @@ export const ChannelBrowseModal: React.FC = () => {
             setSelectedSortType={setSelectedSortType}
           />
           <ChannelBrowseModalSortList
+            {...props}
             DisplayType={selectedDisplayType}
             SortType={selectedSortType}
           />

@@ -11,10 +11,12 @@ import { Post } from "core/entity/post";
 import { usePathParameter } from "contexts/path-parameter-context";
 import { globalSocket } from "contexts/socket-context";
 import { globalApplication } from "contexts/application-context";
+import { AppChannelMatchProps } from "prop-types/match-extends-types";
 
 const InputWrapper = styled.section`
   width: 100%;
-  height: 75px;
+  min-height: 75px;
+  max-height: 75px;
   background-color: ${({ theme }) => theme.snug};
   padding-top: 10px;
   padding-bottom: 20px;
@@ -56,8 +58,14 @@ const StyledInput = styled.input.attrs({
   }
 `;
 
-export const ChatInputBox: React.FC = () => {
+interface PropType extends AppChannelMatchProps {
+  openModal: () => void;
+}
+
+export const ChatInputBox: React.FC<PropType> = props => {
+  const { Application, openModal } = props;
   const application = useContext(globalApplication);
+
   const KEY_PRESS_EVENT_KEY = "Enter";
   const [message, setMessage] = useState("");
   const [id, setId] = useState(0);
@@ -113,7 +121,7 @@ export const ChatInputBox: React.FC = () => {
     <InputWrapper>
       <MarginBox></MarginBox>
       <CustomInput>
-        <IconBox imageSrc={ClipWhite}></IconBox>
+        <IconBox imageSrc={ClipWhite} onClick={openModal}></IconBox>
         <StyledInput
           value={message}
           onChange={inputChangeEventHandler}

@@ -3,16 +3,18 @@ import { ChannelPlusModal } from "presentation/components/snug/channel-plus-moda
 import { ChannelBrowseModal } from "presentation/components/snug/channel-browse-modal";
 import { useModalToggled } from "contexts/modal-context";
 import { ApplicationProptype } from "prop-types/application-type";
+import { RouteComponentProps } from "react-router";
 
-export const Modals: React.FC<ApplicationProptype> = ({ Application }) => {
+export const Modals: React.FC<ApplicationProptype &
+  RouteComponentProps> = props => {
   const modalsContext = useModalToggled();
 
   return (
     <>
       {modalsContext && modalsContext.ChannelBrowseModal && (
-        <ChannelBrowseModal />
+        <ChannelBrowseModal {...props} />
       )}
-      <ChannelPlusModal Application={Application} />
+      <ChannelPlusModal Application={props.Application} />
     </>
   );
 };

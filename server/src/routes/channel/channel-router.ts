@@ -13,9 +13,7 @@ const router = Router({ mergeParams: true });
  * */
 router.route("/:title").get(ChannelApiController.find);
 
-router
-  .route("/")
-  .post(ChannelApiController.create);
+router.route("/").post(ChannelApiController.create);
 
 /**
  *
@@ -24,7 +22,7 @@ router
  * */
 router.use("/:channelId/posts", PostRouter);
 
-router.post("join", ChannelApiController.join);
+router.post("/join", ChannelApiController.join);
 
 /**
  *
