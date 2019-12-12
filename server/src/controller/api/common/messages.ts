@@ -46,3 +46,13 @@ export const INACCESSIBLE_PROFILE = "cannot accessible profile, because you do n
 export const SUCCESS_UPDATE_PROFILE = "successfully update profile";
 
 export const SUCCESS_FIND_PROFILE = "successfully find profile";
+
+export const SUCCESS_GENERATE_USER_TOKEN = "successfully generate user token through user id, password";
+
+export const SUCCESS_GENERATE_PROFILE_TOKEN = "successfully generate profile token about snug";
+
+export const INVALID_USER_EMAIL = "not suitable email";
+
+export const INVALID_USER_PASSWORD = "not suitable password";
+
+export const NOT_EXIST_USER_OR_SNUG = "does not exist snug or user";
