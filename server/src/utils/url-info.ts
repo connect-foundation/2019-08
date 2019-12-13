@@ -18,7 +18,7 @@ export default class UrlInfo {
   }
 
   static aboutServerDomain(): string {
-    return `${process.env.HOST}/${process.env.PORT}`;
+    return `${process.env.HOST}:${process.env.PORT}`;
   }
 
   static aboutHome(): string {
