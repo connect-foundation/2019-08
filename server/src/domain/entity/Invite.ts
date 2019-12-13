@@ -62,8 +62,16 @@ export class Invite extends Base {
     return Invite.findOne({where: {ticket: ticket.asObject()}});
   }
 
+  public static findByEmail(email: Email): Promise<Invite[]> {
+    return Invite.find({where: {email: email}});
+  }
+
   public static deleteBy(invite: Invite): Promise<Invite> {
     invite.deletedAt = new Date();
     return Invite.save(invite);
+  }
+
+  public mergeUser(user: User): Invite {
+    return Invite.merge(this, {user: user});
   }
 }
