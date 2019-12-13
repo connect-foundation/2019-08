@@ -2,14 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { ModalInput } from "./modal-input";
 
-const Wrapper = styled.section`
-  width: 60%;
-  min-width: 60%;
-  background-color: ${({ theme }) => theme.snugMenuColor};
-  display: flex;
-  flex-direction: column;
-`;
-
 interface PropTypes {
   handleNameChange(parameter: any | void): any | void;
   handleDescriptionChange(parameter: any | void): any | void;

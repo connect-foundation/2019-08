@@ -5,34 +5,6 @@ import { ModalRightBody } from "./modal-right-body";
 import { globalApplication } from "contexts/application-context";
 import { Profile } from "core/entity/profile";
 
-const Wrapper = styled.form`
-  display: flex;
-  width: 90%;
-  height: 70%;
-  justify-content: space-between;
-  flex-wrap: wrap;
-`;
-
-const ButtonWrapper = styled.section`
-  width: 100%;
-  min-width: 100%;
-  display: flex;
-  height: 40px;
-  justify-content: flex-end;
-`;
-
-const Button = styled.button`
-  cursor: pointer;
-  background-color: ${({ theme }) => theme.snugMenuColor};
-  color: ${({ theme }) => theme.snugMainFont};
-  width: 20%;
-  border-radius: 5px;
-  border-color: ${({ theme }) => theme.snugMainFont};
-  border: 1px solid;
-  margin-bottom: 10px;
-  margin-left: 10px;
-`;
-
 interface PropTypes {
   toggleModal(): any | void;
   updateProfile(profile: Profile): void;

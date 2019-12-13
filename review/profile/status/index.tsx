@@ -4,12 +4,6 @@ import { StatusBarHeader } from "./status-bar-header";
 import { StatusBar } from "./status-bar";
 import { Profile } from "core/entity/profile";
 
-const Wrapper = styled.section`
-  height: auto;
-  max-width: 400px;
-  border-bottom: 1px ${({ theme }) => theme.snugBorderColor} solid;
-`;
-
 interface PropTypes {
   currentProfile: Profile;
   toggleModal(): any | void;
