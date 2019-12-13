@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "serve": "npm run build && cross-env NODE_ENV=production pm2 dist/server.js -i 0",
+    "serve": "npm run build && cross-env NODE_ENV=production pm2 start dist/server.js -i 0",
     "build": "tsc",
     "test": "jest",
     "lint": "eslint src/**/*.ts",
