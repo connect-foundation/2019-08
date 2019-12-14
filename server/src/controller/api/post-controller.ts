@@ -4,7 +4,7 @@ import { Paginator } from "./common/pagenation/paginator";
 import ResponseForm from "../../utils/response-form";
 import { publishIO } from "../../socket/socket-manager";
 import { Profile } from "../../domain/entity/Profile";
-import { CREATED, NOT_FOUND, OK } from "http-status-codes";
+import {CREATED, NOT_FOUND, OK, UNAUTHORIZED} from "http-status-codes";
 import {
   FOUND_CHANNEL,
   FOUND_POST_PROFILE,
@@ -14,6 +14,7 @@ import { PUBLISH_EVENT } from "../../socket/common/events/publish-type";
 import { Page } from "./common/pagenation/strategy/page";
 import { IdPage } from "./common/pagenation/strategy/id-page";
 import { DefaultPage } from "./common/pagenation/strategy/default-page";
+import {Chatter} from "../../model/chat/chatter";
 
 /**
  *
@@ -23,10 +24,8 @@ import { DefaultPage } from "./common/pagenation/strategy/default-page";
  * @param response
  *
  */
-export const create = async (request: Request, response: Response) => {
+export const create = async (request: Request, response: Response): Promise<Response> => {
   const { profileId, contents, roomId } = request.body;
-  console.log(request.body);
-
   try {
     const profile = await Profile.findOneOrFail(profileId);
     const post = await Post.save({
@@ -65,7 +64,7 @@ const choosePage = (postId: number, size: number): Page => {
  * @param response
  *
  */
-export const findByChannelId = async (request: Request, response: Response) => {
+export const findByChannelId = async (request: Request, response: Response): Promise<Response> => {
   const { channelId } = request.params;
   const { postId, size, order } = request.query;
 
@@ -75,6 +74,29 @@ export const findByChannelId = async (request: Request, response: Response) => {
   const cacheKey = Post.generateCacheKeyByPosts(channelId, postId || "default");
   const posts = await Post.findByChannelId(channelId, cacheKey, paginator);
   return response.status(OK).json(
-    ResponseForm.of<object>(FOUND_CHANNEL, { posts: posts.reverse() })
+    ResponseForm.of<object>(FOUND_CHANNEL, { posts: posts })
   );
+};
+
+
+export const reply = async (request: Request, response: Response): Promise<Response> => {
+  const { postId, profileId, contents, roomId } = request.body;
+  try {
+    const chatter = new Chatter();
+    const post = await chatter.reply(postId, profileId, contents, roomId);
+    return response.status(CREATED).json(ResponseForm.of("ok", post));
+  } catch (error) {
+    return response.status(NOT_FOUND).json(ResponseForm.of(NOT_FOUND_PROFILE));
+  }
+};
+
+export const findReplies = async (request: Request, response: Response): Promise<Response> => {
+  const { postId } = request.params;
+  try {
+    const chatter = new Chatter();
+    const post = await chatter.findReplies(postId);
+    return response.status(OK).json(ResponseForm.of("ok", post));
+  } catch (error) {
+    return response.status(UNAUTHORIZED).json(ResponseForm.of(NOT_FOUND_PROFILE));
+  }
 };

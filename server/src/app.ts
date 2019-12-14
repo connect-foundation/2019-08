@@ -22,7 +22,7 @@ export default class App {
   private static connection: Connection;
 
   static async start() {
-    const envPath = __dirname.concat("/../.env." + process.env.NODE_ENV!);
+    const envPath = __dirname.concat("/../.env.local");
     dotenv.config({ path: envPath });
     return await createConnection()
       .then(connection => {
