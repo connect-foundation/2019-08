@@ -6,4 +6,6 @@ export interface PostRepositoryType {
   getList(channel: Channel): Promise<Post[] | boolean>;
 
   create(profile: Profile, post: Post, channel: Channel): Promise<boolean>;
+
+  getReplyList(postId: number): Promise<Post[] | boolean>;
 }

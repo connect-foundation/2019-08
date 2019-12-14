@@ -51,9 +51,14 @@ const ToggleButton = styled.button`
 
 export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
   const [toggleProfile, setToggleProfile] = useState(false);
+  const [onThread, setOnThread] = useState(false);
 
   const handleClick = () => {
     setToggleProfile(!toggleProfile);
+  };
+
+  const toggleThread = () => {
+    setOnThread(!onThread);
   };
 
   const { Application, history } = props;
@@ -93,7 +98,11 @@ export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
       <Wrapper>
         {onModal && <FileUploadModal closeModal={closeModal} />}
         <MessageSectionContentWrapper>
-          <ChatContent {...props} isParticipated={isParticipated} />
+          <ChatContent
+            {...props}
+            isParticipated={isParticipated}
+            toggleThread={toggleThread}
+          />
           {isParticipated ? (
             <ChatInputBox {...props} openModal={openModal} />
           ) : (
@@ -107,7 +116,7 @@ export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
             <IconBox imageSrc={LeftArrow} />
           )}
         </ToggleButton>
-        <Thread></Thread>
+        {onThread && <Thread toggleThread={toggleThread} />}
         <ProfileSection {...props} toggleProfile={toggleProfile} />
       </Wrapper>
     </MessageContextProvider>

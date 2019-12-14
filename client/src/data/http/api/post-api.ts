@@ -56,4 +56,19 @@ export class PostApi {
         );
       });
   }
+
+  getReplyList(postId: number): ResponseEntity<Post[]> | boolean {
+    return this.axios
+      .get(`/api/posts/${postId}/replies`)
+      .then(({ data, status }: AxiosResponse<ResponseEntity<Post[]>>) => {
+        if (StatusCodes.isOk(status)) return data;
+        return false;
+      })
+      .catch((error: AxiosError) => {
+        AxiosErrorHandler.handleError(
+          error,
+          `댓글 데이터를 가져오는 과정에서 오류가 발생했습니다 :${error.message}`
+        );
+      });
+  }
 }

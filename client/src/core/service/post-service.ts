@@ -33,4 +33,8 @@ export class PostService {
     };
     return await this.repository.create(profile, post, Channel);
   }
+
+  async getReplyList(postId: number): Promise<Post[] | boolean> {
+    return await this.repository.getReplyList(postId);
+  }
 }

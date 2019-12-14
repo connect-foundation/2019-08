@@ -38,4 +38,16 @@ export class PostRepository implements PostRepositoryType {
       return false;
     }
   }
+
+  async getReplyList(postId: number): Promise<Post[] | boolean> {
+    try {
+      const responseEntity = await this.api.getReplyList(postId);
+      if ((<ResponseEntity<Post[]>>responseEntity).payload) {
+        return (<ResponseEntity<Post[]>>responseEntity).payload;
+      }
+      return <boolean>responseEntity;
+    } catch (error) {
+      return false;
+    }
+  }
 }

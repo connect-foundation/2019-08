@@ -11,10 +11,14 @@ const Wrapper = styled.section`
   width: 400px;
 `;
 
-export const Thread: React.FC = () => {
+interface PropTypes {
+  toggleThread(): void;
+}
+
+export const Thread: React.FC<PropTypes> = ({ toggleThread }) => {
   return (
     <Wrapper>
-      <Header />
+      <Header toggleThread={toggleThread} />
       <ThreadContainer />
       <ThreadInputBox />
     </Wrapper>

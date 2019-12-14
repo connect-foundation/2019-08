@@ -35,6 +35,7 @@ interface PropTypes {
   writerName: string;
   createdAt: string;
   contents: string;
+  toggleThread?():void;
 }
 
 const Thread = styled.div`
@@ -69,7 +70,8 @@ const ReplyNumber = styled.span`
 export const PostCardContents: React.FC<PropTypes> = ({
   writerName: userName,
   createdAt: timestamp,
-  contents: message
+  contents: message,
+  toggleThread
 }) => {
   return (
     <PostBox>
@@ -78,7 +80,7 @@ export const PostCardContents: React.FC<PropTypes> = ({
         <PostDetailTimestamp>{timestamp}</PostDetailTimestamp>
       </PostDetail>
       <PostContents>{message}</PostContents>
-      <Thread>
+      <Thread onClick={toggleThread}>
         <Images>
           <ImageIcon src={Gipyoo} />
           <ImageIcon src={Gipyoo} />

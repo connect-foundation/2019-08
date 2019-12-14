@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import LetterXWhite from "assets/letter-x-white.png";
+import { IconBox } from "presentation/components/atomic-reusable/icon-box";
 
 const ThreadHeader = styled.header`
   width: 400px;
@@ -25,19 +26,17 @@ const Contents = styled.section`
   color: ${({ theme }) => theme.snugMainFont};
 `;
 
-const Image = styled.img`
-  width: 25px;
-  height: 25px;
-  cursor: pointer;
-`;
+interface PropTypes {
+  toggleThread(): void;
+}
 
-export const Header: React.FC = () => {
+export const Header: React.FC<PropTypes> = ({ toggleThread }) => {
   return (
     <ThreadHeader>
       <MarginBox />
       <Wrapper>
         <Contents>댓글창</Contents>
-        <Image src={LetterXWhite} />
+        <IconBox imageSrc={LetterXWhite} size={"25px"} onClick={toggleThread} />
       </Wrapper>
       <MarginBox />
     </ThreadHeader>
