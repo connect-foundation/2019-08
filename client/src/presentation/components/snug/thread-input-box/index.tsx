@@ -58,13 +58,28 @@ const StyledInput = styled.input.attrs({
   }
 `;
 
-export const ThreadInputBox: React.FC = props => {
+interface PropTypes {
+  addReply(reply: Post): void
+  thread: number;
+  addReplyCount(postId: number, count: number): void;
+}
+
+export const ThreadInputBox: React.FC<PropTypes> = ({addReply, thread, addReplyCount}) => {
   const KEY_PRESS_EVENT_KEY = "Enter";
   const [message, setMessage] = useState("");
   const [id, setId] = useState(0);
   const dispatch = useMessagesDispatch();
   const pathPrameter = usePathParameter();
   const { snugSocket } = useContext(globalSocket);
+  const application = useContext(globalApplication);
+  useEffect(() => {
+    snugSocket.off("replyPost");
+    snugSocket.on("replyPost", (resultData: ResponseEntity<any>) => {
+      const { payload } = resultData;
+      addReply(payload);
+      addReplyCount(payload.parent.id, 1);
+    });
+  }, [pathPrameter]);
 
   const inputChangeEventHandler = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -80,12 +95,12 @@ export const ThreadInputBox: React.FC = props => {
     if (!message.trim()) return;
     if (!dispatch) return;
 
-    // const result = await application.services.postService.createMessage(
-    //   1,
-    //   message,
-    //   pathPrameter.channelId!
-    // );
-    //if (!result) return;
+    const result = await application.services.postService.reply(
+      message,
+      pathPrameter.channelId!,
+      thread
+    );
+    if (!result) return;
     setId(id + 1);
     setMessage("");
   };

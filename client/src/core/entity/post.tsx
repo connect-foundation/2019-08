@@ -6,5 +6,6 @@ export interface Post {
   updatedAt?: string;
   contents?: string;
   profile?: Profile;
+  replyCount?: string;
   room?: number;
 }

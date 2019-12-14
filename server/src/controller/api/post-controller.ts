@@ -81,9 +81,14 @@ export const findByChannelId = async (request: Request, response: Response): Pro
 
 export const reply = async (request: Request, response: Response): Promise<Response> => {
   const { postId, profileId, contents, roomId } = request.body;
+  console.log(postId, profileId, contents, roomId);
   try {
     const chatter = new Chatter();
     const post = await chatter.reply(postId, profileId, contents, roomId);
+    publishIO()
+            .of("/snug")
+            .to(roomId)
+            .emit("replyPost", ResponseForm.of("ok", post));
     return response.status(CREATED).json(ResponseForm.of("ok", post));
   } catch (error) {
     return response.status(NOT_FOUND).json(ResponseForm.of(NOT_FOUND_PROFILE));
