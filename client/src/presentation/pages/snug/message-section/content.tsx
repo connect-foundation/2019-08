@@ -11,6 +11,7 @@ import { Preview } from "presentation/components/snug/preview";
 import { AppChannelMatchProps } from "prop-types/match-extends-types";
 import { FileUploadModal } from "presentation/components/snug/file-upload-modal";
 import { usePathParameter } from "contexts/path-parameter-context";
+import { Thread } from "presentation/pages/snug/thread";
 
 const MessageSectionContentWrapper = styled.section`
   width: 100%;
@@ -106,6 +107,7 @@ export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
             <IconBox imageSrc={LeftArrow} />
           )}
         </ToggleButton>
+        <Thread></Thread>
         <ProfileSection {...props} toggleProfile={toggleProfile} />
       </Wrapper>
     </MessageContextProvider>

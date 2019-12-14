@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import Gipyoo from "assets/gipyoo.png";
 
 const PostBox = styled.section`
   padding: 5px;
@@ -36,6 +37,35 @@ interface PropTypes {
   contents: string;
 }
 
+const Thread = styled.div`
+  color: white;
+  display: flex;
+  align-items: center;
+  width: 70%;
+  border: 1px solid ${({ theme }) => theme.snugMenuColor};
+  transition: 400ms;
+  box-sizing: border-box;
+  &:hover {
+    border: 1px solid white;
+    cursor: pointer;
+  }
+`;
+
+const Images = styled.section`
+  width: 100px;
+  display: flex;
+  margin: 0 15px;
+`;
+
+const ImageIcon = styled.img`
+  width: 30px;
+  margin-right: 2px;
+`;
+
+const ReplyNumber = styled.span`
+  display: inline-block;
+`;
+
 export const PostCardContents: React.FC<PropTypes> = ({
   writerName: userName,
   createdAt: timestamp,
@@ -48,6 +78,14 @@ export const PostCardContents: React.FC<PropTypes> = ({
         <PostDetailTimestamp>{timestamp}</PostDetailTimestamp>
       </PostDetail>
       <PostContents>{message}</PostContents>
+      <Thread>
+        <Images>
+          <ImageIcon src={Gipyoo} />
+          <ImageIcon src={Gipyoo} />
+          <ImageIcon src={Gipyoo} />
+        </Images>
+        <ReplyNumber>3 댓글</ReplyNumber>
+      </Thread>
     </PostBox>
   );
 };
