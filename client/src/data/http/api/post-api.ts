@@ -65,7 +65,7 @@ export class PostApi {
           { id }: Channel
   ): ResponseEntity<object> | boolean {
     return this.axios
-            .post(`/api/posts/${post}/replies`, {
+            .post(`/api/posts/${post.id}/replies`, {
               profileId: profileId,
               contents: contents,
               postId: post.id,

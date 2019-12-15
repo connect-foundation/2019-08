@@ -38,7 +38,7 @@ export const ThreadSection: React.FC<PropTypes> = ({ thread, toggleThread, addRe
   return (
     <Wrapper>
       <Header toggleThread={toggleThread} />
-      <ThreadContainer post={post} replies={replies} thread={thread} />
+      <ThreadContainer post={post} replies={replies} />
       <ThreadInputBox addReply={addReply} thread={thread} addReplyCount={addReplyCount}/>
     </Wrapper>
   );

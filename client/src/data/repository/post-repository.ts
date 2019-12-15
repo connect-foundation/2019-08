@@ -48,7 +48,6 @@ export class PostRepository implements PostRepositoryType {
   ): Promise<boolean> {
     try {
       const responseEntity = await this.api.reply(profile, post, parentPost, channel);
-      console.log(responseEntity);
       if (<ResponseEntity<object>>responseEntity) return true;
       return <boolean>responseEntity;
     } catch (error) {

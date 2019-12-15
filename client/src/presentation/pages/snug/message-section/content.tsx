@@ -65,7 +65,6 @@ export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
   };
 
   const addReplyCount = (postId: number, count: number) => {
-    console.log(typeof thread, typeof postId, typeof count)
     setReplyCount((prevState)=>{
       const newState = prevState;
       newState[postId] = count + (newState[postId] || 0);

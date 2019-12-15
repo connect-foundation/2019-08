@@ -83,7 +83,7 @@ export const ChatInputBox: React.FC<PropType> = props => {
     snugSocket.off("newPost");
     snugSocket.on("newPost", (resultData: ResponseEntity<Post>) => {
       const { payload } = resultData;
-      if (payload.room != pathPrameter.channelId) return;
+      if (payload.room!.id != pathPrameter.channelId) return;
       dispatch({
         type: "CREATE",
         id: payload.id!,

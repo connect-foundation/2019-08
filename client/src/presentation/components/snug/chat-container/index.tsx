@@ -61,7 +61,6 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
   // thread개수 정하는 logic추가
   function messageList(): React.ReactNode {
     if (!posts) return <></>;
-    console.log("chat container", replyCount);
     return posts!.map((post: Post) => (
       <PostCard
         key={post.id!}

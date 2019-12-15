@@ -64,7 +64,6 @@ export const PostCardContents: React.FC<PropTypes> = ({
   replyCount,
   toggleThread
 }) => {
-  console.log("replyCount", replyCount);
   return (
     <PostBox onClick={toggleThread}>
       <PostDetail>
