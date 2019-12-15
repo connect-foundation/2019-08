@@ -45,7 +45,7 @@ export default class App {
       this.app.use(morgan("dev"));
     }
 
-    this.app.use(express.static("/"));
+    this.app.use(express.static(__dirname.concat("/../public/")));
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: false }));
     this.app.use(cookieParser(process.env.COOKIE_SECRET));
