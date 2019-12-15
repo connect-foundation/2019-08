@@ -10,7 +10,6 @@ export class PostInfo {
   private readonly replyCount: number;
   private readonly updatedAt: Date;
 
-
   private constructor(
           id: string,
           contents: string,
@@ -27,13 +26,19 @@ export class PostInfo {
     this.updatedAt = updatedAt;
   }
 
-  public static fromPost(post: Post, replyCount: number): PostInfo {
-    const {id,
+  private static calculateReplyCount(replyCount?: number): number {
+    return !!replyCount ? replyCount - 1 : replyCount;
+  }
+
+  public static fromPost(post: Post, replyCount?: number): PostInfo {
+    const {
+      id,
       contents,
       imgSrc,
       profile,
-      updatedAt} = post;
-
-    return new PostInfo(id.toString(), contents, imgSrc, ProfileInfo.fromProfile(profile), replyCount - 1, updatedAt);
+      updatedAt
+    } = post;
+    const _replyCount = PostInfo.calculateReplyCount(replyCount);
+    return new PostInfo(id.toString(), contents, imgSrc, ProfileInfo.fromProfile(profile), _replyCount, updatedAt);
   }
 }
