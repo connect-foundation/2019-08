@@ -50,12 +50,7 @@ const ToggleButton = styled.button`
 
 export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
   const [toggleProfile, setToggleProfile] = useState(false);
-
-  const handleClick = () => {
-    setToggleProfile(!toggleProfile);
-  };
-
-  const { Application, history } = props;
+  const { Application } = props;
   const [isParticipated, setIsParticipated] = useState(false);
   const pathParameter = usePathParameter();
   // file upload 모달
@@ -65,7 +60,7 @@ export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
 
   useEffect(() => {
     isInParticipating();
-  }, [pathParameter]);
+  }, [pathParameter.channelId]);
 
   const isInParticipating = async () => {
     try {
@@ -74,6 +69,10 @@ export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
       );
       setIsParticipated(result);
     } catch (error) {}
+  };
+
+  const handleClick = () => {
+    setToggleProfile(!toggleProfile);
   };
 
   const openModal = () => {

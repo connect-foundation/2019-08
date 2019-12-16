@@ -1,8 +1,7 @@
-import React, { useState, ChangeEvent } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { CustomLoginInput } from "presentation/components/atomic-reusable/custom-login-input";
 import { CustomButton } from "presentation/components/atomic-reusable/custom-button";
-import { User } from "core/entity/user";
 import { ApplicationProptype } from "prop-types/application-type";
 import { validateEmail } from "presentation/validation/validation";
 

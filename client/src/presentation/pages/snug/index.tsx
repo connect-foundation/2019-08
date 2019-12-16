@@ -35,8 +35,7 @@ export const Snug: React.FC<AppChannelMatchProps> = props => {
         pathParameter.snugId!
       );
     })(id);
-    console.log("스너그 인덱스");
-  }, [pathParameter]);
+  }, [pathParameter.snugId]);
 
   useEffect(() => {
     if (

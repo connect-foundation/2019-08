@@ -47,7 +47,7 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
         posts: resultPosts
       });
     })();
-  }, [pathParameter]);
+  }, [pathParameter.channelId]);
 
   useEffect(() => {
     const obj: HTMLElement = document.getElementById("scroll")!;
