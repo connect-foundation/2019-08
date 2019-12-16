@@ -46,7 +46,7 @@ const ButtonWrapper = styled.section`
   justify-content: flex-end;
 `;
 
-export const HomeForm: React.FC<ApplicationProptype> = (props) => {
+export const HomeForm: React.FC<ApplicationProptype> = props => {
   const { Application } = props;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -66,7 +66,6 @@ export const HomeForm: React.FC<ApplicationProptype> = (props) => {
       email,
       password
     );
-    console.log(result);
     if (!result) {
       setEmail("");
       setPassword("");

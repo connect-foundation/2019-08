@@ -61,7 +61,6 @@ export const ProfileSection: React.FC<PropTypes> = props => {
         parseInt(snugId)
       );
       if (!profile) return;
-      console.log("useEffect를 써서 불러온 첫 profile", profile);
       setCurrentProfile(profile);
     };
     requestProfile();

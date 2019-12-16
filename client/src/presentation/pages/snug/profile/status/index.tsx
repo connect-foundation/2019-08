@@ -15,7 +15,6 @@ interface PropTypes {
 
 export const StatusSection: React.FC<PropTypes> = ({ currentProfile }) => {
   const { name, status, role, email } = currentProfile;
-  console.log("Profile의 status", currentProfile);
   return (
     <Wrapper>
       <StatusBarHeader header={name!} contents={"제목 바꾸기"} />

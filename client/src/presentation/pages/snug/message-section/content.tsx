@@ -71,11 +71,8 @@ export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
       const result = await Application.services.channelService.isInParticipating(
         pathParameter.channelId!
       );
-      console.log(result);
       setIsParticipated(result);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   const openModal = () => {
