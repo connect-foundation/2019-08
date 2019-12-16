@@ -11,6 +11,7 @@ export type Action =
       updatedAt: string;
       contents: string;
       profile: Profile;
+      filePath?: string;
     }
   | {
       type: "REMOVE";
@@ -42,7 +43,8 @@ const messageReducer = (state: Posts, action: Action): Posts => {
         profile: action.profile,
         createdAt: action.createdAt,
         updatedAt: action.updatedAt,
-        contents: action.contents
+        contents: action.contents,
+        filePath: action.filePath
       });
     case "REMOVE":
       return state.filter(post => post.id !== action.id);

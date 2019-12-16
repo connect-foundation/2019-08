@@ -108,7 +108,6 @@ export const ChatInputBox: React.FC<PropType> = props => {
     if (!dispatch) return;
 
     const result = await application.services.postService.createMessage(
-      1,
       message,
       pathPrameter.channelId!
     );
