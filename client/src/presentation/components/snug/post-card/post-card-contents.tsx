@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { FileContents } from "./file-contents";
 
 const PostBox = styled.section`
   padding: 5px;
@@ -31,14 +32,6 @@ const PostContents = styled.span`
   padding-bottom: 5px;
 `;
 
-interface PropTypes {
-  writerName: string;
-  createdAt: string;
-  contents: string;
-  replyCount: string;
-  toggleThread?(event: React.MouseEvent):void;
-}
-
 const Thread = styled.div`
   color: white;
   display: flex;
@@ -62,7 +55,8 @@ export const PostCardContents: React.FC<PropTypes> = ({
   createdAt: timestamp,
   contents: message,
   replyCount,
-  toggleThread
+  toggleThread,
+  filePath
 }) => {
   return (
     <PostBox onClick={toggleThread}>
@@ -71,11 +65,21 @@ export const PostCardContents: React.FC<PropTypes> = ({
         <PostDetailTimestamp>{timestamp}</PostDetailTimestamp>
       </PostDetail>
       <PostContents>{message}</PostContents>
-      {parseInt(replyCount) > 0
-      && <Thread >
+      {filePath && <FileContents filePath={filePath}></FileContents>}
+      {parseInt(replyCount) > 0 && (
+        <Thread>
           <ReplyNumber>{replyCount} 댓글</ReplyNumber>
-      </Thread>
-      }
+        </Thread>
+      )}
     </PostBox>
   );
 };
+
+interface PropTypes {
+  writerName: string;
+  createdAt: string;
+  contents: string;
+  replyCount: string;
+  toggleThread?(event: React.MouseEvent): void;
+  filePath?: string;
+}
