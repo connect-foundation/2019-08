@@ -26,6 +26,7 @@ import { DefaultPage } from "./common/pagenation/strategy/default-page";
 export const create = async (request: Request, response: Response) => {
   const { profileId, contents, roomId } = request.body;
   console.log(request.body);
+  console.log(request.file);
 
   try {
     const profile = await Profile.findOneOrFail(profileId);
