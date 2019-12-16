@@ -12,7 +12,6 @@ import {
   usePathParameterDispatch,
   usePathParameter
 } from "contexts/path-parameter-context";
-import { async } from "q";
 
 const SnugWrapper = styled.section`
   width: inherit;

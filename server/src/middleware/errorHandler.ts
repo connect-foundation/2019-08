@@ -1,21 +1,30 @@
-import  {Router ,Request, Response, NextFunction } from "express";
-import HttpException from "src/utils/HttpException.js";
+import { Request, Response, NextFunction } from "express";
+import HttpException from "../utils/exception/HttpException";
+import ResponseForm from "../utils/response-form";
+import logger from "../utils/logger";
 
-const router = Router();
-
-router.use((request: Request, response: Response, next: NextFunction) => {
+export function notFoundHandler(
+  request: Request,
+  response: Response,
+  next: NextFunction
+) {
   const notFoundError = new HttpException("not found url request", 404);
+  logger.error(notFoundError.message);
   next(notFoundError);
-});
+}
 
-router.use((error: Error, request: Request, response: Response, next: NextFunction) => {
+export function errorResopnseHandler(
+  error: Error,
+  request: Request,
+  response: Response,
+  next: NextFunction
+) {
   const status = (error as HttpException).status || 500;
-  const message = request.app.get("env") === "production" ? error.name : error.message || "Something went wrong";
-  response.status(status)
-    .send({
-      message,
-      payload: {},
-    });
-});
+  const message =
+    request.app.get("env") === "production"
+      ? error.name
+      : error.message || "Something went wrong";
 
-export default router;
+  logger.error(error.message);
+  response.status(status).json(ResponseForm.of(message));
+}

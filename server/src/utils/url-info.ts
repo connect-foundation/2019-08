@@ -1,28 +1,24 @@
-import _ from "lodash";
-
 export default class UrlInfo {
-  private static readonly URL_SEPARATOR = "/";
-  private static readonly DOMAIN_SEPARATOR = ":";
-
   static aboutRegister(): string {
-    return _.join([process.env.CLIENT_DOMAIN, "register-user"], UrlInfo.URL_SEPARATOR);
+    return `${process.env.CLIENT_DOMAIN}/register-user`;
   };
 
   static aboutApiVerification(ticket: string): string {
-    return _.join(["/api/invite", ticket], UrlInfo.URL_SEPARATOR);
+    return `/api/invite/${ticket}`;
   }
 
   static aboutVerification(ticket: string): string {
     const serverDomain = UrlInfo.aboutServerDomain();
-    return _.join([serverDomain, "invite", ticket], UrlInfo.URL_SEPARATOR);
-  }
-
-  static aboutServerDomain(): string {
-    return _.join([process.env.HOST, process.env.PORT], UrlInfo.DOMAIN_SEPARATOR);
+    return `${serverDomain}/invite/${ticket}`;
   }
 
   static aboutSnugById(snugId: number): string {
-    return _.join([process.env.CLIENT_DOMAIN, "snug", snugId], UrlInfo.URL_SEPARATOR);
+    const clientHome = UrlInfo.aboutHome();
+    return `${clientHome}/snug/${snugId}`;
+  }
+
+  static aboutServerDomain(): string {
+    return `${process.env.HOST}:${process.env.PORT}`;
   }
 
   static aboutHome(): string {

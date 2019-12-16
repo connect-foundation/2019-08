@@ -596,7 +596,7 @@ MigrationBackup/
 dist
 
 ## env
-.env
+.env.local
 
 ## typeorm
 .idea/

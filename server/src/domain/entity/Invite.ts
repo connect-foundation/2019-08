@@ -1,4 +1,4 @@
-import {Column, Entity, IsNull, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, Index, IsNull, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 import {EmailContents} from "../../template/email-contents";
 import UrlInfo from "../../utils/url-info";
 import {Email} from "../vo/Email";
@@ -8,6 +8,7 @@ import {User} from "./User";
 import {Snug} from "./Snug";
 
 @Entity()
+@Index("invite_email_snug_uniq_index", ["snug.id", "email.localPart", "email.domain"], {unique: true})
 export class Invite extends Base {
   @PrimaryGeneratedColumn()
   id: number;
@@ -61,8 +62,16 @@ export class Invite extends Base {
     return Invite.findOne({where: {ticket: ticket.asObject()}});
   }
 
+  public static findByEmail(email: Email): Promise<Invite[]> {
+    return Invite.find({where: {email: email}});
+  }
+
   public static deleteBy(invite: Invite): Promise<Invite> {
     invite.deletedAt = new Date();
     return Invite.save(invite);
+  }
+
+  public mergeUser(user: User): Invite {
+    return Invite.merge(this, {user: user});
   }
 }
