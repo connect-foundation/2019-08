@@ -68,7 +68,6 @@ export const ChatInputBox: React.FC<PropType> = props => {
 
   const KEY_PRESS_EVENT_KEY = "Enter";
   const [message, setMessage] = useState("");
-  const [id, setId] = useState(0);
   const dispatch = useMessagesDispatch();
   const pathPrameter = usePathParameter();
   const { snugSocket } = useContext(globalSocket);
@@ -112,7 +111,6 @@ export const ChatInputBox: React.FC<PropType> = props => {
       pathPrameter.channelId!
     );
     if (!result) return;
-    setId(id + 1);
     setMessage("");
   };
 
