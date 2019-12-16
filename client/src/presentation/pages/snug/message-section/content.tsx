@@ -51,7 +51,7 @@ const ToggleButton = styled.button`
 
 export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
   const [toggleProfile, setToggleProfile] = useState(false);
-  const [onThread, setOnThread] = useState(false);
+  const [onThread, setOnThread] = useState<boolean>(false);
   const [thread, setThread] = useState(0);
   const [replyCount, setReplyCount] = useState<number[]>([]);
 
@@ -65,11 +65,25 @@ export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
   };
 
   const addReplyCount = (postId: number, count: number) => {
-    setReplyCount((prevState)=>{
+    console.log("postId is ", postId);
+    console.log("count is ", count);
+    console.log("replyCount", replyCount);
+    console.log("replyCount[postID]", replyCount[postId]);
+    setReplyCount(prevState => {
       const newState = prevState;
-      newState[postId] = count + (newState[postId] || 0);
+      newState[postId] = count + (newState[postId] ? newState[postId] : 0);
+      console.log("inside setReplyCount newState is ", newState);
+      console.log("inside setReplyCount newState[postId] is", newState[postId]);
       return [...newState];
     });
+  };
+
+  const initReplyCount = (replyCountList: number[]) => {
+    setReplyCount(replyCountList);
+  };
+
+  const resetThread = (postId: number) => {
+    setThread(postId);
   };
 
   const { Application, history } = props;
@@ -115,6 +129,9 @@ export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
             toggleThread={toggleThread}
             addReplyCount={addReplyCount}
             replyCount={replyCount}
+            initReplyCount={initReplyCount}
+            onThread={onThread}
+            resetThread={resetThread}
           />
           {isParticipated ? (
             <ChatInputBox {...props} openModal={openModal} />
@@ -129,7 +146,13 @@ export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
             <IconBox imageSrc={LeftArrow} />
           )}
         </ToggleButton>
-        {onThread && <ThreadSection thread={thread} toggleThread={toggleThread} addReplyCount={addReplyCount} />}
+        {onThread && (
+          <ThreadSection
+            thread={thread}
+            toggleThread={toggleThread}
+            addReplyCount={addReplyCount}
+          />
+        )}
         <ProfileSection {...props} toggleProfile={toggleProfile} />
       </Wrapper>
     </MessageContextProvider>

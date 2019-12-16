@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 
 const PostBox = styled.section`
-  padding: 5px;
   width: 100%;
   height: auto;
   font-weight: 500;
@@ -36,7 +35,7 @@ interface PropTypes {
   createdAt: string;
   contents: string;
   replyCount: string;
-  toggleThread?(event: React.MouseEvent):void;
+  toggleThread?(event: React.MouseEvent): void;
 }
 
 const Thread = styled.div`
@@ -71,11 +70,11 @@ export const PostCardContents: React.FC<PropTypes> = ({
         <PostDetailTimestamp>{timestamp}</PostDetailTimestamp>
       </PostDetail>
       <PostContents>{message}</PostContents>
-      {parseInt(replyCount) > 0
-      && <Thread >
+      {parseInt(replyCount) > 0 && (
+        <Thread>
           <ReplyNumber>{replyCount} 댓글</ReplyNumber>
-      </Thread>
-      }
+        </Thread>
+      )}
     </PostBox>
   );
 };

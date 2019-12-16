@@ -29,8 +29,19 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
   toggleThread: (postId: number) => void;
   addReplyCount: (postId: number, count: number) => void;
   replyCount: number[];
+  initReplyCount: (replyCountList: number[]) => void;
+  onThread: boolean;
+  resetThread: (postId: number) => void;
 }> = props => {
-  const { isParticipated, toggleThread, addReplyCount, replyCount } = props;
+  const {
+    isParticipated,
+    toggleThread,
+    addReplyCount,
+    replyCount,
+    initReplyCount,
+    onThread,
+    resetThread
+  } = props;
   const application = useContext(globalApplication);
   const posts: Post[] = useMessages();
   const dispatch = useMessagesDispatch();
@@ -45,7 +56,14 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
         pathParameter.channelId!
       );
       if (typeof resultPosts === "boolean") return;
-      resultPosts.forEach(post => addReplyCount(post.id!, parseInt(post.replyCount!)));
+      const initalArray: number[] = [];
+
+      const replyCounts = resultPosts.reduce<number[]>((acc, currentPost) => {
+        acc[currentPost.id!] = parseInt(currentPost.replyCount!);
+        return [...acc];
+      }, initalArray);
+
+      initReplyCount(replyCounts);
       dispatch({
         type: "MULTI_INPUT",
         posts: resultPosts
@@ -66,10 +84,16 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
         key={post.id!}
         profile={post.profile}
         contents={post.contents!}
-        replyCount={!replyCount[post.id!] ? post.replyCount : replyCount[post.id!].toString()}
+        replyCount={
+          !replyCount[post.id!]
+            ? post.replyCount
+            : replyCount[post.id!].toString()
+        }
         createdAt={post.createdAt!}
         updatedAt={post.updatedAt!}
-        toggleThread={(event: React.MouseEvent) => toggleThread(post.id!)}
+        toggleThread={(event: React.MouseEvent) =>
+          onThread ? resetThread(post.id!) : toggleThread(post.id!)
+        }
       />
     ));
   }

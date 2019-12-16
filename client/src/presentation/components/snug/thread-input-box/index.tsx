@@ -1,20 +1,17 @@
 import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import ClipWhite from "assets/clip-white.png";
-import AtWhite from "assets/at-white.png";
-import FaceWhite from "assets/face-white.png";
 import { IconBox } from "presentation/components/atomic-reusable/icon-box";
-import { useMessagesDispatch, useMessages } from "contexts/messages-context";
-import dubu from "assets/dubu.png";
+import { useMessagesDispatch } from "contexts/messages-context";
 import { ResponseEntity } from "data/http/api/response/ResponseEntity";
 import { Post } from "core/entity/post";
 import { usePathParameter } from "contexts/path-parameter-context";
 import { globalSocket } from "contexts/socket-context";
 import { globalApplication } from "contexts/application-context";
-import { AppChannelMatchProps } from "prop-types/match-extends-types";
 
 const InputWrapper = styled.section`
-  width: 100%;
+  width: 400px;
+  max-width: 400px;
   min-height: 75px;
   max-height: 75px;
   background-color: ${({ theme }) => theme.snug};
@@ -40,7 +37,6 @@ const CustomInput = styled.section`
   overflow: hidden;
   display: flex;
   align-items: center;
-  padding: 5px;
 `;
 
 const StyledInput = styled.input.attrs({
@@ -59,12 +55,16 @@ const StyledInput = styled.input.attrs({
 `;
 
 interface PropTypes {
-  addReply(reply: Post): void
+  addReply(reply: Post): void;
   thread: number;
   addReplyCount(postId: number, count: number): void;
 }
 
-export const ThreadInputBox: React.FC<PropTypes> = ({addReply, thread, addReplyCount}) => {
+export const ThreadInputBox: React.FC<PropTypes> = ({
+  addReply,
+  thread,
+  addReplyCount
+}) => {
   const KEY_PRESS_EVENT_KEY = "Enter";
   const [message, setMessage] = useState("");
   const [id, setId] = useState(0);
