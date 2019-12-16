@@ -1,4 +1,5 @@
 import { Profile } from "./profile";
+import {Channel} from "./channel";
 
 export interface Post {
   id?: number;
@@ -6,5 +7,6 @@ export interface Post {
   updatedAt?: string;
   contents?: string;
   profile?: Profile;
-  room?: number;
+  replyCount?: string;
+  room?: Channel;
 }

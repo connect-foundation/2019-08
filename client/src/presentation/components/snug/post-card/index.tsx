@@ -16,8 +16,8 @@ const MarginBox = styled.section`
 `;
 
 export const PostCard: React.FC<Post & {
-  toggleThread?: () => void;
-}> = ({ profile, createdAt, contents, toggleThread }) => {
+  toggleThread?: (event: React.MouseEvent) => void;
+}> = ({ profile, createdAt, contents, toggleThread, replyCount }) => {
   return (
     <PostCardBox>
       <MarginBox />
@@ -27,6 +27,7 @@ export const PostCard: React.FC<Post & {
         createdAt={createdAt!}
         contents={contents!}
         toggleThread={toggleThread!}
+        replyCount={replyCount!}
       ></PostCardContents>
       <MarginBox />
     </PostCardBox>

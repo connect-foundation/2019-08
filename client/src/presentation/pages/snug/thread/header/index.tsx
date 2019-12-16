@@ -27,7 +27,7 @@ const Contents = styled.section`
 `;
 
 interface PropTypes {
-  toggleThread(): void;
+  toggleThread(postId: number): void;
 }
 
 export const Header: React.FC<PropTypes> = ({ toggleThread }) => {

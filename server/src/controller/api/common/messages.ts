@@ -45,7 +45,7 @@ export const INACCESSIBLE_PROFILE = "cannot accessible profile, because you do n
 
 export const SUCCESS_UPDATE_PROFILE = "successfully update profile";
 
-export const SUCCESS_FIND_PROFILE = "successfully find profile";
+export const SUCCESS_FOUND_PROFILE = "successfully find profile";
 
 export const SUCCESS_GENERATE_USER_TOKEN = "successfully generate user token through user id, password";
 
@@ -56,3 +56,21 @@ export const INVALID_USER_EMAIL = "not suitable email";
 export const INVALID_USER_PASSWORD = "not suitable password";
 
 export const NOT_EXIST_USER_OR_SNUG = "does not exist snug or user";
+
+export const SUCCESS_SEND_REPLY = "successfully publish reply event to user";
+
+export const CREATE_REPLY = "create new reply about post";
+
+export const INVALID_REPLY_REQUEST = "invalid parent post, profile, room";
+
+export const NOT_FOUND_POST = "invalid parent post, does not found that";
+
+export const SUCCESS_FOUND_REPLIES = "successfully find replies about post";
+
+export const CREATE_POST = "created new post";
+
+export const INVALID_POST_REQUEST = "invalid request format, you should check profile, room";
+
+export const SUCCESS_FOUND_POSTS = "successfully find posts";
+
+export const NOT_FOUND_POSTS = "invalid channel info, you should check channel";

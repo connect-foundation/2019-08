@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import Gipyoo from "assets/gipyoo.png";
 
 const PostBox = styled.section`
   padding: 5px;
@@ -8,6 +7,7 @@ const PostBox = styled.section`
   height: auto;
   font-weight: 500;
   font-size: 1rem;
+  cursor: pointer;
 `;
 
 const PostDetail = styled.section`
@@ -35,7 +35,8 @@ interface PropTypes {
   writerName: string;
   createdAt: string;
   contents: string;
-  toggleThread?():void;
+  replyCount: string;
+  toggleThread?(event: React.MouseEvent):void;
 }
 
 const Thread = styled.div`
@@ -52,17 +53,6 @@ const Thread = styled.div`
   }
 `;
 
-const Images = styled.section`
-  width: 100px;
-  display: flex;
-  margin: 0 15px;
-`;
-
-const ImageIcon = styled.img`
-  width: 30px;
-  margin-right: 2px;
-`;
-
 const ReplyNumber = styled.span`
   display: inline-block;
 `;
@@ -71,23 +61,21 @@ export const PostCardContents: React.FC<PropTypes> = ({
   writerName: userName,
   createdAt: timestamp,
   contents: message,
+  replyCount,
   toggleThread
 }) => {
   return (
-    <PostBox>
+    <PostBox onClick={toggleThread}>
       <PostDetail>
         <PostDetailWriterName>{userName}</PostDetailWriterName>
         <PostDetailTimestamp>{timestamp}</PostDetailTimestamp>
       </PostDetail>
       <PostContents>{message}</PostContents>
-      <Thread onClick={toggleThread}>
-        <Images>
-          <ImageIcon src={Gipyoo} />
-          <ImageIcon src={Gipyoo} />
-          <ImageIcon src={Gipyoo} />
-        </Images>
-        <ReplyNumber>3 댓글</ReplyNumber>
+      {parseInt(replyCount) > 0
+      && <Thread >
+          <ReplyNumber>{replyCount} 댓글</ReplyNumber>
       </Thread>
+      }
     </PostBox>
   );
 };
