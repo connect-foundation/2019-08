@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import styled from "styled-components";
 
-const Img = ["png", "jpg", "jpeg"];
+const Img = ["gif", "jpg", "jpeg", "png", "tiff"];
 
 export const FileContents: React.FC<PropTypes> = ({ filePath }) => {
   function isImageFile(extention: string): boolean {
@@ -10,14 +10,14 @@ export const FileContents: React.FC<PropTypes> = ({ filePath }) => {
 
   function getFileName(filePath: string): string {
     const pathArray = filePath.split("/");
-    const fileNmae = pathArray.pop();
-    return unescape(fileNmae);
+    const fileName = pathArray.pop();
+    return unescape(fileName!);
   }
 
   function getExtension(filePath: string): string {
     const pathArray = filePath.split(".");
     const extension = pathArray.pop();
-    return extension;
+    return extension!;
   }
   return (
     <a href={filePath} download>
