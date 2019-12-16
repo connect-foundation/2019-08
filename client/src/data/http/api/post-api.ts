@@ -36,7 +36,8 @@ export class PostApi {
   createPost(
     { id: profileId }: Profile,
     { contents }: Post,
-    { id }: Channel
+    { id }: Channel,
+    file?: File
   ): ResponseEntity<object> | boolean {
     return this.axios
       .post(`/api/posts/`, {

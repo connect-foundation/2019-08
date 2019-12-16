@@ -20,7 +20,8 @@ export class PostService {
   async createMessage(
     profileId: number,
     contents: string,
-    channelId: number
+    channelId: number,
+    file?: File
   ): Promise<boolean> {
     const profile: Profile = {
       id: profileId

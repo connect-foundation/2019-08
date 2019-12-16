@@ -5,7 +5,6 @@ import AtWhite from "assets/at-white.png";
 import FaceWhite from "assets/face-white.png";
 import { IconBox } from "presentation/components/atomic-reusable/icon-box";
 import { useMessagesDispatch, useMessages } from "contexts/messages-context";
-import dubu from "assets/dubu.png";
 import { ResponseEntity } from "data/http/api/response/ResponseEntity";
 import { Post } from "core/entity/post";
 import { usePathParameter } from "contexts/path-parameter-context";

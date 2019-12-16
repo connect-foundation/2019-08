@@ -5,5 +5,10 @@ import { Profile } from "core/entity/profile";
 export interface PostRepositoryType {
   getList(channel: Channel): Promise<Post[] | boolean>;
 
-  create(profile: Profile, post: Post, channel: Channel): Promise<boolean>;
+  create(
+    profile: Profile,
+    post: Post,
+    channel: Channel,
+    file?: File
+  ): Promise<boolean>;
 }

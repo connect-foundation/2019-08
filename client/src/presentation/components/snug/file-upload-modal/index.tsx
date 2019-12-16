@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { CustomButton } from "presentation/components/atomic-reusable/custom-button";
 import { FileDropArea } from "./file-drop-area";
 import { FilePreview } from "../file-preview";
+import { globalApplication } from "contexts/application-context";
+import { usePathParameter } from "contexts/path-parameter-context";
 
 const Modal = styled.div`
   position: fixed;
@@ -101,12 +103,38 @@ interface PropTypes {
 }
 
 export const FileUploadModal: React.FC<PropTypes> = props => {
+  const [message, setMessage] = useState("");
   const [file, setFile] = useState(new File([], ""));
-  const onChange: (event: React.ChangeEvent<HTMLInputElement>) => void = (
+  const pathPrameter = usePathParameter();
+  const application = useContext(globalApplication);
+
+  const onMessageChange: (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => void = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    event.preventDefault();
+    setMessage(event.target.value);
+  };
+
+  const onFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     event.preventDefault();
     setFile(event.target.files![0]);
+  };
+
+  const onClick: (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => void = async (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+
+    // profile 조회하는 방법
+    const result = await application.services.postService.createMessage(
+      1,
+      message,
+      pathPrameter.channelId!
+    );
   };
 
   return (
@@ -119,13 +147,13 @@ export const FileUploadModal: React.FC<PropTypes> = props => {
 
         <ModalBody>
           <CustomInput>
-            <StyledInput />
+            <StyledInput onChange={onMessageChange} />
           </CustomInput>
 
           <label htmlFor="fileInput">
             <FileDropArea setFile={setFile} />
           </label>
-          <HiddenInput id="fileInput" onChange={onChange} />
+          <HiddenInput id="fileInput" onChange={onFileChange} />
           {file.size > 0 ? <FilePreview file={file} /> : undefined}
         </ModalBody>
 
@@ -138,6 +166,7 @@ export const FileUploadModal: React.FC<PropTypes> = props => {
             fontWeight={"bold"}
             fontSize={"1rem"}
             height={"2.5rem"}
+            onClick={onClick}
           />
         </ModalFooter>
       </ModalContent>
