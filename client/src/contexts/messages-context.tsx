@@ -2,7 +2,7 @@ import React, { createContext, Dispatch, useReducer, useContext } from "react";
 import { Post } from "core/entity/post";
 import { Profile } from "core/entity/profile";
 
-//코그 출처 https://velog.io/@velopert/typescript-context-api
+//코드 출처 https://velog.io/@velopert/typescript-context-api
 export type Action =
   | {
       type: "CREATE";

@@ -11,6 +11,7 @@ import { Preview } from "presentation/components/snug/preview";
 import { AppChannelMatchProps } from "prop-types/match-extends-types";
 import { FileUploadModal } from "presentation/components/snug/file-upload-modal";
 import { usePathParameter } from "contexts/path-parameter-context";
+import { ThreadSection } from "presentation/pages/snug/thread";
 
 const MessageSectionContentWrapper = styled.section`
   width: 100%;
@@ -50,9 +51,25 @@ const ToggleButton = styled.button`
 
 export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
   const [toggleProfile, setToggleProfile] = useState(false);
+  const [onThread, setOnThread] = useState(false);
+  const [thread, setThread] = useState(0);
+  const [replyCount, setReplyCount] = useState<number[]>([]);
 
   const handleClick = () => {
     setToggleProfile(!toggleProfile);
+  };
+
+  const toggleThread = (postId: number) => {
+    setThread(postId);
+    setOnThread(!onThread);
+  };
+
+  const addReplyCount = (postId: number, count: number) => {
+    setReplyCount((prevState)=>{
+      const newState = prevState;
+      newState[postId] = count + (newState[postId] || 0);
+      return [...newState];
+    });
   };
 
   const { Application, history } = props;
@@ -92,7 +109,13 @@ export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
       <Wrapper>
         {onModal && <FileUploadModal closeModal={closeModal} />}
         <MessageSectionContentWrapper>
-          <ChatContent {...props} isParticipated={isParticipated} />
+          <ChatContent
+            {...props}
+            isParticipated={isParticipated}
+            toggleThread={toggleThread}
+            addReplyCount={addReplyCount}
+            replyCount={replyCount}
+          />
           {isParticipated ? (
             <ChatInputBox {...props} openModal={openModal} />
           ) : (
@@ -106,6 +129,7 @@ export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
             <IconBox imageSrc={LeftArrow} />
           )}
         </ToggleButton>
+        {onThread && <ThreadSection thread={thread} toggleThread={toggleThread} addReplyCount={addReplyCount} />}
         <ProfileSection {...props} toggleProfile={toggleProfile} />
       </Wrapper>
     </MessageContextProvider>

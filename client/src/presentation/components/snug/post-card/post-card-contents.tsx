@@ -7,6 +7,7 @@ const PostBox = styled.section`
   height: auto;
   font-weight: 500;
   font-size: 1rem;
+  cursor: pointer;
 `;
 
 const PostDetail = styled.section`
@@ -34,20 +35,47 @@ interface PropTypes {
   writerName: string;
   createdAt: string;
   contents: string;
+  replyCount: string;
+  toggleThread?(event: React.MouseEvent):void;
 }
+
+const Thread = styled.div`
+  color: white;
+  display: flex;
+  align-items: center;
+  width: 70%;
+  border: 1px solid ${({ theme }) => theme.snugMenuColor};
+  transition: 400ms;
+  box-sizing: border-box;
+  &:hover {
+    border: 1px solid white;
+    cursor: pointer;
+  }
+`;
+
+const ReplyNumber = styled.span`
+  display: inline-block;
+`;
 
 export const PostCardContents: React.FC<PropTypes> = ({
   writerName: userName,
   createdAt: timestamp,
-  contents: message
+  contents: message,
+  replyCount,
+  toggleThread
 }) => {
   return (
-    <PostBox>
+    <PostBox onClick={toggleThread}>
       <PostDetail>
         <PostDetailWriterName>{userName}</PostDetailWriterName>
         <PostDetailTimestamp>{timestamp}</PostDetailTimestamp>
       </PostDetail>
       <PostContents>{message}</PostContents>
+      {parseInt(replyCount) > 0
+      && <Thread >
+          <ReplyNumber>{replyCount} 댓글</ReplyNumber>
+      </Thread>
+      }
     </PostBox>
   );
 };
