@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import ClipWhite from "assets/clip-white.png";
 import { IconBox } from "presentation/components/atomic-reusable/icon-box";
-import { useMessagesDispatch } from "contexts/messages-context";
+import { useMessages, useMessagesDispatch } from "contexts/messages-context";
 import { ResponseEntity } from "data/http/api/response/ResponseEntity";
 import { Post } from "core/entity/post";
 import { usePathParameter } from "contexts/path-parameter-context";
@@ -57,17 +57,13 @@ const StyledInput = styled.input.attrs({
 interface PropTypes {
   addReply(reply: Post): void;
   thread: number;
-  addReplyCount(postId: number, count: number): void;
 }
 
-export const ThreadInputBox: React.FC<PropTypes> = ({
-  addReply,
-  thread,
-  addReplyCount
-}) => {
+export const ThreadInputBox: React.FC<PropTypes> = ({ addReply, thread }) => {
   const KEY_PRESS_EVENT_KEY = "Enter";
   const [message, setMessage] = useState("");
   const [id, setId] = useState(0);
+  const posts: Post[] = useMessages();
   const dispatch = useMessagesDispatch();
   const pathPrameter = usePathParameter();
   const { snugSocket } = useContext(globalSocket);
@@ -77,7 +73,16 @@ export const ThreadInputBox: React.FC<PropTypes> = ({
     snugSocket.on("replyPost", (resultData: ResponseEntity<any>) => {
       const { payload } = resultData;
       addReply(payload);
-      addReplyCount(payload.parent.id, 1);
+      const targetPostIndex = posts.findIndex(
+        post => post.id == payload.parent.id
+      );
+      const targetPost = posts[targetPostIndex];
+      targetPost.replyCount = (parseInt(targetPost.replyCount!) + 1).toString();
+      posts[targetPostIndex] = { ...targetPost };
+      dispatch({
+        type: "UPDATE_REPLYCOUNT",
+        posts: [...posts]
+      });
     });
   }, [pathPrameter]);
 

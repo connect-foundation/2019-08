@@ -31,13 +31,11 @@ const Wrapper = styled.section`
 interface PropTypes {
   thread: number;
   toggleThread(postId: number): void;
-  addReplyCount(postId: number, count: number): void;
 }
 
 export const ThreadSection: React.FC<PropTypes> = ({
   thread,
-  toggleThread,
-  addReplyCount
+  toggleThread
 }) => {
   const application = useContext(globalApplication);
   const [post, setPost] = useState<Post>({});
@@ -54,10 +52,7 @@ export const ThreadSection: React.FC<PropTypes> = ({
     setReplies(replies);
   };
 
-  console.log("in thread", thread);
-
   useEffect(() => {
-    console.log("in thread", thread);
     getReply();
   }, [thread]);
 
@@ -67,11 +62,7 @@ export const ThreadSection: React.FC<PropTypes> = ({
     <Wrapper>
       <Header toggleThread={toggleThread} />
       <ThreadContainer post={post} replies={replies} />
-      <ThreadInputBox
-        addReply={addReply}
-        thread={thread}
-        addReplyCount={addReplyCount}
-      />
+      <ThreadInputBox addReply={addReply} thread={thread} />
     </Wrapper>
   );
 };
