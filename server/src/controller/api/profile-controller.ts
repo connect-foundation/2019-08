@@ -6,7 +6,7 @@ import { ACCEPTED, OK, UNAUTHORIZED } from "http-status-codes";
 import { offerTokenInfo, UserInfo } from "../../validator/identifier-validator";
 import {
   INACCESSIBLE_PROFILE,
-  SUCCESS_FIND_PROFILE,
+  SUCCESS_FOUND_PROFILE,
   SUCCESS_UPDATE_PROFILE
 } from "./common/messages";
 import { Token } from "./common/token/token";
@@ -60,5 +60,5 @@ export const findById = async (
   const profileModel = await profiler.findById(profileId);
   return response
     .status(OK)
-    .json(ResponseForm.of(SUCCESS_FIND_PROFILE, profileModel));
+    .json(ResponseForm.of(SUCCESS_FOUND_PROFILE, profileModel));
 };

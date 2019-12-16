@@ -8,7 +8,7 @@ import inviteRouter from "./invite/invite-router";
 import profileRouter from "./profile/profile-router";
 import participateInRouter from "./participate-in/index";
 
-const router = Router();
+const router = Router({mergeParams: true});
 
 router.use("/posts", postRouter);
 router.use("/channels", channelRouter);
