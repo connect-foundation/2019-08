@@ -51,6 +51,7 @@ const ToggleButton = styled.button`
 
 export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
   const [toggleProfile, setToggleProfile] = useState(false);
+
   const [onThread, setOnThread] = useState<boolean>(false);
   const [thread, setThread] = useState(0);
 
@@ -81,7 +82,7 @@ export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
 
   useEffect(() => {
     isInParticipating();
-  }, [pathParameter]);
+  }, [pathParameter.channelId]);
 
   const isInParticipating = async () => {
     try {
@@ -89,9 +90,11 @@ export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
         pathParameter.channelId!
       );
       setIsParticipated(result);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
+  };
+
+  const handleClick = () => {
+    setToggleProfile(!toggleProfile);
   };
 
   const openModal = () => {
