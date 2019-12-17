@@ -89,7 +89,11 @@ export const PostCardContents: React.FC<PropTypes> = ({
         <PostDetailTimestamp>{toDateFormat(timestamp)}</PostDetailTimestamp>
       </PostDetail>
       <PostContents>{message}</PostContents>
-      <FileContents filePath={filePath!}></FileContents>
+      {filePath && filePath!.trim().length > 0 ? (
+        <FileContents filePath={filePath!}></FileContents>
+      ) : (
+        <></>
+      )}
       {parseInt(replyCount) > 0 && (
         <Thread>
           <ReplyNumber>{replyCount} 댓글</ReplyNumber>
