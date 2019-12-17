@@ -19,10 +19,6 @@ const Wrapper = styled.section`
   transform: translateY(-50%);
 `;
 
-const content = styled.main`
-  margin-bottom: 10px;
-`;
-
 interface PropTypes {
   onClick?(parameter: any | void): any | void;
   message?: string;

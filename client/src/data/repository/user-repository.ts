@@ -13,7 +13,6 @@ export class UserRepository implements UserRepositoryType {
   async create(user: User): Promise<boolean> {
     try {
       const responseEntity = await this.api.create(user);
-      console.log(responseEntity);
       return !!responseEntity;
     } catch (error) {
       return false;

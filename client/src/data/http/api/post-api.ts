@@ -46,7 +46,6 @@ export class PostApi {
         filePath
       })
       .then(({ data, status }: AxiosResponse<ResponseEntity<object>>) => {
-        console.log(data, status);
         if (StatusCodes.isCreated(status)) return data;
         return false;
       })

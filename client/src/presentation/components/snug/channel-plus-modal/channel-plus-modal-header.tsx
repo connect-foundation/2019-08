@@ -31,8 +31,6 @@ const ChannelPlusModalDescription = styled.section`
   height: 100%;
 `;
 
-const IconBoxWrapper = styled.section``;
-
 export const ChannelPlusModalHeader: React.FC = () => {
   const dispatch = useModalToggledDispatch();
 

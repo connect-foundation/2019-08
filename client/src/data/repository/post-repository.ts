@@ -46,8 +46,6 @@ export class PostRepository implements PostRepositoryType {
         string
       >);
 
-      console.log("post-repository1", fileResult);
-
       // 실제 파일 포스트
       const responseEntity = await this.api.createPost(
         post,
@@ -55,12 +53,9 @@ export class PostRepository implements PostRepositoryType {
         fileResult.payload
       );
 
-      console.log("post-repository2", responseEntity);
-
       if (<ResponseEntity<object>>responseEntity) return true;
       return <boolean>responseEntity;
     } catch (error) {
-      console.log(error);
       return false;
     }
   }

@@ -9,7 +9,6 @@ import {
   usePathParameter,
   usePathParameterDispatch
 } from "contexts/path-parameter-context";
-import { Context } from "context.instance";
 
 interface styledWrrapperProps {
   on: boolean;
@@ -55,7 +54,7 @@ export const ChannelTitle: React.FC<PropsTypes> = props => {
     );
     if (pathParameter.channelId == id) return setOn(true);
     setOn(false);
-  }, [pathParameter]);
+  }, [pathParameter.channelId]);
 
   const onClickEventHandler = () => {
     if (match.params.channelId == id.toString()) return;

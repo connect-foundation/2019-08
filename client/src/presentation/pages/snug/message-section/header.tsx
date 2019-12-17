@@ -11,5 +11,5 @@ const HeaderWrapper = styled.header`
 `;
 
 export const MessageSectionHeader: React.FC = () => {
-  return <HeaderWrapper>hi</HeaderWrapper>;
+  return <HeaderWrapper></HeaderWrapper>;
 };

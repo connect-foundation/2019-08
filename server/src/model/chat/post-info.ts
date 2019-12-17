@@ -1,12 +1,15 @@
 import { ProfileInfo } from "../profile/profile-info";
 import _ from "lodash";
 import { Post } from "../../domain/entity/Post";
+import { Room } from "../../domain/entity/Room";
 
 export class PostInfo {
   private readonly id: string;
   private readonly contents: string;
   private readonly imgSrc: string;
   private readonly profile: ProfileInfo;
+  private readonly room: Room;
+  private readonly parent: Post;
   private readonly replyCount: number;
   private readonly updatedAt: Date;
 
@@ -15,6 +18,8 @@ export class PostInfo {
     contents: string,
     imgSrc: string,
     profile: ProfileInfo,
+    room: Room,
+    parent: Post,
     repliesCount: number,
     updatedAt: Date
   ) {
@@ -22,6 +27,8 @@ export class PostInfo {
     this.contents = contents;
     this.imgSrc = imgSrc;
     this.profile = _.cloneDeep(profile);
+    this.room = _.cloneDeep(room);
+    this.parent = _.cloneDeep(parent);
     this.replyCount = repliesCount;
     this.updatedAt = updatedAt;
   }
@@ -31,13 +38,15 @@ export class PostInfo {
   }
 
   public static fromPost(post: Post, replyCount?: number): PostInfo {
-    const { id, contents, filePath, profile, updatedAt } = post;
+    const { id, contents, filePath, profile, room, parent, updatedAt } = post;
     const _replyCount = PostInfo.calculateReplyCount(replyCount);
     return new PostInfo(
       id.toString(),
       contents,
       filePath,
       ProfileInfo.fromProfile(profile),
+      room,
+      parent,
       _replyCount,
       updatedAt
     );

@@ -24,18 +24,14 @@ const IconBoxWrapper = styled.section`
 export const ChannelHeader: React.FC = () => {
   const dispatch = useModalToggledDispatch();
 
-  const openChannelPlusModal = (
-    event: React.MouseEvent<HTMLElement, MouseEvent>
-  ) => {
+  const openChannelPlusModal = () => {
     dispatch &&
       dispatch({
         type: "TOGGLE_CHANNEL_PLUS_MODAL"
       });
   };
 
-  const openChannelBrowseModal = (
-    event: React.MouseEvent<HTMLElement, MouseEvent>
-  ) => {
+  const openChannelBrowseModal = () => {
     dispatch &&
       dispatch({
         type: "TOGGLE_CHANNEL_BROWSE_MODAL"

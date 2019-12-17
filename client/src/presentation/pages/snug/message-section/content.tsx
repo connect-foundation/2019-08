@@ -51,9 +51,9 @@ const ToggleButton = styled.button`
 
 export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
   const [toggleProfile, setToggleProfile] = useState(false);
-  const [onThread, setOnThread] = useState(false);
+
+  const [onThread, setOnThread] = useState<boolean>(false);
   const [thread, setThread] = useState(0);
-  const [replyCount, setReplyCount] = useState<number[]>([]);
 
   const handleClick = () => {
     setToggleProfile(!toggleProfile);
@@ -64,15 +64,15 @@ export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
     setOnThread(!onThread);
   };
 
-  const addReplyCount = (postId: number, count: number) => {
-    setReplyCount((prevState)=>{
-      const newState = prevState;
-      newState[postId] = count + (newState[postId] || 0);
-      return [...newState];
-    });
+  const resetThread = (postId: number) => {
+    setThread(postId);
   };
 
-  const { Application, history } = props;
+  const resetOnThread = (onThread: boolean) => {
+    setOnThread(onThread);
+  };
+
+  const { Application } = props;
   const [isParticipated, setIsParticipated] = useState(false);
   const pathParameter = usePathParameter();
   // file upload 모달
@@ -82,7 +82,7 @@ export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
 
   useEffect(() => {
     isInParticipating();
-  }, [pathParameter]);
+  }, [pathParameter.channelId]);
 
   const isInParticipating = async () => {
     try {
@@ -90,9 +90,11 @@ export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
         pathParameter.channelId!
       );
       setIsParticipated(result);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
+  };
+
+  const handleClick = () => {
+    setToggleProfile(!toggleProfile);
   };
 
   const openModal = () => {
@@ -113,8 +115,9 @@ export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
             {...props}
             isParticipated={isParticipated}
             toggleThread={toggleThread}
-            addReplyCount={addReplyCount}
-            replyCount={replyCount}
+            onThread={onThread}
+            resetThread={resetThread}
+            resetOnThread={resetOnThread}
           />
           {isParticipated ? (
             <ChatInputBox {...props} openModal={openModal} />
@@ -129,7 +132,9 @@ export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
             <IconBox imageSrc={LeftArrow} />
           )}
         </ToggleButton>
-        {onThread && <ThreadSection thread={thread} toggleThread={toggleThread} addReplyCount={addReplyCount} />}
+        {onThread && (
+          <ThreadSection thread={thread} toggleThread={toggleThread} />
+        )}
         <ProfileSection {...props} toggleProfile={toggleProfile} />
       </Wrapper>
     </MessageContextProvider>
