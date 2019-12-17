@@ -37,7 +37,7 @@ export class PostApi {
   createPost(
     { contents }: Post,
     { id }: Channel,
-    filePath: string = " "
+    filePath: string = ""
   ): ResponseEntity<object> | boolean {
     return this.axios
       .post(`/api/posts/`, {

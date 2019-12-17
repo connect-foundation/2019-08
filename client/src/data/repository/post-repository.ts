@@ -8,6 +8,7 @@ import { Thread } from "../../core/entity/thread";
 
 export class PostRepository implements PostRepositoryType {
   private api: PostApi;
+
   constructor(api: PostApi) {
     this.api = api;
   }
@@ -35,29 +36,19 @@ export class PostRepository implements PostRepositoryType {
     }
   }
 
-  async createWithFile(
-    post: Post,
-    channel: Channel,
-    file: File
-  ): Promise<boolean> {
-    try {
-      // file upload 요청
-      const fileResult = await (this.api.uploadFile(file) as ResponseEntity<
-        string
-      >);
+  async createWithFile(contents: string, channelId: number, filePath: string) {
+    const post: Post = {
+      contents
+    };
+    const channel: Channel = {
+      channelId
+    };
 
-      // 실제 파일 포스트
-      const responseEntity = await this.api.createPost(
-        post,
-        channel,
-        fileResult.payload
-      );
+    // 실제 파일 포스트
+    const responseEntity = await this.api.createPost(post, channel, filePath);
 
-      if (<ResponseEntity<object>>responseEntity) return true;
-      return <boolean>responseEntity;
-    } catch (error) {
-      return false;
-    }
+    if (<ResponseEntity<object>>responseEntity) return true;
+    return <boolean>responseEntity;
   }
 
   async reply(
