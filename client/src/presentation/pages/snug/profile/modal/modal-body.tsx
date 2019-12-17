@@ -95,7 +95,8 @@ export const ModalBody: React.FC<PropTypes> = ({
     } as Profile;
 
     const profilePayload = await application.services.profileService.updateProfile(
-      profile
+      profile,
+      file
     );
     if (!profilePayload) return;
     updateProfile(profilePayload as Profile);

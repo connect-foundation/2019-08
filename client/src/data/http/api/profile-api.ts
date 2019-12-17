@@ -11,9 +11,12 @@ export class ProfileApi {
     this.axios = axios.getAxios();
   }
 
-  updateProfile(profile: Profile): Promise<ResponseEntity<Profile> | boolean> {
+  updateProfile(
+    profile: Profile,
+    filePath: string
+  ): Promise<ResponseEntity<Profile> | boolean> {
     return this.axios
-      .patch(`/api/profiles/${profile.id}`, profile)
+      .patch(`/api/profiles/${profile.id}`, { profile, filePath })
       .then((response: AxiosResponse<ResponseEntity<Profile>>) => {
         if (StatusCodes.isAccepted(response.status)) return response.data;
         return false;

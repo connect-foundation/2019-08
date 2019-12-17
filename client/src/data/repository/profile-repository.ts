@@ -24,9 +24,13 @@ export class ProfileRepository implements ProfileRepositoryType {
     }
   }
 
-  async updateProfile(profile: Profile): Promise<Profile | boolean> {
+  async updateProfile(
+    profile: Profile,
+    filePath: string
+  ): Promise<Profile | boolean> {
     try {
-      const responseEntity = await this.api.updateProfile(profile);
+      // profile db upload
+      const responseEntity = await this.api.updateProfile(profile, filePath);
       if ((<ResponseEntity<Profile>>responseEntity).payload) {
         return (<ResponseEntity<Profile>>responseEntity).payload;
       }
