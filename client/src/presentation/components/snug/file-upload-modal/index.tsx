@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 import { CustomButton } from "presentation/components/atomic-reusable/custom-button";
 import { FileDropArea } from "./file-drop-area";
@@ -77,6 +77,7 @@ const CustomInput = styled.section`
 `;
 
 const StyledInput = styled.textarea.attrs({
+  id: "file-upload-message",
   placeholder: "메세지를 입력하세요."
 })`
   --webkit-appearance: none;
@@ -106,7 +107,9 @@ export const FileUploadModal: React.FC<PropTypes> = props => {
   const [message, setMessage] = useState("");
   const [file, setFile] = useState(new File([], ""));
   const pathPrameter = usePathParameter();
+
   const application = useContext(globalApplication);
+  const { closeModal } = props;
 
   const onMessageChange: (
     event: React.ChangeEvent<HTMLTextAreaElement>
@@ -122,6 +125,11 @@ export const FileUploadModal: React.FC<PropTypes> = props => {
     setFile(event.target.files![0]);
   };
 
+  // file upload 되었을 때, input highlight
+  useEffect(() => {
+    document.getElementById("file-upload-message")?.focus();
+  }, [file]);
+
   const onClick: (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => void = async (
@@ -129,19 +137,20 @@ export const FileUploadModal: React.FC<PropTypes> = props => {
   ) => {
     event.preventDefault();
 
-    // profile 조회하는 방법
-    const result = await application.services.postService.createMessage(
-      1,
+    const result = await application.services.postService.createMessageWithFile(
       message,
-      pathPrameter.channelId!
+      pathPrameter.channelId!,
+      file
     );
+
+    if (result === true) closeModal();
   };
 
   return (
     <Modal>
       <ModalContent>
         <ModalHeader>
-          <CloseButton onClick={props.closeModal}>&times;</CloseButton>
+          <CloseButton onClick={closeModal}>&times;</CloseButton>
           파일 업로드
         </ModalHeader>
 
@@ -154,7 +163,7 @@ export const FileUploadModal: React.FC<PropTypes> = props => {
             <FileDropArea setFile={setFile} />
           </label>
           <HiddenInput id="fileInput" onChange={onFileChange} />
-          {file.size > 0 ? <FilePreview file={file} /> : undefined}
+          {file && file.size > 0 ? <FilePreview file={file} /> : undefined}
         </ModalBody>
 
         <ModalFooter>
