@@ -10,7 +10,5 @@ export interface ChannelRepositoryType {
   
   getChannels(): Promise<Channel[] | boolean>;
 
-  getParticipateChannel(): Promise<Channel[]>;
-
   isInParticipating(channel: Channel): Promise<boolean>;
 }

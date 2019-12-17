@@ -88,17 +88,4 @@ export class ChannelApi {
         return false;
       });
   }
-
-  getParticipate(): Promise<ResponseEntity<Channel[]>> {
-    return this.axios
-      .getAxios()
-      .get("/api/participateins")
-      .then(({ status, data }: AxiosResponse<ResponseEntity<Channel[]>>) => {
-        if (StatusCodes.isOk(status)) return data;
-        throw new Error("참여한 채널을 가지고 오는 과정에서 문제가 있습니다.");
-      })
-      .catch(err => {
-        throw new Error(err.message);
-      });
-  }
 }

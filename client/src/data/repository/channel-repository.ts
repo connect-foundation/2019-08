@@ -3,6 +3,7 @@ import { ChannelApi } from "../http/api/channel-api";
 import { Channel } from "../../core/entity/channel";
 import { ChannelRepositoryType } from "../../core/use-case/channel-repository-type";
 import { Snug } from "core/entity/snug";
+import {hasNotCookie} from "../../util/cookie";
 
 export class ChannelRepository implements ChannelRepositoryType {
   private api: ChannelApi;
@@ -45,21 +46,16 @@ export class ChannelRepository implements ChannelRepositoryType {
     return await this.api.join(channel);
   }
 
-  async getParticipateChannel(): Promise<Channel[]> {
-    if (document.cookie.indexOf("profile") == -1)
-      throw new Error("프로필 쿠키가 존재하지 않습니다.");
-    const responseEntity = await this.api.getParticipate();
-    return responseEntity.payload;
-  }
-
   async isInParticipating(channel: Channel): Promise<boolean> {
-    if (document.cookie.indexOf("profile") == -1)
+    if (hasNotCookie("profile")) {
       throw new Error("프로필 쿠키가 존재하지 않습니다.");
-    const { payload } = await this.api.getParticipate();
-    const result = payload.filter(
-      channelParameter => channelParameter.id == channel.id
-    );
-    if (result.length <= 0) return false;
-    return true;
+    }
+
+    const channels = await this.getChannels();
+    if(typeof channels === "boolean") {
+      return channels;
+    }
+
+    return channels.some(channelParameter => channelParameter.id == channel.id);
   }
 }

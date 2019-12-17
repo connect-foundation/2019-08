@@ -6,7 +6,6 @@ import userRouter from "./user/user-router";
 import authRouter from "./auth/auth-router";
 import inviteRouter from "./invite/invite-router";
 import profileRouter from "./profile/profile-router";
-import participateInRouter from "./participate-in/index";
 import uploadRouter from "./upload/upload-router";
 
 const router = Router({ mergeParams: true });
@@ -18,7 +17,6 @@ router.use("/auth", authRouter);
 router.use("/users", userRouter);
 router.use("/invite", inviteRouter);
 router.use("/profiles", profileRouter);
-router.use("/participateIns", participateInRouter);
 router.use("/uploader", uploadRouter);
 
 export default router;

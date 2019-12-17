@@ -1,9 +1,10 @@
-import { Router } from "express";
+import {Router} from "express";
 import * as ChannelApiController from "../../controller/api/channel-controller";
 import PostRouter from "./post/post-router";
-import { isNumeric } from "../../middleware/validator";
+import {isNumeric} from "../../middleware/validator";
+import {isVerifyProfile} from "../../validator/identifier-validator";
 
-const router = Router({ mergeParams: true });
+const router = Router({mergeParams: true});
 
 /**
  *
@@ -15,7 +16,7 @@ router.route("/:title")
         .get(ChannelApiController.find);
 
 router.route("/")
-        .get(ChannelApiController.findAll)
+        .get(isVerifyProfile, ChannelApiController.findAll)
         .post(ChannelApiController.create);
 
 /**
