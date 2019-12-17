@@ -4,7 +4,7 @@ import { Profile } from "core/entity/profile";
 import { Channel } from "core/entity/channel";
 import { PostRepositoryType } from "core/use-case/post-repository-type";
 import { PostApi, posts } from "data/http/api/post-api";
-import {Thread} from "../../core/entity/thread";
+import { Thread } from "../../core/entity/thread";
 
 export class PostRepository implements PostRepositoryType {
   private api: PostApi;
@@ -31,7 +31,6 @@ export class PostRepository implements PostRepositoryType {
   ): Promise<boolean> {
     try {
       const responseEntity = await this.api.createPost(profile, post, channel);
-      console.log(responseEntity);
       if (<ResponseEntity<object>>responseEntity) return true;
       return <boolean>responseEntity;
     } catch (error) {
@@ -41,13 +40,18 @@ export class PostRepository implements PostRepositoryType {
   }
 
   async reply(
-          profile: Profile,
-          post: Post,
-          parentPost: Post,
-          channel: Channel
+    profile: Profile,
+    post: Post,
+    parentPost: Post,
+    channel: Channel
   ): Promise<boolean> {
     try {
-      const responseEntity = await this.api.reply(profile, post, parentPost, channel);
+      const responseEntity = await this.api.reply(
+        profile,
+        post,
+        parentPost,
+        channel
+      );
       if (<ResponseEntity<object>>responseEntity) return true;
       return <boolean>responseEntity;
     } catch (error) {
