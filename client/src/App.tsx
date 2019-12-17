@@ -24,10 +24,11 @@ const GlobalStyle = createGlobalStyle`
     #root{
       width:100vw;
       height:100vh;
+      min-width: 1200px;
     }
-    a {
-      text-decoration: none;
-    }
+    a {color: #fff; text-decoration: none; outline: none}
+
+    a:hover, a:active {text-decoration: none; color:#fff;}
 `;
 
 const App: React.FC = () => {

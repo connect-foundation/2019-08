@@ -22,7 +22,8 @@ const PostDetailWriterName = styled.span`
 `;
 
 const PostDetailTimestamp = styled.span`
-  font-size: 0.75rem;
+  color: ${({ theme }) => theme.snugSubFont};
+  font-size: 0.6rem;
 `;
 
 const PostContents = styled.span`
@@ -65,14 +66,34 @@ export const PostCardContents: React.FC<PropTypes> = ({
   toggleThread,
   filePath
 }) => {
+  function toDateFormat(date: string) {
+    const nowDate = new Date(date);
+    const year = setFormat(nowDate.getFullYear() % 100);
+    const month = setFormat(nowDate.getMonth() + 1);
+    const day = setFormat(nowDate.getDate());
+    const hour = setFormat(nowDate.getHours());
+    const minuite = setFormat(nowDate.getHours());
+    const seconds = setFormat(nowDate.getSeconds());
+    return `\t ${year}/${month}/${day} ${hour}:${minuite}:${seconds}`;
+  }
+
+  function setFormat(date: number) {
+    if (date >= 10) return date;
+    return `0${date}`;
+  }
+  console.log(filePath);
   return (
     <PostBox onClick={toggleThread}>
       <PostDetail>
         <PostDetailWriterName>{userName}</PostDetailWriterName>
-        <PostDetailTimestamp>{timestamp}</PostDetailTimestamp>
+        <PostDetailTimestamp>{toDateFormat(timestamp)}</PostDetailTimestamp>
       </PostDetail>
       <PostContents>{message}</PostContents>
-      {filePath && <FileContents filePath={filePath}></FileContents>}
+      {filePath && filePath!.trim().length > 0 ? (
+        <FileContents filePath={filePath!}></FileContents>
+      ) : (
+        <></>
+      )}
       {parseInt(replyCount) > 0 && (
         <Thread>
           <ReplyNumber>{replyCount} 댓글</ReplyNumber>

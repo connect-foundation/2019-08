@@ -16,6 +16,7 @@ import {
 const SnugWrapper = styled.section`
   width: inherit;
   height: inherit;
+  min-width: inherit;
   display: flex;
   flex-direction: column;
 `;

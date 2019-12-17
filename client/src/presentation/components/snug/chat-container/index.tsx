@@ -76,6 +76,7 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
         replyCount={post.replyCount!}
         createdAt={post.createdAt!}
         updatedAt={post.updatedAt!}
+        filePath={post.filePath}
         toggleThread={(event: React.MouseEvent) =>
           onThread ? resetThread(post.id!) : toggleThread(post.id!)
         }
