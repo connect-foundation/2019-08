@@ -1,6 +1,6 @@
-import {Request, Response} from "express";
+import { Request, Response } from "express";
 import ResponseForm from "../../utils/response-form";
-import {CREATED, NOT_FOUND, OK} from "http-status-codes";
+import { CREATED, NOT_FOUND, OK } from "http-status-codes";
 import {
   CREATE_POST,
   CREATE_REPLY,
@@ -11,12 +11,12 @@ import {
   SUCCESS_FOUND_POSTS,
   SUCCESS_FOUND_REPLIES
 } from "./common/messages";
-import {Chatter} from "../../model/chat/chatter";
-import {PostNotifier} from "../../model/notifier/chat/post-notifier";
-import {ReplyNotifier} from "../../model/notifier/chat/reply-notifier";
-import {PostInfo} from "../../model/chat/post-info";
-import {ReplyInfo} from "../../model/chat/reply-info";
-import {offerProfileTokenInfo} from "../../validator/identifier-validator";
+import { Chatter } from "../../model/chat/chatter";
+import { PostNotifier } from "../../model/notifier/chat/post-notifier";
+import { ReplyNotifier } from "../../model/notifier/chat/reply-notifier";
+import { PostInfo } from "../../model/chat/post-info";
+import { ReplyInfo } from "../../model/chat/reply-info";
+import { offerProfileTokenInfo } from "../../validator/identifier-validator";
 
 export const create = async (
   request: Request,

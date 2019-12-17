@@ -15,10 +15,10 @@ export class PostRepository implements PostRepositoryType {
   async getList(channel: Channel): Promise<Post[] | boolean> {
     try {
       const responseEntity = await this.api.getList(channel);
-      if ((<ResponseEntity<posts<Post>>>responseEntity).payload) {
-        return (<ResponseEntity<posts<Post>>>responseEntity).payload.posts;
+      if ((responseEntity as ResponseEntity<posts<Post>>).payload) {
+        return (responseEntity as ResponseEntity<posts<Post>>).payload.posts;
       }
-      return <boolean>responseEntity;
+      return responseEntity as boolean;
     } catch (error) {
       return false;
     }
@@ -27,10 +27,9 @@ export class PostRepository implements PostRepositoryType {
   async create(post: Post, channel: Channel): Promise<boolean> {
     try {
       const responseEntity = await this.api.createPost(post, channel);
-      if (<ResponseEntity<object>>responseEntity) return true;
-      return <boolean>responseEntity;
+      if (responseEntity as ResponseEntity<object>) return true;
+      return responseEntity as boolean;
     } catch (error) {
-      console.log(error);
       return false;
     }
   }
@@ -53,8 +52,8 @@ export class PostRepository implements PostRepositoryType {
         fileResult.payload
       );
 
-      if (<ResponseEntity<object>>responseEntity) return true;
-      return <boolean>responseEntity;
+      if (responseEntity as ResponseEntity<object>) return true;
+      return responseEntity as boolean;
     } catch (error) {
       return false;
     }
@@ -73,10 +72,9 @@ export class PostRepository implements PostRepositoryType {
         parentPost,
         channel
       );
-      if (<ResponseEntity<object>>responseEntity) return true;
-      return <boolean>responseEntity;
+      if (responseEntity as ResponseEntity<object>) return true;
+      return responseEntity as boolean;
     } catch (error) {
-      console.log(error);
       return false;
     }
   }
@@ -84,10 +82,10 @@ export class PostRepository implements PostRepositoryType {
   async getReplyList(postId: number): Promise<Thread | boolean> {
     try {
       const responseEntity = await this.api.getReplyList(postId);
-      if ((<ResponseEntity<Thread>>responseEntity).payload) {
-        return (<ResponseEntity<Thread>>responseEntity).payload;
+      if ((responseEntity as ResponseEntity<Thread>).payload) {
+        return (responseEntity as ResponseEntity<Thread>).payload;
       }
-      return <boolean>responseEntity;
+      return responseEntity as boolean;
     } catch (error) {
       return false;
     }

@@ -3,25 +3,23 @@ import styled from "styled-components";
 import LetterXWhite from "assets/letter-x-white.png";
 import { IconBox } from "presentation/components/atomic-reusable/icon-box";
 
-const ThreadHeader = styled.header`
-  width: 400px;
-  max-width: 400px;
-  display: flex;
-  justify-content: space-between;
-`;
-
 const MarginBox = styled.section`
   width: 45px;
 `;
 
+const FlexMarginBox = styled.section`
+  width: 100%;
+  height: 100%;
+`;
+
 const Wrapper = styled.section`
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  width: calc(100% - 45px * 2);
+  width: 100%;
 `;
 
 const Contents = styled.section`
+  min-width: 100px;
   font-size: 1.4rem;
   color: ${({ theme }) => theme.snugMainFont};
 `;
@@ -32,13 +30,11 @@ interface PropTypes {
 
 export const Header: React.FC<PropTypes> = ({ toggleThread }) => {
   return (
-    <ThreadHeader>
-      <MarginBox />
-      <Wrapper>
-        <Contents>댓글창</Contents>
-        <IconBox imageSrc={LetterXWhite} size={"25px"} onClick={toggleThread} />
-      </Wrapper>
-      <MarginBox />
-    </ThreadHeader>
+    <Wrapper>
+      <MarginBox></MarginBox>
+      <Contents>댓글창</Contents>
+      <FlexMarginBox></FlexMarginBox>
+      <IconBox imageSrc={LetterXWhite} size={"25px"} onClick={toggleThread} />
+    </Wrapper>
   );
 };

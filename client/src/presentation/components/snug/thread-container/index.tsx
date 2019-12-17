@@ -4,17 +4,19 @@ import { PostCard } from "presentation/components/snug/post-card";
 import { Post } from "core/entity/post";
 
 const ChatContentWrapper = styled.section.attrs({})`
-  min-height: calc(100% - 150px);
-  width: 400px;
+  height: calc(100% - 110px);
+  width: 100%;
   display: flex;
   flex-flow: column nowrap;
 `;
 
 const WrapperPost = styled.section.attrs({})`
   margin-bottom: auto !important;
+  overflow: auto;
 `;
 
 const WrapperPostCard = styled.section.attrs({})`
+  min-height: auto;
   margin-bottom: 20px;
   border-bottom: 1px solid ${({ theme }) => theme.snugBorderColor};
 `;
@@ -56,10 +58,10 @@ export const ThreadContainer: React.FC<PropTypes> = ({ post, replies }) => {
   }
   return (
     <ChatContentWrapper>
+      <WrapperPostCard>{messagePost()}</WrapperPostCard>
       <WrapperPost>
-        <WrapperPostCard>{messagePost()}</WrapperPostCard>
+        <WrapperMessages>{messageList()}</WrapperMessages>
       </WrapperPost>
-      <WrapperMessages>{messageList()}</WrapperMessages>
     </ChatContentWrapper>
   );
 };

@@ -15,8 +15,8 @@ export class ChannelRepository implements ChannelRepositoryType {
   async create(snug: Snug, channel: Channel): Promise<boolean | Channel> {
     try {
       const responseEntity = await this.api.create(snug, channel);
-      if (typeof responseEntity == "boolean") return false;
-      return (<ResponseEntity<Channel>>responseEntity).payload;
+      if (typeof responseEntity === "boolean") return false;
+      return (responseEntity as ResponseEntity<Channel>).payload;
     } catch (error) {
       return false;
     }
@@ -35,7 +35,7 @@ export class ChannelRepository implements ChannelRepositoryType {
     try {
       const responseEntity = await this.api.getList(snug);
       if (responseEntity)
-        return (<ResponseEntity<{channels: Channel[]}>>responseEntity).payload.channels;
+        return (responseEntity as ResponseEntity<{channels: Channel[]}>).payload.channels;
       return false;
     } catch (error) {
       return false;
@@ -46,7 +46,7 @@ export class ChannelRepository implements ChannelRepositoryType {
     try {
       const responseEntity = await this.api.getParticipatingList(snug);
       if (responseEntity)
-        return (<ResponseEntity<{channels: Channel[]}>>responseEntity).payload.channels;
+        return (responseEntity as ResponseEntity<{channels: Channel[]}>).payload.channels;
       return false;
     } catch (error) {
       return false;
@@ -67,6 +67,6 @@ export class ChannelRepository implements ChannelRepositoryType {
       return channels;
     }
 
-    return channels.some(channelParameter => channelParameter.id == channel.id);
+    return channels.some(channelParameter => channelParameter.id === channel.id);
   }
 }

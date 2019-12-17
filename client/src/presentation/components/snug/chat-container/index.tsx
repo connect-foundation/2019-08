@@ -9,11 +9,11 @@ import { globalApplication } from "contexts/application-context";
 
 const ChatContentWrapper = styled.section.attrs({
   id: "scroll"
-})<{ isParticipated: boolean }>`
-  min-height: ${({ isParticipated }) =>
-    isParticipated ? css`calc(100% - 75px)` : css`calc(100% - 150px)`};
-  max-height: ${({ isParticipated }) =>
-    isParticipated ? css`calc(100% - 75px)` : css`calc(100% - 150px)`};
+})<{ isParticipated: boolean; height: number }>`
+  min-height: ${({ isParticipated, height }) =>
+    isParticipated ? css`calc(100% - ${height}px)` : css`calc(100% - 150px)`};
+  max-height: ${({ isParticipated, height }) =>
+    isParticipated ? css`calc(100% - ${height}px)` : css`calc(100% - 150px)`};
   width: 100%;
   overflow-y: auto;
   display: flex;
@@ -30,19 +30,21 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
   onThread: boolean;
   resetThread: (postId: number) => void;
   resetOnThread: (onThread: boolean) => void;
+  height: number;
 }> = props => {
   const {
     isParticipated,
     toggleThread,
     onThread,
     resetThread,
-    resetOnThread
+    resetOnThread,
+    height
   } = props;
   const application = useContext(globalApplication);
   const posts: Post[] = useMessages();
   const dispatch = useMessagesDispatch();
   const pathParameter = usePathParameter();
-
+  useEffect(() => {}, [height]);
   useEffect(() => {
     (async function() {
       dispatch({
@@ -76,6 +78,7 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
         replyCount={post.replyCount!}
         createdAt={post.createdAt!}
         updatedAt={post.updatedAt!}
+        filePath={post.filePath}
         toggleThread={(event: React.MouseEvent) =>
           onThread ? resetThread(post.id!) : toggleThread(post.id!)
         }
@@ -84,7 +87,7 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
   }
 
   return (
-    <ChatContentWrapper isParticipated={isParticipated}>
+    <ChatContentWrapper isParticipated={isParticipated} height={height}>
       <Wrapper>{messageList()}</Wrapper>
     </ChatContentWrapper>
   );

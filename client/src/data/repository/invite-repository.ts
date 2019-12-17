@@ -18,17 +18,23 @@ export class InviteRepository implements InviteRepositoryType {
     try {
       const responseEntity = await this.inviteApi.getInvitedSnugs(userId);
       if (!responseEntity) return false;
-      return (<ResponseEntity<Invite[]>>responseEntity).payload;
+      return (responseEntity as ResponseEntity<Invite[]>).payload;
     } catch (error) {
       return false;
     }
   }
 
-  async responseToInvitation(invitation: Invite, agree: boolean): Promise<Invite | boolean> {
+  async responseToInvitation(
+    invitation: Invite,
+    agree: boolean
+  ): Promise<Invite | boolean> {
     try {
-      const responseEntity = await this.inviteApi.responseToInvitation(invitation, agree);
+      const responseEntity = await this.inviteApi.responseToInvitation(
+        invitation,
+        agree
+      );
       if (!responseEntity) return false;
-      return (<ResponseEntity<Invite>>responseEntity).payload;
+      return (responseEntity as ResponseEntity<Invite>).payload;
     } catch (error) {
       return false;
     }
