@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { FileContents } from "./file-contents";
 
 const PostBox = styled.section`
   width: 100%;
@@ -61,7 +62,8 @@ export const PostCardContents: React.FC<PropTypes> = ({
   createdAt: timestamp,
   contents: message,
   replyCount,
-  toggleThread
+  toggleThread,
+  filePath
 }) => {
   return (
     <PostBox onClick={toggleThread}>
@@ -70,6 +72,7 @@ export const PostCardContents: React.FC<PropTypes> = ({
         <PostDetailTimestamp>{timestamp}</PostDetailTimestamp>
       </PostDetail>
       <PostContents>{message}</PostContents>
+      {filePath && <FileContents filePath={filePath}></FileContents>}
       {parseInt(replyCount) > 0 && (
         <Thread>
           <ReplyNumber>{replyCount} 댓글</ReplyNumber>
@@ -78,3 +81,12 @@ export const PostCardContents: React.FC<PropTypes> = ({
     </PostBox>
   );
 };
+
+interface PropTypes {
+  writerName: string;
+  createdAt: string;
+  contents: string;
+  replyCount: string;
+  toggleThread?(event: React.MouseEvent): void;
+  filePath?: string;
+}
