@@ -62,31 +62,6 @@ export const isOutOfRange = (target: string): boolean => {
   return !(Numbers.MIN_INTEGER_ID < digits && digits < Numbers.MAX_INTEGER_ID);
 };
 
-/**
- *
- * request path variable 인 id 대한 유효성 검사
- * 유효한 경우, next() 메소드가 err 인자 없이 호출되고
- * 유효하지 않은 경우, next(err) 메소드가 err 인자를 가지고 호출
- *
- * @param request express Request
- * @param response express Response
- * @param next express Next
- * @param id
- *
- * */
-export const isNumeric = (
-  request: Request,
-  response: Response,
-  next: NextFunction,
-  id: string
-) => {
-  if (hasNotValue(id) || hasNotEveryNumber(id) || isOutOfRange(id)) {
-    return next("Invalid id format. Must be an Number");
-  }
-
-  next();
-};
-
 export const offerTokenInfo = (request: Request): UserInfo => {
   const token = request.headers["auth-token"];
   if (!token) throw new Error("토큰이 존재하지 않습니다.");
