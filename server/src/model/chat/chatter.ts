@@ -53,10 +53,15 @@ export class Chatter {
   public async post(
     contents: string,
     profileId: number,
-    roomId: string
+    roomId: string,
+    filePath: string
   ): Promise<PostInfo> {
     const profileAndRoom = await this.findProfileAndRoom(profileId, roomId);
-    const post = await Post.save({ contents, ...profileAndRoom } as Post);
+    const post = await Post.save({
+      contents,
+      filePath,
+      ...profileAndRoom
+    } as Post);
     this.postNotifier.send(post);
     return PostInfo.fromPost(post);
   }

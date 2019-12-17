@@ -1,6 +1,6 @@
-import {ProfileInfo} from "../profile/profile-info";
+import { ProfileInfo } from "../profile/profile-info";
 import _ from "lodash";
-import {Post} from "../../domain/entity/Post";
+import { Post } from "../../domain/entity/Post";
 
 export class PostInfo {
   private readonly id: string;
@@ -11,12 +11,12 @@ export class PostInfo {
   private readonly updatedAt: Date;
 
   private constructor(
-          id: string,
-          contents: string,
-          imgSrc: string,
-          profile: ProfileInfo,
-          repliesCount: number,
-          updatedAt: Date
+    id: string,
+    contents: string,
+    imgSrc: string,
+    profile: ProfileInfo,
+    repliesCount: number,
+    updatedAt: Date
   ) {
     this.id = id;
     this.contents = contents;
@@ -31,14 +31,15 @@ export class PostInfo {
   }
 
   public static fromPost(post: Post, replyCount?: number): PostInfo {
-    const {
-      id,
-      contents,
-      imgSrc,
-      profile,
-      updatedAt
-    } = post;
+    const { id, contents, filePath, profile, updatedAt } = post;
     const _replyCount = PostInfo.calculateReplyCount(replyCount);
-    return new PostInfo(id.toString(), contents, imgSrc, ProfileInfo.fromProfile(profile), _replyCount, updatedAt);
+    return new PostInfo(
+      id.toString(),
+      contents,
+      filePath,
+      ProfileInfo.fromProfile(profile),
+      _replyCount,
+      updatedAt
+    );
   }
 }
