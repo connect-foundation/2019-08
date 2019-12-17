@@ -91,7 +91,8 @@ export const ChatInputBox: React.FC<PropType> = props => {
         },
         createdAt: payload.createdAt!,
         updatedAt: payload.updatedAt!,
-        contents: payload.contents!
+        contents: payload.contents!,
+        filePath: payload.filePath!
       });
     });
   }, [pathPrameter.channelId]);

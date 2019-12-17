@@ -6,7 +6,7 @@ import { Room } from "../../domain/entity/Room";
 export class PostInfo {
   private readonly id: string;
   private readonly contents: string;
-  private readonly imgSrc: string;
+  private readonly filePath: string;
   private readonly profile: ProfileInfo;
   private readonly room: Room;
   private readonly parent: Post;
@@ -17,7 +17,7 @@ export class PostInfo {
   private constructor(
     id: string,
     contents: string,
-    imgSrc: string,
+    filePath: string,
     profile: ProfileInfo,
     room: Room,
     parent: Post,
@@ -27,7 +27,7 @@ export class PostInfo {
   ) {
     this.id = id;
     this.contents = contents;
-    this.imgSrc = imgSrc;
+    this.filePath = filePath;
     this.profile = _.cloneDeep(profile);
     this.room = _.cloneDeep(room);
     this.parent = _.cloneDeep(parent);
