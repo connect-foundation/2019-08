@@ -5,7 +5,7 @@ import { Post } from "core/entity/post";
 
 const ChatContentWrapper = styled.section.attrs({})`
   min-height: calc(100% - 150px);
-  width: 400px;
+  width: 300px;
   display: flex;
   flex-flow: column nowrap;
 `;
