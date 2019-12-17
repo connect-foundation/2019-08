@@ -34,6 +34,20 @@ export class PostService {
     return await this.postRepository.create(post, Channel);
   }
 
+  async createMessageWithFile(
+    contents: string,
+    channelId: number,
+    file: File
+  ): Promise<boolean> {
+    const post: Post = {
+      contents: contents
+    };
+    const Channel: Channel = {
+      id: channelId
+    };
+    return await this.postRepository.createWithFile(post, Channel, file);
+  }
+
   async reply(
     contents: string,
     channelId: number,

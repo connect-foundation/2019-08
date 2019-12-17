@@ -38,12 +38,12 @@ export class PostInfo {
   }
 
   public static fromPost(post: Post, replyCount?: number): PostInfo {
-    const { id, contents, imgSrc, profile, room, parent, updatedAt } = post;
+    const { id, contents, filePath, profile, room, parent, updatedAt } = post;
     const _replyCount = PostInfo.calculateReplyCount(replyCount);
     return new PostInfo(
       id.toString(),
       contents,
-      imgSrc,
+      filePath,
       ProfileInfo.fromProfile(profile),
       room,
       parent,

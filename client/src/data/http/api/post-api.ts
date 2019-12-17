@@ -36,14 +36,36 @@ export class PostApi {
 
   createPost(
     { contents }: Post,
-    { id }: Channel
+    { id }: Channel,
+    filePath: string = " "
   ): ResponseEntity<object> | boolean {
     return this.axios
       .post(`/api/posts/`, {
         contents: contents,
-        roomId: id
+        roomId: id,
+        filePath
       })
       .then(({ data, status }: AxiosResponse<ResponseEntity<object>>) => {
+        if (StatusCodes.isCreated(status)) return data;
+        return false;
+      })
+      .catch((error: AxiosError) => {
+        AxiosErrorHandler.handleError(
+          error,
+          `포스트를 생성하는 과정에서 오류가 발생했습니다 : ${error.message}`
+        );
+      });
+  }
+
+  uploadFile(file: File): ResponseEntity<string> | boolean {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    return this.axios
+      .post(`/api/uploader`, formData, {
+        headers: { "Content-Type": "multipart/form-data" }
+      })
+      .then(({ data, status }: AxiosResponse<ResponseEntity<string>>) => {
         if (StatusCodes.isCreated(status)) return data;
         return false;
       })

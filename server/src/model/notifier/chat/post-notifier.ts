@@ -1,8 +1,8 @@
-import {ChatNotifier} from "./chat-notifier";
-import {PUBLISH_EVENT} from "../../../socket/common/events/publish-type";
-import {FOUND_POST_PROFILE} from "../../../controller/api/common/messages";
+import { ChatNotifier } from "./chat-notifier";
+import { PUBLISH_EVENT } from "../../../socket/common/events/publish-type";
+import { FOUND_POST_PROFILE } from "../../../controller/api/common/messages";
 
-export class PostNotifier extends ChatNotifier{
+export class PostNotifier extends ChatNotifier {
   private readonly roomId: string;
 
   constructor(roomId: string) {

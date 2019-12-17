@@ -93,10 +93,6 @@ export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
     } catch (error) {}
   };
 
-  const handleClick = () => {
-    setToggleProfile(!toggleProfile);
-  };
-
   const openModal = () => {
     setModal(true);
   };

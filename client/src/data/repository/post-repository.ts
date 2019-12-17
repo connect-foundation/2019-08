@@ -30,6 +30,32 @@ export class PostRepository implements PostRepositoryType {
       if (<ResponseEntity<object>>responseEntity) return true;
       return <boolean>responseEntity;
     } catch (error) {
+      console.log(error);
+      return false;
+    }
+  }
+
+  async createWithFile(
+    post: Post,
+    channel: Channel,
+    file: File
+  ): Promise<boolean> {
+    try {
+      // file upload 요청
+      const fileResult = await (this.api.uploadFile(file) as ResponseEntity<
+        string
+      >);
+
+      // 실제 파일 포스트
+      const responseEntity = await this.api.createPost(
+        post,
+        channel,
+        fileResult.payload
+      );
+
+      if (<ResponseEntity<object>>responseEntity) return true;
+      return <boolean>responseEntity;
+    } catch (error) {
       return false;
     }
   }

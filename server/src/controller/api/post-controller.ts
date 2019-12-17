@@ -23,19 +23,19 @@ import { Page } from "./common/pagenation/strategy/page";
 import { IdPage } from "./common/pagenation/strategy/id-page";
 import { DefaultPage } from "./common/pagenation/strategy/default-page";
 
-
 export const create = async (
   request: Request,
   response: Response
 ): Promise<Response> => {
   const { id } = <Profile>offerProfileTokenInfo(request);
-  const { contents, roomId } = request.body;
+  const { contents, roomId, filePath } = request.body;
   try {
     const postNotifier = new PostNotifier(roomId);
     const postInfo = await Chatter.fromPost(postNotifier).post(
       contents,
       id,
-      roomId
+      roomId,
+      filePath
     );
     return response
       .status(CREATED)
