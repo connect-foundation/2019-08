@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled, { css } from "styled-components";
 
 export type ButtonType = "button" | "submit" | "reset" | undefined;

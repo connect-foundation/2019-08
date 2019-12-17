@@ -1,4 +1,3 @@
-import { ResponseEntity } from "data/http/api/response/ResponseEntity";
 import { UserApi } from "data/http/api/user-api";
 import { User } from "core/entity/user";
 import { UserRepositoryType } from "core/use-case/user-repository-type";

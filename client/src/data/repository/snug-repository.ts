@@ -14,7 +14,7 @@ export class SnugRepository implements SnugRepositoryType {
     try {
       const responseEntity = await this.api.create(snug);
       if (typeof responseEntity === "boolean") return false;
-      return (<ResponseEntity<Snug>>responseEntity).payload;
+      return (responseEntity as ResponseEntity<Snug>).payload;
     } catch (error) {
       return false;
     }
@@ -23,7 +23,7 @@ export class SnugRepository implements SnugRepositoryType {
   async getList(): Promise<Snug[] | boolean> {
     try {
       const responseEntity = await this.api.getList();
-      return (<ResponseEntity<Snug[]>>responseEntity).payload;
+      return (responseEntity as ResponseEntity<Snug[]>).payload;
     } catch (error) {
       return false;
     }
