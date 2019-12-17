@@ -81,7 +81,7 @@ export const PostCardContents: React.FC<PropTypes> = ({
     if (date >= 10) return date;
     return `0${date}`;
   }
-
+  console.log(filePath);
   return (
     <PostBox onClick={toggleThread}>
       <PostDetail>
@@ -89,7 +89,7 @@ export const PostCardContents: React.FC<PropTypes> = ({
         <PostDetailTimestamp>{toDateFormat(timestamp)}</PostDetailTimestamp>
       </PostDetail>
       <PostContents>{message}</PostContents>
-      {filePath && <FileContents filePath={filePath}></FileContents>}
+      <FileContents filePath={filePath!}></FileContents>
       {parseInt(replyCount) > 0 && (
         <Thread>
           <ReplyNumber>{replyCount} 댓글</ReplyNumber>
