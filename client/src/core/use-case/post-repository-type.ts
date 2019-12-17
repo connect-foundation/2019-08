@@ -6,7 +6,9 @@ import { Thread } from "../entity/thread";
 export interface PostRepositoryType {
   getList(channel: Channel): Promise<Post[] | boolean>;
 
-  create(post: Post, channel: Channel, file?: File): Promise<boolean>;
+  create(post: Post, channel: Channel): Promise<boolean>;
+
+  createWithFile(post: Post, channel: Channel, file: File): Promise<boolean>;
 
   reply(
     profile: Profile,
