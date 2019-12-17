@@ -30,7 +30,6 @@ export class PostRepository implements PostRepositoryType {
       if (responseEntity as ResponseEntity<object>) return true;
       return responseEntity as boolean;
     } catch (error) {
-      console.log(error);
       return false;
     }
   }
@@ -76,7 +75,6 @@ export class PostRepository implements PostRepositoryType {
       if (responseEntity as ResponseEntity<object>) return true;
       return responseEntity as boolean;
     } catch (error) {
-      console.log(error);
       return false;
     }
   }

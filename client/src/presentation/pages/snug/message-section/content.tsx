@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { ChatContent } from "presentation/components/snug/chat-container";
 import { ChatInputBox } from "presentation/components/snug/chat-input-box";
@@ -12,6 +12,8 @@ import { AppChannelMatchProps } from "prop-types/match-extends-types";
 import { FileUploadModal } from "presentation/components/snug/file-upload-modal";
 import { usePathParameter } from "contexts/path-parameter-context";
 import { ThreadSection } from "presentation/pages/snug/thread";
+
+const TEXT_BOX = "textbox";
 
 const MessageSectionContentWrapper = styled.section`
   width: 100%;
@@ -51,10 +53,10 @@ const ToggleButton = styled.button`
 
 export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
   const [toggleProfile, setToggleProfile] = useState(false);
-
+  const inputRef = useRef<HTMLElement>();
   const [onThread, setOnThread] = useState<boolean>(false);
   const [thread, setThread] = useState(0);
-
+  const [height, setHeight] = useState(75);
   const handleClick = () => {
     setToggleProfile(!toggleProfile);
   };
@@ -79,6 +81,10 @@ export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
   // modal state 관리하는 함수 전달
   // file input changed 발생시 modal 활성화
   const [onModal, setModal] = useState(false);
+
+  useEffect(() => {
+    if (inputRef.current) setHeight(inputRef.current!.clientHeight);
+  });
 
   useEffect(() => {
     isInParticipating();
@@ -114,9 +120,15 @@ export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
             onThread={onThread}
             resetThread={resetThread}
             resetOnThread={resetOnThread}
+            height={height}
           />
           {isParticipated ? (
-            <ChatInputBox {...props} openModal={openModal} />
+            <ChatInputBox
+              {...props}
+              openModal={openModal}
+              setHeight={setHeight}
+              ref={inputRef}
+            />
           ) : (
             <Preview {...props} setIsParticipated={setIsParticipated}></Preview>
           )}

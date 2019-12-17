@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  forwardRef,
+  RefObject
+} from "react";
 import styled from "styled-components";
 import ClipWhite from "assets/clip-white.png";
 import AtWhite from "assets/at-white.png";
@@ -12,10 +18,15 @@ import { globalSocket } from "contexts/socket-context";
 import { globalApplication } from "contexts/application-context";
 import { AppChannelMatchProps } from "prop-types/match-extends-types";
 
-const InputWrapper = styled.section`
+const MY_TEXT_AREA = "my_text_area";
+const TEXT_BOX = "textbox";
+
+const InputWrapper = styled.section.attrs({
+  id: "textbox"
+})`
   width: 100%;
-  min-height: 75px;
-  max-height: 75px;
+  height: auto;
+  max-height: 200px;
   background-color: ${({ theme }) => theme.snug};
   padding-top: 10px;
   padding-bottom: 20px;
@@ -31,6 +42,7 @@ const MarginBox = styled.section`
 
 const CustomInput = styled.section`
   width: 100%;
+  height: auto;
   border-style: solid;
   border-width: 1px;
   border-color: ${({ theme }) => theme.snugBorderColor};
@@ -38,12 +50,12 @@ const CustomInput = styled.section`
   border-radius: 10px;
   overflow: hidden;
   display: flex;
-  align-items: center;
   padding: 5px;
 `;
 
-const StyledInput = styled.input.attrs({
-  placeholder: "메세지를 입력하세요."
+const StyledInput = styled.textarea.attrs({
+  placeholder: "메세지를 입력하세요.",
+  id: "my_text_area"
 })`
   --webkit-appearance: none;
   background-color: ${({ theme }) => theme.snug};
@@ -59,10 +71,12 @@ const StyledInput = styled.input.attrs({
 
 interface PropType extends AppChannelMatchProps {
   openModal: () => void;
+  setHeight: any;
+  ref: any;
 }
 
-export const ChatInputBox: React.FC<PropType> = props => {
-  const { openModal } = props;
+export const ChatInputBox: React.FC<PropType> = forwardRef((props, ref) => {
+  const { openModal, setHeight } = props;
   const application = useContext(globalApplication);
 
   const KEY_PRESS_EVENT_KEY = "Enter";
@@ -72,7 +86,7 @@ export const ChatInputBox: React.FC<PropType> = props => {
   const { snugSocket } = useContext(globalSocket);
 
   const inputChangeEventHandler = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     setMessage(event.target.value);
   };
@@ -99,23 +113,41 @@ export const ChatInputBox: React.FC<PropType> = props => {
 
   //이 부분은 mock 데이터로 되어 있으니 차후 수정이 필요함
   const inputKeyPressEventHandler = async (
-    event: React.KeyboardEvent<HTMLInputElement>
+    event: React.KeyboardEvent<HTMLTextAreaElement>
   ) => {
-    event.stopPropagation();
+    if (event.shiftKey) return;
     if (event.key !== KEY_PRESS_EVENT_KEY) return;
-    if (!message.trim()) return;
-    if (!dispatch) return;
-
+    event.preventDefault();
+    if (!message.trim()) {
+      setMessage("");
+      return;
+    }
     const result = await application.services.postService.createMessage(
       message,
       pathPrameter.channelId!
     );
     if (!result) return;
     setMessage("");
+    resize();
   };
 
+  function resize() {
+    const textArea: HTMLElement = document.getElementById(MY_TEXT_AREA)!;
+    textArea.style.height = "0px";
+    textArea.style.height = textArea.scrollHeight + "px";
+    setHeight(document.getElementById(TEXT_BOX)!.clientHeight);
+  }
+
   return (
-    <InputWrapper>
+    <InputWrapper
+      ref={
+        ref as
+          | ((instance: HTMLElement | null) => void)
+          | RefObject<HTMLElement>
+          | null
+          | undefined
+      }
+    >
       <MarginBox></MarginBox>
       <CustomInput>
         <IconBox imageSrc={ClipWhite} onClick={openModal}></IconBox>
@@ -123,6 +155,8 @@ export const ChatInputBox: React.FC<PropType> = props => {
           value={message}
           onChange={inputChangeEventHandler}
           onKeyPress={inputKeyPressEventHandler}
+          onKeyDown={resize}
+          onKeyUp={resize}
         ></StyledInput>
         <IconBox imageSrc={AtWhite}></IconBox>
         <IconBox imageSrc={FaceWhite}></IconBox>
@@ -130,4 +164,4 @@ export const ChatInputBox: React.FC<PropType> = props => {
       <MarginBox></MarginBox>
     </InputWrapper>
   );
-};
+});

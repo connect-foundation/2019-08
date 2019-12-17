@@ -26,7 +26,9 @@ const PostDetailTimestamp = styled.span`
   font-size: 0.6rem;
 `;
 
-const PostContents = styled.span`
+const PostContents = styled.pre`
+  font-size: 1.1rem;
+  margin: 0;
   word-break: break-all;
   padding-top: 5px;
   padding-bottom: 5px;
@@ -81,7 +83,6 @@ export const PostCardContents: React.FC<PropTypes> = ({
     if (date >= 10) return date;
     return `0${date}`;
   }
-  console.log(filePath);
   return (
     <PostBox onClick={toggleThread}>
       <PostDetail>
