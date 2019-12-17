@@ -12,11 +12,16 @@ export class Participant {
     return await ParticipateIn.save(participateIn);
   }
 
-  public async findChannelsAttending(participant: Profile): Promise<Room[]> {
+  public async findChannelsAttending(participant: Profile, snugId: number): Promise<Room[]> {
     const participationInfos = await ParticipateIn.findWithRoomByParticipant(participant);
     return _.chain(participationInfos)
             .map(participationInfo => participationInfo.room)
+            .filter(room => room.snug.isSameId(snugId))
             .filter(room => room.isChannel)
             .value();
+  }
+
+  public static findPublicChannels(snugId: number): Promise<Room[]> {
+    return Room.findPublicChannelBySnugId(snugId);
   }
 }

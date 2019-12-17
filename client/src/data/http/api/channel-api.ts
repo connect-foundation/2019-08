@@ -59,10 +59,10 @@ export class ChannelApi {
       );
   }
 
-  getList(): Promise<ResponseEntity<object> | boolean> {
+  getParticipatingList(snug: Snug): Promise<ResponseEntity<object> | boolean> {
     return this.axios
       .getAxios()
-      .get(`/api/channels`)
+      .get(`/api/snugs/${snug.id!}/participates/channels`)
       .then((response: AxiosResponse<ResponseEntity<object>>) => {
         if (StatusCodes.isOk(response.status)) return response.data;
         return false;
@@ -73,6 +73,22 @@ export class ChannelApi {
           `채널 목록을 불러오는 과정에서 예기치 못한 에러가 발생했습니다.`
         );
       });
+  }
+
+  getList(snug: Snug): Promise<ResponseEntity<object> | boolean> {
+    return this.axios
+            .getAxios()
+            .get(`/api/snugs/${snug.id!}/channels`)
+            .then((response: AxiosResponse<ResponseEntity<object>>) => {
+              if (StatusCodes.isOk(response.status)) return response.data;
+              return false;
+            })
+            .catch((error: AxiosError) => {
+              return AxiosErrorHandler.handleError(
+                      error,
+                      `채널 목록을 불러오는 과정에서 예기치 못한 에러가 발생했습니다.`
+              );
+            });
   }
 
   join(channel: Channel): Promise<boolean> {

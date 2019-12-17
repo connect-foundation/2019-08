@@ -21,6 +21,6 @@ export class ParticipateIn extends BaseEntity {
   }
 
   static findWithRoomByParticipant(participant: Profile): Promise<ParticipateIn[]> {
-    return ParticipateIn.find({where: {participant}, relations: ["room"]});
+    return ParticipateIn.find({where: {participant}, relations: ["room", "room.snug"]});
   }
 }

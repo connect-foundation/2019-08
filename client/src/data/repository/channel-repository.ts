@@ -31,9 +31,20 @@ export class ChannelRepository implements ChannelRepositoryType {
     }
   }
 
-  async getChannels(): Promise<Channel[] | boolean> {
+  async getChannels(snug: Snug): Promise<Channel[] | boolean> {
     try {
-      const responseEntity = await this.api.getList();
+      const responseEntity = await this.api.getList(snug);
+      if (responseEntity)
+        return (<ResponseEntity<{channels: Channel[]}>>responseEntity).payload.channels;
+      return false;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  async getParticipatingChannels(snug: Snug): Promise<Channel[] | boolean> {
+    try {
+      const responseEntity = await this.api.getParticipatingList(snug);
       if (responseEntity)
         return (<ResponseEntity<{channels: Channel[]}>>responseEntity).payload.channels;
       return false;
@@ -46,12 +57,12 @@ export class ChannelRepository implements ChannelRepositoryType {
     return await this.api.join(channel);
   }
 
-  async isInParticipating(channel: Channel): Promise<boolean> {
+  async isInParticipating(snug: Snug, channel: Channel): Promise<boolean> {
     if (hasNotCookie("profile")) {
       throw new Error("프로필 쿠키가 존재하지 않습니다.");
     }
 
-    const channels = await this.getChannels();
+    const channels = await this.getParticipatingChannels(snug);
     if(typeof channels === "boolean") {
       return channels;
     }

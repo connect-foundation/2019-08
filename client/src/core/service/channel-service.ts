@@ -64,17 +64,24 @@ export class ChannelService {
     return !redundancy;
   }
 
-  async getChannelList(): Promise<Channel[] | boolean> {
-    return await this.repository.getChannels();
+  getChannelList(snugId: number): Promise<Channel[] | boolean> {
+    const snug: Snug = { id: snugId };
+    return this.repository.getChannels(snug);
   }
 
-  async join(channelId: number): Promise<boolean> {
-    const channel: Channel = { id: channelId };
-    return await this.repository.join(channel);
+  getParticipatingChannelList(snugId: number): Promise<Channel[] | boolean> {
+    const snug: Snug = { id: snugId };
+    return this.repository.getParticipatingChannels(snug);
   }
 
-  async isInParticipating(channelId: number): Promise<boolean> {
+  join(channelId: number): Promise<boolean> {
     const channel: Channel = { id: channelId };
-    return await this.repository.isInParticipating(channel);
+    return this.repository.join(channel);
+  }
+
+  isInParticipating(snugId: number, channelId: number): Promise<boolean> {
+    const snug: Snug = { id: snugId };
+    const channel: Channel = { id: channelId };
+    return this.repository.isInParticipating(snug, channel);
   }
 }

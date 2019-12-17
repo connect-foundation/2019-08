@@ -86,9 +86,10 @@ export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
 
   const isInParticipating = async () => {
     try {
-      const result = await Application.services.channelService.isInParticipating(
-        pathParameter.channelId!
-      );
+      const result = await Application
+              .services
+              .channelService
+              .isInParticipating(pathParameter.snugId!, pathParameter.channelId!);
       setIsParticipated(result);
     } catch (error) {}
   };

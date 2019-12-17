@@ -31,6 +31,10 @@ export class Room extends Base {
     return Room.findOne({where: {title: title}});
   }
 
+  static findPublicChannelBySnugId(snugId: number): Promise<Room[]> {
+    return Room.find({ where: { snug: snugId, isChannel: true, isPrivate: false } });
+  }
+
   static findDefaultChannelBySnug(snug: Snug): Promise<Room> {
     const order = new Order()
             .add("id", "ASC")

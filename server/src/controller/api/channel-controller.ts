@@ -24,7 +24,7 @@ import {Participant} from "../../model/participant/participant";
  * @param response
  *
  * */
-export const find = async (request: Request, response: Response) => {
+export const findByTitle = async (request: Request, response: Response): Promise<Response> => {
   const title = request.params.title;
   const channel = await Room.findByTitle(title);
   if (!!channel) {
@@ -36,15 +36,46 @@ export const find = async (request: Request, response: Response) => {
   }
 };
 
-export const findAll = async (
+export const hasSnugById = async (
+        request: Request,
+        response: Response,
+        next: NextFunction
+): Promise<void> => {
+  try {
+    const { snugId } = request.params;
+    await Snug.findOneOrFail({ where: { id: snugId } });
+    next();
+  } catch (error) {
+    next(new HttpException(error.message, INTERNAL_SERVER_ERROR));
+  }
+};
+
+export const findPublicChannels = async (
+        request: Request,
+        response: Response,
+        next: NextFunction
+): Promise<Response> => {
+  try {
+    const { snugId } = request.params;
+    const channels = await Participant.findPublicChannels(Number(snugId));
+    return response
+            .status(OK)
+            .json(ResponseForm.of<object>(FOUND_CHANNELS, {channels}));
+  } catch (error) {
+    next(new HttpException(error.message, INTERNAL_SERVER_ERROR));
+  }
+};
+
+export const findAllParticipating = async (
   request: Request,
   response: Response,
   next: NextFunction
 ): Promise<Response> => {
   try {
-    const participant = new Participant();
+    const { snugId } = request.params;
     const profile = offerProfileTokenInfo(request);
-    const channels = await participant.findChannelsAttending(profile);
+    const participant = new Participant();
+    const channels = await participant.findChannelsAttending(profile, Number(snugId));
     if (!!channels) {
       return response
         .status(OK)
@@ -66,13 +97,11 @@ export const findAll = async (
  * @param response
  *
  * */
-export const create = async (request: Request, response: Response) => {
+export const create = async (request: Request, response: Response): Promise<Response> => {
   const { title, description, privacy, snugId } = request.body;
 
   const profile = offerProfileTokenInfo(request);
-
   const isExisting = await Room.findByTitle(title);
-
   if (!!isExisting) {
     return response
       .status(CONFLICT)
@@ -97,7 +126,7 @@ export const create = async (request: Request, response: Response) => {
     .json(ResponseForm.of<Room>(CREATE_CHANNEL, channel));
 };
 
-export const join = async (request: Request, response: Response) => {
+export const join = async (request: Request, response: Response): Promise<Response> => {
   try {
     const payload = offerProfileTokenInfo(request);
     const { channelId } = request.body;
@@ -106,8 +135,8 @@ export const join = async (request: Request, response: Response) => {
       participant: { id: payload.id }
     }).save();
     if (!result) throw new Error("조인실패");
-    response.status(OK).json(ResponseForm.of("성공", result));
+    return response.status(OK).json(ResponseForm.of("성공", result));
   } catch (error) {
-    response.status(NOT_FOUND).json(ResponseForm.of(error.message));
+    return response.status(NOT_FOUND).json(ResponseForm.of(error.message));
   }
 };
