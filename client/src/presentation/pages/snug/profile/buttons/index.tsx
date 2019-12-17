@@ -22,13 +22,6 @@ export const Buttons: React.FC<PropTypes> = props => {
     <Wrapper>
       <CustomButton
         color={"#148567"}
-        name={"File 올리기"}
-        size={"big"}
-        fontColor={"#ffffff"}
-        borderColor={"#000000"}
-      />
-      <CustomButton
-        color={"#148567"}
         name={"Profile 수정"}
         size={"big"}
         fontColor={"#ffffff"}

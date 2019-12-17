@@ -48,6 +48,7 @@ const ImageWrapper = styled.section`
   min-width: 400px;
   max-width: 400px;
   max-height: 40%;
+  text-align: center;
 `;
 interface WrapperPropTypes {
   toggleProfile: boolean;
@@ -92,7 +93,7 @@ export const ProfileSection: React.FC<PropTypes> = props => {
       )}
       <Header />
       <ImageWrapper>
-        <Thumbnail />
+        <Thumbnail thumbnail={currentProfile.thumbnail} />
       </ImageWrapper>
       <Buttons toggleModal={toggleModal} />
       <StatusSection
