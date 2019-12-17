@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { FileContents } from "./file-contents";
 
 const PostBox = styled.section`
-  padding: 5px;
   width: 100%;
   height: auto;
   font-weight: 500;
@@ -31,6 +30,14 @@ const PostContents = styled.span`
   padding-top: 5px;
   padding-bottom: 5px;
 `;
+
+interface PropTypes {
+  writerName: string;
+  createdAt: string;
+  contents: string;
+  replyCount: string;
+  toggleThread?(event: React.MouseEvent): void;
+}
 
 const Thread = styled.div`
   color: white;

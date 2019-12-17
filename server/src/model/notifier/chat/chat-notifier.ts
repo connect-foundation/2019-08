@@ -1,14 +1,17 @@
-import {Notifier} from "../notifier";
-import {Post} from "../../../domain/entity/Post";
+import { Notifier } from "../notifier";
+import { Post } from "../../../domain/entity/Post";
 import ResponseForm from "../../../utils/response-form";
-import {publishIO} from "../../../socket/socket-manager";
+import { sendMessage } from "../../../socket/action/snug";
+import { PostInfo } from "../../chat/post-info";
 
 export abstract class ChatNotifier implements Notifier<Post> {
   public send(post: Post): boolean {
-    return publishIO()
-            .of("/snug")
-            .to(this.getRoom())
-            .emit(this.getEvent(), ResponseForm.of<Post>(this.getMessage(), post));
+    return sendMessage(
+      this.getRoom(),
+      this.getEvent(),
+      this.getMessage(),
+      PostInfo.fromPost(post)
+    );
   }
 
   public abstract getRoom(): string;

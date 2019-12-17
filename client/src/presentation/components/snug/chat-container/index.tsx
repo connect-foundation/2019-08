@@ -27,10 +27,17 @@ const Wrapper = styled.section.attrs({})`
 export const ChatContent: React.FC<ChannelRouteComponentType & {
   isParticipated: boolean;
   toggleThread: (postId: number) => void;
-  addReplyCount: (postId: number, count: number) => void;
-  replyCount: number[];
+  onThread: boolean;
+  resetThread: (postId: number) => void;
+  resetOnThread: (onThread: boolean) => void;
 }> = props => {
-  const { isParticipated, toggleThread, addReplyCount, replyCount } = props;
+  const {
+    isParticipated,
+    toggleThread,
+    onThread,
+    resetThread,
+    resetOnThread
+  } = props;
   const application = useContext(globalApplication);
   const posts: Post[] = useMessages();
   const dispatch = useMessagesDispatch();
@@ -45,7 +52,7 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
         pathParameter.channelId!
       );
       if (typeof resultPosts === "boolean") return;
-      resultPosts.forEach(post => addReplyCount(post.id!, parseInt(post.replyCount!)));
+      resetOnThread(false);
       dispatch({
         type: "MULTI_INPUT",
         posts: resultPosts
@@ -66,10 +73,12 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
         key={post.id!}
         profile={post.profile}
         contents={post.contents!}
-        replyCount={!replyCount[post.id!] ? post.replyCount : replyCount[post.id!].toString()}
+        replyCount={post.replyCount!}
         createdAt={post.createdAt!}
         updatedAt={post.updatedAt!}
-        toggleThread={(event: React.MouseEvent) => toggleThread(post.id!)}
+        toggleThread={(event: React.MouseEvent) =>
+          onThread ? resetThread(post.id!) : toggleThread(post.id!)
+        }
       />
     ));
   }

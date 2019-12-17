@@ -27,7 +27,6 @@ export class PostRepository implements PostRepositoryType {
   async create(post: Post, channel: Channel): Promise<boolean> {
     try {
       const responseEntity = await this.api.createPost(post, channel);
-      console.log(responseEntity);
       if (<ResponseEntity<object>>responseEntity) return true;
       return <boolean>responseEntity;
     } catch (error) {
