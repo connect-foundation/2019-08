@@ -30,11 +30,11 @@ export class ChannelRepository implements ChannelRepositoryType {
     }
   }
 
-  async getChannels(snug: Snug): Promise<Channel[] | boolean> {
+  async getChannels(): Promise<Channel[] | boolean> {
     try {
-      const responseEntity = await this.api.getList(snug);
+      const responseEntity = await this.api.getList();
       if (responseEntity)
-        return (<ResponseEntity<Channel[]>>responseEntity).payload;
+        return (<ResponseEntity<{channels: Channel[]}>>responseEntity).payload.channels;
       return false;
     } catch (error) {
       return false;

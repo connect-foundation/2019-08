@@ -41,9 +41,7 @@ export const ChannelList: React.FC<PropTypes> = ({
 
   useEffect(() => {
     (async function() {
-      const channel = await Application.services.channelService.getChannelList(
-        Number(match.params.snugId)
-      );
+      const channel = await Application.services.channelService.getChannelList();
       if (typeof channel === "boolean" || !dispatch) return;
       dispatch({
         type: "MULTI",

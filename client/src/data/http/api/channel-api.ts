@@ -59,11 +59,11 @@ export class ChannelApi {
       );
   }
 
-  getList(snug: Snug): Promise<ResponseEntity<Channel[]> | boolean> {
+  getList(): Promise<ResponseEntity<object> | boolean> {
     return this.axios
       .getAxios()
-      .get(`/api/snugs/${snug.id!}/channels`)
-      .then((response: AxiosResponse<ResponseEntity<Channel[]>>) => {
+      .get(`/api/channels`)
+      .then((response: AxiosResponse<ResponseEntity<object>>) => {
         if (StatusCodes.isOk(response.status)) return response.data;
         return false;
       })

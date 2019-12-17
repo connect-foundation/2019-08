@@ -1,17 +1,9 @@
-import { Participant } from "./../../model/participant/participant";
-import { Profile } from "./../../domain/entity/Profile";
-import { ParticipateIn } from "./../../domain/entity/ParticipateIn";
-import { offerProfileTokenInfo } from "./../../validator/identifier-validator";
-import { Room } from "../../domain/entity/Room";
-import { NextFunction, Request, Response } from "express";
+import {ParticipateIn} from "./../../domain/entity/ParticipateIn";
+import {offerProfileTokenInfo} from "./../../validator/identifier-validator";
+import {Room} from "../../domain/entity/Room";
+import {NextFunction, Request, Response} from "express";
 import ResponseForm from "../../utils/response-form";
-import {
-  CONFLICT,
-  CREATED,
-  INTERNAL_SERVER_ERROR,
-  NOT_FOUND,
-  OK
-} from "http-status-codes";
+import {CONFLICT, CREATED, INTERNAL_SERVER_ERROR, NOT_FOUND, OK} from "http-status-codes";
 import {
   ALREADY_EXIST_CHANNEL,
   CREATE_CHANNEL,
@@ -21,7 +13,8 @@ import {
   NOT_FOUND_CHANNELS
 } from "./common/messages";
 import HttpException from "../../utils/exception/HttpException";
-import { Snug } from "../../domain/entity/Snug";
+import {Snug} from "../../domain/entity/Snug";
+import {Participant} from "../../model/participant/participant";
 
 /**
  *
@@ -47,16 +40,15 @@ export const findAll = async (
   request: Request,
   response: Response,
   next: NextFunction
-) => {
+): Promise<Response> => {
   try {
-    const { snugId } = request.params;
-    const exSnug = await Snug.findOne({ where: { id: snugId } });
-
-    const channels = await Room.find({ where: { snug: exSnug } });
+    const participant = new Participant();
+    const profile = offerProfileTokenInfo(request);
+    const channels = await participant.findChannelsAttending(profile);
     if (!!channels) {
       return response
         .status(OK)
-        .json(ResponseForm.of<Room[]>(FOUND_CHANNELS, channels));
+        .json(ResponseForm.of<object>(FOUND_CHANNELS, {channels}));
     } else {
       next(new HttpException(NOT_FOUND_CHANNELS, NOT_FOUND));
     }
@@ -77,7 +69,7 @@ export const findAll = async (
 export const create = async (request: Request, response: Response) => {
   const { title, description, privacy, snugId } = request.body;
 
-  const profile = <Profile>offerProfileTokenInfo(request);
+  const profile = offerProfileTokenInfo(request);
 
   const isExisting = await Room.findByTitle(title);
 
@@ -107,7 +99,7 @@ export const create = async (request: Request, response: Response) => {
 
 export const join = async (request: Request, response: Response) => {
   try {
-    const payload: any = <object>offerProfileTokenInfo(request);
+    const payload = offerProfileTokenInfo(request);
     const { channelId } = request.body;
     const result = await ParticipateIn.create({
       room: { id: channelId },

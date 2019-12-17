@@ -64,9 +64,8 @@ export class ChannelService {
     return !redundancy;
   }
 
-  async getChannelList(snugId: number): Promise<Channel[] | boolean> {
-    const snug: Snug = { id: snugId };
-    return await this.repository.getChannels(snug);
+  async getChannelList(): Promise<Channel[] | boolean> {
+    return await this.repository.getChannels();
   }
 
   async join(channelId: number): Promise<boolean> {

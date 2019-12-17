@@ -19,4 +19,8 @@ export class ParticipateIn extends BaseEntity {
     this.participant = _.cloneDeep(participant);
     this.room = _.cloneDeep(room);
   }
+
+  static findWithRoomByParticipant(participant: Profile): Promise<ParticipateIn[]> {
+    return ParticipateIn.find({where: {participant}, relations: ["room"]});
+  }
 }

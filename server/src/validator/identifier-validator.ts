@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { User } from "../domain/entity/User";
+import {Profile} from "../domain/entity/Profile";
 
 enum Numbers {
   MIN_CHARACTER_DIGIT = 0,
@@ -65,15 +66,15 @@ export const isOutOfRange = (target: string): boolean => {
 export const offerTokenInfo = (request: Request): UserInfo => {
   const token = request.headers["auth-token"];
   if (!token) throw new Error("토큰이 존재하지 않습니다.");
-  const decoded = <UserInfo>jwt.verify(<string>token, process.env.SECRET_KEY);
+  const decoded = jwt.verify(token as string, process.env.SECRET_KEY) as UserInfo;
   return decoded;
 };
 
-export const offerProfileTokenInfo = (request: Request) => {
+export const offerProfileTokenInfo = (request: Request): Profile => {
   const token = request.cookies["profile"];
   if (!token) throw new Error("토큰이 존재하지 않습니다.");
-  const decoded = jwt.verify(<string>token, process.env.SECRET_KEY);
-  return decoded;
+  const decoded = jwt.verify(token as string, process.env.SECRET_KEY);
+  return decoded as Profile;
 };
 
 export const isVerifyLogined = async (
