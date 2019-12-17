@@ -4,7 +4,8 @@ import {isVerifyProfile} from "../../../../validator/identifier-validator";
 
 const router = Router({mergeParams: true});
 
-router.use(ChannelApiController.hasSnugById, isVerifyProfile);
+router.use(isVerifyProfile);
+
 router.route("/")
         .get(ChannelApiController.findAllParticipating);
 

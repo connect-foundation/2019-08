@@ -63,6 +63,12 @@ export const isOutOfRange = (target: string): boolean => {
   return !(Numbers.MIN_INTEGER_ID < digits && digits < Numbers.MAX_INTEGER_ID);
 };
 
+export const isNumeric = (id: string): void => {
+  if (hasNotValue(id) || hasNotEveryNumber(id) || isOutOfRange(id)) {
+    throw new Error("Invalid id format. Must be an Number");
+  }
+};
+
 export const offerTokenInfo = (request: Request): UserInfo => {
   const token = request.headers["auth-token"];
   if (!token) throw new Error("토큰이 존재하지 않습니다.");
