@@ -11,11 +11,24 @@ import {
   SUCCESS_FOUND_POSTS,
   SUCCESS_FOUND_REPLIES
 } from "./common/messages";
+import { PUBLISH_EVENT } from "../../socket/common/events/publish-type";
+import { Page } from "./common/pagenation/strategy/page";
+import { IdPage } from "./common/pagenation/strategy/id-page";
+import { DefaultPage } from "./common/pagenation/strategy/default-page";
+
 import {Chatter} from "../../model/chat/chatter";
 import {PostNotifier} from "../../model/notifier/chat/post-notifier";
 import {ReplyNotifier} from "../../model/notifier/chat/reply-notifier";
 import {PostInfo} from "../../model/chat/post-info";
 import {ReplyInfo} from "../../model/chat/reply-info";
+/**
+ *
+ * client에서 보내온 메시지를 기반으로 post를 DB에 저장
+ *
+ * @param request
+ * @param response
+ *
+ */
 
 export const create = async (request: Request, response: Response): Promise<Response> => {
   const {profileId, contents, roomId} = request.body;

@@ -35,7 +35,7 @@ export const Snug: React.FC<AppChannelMatchProps> = props => {
         pathParameter.snugId!
       );
     })(id);
-  }, [pathParameter]);
+  }, [pathParameter.snugId]);
 
   useEffect(() => {
     if (

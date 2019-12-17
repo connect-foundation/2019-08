@@ -4,8 +4,7 @@ import ClipWhite from "assets/clip-white.png";
 import AtWhite from "assets/at-white.png";
 import FaceWhite from "assets/face-white.png";
 import { IconBox } from "presentation/components/atomic-reusable/icon-box";
-import { useMessagesDispatch, useMessages } from "contexts/messages-context";
-import dubu from "assets/dubu.png";
+import { useMessagesDispatch } from "contexts/messages-context";
 import { ResponseEntity } from "data/http/api/response/ResponseEntity";
 import { Post } from "core/entity/post";
 import { usePathParameter } from "contexts/path-parameter-context";
@@ -63,7 +62,7 @@ interface PropType extends AppChannelMatchProps {
 }
 
 export const ChatInputBox: React.FC<PropType> = props => {
-  const { Application, openModal } = props;
+  const { openModal } = props;
   const application = useContext(globalApplication);
 
   const KEY_PRESS_EVENT_KEY = "Enter";
@@ -96,7 +95,7 @@ export const ChatInputBox: React.FC<PropType> = props => {
         contents: payload.contents!
       });
     });
-  }, [pathPrameter]);
+  }, [pathPrameter.channelId]);
 
   //이 부분은 mock 데이터로 되어 있으니 차후 수정이 필요함
   const inputKeyPressEventHandler = async (
