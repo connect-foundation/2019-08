@@ -1,6 +1,5 @@
-import dotenv from "dotenv";
 import "reflect-metadata";
-import express, {Express} from "express";
+import express, { Express } from "express";
 import morgan from "morgan";
 import hpp from "hpp";
 import helmet from "helmet";
@@ -22,8 +21,6 @@ export default class App {
   private static connection: Connection;
 
   static async start() {
-    const envPath = __dirname.concat("/../.env.local");
-    dotenv.config({ path: envPath });
     return await createConnection()
       .then(connection => {
         this.connection = connection;
