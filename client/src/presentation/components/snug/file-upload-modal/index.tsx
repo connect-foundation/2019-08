@@ -127,7 +127,7 @@ export const FileUploadModal: React.FC<PropTypes> = props => {
 
   // file upload 되었을 때, input highlight
   useEffect(() => {
-    document.getElementById("file-upload-message")?.focus();
+    document.getElementById("file-upload-message")!.focus();
   }, [file]);
 
   const onClick: (
@@ -163,7 +163,7 @@ export const FileUploadModal: React.FC<PropTypes> = props => {
             <FileDropArea setFile={setFile} />
           </label>
           <HiddenInput id="fileInput" onChange={onFileChange} />
-          {file && file.size > 0 ? <FilePreview file={file} /> : undefined}
+          {file ? <FilePreview file={file} /> : undefined}
         </ModalBody>
 
         <ModalFooter>
