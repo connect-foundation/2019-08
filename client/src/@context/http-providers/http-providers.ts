@@ -6,6 +6,7 @@ import { UserApi } from "data/http/api/user-api";
 import { AuthApi } from "data/http/api/auth-api";
 import { InviteApi } from "data/http/api/invite-api";
 import { ProfileApi } from "data/http/api/profile-api";
+import { UploadApi } from "data/http/api/upload-api";
 
 export class HttpProviderDependencies {
   private readonly channel: ChannelApi;
@@ -15,6 +16,7 @@ export class HttpProviderDependencies {
   private readonly user: UserApi;
   private readonly invite: InviteApi;
   private readonly profile: ProfileApi;
+  private readonly uploadFile: UploadApi;
   private readonly axiosWrapper: AxiosWrapper;
 
   constructor() {
@@ -26,6 +28,7 @@ export class HttpProviderDependencies {
     this.user = new UserApi(this.axiosWrapper);
     this.invite = new InviteApi(this.axiosWrapper);
     this.profile = new ProfileApi(this.axiosWrapper);
+    this.uploadFile = new UploadApi(this.axiosWrapper);
   }
 
   getChannel(): ChannelApi {
@@ -54,5 +57,9 @@ export class HttpProviderDependencies {
 
   getProfile(): ProfileApi {
     return this.profile;
+  }
+
+  getUpload(): UploadApi {
+    return this.uploadFile;
   }
 }

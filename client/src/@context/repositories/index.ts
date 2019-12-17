@@ -7,16 +7,17 @@ import { AuthRepository } from "data/repository/auth-repository";
 import { UserRepositoryDependency } from "./user";
 import { InviteRepositoryDependency } from "./invite";
 import { ProfileRepositoryDependency } from "./profile";
+import { UploadRepositoryDependency } from "./upload";
 
 export class RepositoryDependencies {
   private readonly chatRoom: ChatRoomRepositoryDependency;
   private readonly posting: PostingRepositoryDependency;
   private readonly snug: SnugRepositoryDependency;
   private readonly invite: InviteRepositoryDependency;
-
   private readonly auth: AuthRepository;
   private readonly user: UserRepositoryDependency;
   private readonly profile: ProfileRepositoryDependency;
+  private readonly upload: UploadRepositoryDependency;
 
   constructor(
     apies: HttpProviderDependencies,
@@ -29,6 +30,7 @@ export class RepositoryDependencies {
     this.auth = new AuthRepository(apies.getAuth(), storage.getJwtLocal());
     this.user = new UserRepositoryDependency(apies.getUser());
     this.profile = new ProfileRepositoryDependency(apies.getProfile());
+    this.upload = new UploadRepositoryDependency(apies.getUpload());
   }
 
   getChatRoom() {
@@ -56,5 +58,9 @@ export class RepositoryDependencies {
 
   getProfile() {
     return this.profile;
+  }
+
+  getUpload() {
+    return this.upload;
   }
 }
