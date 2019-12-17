@@ -26,8 +26,18 @@ const Wrapper = styled.section.attrs({})`
 
 export const ChatContent: React.FC<ChannelRouteComponentType & {
   isParticipated: boolean;
+  toggleThread: (postId: number) => void;
+  onThread: boolean;
+  resetThread: (postId: number) => void;
+  resetOnThread: (onThread: boolean) => void;
 }> = props => {
-  const { isParticipated } = props;
+  const {
+    isParticipated,
+    toggleThread,
+    onThread,
+    resetThread,
+    resetOnThread
+  } = props;
   const application = useContext(globalApplication);
   const posts: Post[] = useMessages();
   const dispatch = useMessagesDispatch();
@@ -41,7 +51,8 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
       const resultPosts = await application.services.postService.getList(
         pathParameter.channelId!
       );
-      if (typeof resultPosts == "boolean") return;
+      if (typeof resultPosts === "boolean") return;
+      resetOnThread(false);
       dispatch({
         type: "MULTI_INPUT",
         posts: resultPosts
@@ -54,6 +65,7 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
     obj.scrollTop = obj.scrollHeight;
   }, [posts]);
 
+  // thread개수 정하는 logic추가
   function messageList(): React.ReactNode {
     if (!posts) return <></>;
     return posts!.map((post: Post) => (
@@ -61,8 +73,12 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
         key={post.id!}
         profile={post.profile}
         contents={post.contents!}
+        replyCount={post.replyCount!}
         createdAt={post.createdAt!}
         updatedAt={post.updatedAt!}
+        toggleThread={(event: React.MouseEvent) =>
+          onThread ? resetThread(post.id!) : toggleThread(post.id!)
+        }
       />
     ));
   }

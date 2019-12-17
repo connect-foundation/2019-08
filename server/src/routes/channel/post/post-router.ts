@@ -9,5 +9,5 @@ const router = Router({mergeParams: true});
  * post controller findByChannelId() 메소드 호출
  *
  * */
-router.get("/", PostApiController.findByChannelId);
+router.get("/", PostApiController.findPosts);
 export default router;

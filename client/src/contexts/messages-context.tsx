@@ -2,7 +2,7 @@ import React, { createContext, Dispatch, useReducer, useContext } from "react";
 import { Post } from "core/entity/post";
 import { Profile } from "core/entity/profile";
 
-//코그 출처 https://velog.io/@velopert/typescript-context-api
+//코드 출처 https://velog.io/@velopert/typescript-context-api
 export type Action =
   | {
       type: "CREATE";
@@ -22,7 +22,15 @@ export type Action =
     }
   | {
       type: "CLEAR_ALL";
+    }
+  | {
+      type: "UPDATE_REPLYCOUNT";
+      posts?: Post[];
+    }
+    | {
+      type: "GET_ALL"
     };
+
 
 type MessageDispatch = Dispatch<Action>;
 
@@ -50,6 +58,10 @@ const messageReducer = (state: Posts, action: Action): Posts => {
       return state.concat(action.posts!);
     case "CLEAR_ALL":
       return [];
+    case "UPDATE_REPLYCOUNT":
+      return [...action.posts!];
+    case "GET_ALL":
+      return state;
   }
 };
 

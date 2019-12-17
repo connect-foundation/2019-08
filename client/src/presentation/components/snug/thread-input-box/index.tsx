@@ -1,19 +1,17 @@
 import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import ClipWhite from "assets/clip-white.png";
-import AtWhite from "assets/at-white.png";
-import FaceWhite from "assets/face-white.png";
 import { IconBox } from "presentation/components/atomic-reusable/icon-box";
-import { useMessagesDispatch } from "contexts/messages-context";
+import { useMessages, useMessagesDispatch } from "contexts/messages-context";
 import { ResponseEntity } from "data/http/api/response/ResponseEntity";
 import { Post } from "core/entity/post";
 import { usePathParameter } from "contexts/path-parameter-context";
 import { globalSocket } from "contexts/socket-context";
 import { globalApplication } from "contexts/application-context";
-import { AppChannelMatchProps } from "prop-types/match-extends-types";
 
 const InputWrapper = styled.section`
-  width: 100%;
+  width: 400px;
+  max-width: 400px;
   min-height: 75px;
   max-height: 75px;
   background-color: ${({ theme }) => theme.snug};
@@ -39,7 +37,6 @@ const CustomInput = styled.section`
   overflow: hidden;
   display: flex;
   align-items: center;
-  padding: 5px;
 `;
 
 const StyledInput = styled.input.attrs({
@@ -57,20 +54,37 @@ const StyledInput = styled.input.attrs({
   }
 `;
 
-interface PropType extends AppChannelMatchProps {
-  openModal: () => void;
+interface PropTypes {
+  addReply(reply: Post): void;
+  thread: number;
 }
 
-export const ChatInputBox: React.FC<PropType> = props => {
-  const { openModal } = props;
-  const application = useContext(globalApplication);
-
+export const ThreadInputBox: React.FC<PropTypes> = ({ addReply, thread }) => {
   const KEY_PRESS_EVENT_KEY = "Enter";
   const [message, setMessage] = useState("");
   const [id, setId] = useState(0);
+  const posts: Post[] = useMessages();
   const dispatch = useMessagesDispatch();
   const pathPrameter = usePathParameter();
   const { snugSocket } = useContext(globalSocket);
+  const application = useContext(globalApplication);
+  useEffect(() => {
+    snugSocket.off("replyPost");
+    snugSocket.on("replyPost", (resultData: ResponseEntity<any>) => {
+      const { payload } = resultData;
+      addReply(payload);
+      const targetPostIndex = posts.findIndex(
+        post => post.id == payload.parent.id
+      );
+      const targetPost = posts[targetPostIndex];
+      targetPost.replyCount = (parseInt(targetPost.replyCount!) + 1).toString();
+      posts[targetPostIndex] = { ...targetPost };
+      dispatch({
+        type: "UPDATE_REPLYCOUNT",
+        posts: [...posts]
+      });
+    });
+  }, [pathPrameter]);
 
   const inputChangeEventHandler = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -78,26 +92,6 @@ export const ChatInputBox: React.FC<PropType> = props => {
     setMessage(event.target.value);
   };
 
-  useEffect(() => {
-    snugSocket.off("newPost");
-    snugSocket.on("newPost", (resultData: ResponseEntity<Post>) => {
-      const { payload } = resultData;
-      if (payload.room!.id != pathPrameter.channelId) return;
-      dispatch({
-        type: "CREATE",
-        id: payload.id!,
-        profile: {
-          name: payload.profile!.name! || "두부",
-          thumbnail: payload.profile!.thumbnail!
-        },
-        createdAt: payload.createdAt!,
-        updatedAt: payload.updatedAt!,
-        contents: payload.contents!
-      });
-    });
-  }, [pathPrameter.channelId]);
-
-  //이 부분은 mock 데이터로 되어 있으니 차후 수정이 필요함
   const inputKeyPressEventHandler = async (
     event: React.KeyboardEvent<HTMLInputElement>
   ) => {
@@ -106,10 +100,10 @@ export const ChatInputBox: React.FC<PropType> = props => {
     if (!message.trim()) return;
     if (!dispatch) return;
 
-    const result = await application.services.postService.createMessage(
-      1,
+    const result = await application.services.postService.reply(
       message,
-      pathPrameter.channelId!
+      pathPrameter.channelId!,
+      thread
     );
     if (!result) return;
     setId(id + 1);
@@ -120,14 +114,12 @@ export const ChatInputBox: React.FC<PropType> = props => {
     <InputWrapper>
       <MarginBox></MarginBox>
       <CustomInput>
-        <IconBox imageSrc={ClipWhite} onClick={openModal}></IconBox>
+        <IconBox imageSrc={ClipWhite}></IconBox>
         <StyledInput
           value={message}
           onChange={inputChangeEventHandler}
           onKeyPress={inputKeyPressEventHandler}
         ></StyledInput>
-        <IconBox imageSrc={AtWhite}></IconBox>
-        <IconBox imageSrc={FaceWhite}></IconBox>
       </CustomInput>
       <MarginBox></MarginBox>
     </InputWrapper>
