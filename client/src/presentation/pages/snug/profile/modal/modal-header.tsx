@@ -4,6 +4,8 @@ import LetterXWhite from "assets/letter-x-white.png";
 import { IconBox } from "presentation/components/atomic-reusable/icon-box";
 
 const Wrapper = styled.header`
+  margin-top: 2rem;
+  margin-bottom: 1rem;
   display: flex;
   justify-content: space-between;
   width: 90%;

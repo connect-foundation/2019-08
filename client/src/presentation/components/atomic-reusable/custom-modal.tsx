@@ -3,15 +3,15 @@ import styled, { ThemeProvider } from "styled-components";
 import { colorTheme } from "presentation/theme/color-theme";
 
 const Wrapper = styled.section`
-  position: absolute;
-  width: 100vw;
-  height: 100vh;
+  position: fixed;
   z-index: 1;
-  background-color: ${({ theme }) => theme.snug};
-  color: ${({ theme }) => theme.snugMainFont};
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
 `;
 
 export const CustomModal: React.FC = ({ children }) => {
