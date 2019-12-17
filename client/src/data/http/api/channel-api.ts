@@ -6,6 +6,7 @@ import {StatusCodes} from "./status-codes";
 import {AxiosWrapper} from "./axios-wrapper";
 import {Snug} from "core/entity/snug";
 import {ParticipateInfo} from "../../../core/entity/participate-info";
+import {ChannelModel} from "../../../core/model/channel-model";
 
 export class ChannelApi {
   private axios: AxiosWrapper;
@@ -14,50 +15,35 @@ export class ChannelApi {
     this.axios = axios;
   }
 
-  create(
-          snug: Snug,
-          channel: Channel
-  ): Promise<ResponseEntity<Channel> | boolean> {
+  create(channel: ChannelModel): Promise<{channel: Channel}> {
     return this.axios
             .getAxios()
             .post(`/api/channels`, {
-              snugId: snug.id!,
+              snugId: channel.snugId!,
               title: channel.title!,
               description: channel.description!,
               privacy: channel.privacy!
             })
-            .then((response: AxiosResponse<ResponseEntity<Channel>>) => {
+            .then((response: AxiosResponse<ResponseEntity<{channel: Channel}>>) => {
               if (StatusCodes.isCreated(response.status)) {
-                return response.data;
-              } else {
-                return false;
+                return response.data.payload;
               }
-            })
-            .catch((error: AxiosError) =>
-                    AxiosErrorHandler.handleError(
-                            error,
-                            `${channel.title!} 추가 과정에서 예기치 못한 에러가 발생했습니다.`
-                    )
-            );
+
+              throw new Error(`${channel.title!} 추가 과정에서 예기치 못한 에러가 발생했습니다.`);
+            });
   }
 
-  findByTitle(title: string): Promise<ResponseEntity<Channel> | boolean> {
+  findByTitleAndSnugId(title: string, snugId: string): Promise<ResponseEntity<{channel: Channel}>> {
     return this.axios
             .getAxios()
-            .get(`/api/channels/${title}`)
-            .then((response: AxiosResponse<ResponseEntity<Channel>>) => {
+            .get(`/api/snugs/${snugId}/channels/${title}`)
+            .then((response: AxiosResponse<ResponseEntity<{channel: Channel}>>) => {
               if (StatusCodes.isOk(response.status)) {
                 return response.data;
-              } else {
-                return false;
               }
-            })
-            .catch((error: AxiosError) =>
-                    AxiosErrorHandler.handleError(
-                            error,
-                            `${title} 조회 과정에서 예기치 못한 에러가 발생했습니다.`
-                    )
-            );
+
+              throw new Error(`${title} 조회 과정에서 예기치 못한 에러가 발생했습니다.`);
+            });
   }
 
   getParticipatingList(snug: Snug): Promise<ResponseEntity<object> | boolean> {

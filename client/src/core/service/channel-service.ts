@@ -20,6 +20,7 @@ export class ChannelService {
    *
    * 채널 생성
    *
+   * @param snugId
    * @param title
    * @param description
    * @param privacy
@@ -27,18 +28,18 @@ export class ChannelService {
    *
    * */
   async create(
-    snugId: number,
     title: string,
+    snugId: string,
     description: string,
     privacy: boolean
-  ): Promise<boolean | Channel> {
-    const snug: Snug = { id: snugId };
-    const channel: ChannelModel = new ChannelModel(title, description, privacy);
+  ): Promise<Channel> {
+    const channel: ChannelModel = new ChannelModel(title, snugId, description, privacy);
     const satisfaction = await this.isSatisfied(channel);
     if (satisfaction) {
-      return this.repository.create(snug, channel);
+      return this.repository.create(channel);
     }
-    return false;
+
+    return {};
   }
 
   /**
@@ -51,17 +52,17 @@ export class ChannelService {
     if (channel.isImpossibleFormat()) {
       return false;
     }
-    return await this.isNotDuplicated(channel.getTitle());
+    return await this.isNotDuplicated(channel);
   }
 
   /**
    *
    * 채널명 중복 확인
-   * @param title
+   * @param channel
    *
    * */
-  private async isNotDuplicated(title: string): Promise<boolean> {
-    const redundancy = await this.repository.hasByTitle(title);
+  private async isNotDuplicated(channel: ChannelModel): Promise<boolean> {
+    const redundancy = await this.repository.hasByTitleAndSnugId(channel.getTitle(), channel.getSnugId());
     return !redundancy;
   }
 

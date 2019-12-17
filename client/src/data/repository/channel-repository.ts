@@ -1,10 +1,11 @@
-import { ResponseEntity } from "./../http/api/response/ResponseEntity";
-import { ChannelApi } from "../http/api/channel-api";
-import { Channel } from "../../core/entity/channel";
-import { ChannelRepositoryType } from "../../core/use-case/channel-repository-type";
-import { Snug } from "core/entity/snug";
+import {ResponseEntity} from "./../http/api/response/ResponseEntity";
+import {ChannelApi} from "../http/api/channel-api";
+import {Channel} from "../../core/entity/channel";
+import {ChannelRepositoryType} from "../../core/use-case/channel-repository-type";
+import {Snug} from "core/entity/snug";
 import {hasNotCookie} from "../../util/cookie";
 import {ParticipateInfo} from "../../core/entity/participate-info";
+import {ChannelModel} from "../../core/model/channel-model";
 
 export class ChannelRepository implements ChannelRepositoryType {
   private api: ChannelApi;
@@ -13,19 +14,14 @@ export class ChannelRepository implements ChannelRepositoryType {
     this.api = api;
   }
 
-  async create(snug: Snug, channel: Channel): Promise<boolean | Channel> {
-    try {
-      const responseEntity = await this.api.create(snug, channel);
-      if (typeof responseEntity === "boolean") return false;
-      return (responseEntity as ResponseEntity<Channel>).payload;
-    } catch (error) {
-      return false;
-    }
+  async create(channelModel: ChannelModel): Promise<Channel> {
+    const {channel} = await this.api.create(channelModel);
+    return channel;
   }
 
-  async hasByTitle(title: string): Promise<boolean> {
+  async hasByTitleAndSnugId(title: string, snugId: string): Promise<boolean> {
     try {
-      const responseEntity = await this.api.findByTitle(title);
+      const responseEntity = await this.api.findByTitleAndSnugId(title, snugId);
       return !!responseEntity;
     } catch (error) {
       return false;
@@ -36,7 +32,7 @@ export class ChannelRepository implements ChannelRepositoryType {
     try {
       const responseEntity = await this.api.getList(snug);
       if (responseEntity)
-        return (responseEntity as ResponseEntity<{channels: Channel[]}>).payload.channels;
+        return (responseEntity as ResponseEntity<{ channels: Channel[] }>).payload.channels;
       return false;
     } catch (error) {
       return false;
@@ -47,7 +43,7 @@ export class ChannelRepository implements ChannelRepositoryType {
     try {
       const responseEntity = await this.api.getParticipatingList(snug);
       if (responseEntity)
-        return (responseEntity as ResponseEntity<{channels: Channel[]}>).payload.channels;
+        return (responseEntity as ResponseEntity<{ channels: Channel[] }>).payload.channels;
       return false;
     } catch (error) {
       return false;
@@ -67,12 +63,10 @@ export class ChannelRepository implements ChannelRepositoryType {
     if (hasNotCookie("profile")) {
       throw new Error("프로필 쿠키가 존재하지 않습니다.");
     }
-
     const channels = await this.getParticipatingChannels(snug);
-    if(typeof channels === "boolean") {
+    if (typeof channels === "boolean") {
       return channels;
     }
-
     return channels.some(channelParameter => channelParameter.id === channel.id);
   }
 }

@@ -8,15 +8,6 @@ const router = Router({mergeParams: true});
 router.route("/:channelId")
         .get(ChannelApiController.findById);
 
-/**
- *
- * /api/channels/:name 경로 대한
- * channel controller 의 find() 메소드 호출
- *
- * */
-router.route("/:title")
-        .get(ChannelApiController.findByTitle);
-
 router.route("/")
         .post(ChannelApiController.create);
 

@@ -27,8 +27,8 @@ export class Room extends Base {
   @ManyToOne(type => Snug)
   snug: Snug;
 
-  static findByTitle(title: string): Promise<Room> {
-    return Room.findOne({where: {title: title}});
+  static findByTitleAndSnugId(title: string, snugId: string): Promise<Room> {
+    return Room.findOne({where: {title: title, snug: snugId}});
   }
 
   static findPublicChannelBySnugId(snugId: number): Promise<Room[]> {

@@ -10,7 +10,8 @@ import {
   FOUND_CHANNEL,
   FOUND_CHANNELS,
   NOT_FOUND_CHANNEL,
-  NOT_FOUND_CHANNELS, SUCCESS_JOIN_CHANNEL
+  NOT_FOUND_CHANNELS,
+  SUCCESS_JOIN_CHANNEL
 } from "./common/messages";
 import HttpException from "../../utils/exception/HttpException";
 import {Snug} from "../../domain/entity/Snug";
@@ -25,12 +26,12 @@ import {Participant} from "../../model/participant/participant";
  *
  * */
 export const findByTitle = async (request: Request, response: Response): Promise<Response> => {
-  const title = request.params.title;
-  const channel = await Room.findByTitle(title);
+  const {snugId, title} = request.params;
+  const channel = await Room.findByTitleAndSnugId(title, snugId);
   if (!!channel) {
     return response
       .status(OK)
-      .json(ResponseForm.of<Room>(FOUND_CHANNEL, channel));
+      .json(ResponseForm.of<object>(FOUND_CHANNEL, {channel}));
   } else {
     return response.status(NOT_FOUND).json(ResponseForm.of(NOT_FOUND_CHANNEL));
   }
@@ -115,7 +116,7 @@ export const create = async (request: Request, response: Response): Promise<Resp
   const { title, description, privacy, snugId } = request.body;
 
   const profile = offerProfileTokenInfo(request);
-  const isExisting = await Room.findByTitle(title);
+  const isExisting = await Room.findByTitleAndSnugId(title, snugId);
   if (!!isExisting) {
     return response
       .status(CONFLICT)
@@ -137,7 +138,7 @@ export const create = async (request: Request, response: Response): Promise<Resp
 
   return response
     .status(CREATED)
-    .json(ResponseForm.of<Room>(CREATE_CHANNEL, channel));
+    .json(ResponseForm.of<object>(CREATE_CHANNEL, {channel}));
 };
 
 export const join = async (request: Request, response: Response): Promise<Response> => {

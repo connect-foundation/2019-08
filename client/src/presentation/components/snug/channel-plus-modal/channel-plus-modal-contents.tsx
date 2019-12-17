@@ -56,31 +56,36 @@ export const ChannelPlusModalContents: React.FC<ApplicationProptype> = ({
 
   const submitHandler = async (event: React.FormEvent<HTMLElement>) => {
     event.preventDefault();
-    
-    const result = await Application.services.channelService.create(
-      parameter.snugId!,
-      title,
-      description,
-      privacy
-    );
+    if(!parameter.snugId) return;
+    const snugId = parameter.snugId.toString();
+    try {
+      const channel = await Application.services.channelService.create(
+              title,
+              snugId,
+              description,
+              privacy
+      );
 
-    if (typeof result == "boolean") return;
+      if(!Object.keys(channel).length) return;
 
-    channelDispatch &&
+      channelDispatch &&
       channelDispatch({
         type: "CREATE",
-        id: result.id!,
-        title: result.title!,
-        description: result.description!,
-        privacy: result.privacy!,
-        createdAt: result.createdAt!, //todo : date, user 바꾸기
+        id: channel.id!,
+        title: channel.title!,
+        description: channel.description!,
+        privacy: channel.privacy!,
+        createdAt: channel.createdAt!,
         creatorName: "두부"
       });
 
-    modalDispatch &&
+      modalDispatch &&
       modalDispatch({
         type: "TOGGLE_CHANNEL_PLUS_MODAL"
       });
+    } catch (error) {
+      return;
+    }
   };
 
   return (
