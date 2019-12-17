@@ -12,7 +12,7 @@ import { ChannelRouteComponentType } from "prop-types/channel-match-type";
 const Wrapper = styled.section`
   background-color: ${({ theme }) => theme.snug};
   border: 1px ${({ theme }) => theme.snugBorderColor} solid;
-  height: auto;
+  height: 100%;
   width: 0px;
   min-width: 0px;
   overflow-y: scroll;
@@ -61,6 +61,7 @@ export const ProfileSection: React.FC<PropTypes> = props => {
   const [modalDisplay, setModalDisplay] = useState(false);
   const [currentProfile, setCurrentProfile] = useState<Profile>({} as Profile);
   const { snugId } = props.match.params;
+
   useEffect(() => {
     const requestProfile = async () => {
       const profile = await application.services.profileService.getProfile(
