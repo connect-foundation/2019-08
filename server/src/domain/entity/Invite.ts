@@ -55,7 +55,7 @@ export class Invite extends Base {
   }
 
   public static findWithUserByTicket(ticket: Ticket): Promise<Invite> {
-    return Invite.findOneOrFail( {relations: ["user"], where: {ticket: ticket.asObject(), deletedAt: IsNull()}});
+    return Invite.findOneOrFail({relations: ["user"], where: {ticket: ticket.asObject(), deletedAt: IsNull()}});
   }
 
   public static findByTicket(ticket: Ticket): Promise<Invite> {
@@ -64,6 +64,10 @@ export class Invite extends Base {
 
   public static findByEmail(email: Email): Promise<Invite[]> {
     return Invite.find({where: {email: email}});
+  }
+
+  public static findByUserId(userId: number): Promise<Invite[]> {
+   return Invite.find({where: {user: userId, deletedAt: IsNull()}});
   }
 
   public static deleteBy(invite: Invite): Promise<Invite> {

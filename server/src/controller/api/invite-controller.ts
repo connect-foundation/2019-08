@@ -34,7 +34,7 @@ export const invite = async (request: Request, response: Response): Promise<void
 export const findInvitations = async (request: Request, response: Response): Promise<void> => {
   const {userId} = request.params;
   const invitee = new Invitee();
-  const invitations = await invitee.findInvitations(userId);
+  const invitations = await invitee.findInvitations(Number(userId));
   response.status(OK)
           .json(ResponseForm.of<object>(FOUND_INVITATIONS, {invitations}));
 };

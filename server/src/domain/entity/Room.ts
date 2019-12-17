@@ -41,4 +41,8 @@ export class Room extends Base {
             .support();
     return Room.findOneOrFail({where: {isPrivate: false, isChannel: true, snug: snug}, ...order});
   }
+
+  static findChannelById(id: number): Promise<Room> {
+    return Room.findOneOrFail(id);
+  }
 }

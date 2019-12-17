@@ -22,4 +22,8 @@ export class Snug extends Base {
   public isSameId(targetId: number): boolean {
     return this.id === targetId;
   }
+
+  static findById(snugId: number): Promise<Snug> {
+    return Snug.findOneOrFail({ where: { id: snugId } });
+  }
 }

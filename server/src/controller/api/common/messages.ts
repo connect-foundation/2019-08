@@ -85,3 +85,5 @@ export const NOT_FOUND_POSTS = "invalid channel info, you should check channel";
 export const FILE_OK = "file is correctly saved";
 
 export const FILE_FAIL = "file is incorrectly saved";
+
+export const SUCCESS_JOIN_CHANNEL = "successfully join room";

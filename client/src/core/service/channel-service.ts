@@ -2,6 +2,7 @@ import { ChannelRepositoryType } from "core/use-case/channel-repository-type";
 import { ChannelModel } from "core/model/channel-model";
 import { Channel } from "core/entity/channel";
 import { Snug } from "core/entity/snug";
+import {ParticipateInfo} from "../entity/participate-info";
 
 /**
  *
@@ -69,12 +70,16 @@ export class ChannelService {
     return this.repository.getChannels(snug);
   }
 
+  getChannelById(channelId: number): Promise<Channel> {
+    return this.repository.getChannelById(channelId);
+  }
+
   getParticipatingChannelList(snugId: number): Promise<Channel[] | boolean> {
     const snug: Snug = { id: snugId };
     return this.repository.getParticipatingChannels(snug);
   }
 
-  join(channelId: number): Promise<boolean> {
+  join(channelId: number): Promise<ParticipateInfo> {
     const channel: Channel = { id: channelId };
     return this.repository.join(channel);
   }

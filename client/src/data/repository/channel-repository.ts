@@ -4,6 +4,7 @@ import { Channel } from "../../core/entity/channel";
 import { ChannelRepositoryType } from "../../core/use-case/channel-repository-type";
 import { Snug } from "core/entity/snug";
 import {hasNotCookie} from "../../util/cookie";
+import {ParticipateInfo} from "../../core/entity/participate-info";
 
 export class ChannelRepository implements ChannelRepositoryType {
   private api: ChannelApi;
@@ -53,8 +54,13 @@ export class ChannelRepository implements ChannelRepositoryType {
     }
   }
 
-  async join(channel: Channel): Promise<boolean> {
-    return await this.api.join(channel);
+  join(channelInfo: Channel): Promise<ParticipateInfo> {
+    return this.api.join(channelInfo);
+  }
+
+  async getChannelById(channelId: number): Promise<Channel> {
+    const {channel} = await this.api.getById(channelId);
+    return channel;
   }
 
   async isInParticipating(snug: Snug, channel: Channel): Promise<boolean> {

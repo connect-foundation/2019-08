@@ -1,5 +1,4 @@
 import {Invite} from "../../domain/entity/Invite";
-import {IsNull} from "typeorm";
 import {InviteInfo, toInvitations} from "./invite-info";
 import {Ticket} from "../../domain/vo/Ticket";
 import {Profile} from "../../domain/entity/Profile";
@@ -10,8 +9,8 @@ import {User} from "../../domain/entity/User";
 import _ from "lodash";
 
 export class Invitee {
-  async findInvitations(userId: string): Promise<InviteInfo[]> {
-    const invitations = await Invite.find({where: {user: userId, deletedAt: IsNull()}});
+  async findInvitations(userId: number): Promise<InviteInfo[]> {
+    const invitations = await Invite.findByUserId(userId);
     return toInvitations(invitations);
   }
 

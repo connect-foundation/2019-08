@@ -3,6 +3,7 @@ import {Room} from "../../domain/entity/Room";
 import {ParticipateIn} from "../../domain/entity/ParticipateIn";
 import {IsolationLevel, Propagation, Transactional} from "typeorm-transactional-cls-hooked";
 import _ from "lodash";
+import {ParticipateInfo} from "./participate-info";
 
 export class Participant {
   @Transactional({propagation: Propagation.REQUIRED, isolationLevel: IsolationLevel.REPEATABLE_READ})
@@ -10,6 +11,13 @@ export class Participant {
     const room = await Room.findDefaultChannelBySnug(profile.snug);
     const participateIn = new ParticipateIn(profile, room);
     return await ParticipateIn.save(participateIn);
+  }
+
+  @Transactional({propagation: Propagation.REQUIRED, isolationLevel: IsolationLevel.REPEATABLE_READ})
+  public async joinRoom(profile: Profile, roomId: number): Promise<ParticipateInfo> {
+    const room = await Room.findChannelById(roomId);
+    const participateIn = await ParticipateIn.join(profile, room);
+    return ParticipateInfo.fromParticipateIn(participateIn);
   }
 
   public async findChannelsAttending(participant: Profile, snugId: number): Promise<Room[]> {

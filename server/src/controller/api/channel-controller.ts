@@ -10,7 +10,7 @@ import {
   FOUND_CHANNEL,
   FOUND_CHANNELS,
   NOT_FOUND_CHANNEL,
-  NOT_FOUND_CHANNELS
+  NOT_FOUND_CHANNELS, SUCCESS_JOIN_CHANNEL
 } from "./common/messages";
 import HttpException from "../../utils/exception/HttpException";
 import {Snug} from "../../domain/entity/Snug";
@@ -36,6 +36,20 @@ export const findByTitle = async (request: Request, response: Response): Promise
   }
 };
 
+export const findById = async (request: Request, response: Response): Promise<Response> => {
+  try {
+    const { channelId } = request.params;
+    const channel = await Room.findChannelById(Number(channelId));
+    return response
+            .status(OK)
+            .json(ResponseForm.of<object>(FOUND_CHANNELS, {channel}));
+  } catch (error) {
+    return response
+            .status(NOT_FOUND)
+            .json(ResponseForm.of(NOT_FOUND_CHANNEL));
+  }
+};
+
 export const hasSnugById = async (
         request: Request,
         response: Response,
@@ -43,7 +57,7 @@ export const hasSnugById = async (
 ): Promise<void> => {
   try {
     const { snugId } = request.params;
-    await Snug.findOneOrFail({ where: { id: snugId } });
+    await Snug.findById(Number(snugId));
     next();
   } catch (error) {
     next(new HttpException(error.message, INTERNAL_SERVER_ERROR));
@@ -128,14 +142,14 @@ export const create = async (request: Request, response: Response): Promise<Resp
 
 export const join = async (request: Request, response: Response): Promise<Response> => {
   try {
-    const payload = offerProfileTokenInfo(request);
     const { channelId } = request.body;
-    const result = await ParticipateIn.create({
-      room: { id: channelId },
-      participant: { id: payload.id }
-    }).save();
-    if (!result) throw new Error("조인실패");
-    return response.status(OK).json(ResponseForm.of("성공", result));
+    const profile = offerProfileTokenInfo(request);
+    const participant = new Participant();
+    const participateInfo = await participant.joinRoom(profile, channelId);
+    return response.status(CREATED).json(ResponseForm.of(SUCCESS_JOIN_CHANNEL, {
+      channel: participateInfo.getRoom(),
+      participant: participateInfo.getParticipantInfo()
+    }));
   } catch (error) {
     return response.status(NOT_FOUND).json(ResponseForm.of(error.message));
   }

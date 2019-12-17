@@ -1,6 +1,6 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
-import { Profile } from "./Profile";
-import { Room } from "./Room";
+import {BaseEntity, Entity, PrimaryGeneratedColumn, ManyToOne} from "typeorm";
+import {Profile} from "./Profile";
+import {Room} from "./Room";
 import _ from "lodash";
 
 @Entity()
@@ -22,5 +22,12 @@ export class ParticipateIn extends BaseEntity {
 
   static findWithRoomByParticipant(participant: Profile): Promise<ParticipateIn[]> {
     return ParticipateIn.find({where: {participant}, relations: ["room", "room.snug"]});
+  }
+
+  static join(profile: Profile, room: Room): Promise<ParticipateIn> {
+    return ParticipateIn.save({
+      participant: profile,
+      room: room
+    } as ParticipateIn);
   }
 }

@@ -89,7 +89,7 @@ export const ChannelBrowseModalItem: React.FC<ChannelBrowseModal &
       type: "IN",
       channelId: id!
     });
-    history.push(`/snug/${pathParameter.snugId}/channel/id`);
+    history.push(`/snug/${pathParameter.snugId}/channel/${id!}`);
 
     ModalToggle!({
       type: "TOGGLE_CHANNEL_BROWSE_MODAL"
