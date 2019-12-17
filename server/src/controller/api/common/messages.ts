@@ -25,31 +25,37 @@ export const CREATED_SNUG = "snug was created";
 
 export const OK_SNUG = "found snug";
 
-export const SUCCESS_INVITE="successfully sent all your emails and alarm";
+export const SUCCESS_INVITE = "successfully sent all your emails and alarm";
 
-export const NOT_FOUND="not found snug. you should give invalid snug id";
+export const NOT_FOUND = "not found snug. you should give invalid snug id";
 
-export const FOUND_INVITATIONS="found invitations list about invitee";
+export const FOUND_INVITATIONS = "found invitations list about invitee";
 
 export const UNSUPPORTED_EMAIL = "find out invalid invite email";
 
-export const SUCCESS_JOIN_SNUG = "successfully join snug through invitation ticket";
+export const SUCCESS_JOIN_SNUG =
+  "successfully join snug through invitation ticket";
 
-export const SUCCESS_REJECT_INVITATION_SNUG = "successfully reject invitation snug through ticket";
+export const SUCCESS_REJECT_INVITATION_SNUG =
+  "successfully reject invitation snug through ticket";
 
-export const ALREADY_JOINED_SNUG ="already joined snug, you cannot join through this ticket";
+export const ALREADY_JOINED_SNUG =
+  "already joined snug, you cannot join through this ticket";
 
 export const INVALID_TICKET = "reject request because invalid ticket";
 
-export const INACCESSIBLE_PROFILE = "cannot accessible profile, because you do not have permission for that profile";
+export const INACCESSIBLE_PROFILE =
+  "cannot accessible profile, because you do not have permission for that profile";
 
 export const SUCCESS_UPDATE_PROFILE = "successfully update profile";
 
 export const SUCCESS_FOUND_PROFILE = "successfully find profile";
 
-export const SUCCESS_GENERATE_USER_TOKEN = "successfully generate user token through user id, password";
+export const SUCCESS_GENERATE_USER_TOKEN =
+  "successfully generate user token through user id, password";
 
-export const SUCCESS_GENERATE_PROFILE_TOKEN = "successfully generate profile token about snug";
+export const SUCCESS_GENERATE_PROFILE_TOKEN =
+  "successfully generate profile token about snug";
 
 export const INVALID_USER_EMAIL = "not suitable email";
 
@@ -69,8 +75,13 @@ export const SUCCESS_FOUND_REPLIES = "successfully find replies about post";
 
 export const CREATE_POST = "created new post";
 
-export const INVALID_POST_REQUEST = "invalid request format, you should check profile, room";
+export const INVALID_POST_REQUEST =
+  "invalid request format, you should check profile, room";
 
 export const SUCCESS_FOUND_POSTS = "successfully find posts";
 
 export const NOT_FOUND_POSTS = "invalid channel info, you should check channel";
+
+export const FILE_OK = "file is correctly saved";
+
+export const FILE_FAIL = "file is incorrectly saved";

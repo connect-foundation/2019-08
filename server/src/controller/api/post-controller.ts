@@ -28,13 +28,14 @@ export const create = async (
   response: Response
 ): Promise<Response> => {
   const { id } = <Profile>offerProfileTokenInfo(request);
-  const { contents, roomId } = request.body;
+  const { contents, roomId, filePath } = request.body;
   try {
     const postNotifier = new PostNotifier(roomId);
     const postInfo = await Chatter.fromPost(postNotifier).post(
       contents,
       id,
-      roomId
+      roomId,
+      filePath
     );
     return response
       .status(CREATED)
