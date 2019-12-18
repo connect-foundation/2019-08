@@ -79,14 +79,14 @@ export const RegisterUserForm: React.FC<ApplicationProptype> = ({
       setEmail(event.target.value);
       setIsEmailFormId(validateEmail(event.target.value));
     },
-    [email]
+    []
   );
 
   const handleNameChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setName(event.target.value);
     },
-    [name]
+    []
   );
 
   const handlePasswordChange = useCallback(
@@ -94,7 +94,7 @@ export const RegisterUserForm: React.FC<ApplicationProptype> = ({
       setPassword(event.target.value);
       setIsValidPassword(validatePasswordLength(event.target.value));
     },
-    [password]
+    []
   );
 
   const handlePasswordCheckChange = useCallback(
@@ -102,7 +102,7 @@ export const RegisterUserForm: React.FC<ApplicationProptype> = ({
       setPasswordCheck(event.target.value);
       setIsPasswordSame(password === event.target.value);
     },
-    [passwordCheck]
+    [password]
   );
 
   const openModalWithMessage = (message: ModalMessage) => {

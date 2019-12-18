@@ -66,7 +66,7 @@ export const HomeSnug: React.FC<ApplicationProptype> = props => {
       const currentSnugs = snugs as Snug[];
       setSnugs(currentSnugs.concat(invitedSnug));
     });
-  });
+  }, [socket, Application.services.authService, snugs]);
 
   return (
     <Wrapper>

@@ -11,6 +11,7 @@ import { ChannelRouteComponentType } from "prop-types/channel-match-type";
 
 const Wrapper = styled.section`
   background-color: ${({ theme }) => theme.snug};
+  box-sizing: border-box;
   border: 1px ${({ theme }) => theme.snugBorderColor} solid;
   height: 100%;
   width: 0px;

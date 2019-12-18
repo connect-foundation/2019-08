@@ -59,7 +59,7 @@ interface PropTypes {
   link: number;
 }
 
-export const HomeDetailSnug: React.FC<PropTypes> = (props) => {
+export const HomeDetailSnug: React.FC<PropTypes> = props => {
   return (
     <Wrapper>
       <DescriptionWrapper>

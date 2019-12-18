@@ -13,11 +13,9 @@ import { FileUploadModal } from "presentation/components/snug/file-upload-modal"
 import { usePathParameter } from "contexts/path-parameter-context";
 import { ThreadSection } from "presentation/pages/snug/thread";
 
-const TEXT_BOX = "textbox";
-
 const MessageSectionContentWrapper = styled.section`
   width: 100%;
-  height: 100%
+  height: 100%;
   background-color: ${({ theme }) => theme.snug};
   display: flex;
   flex-direction: column;
@@ -85,18 +83,22 @@ export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
 
   useEffect(() => {
     if (inputRef.current) setHeight(inputRef.current!.clientHeight);
-  });
+  }, [inputRef.current]);
 
   useEffect(() => {
     isInParticipating();
-  }, [pathParameter.channelId]);
+  }, [
+    pathParameter.channelId,
+    Application.services.channelService,
+    pathParameter.snugId
+  ]);
 
   const isInParticipating = async () => {
     try {
-      const result = await Application
-              .services
-              .channelService
-              .isInParticipating(pathParameter.snugId!, pathParameter.channelId!);
+      const result = await Application.services.channelService.isInParticipating(
+        pathParameter.snugId!,
+        pathParameter.channelId!
+      );
       setIsParticipated(result);
     } catch (error) {}
   };
