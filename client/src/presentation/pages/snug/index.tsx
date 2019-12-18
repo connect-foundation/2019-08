@@ -30,18 +30,17 @@ export const Snug: React.FC<AppChannelMatchProps> = props => {
   const pathParameter = usePathParameter();
 
   useEffect(() => {
-    const id: number = pathParameter.snugId!;
-    (async function(snigid: number) {
+    (async function() {
       await Application.services.profileService.getProfile(
         pathParameter.snugId!
       );
-    })(id);
-  }, [pathParameter.snugId]);
+    })();
+  }, [pathParameter.snugId, Application.services.profileService]);
 
   useEffect(() => {
     if (
-      Number(match.params.channelId) == pathParameter.channelId &&
-      Number(match.params.snugId) == pathParameter.snugId
+      Number(match.params.channelId) === pathParameter.channelId &&
+      Number(match.params.snugId) === pathParameter.snugId
     )
       return;
 
@@ -54,7 +53,7 @@ export const Snug: React.FC<AppChannelMatchProps> = props => {
       type: "GETSNUGID",
       snugId: Number(match.params.snugId)
     });
-  }, []);
+  }, [match.params.channelId, match.params.snugId, pathParameterDispatch]);
 
   return (
     <ThemeProvider theme={colorTheme}>

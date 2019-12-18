@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import styled, { keyframes, css } from "styled-components";
+import styled, { css } from "styled-components";
 import { Header } from "./header";
 import { Thumbnail } from "./thumbnail";
 import { Buttons } from "./buttons";
@@ -50,9 +50,11 @@ const ImageWrapper = styled.section`
   max-height: 40%;
   text-align: center;
 `;
+
 interface WrapperPropTypes {
   toggleProfile: boolean;
 }
+
 interface PropTypes extends ChannelRouteComponentType {
   toggleProfile?: boolean;
 }
@@ -72,7 +74,7 @@ export const ProfileSection: React.FC<PropTypes> = props => {
       setCurrentProfile(profile);
     };
     requestProfile();
-  }, []);
+  }, [application.services.profileService, snugId]);
 
   const toggleModal = () => {
     setModalDisplay(!modalDisplay);
