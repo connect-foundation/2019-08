@@ -1,3 +1,4 @@
+import { ParticipateIn } from "../../domain/entity/ParticipateIn";
 import { Room } from "../../domain/entity/Room";
 import SocketIO from "socket.io";
 import { PostInfo } from "../../model/chat/post-info";
