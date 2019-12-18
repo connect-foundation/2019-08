@@ -31,8 +31,8 @@ export class ProfileRepository implements ProfileRepositoryType {
     try {
       // profile db upload
       const responseEntity = await this.api.updateProfile(profile, filePath);
-      if ((<ResponseEntity<Profile>>responseEntity).payload) {
-        return (<ResponseEntity<Profile>>responseEntity).payload;
+      if ((responseEntity as ResponseEntity<Profile>).payload) {
+        return (responseEntity as ResponseEntity<Profile>).payload;
       }
       return responseEntity as boolean;
     } catch (error) {

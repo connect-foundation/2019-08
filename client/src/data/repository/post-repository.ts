@@ -46,8 +46,8 @@ export class PostRepository implements PostRepositoryType {
     // 실제 파일 포스트
     const responseEntity = await this.api.createPost(post, channel, filePath);
 
-    if (<ResponseEntity<object>>responseEntity) return true;
-    return <boolean>responseEntity;
+    if (responseEntity as ResponseEntity<object>) return true;
+    return responseEntity as boolean;
   }
 
   async reply(
