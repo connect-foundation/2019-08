@@ -44,18 +44,16 @@ export class ChannelRepository implements ChannelRepositoryType {
   async getParticipatingChannels(
     snug: Snug,
     cancelToken?: CancelToken
-  ): Promise<Channel[] | boolean> {
+  ): Promise<Channel[]> {
     try {
       const responseEntity = await this.api.getParticipatingList(
         snug,
         cancelToken
       );
-      if (responseEntity)
-        return (responseEntity as ResponseEntity<{ channels: Channel[] }>)
-          .payload.channels;
-      return false;
+      if (responseEntity) return responseEntity.channels;
+      return [];
     } catch (error) {
-      return false;
+      return [];
     }
   }
 
