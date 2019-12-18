@@ -39,8 +39,8 @@ interface PropTypes {
   Application: Context;
 }
 
-const pickPrivacy = (channels: Channels) => channels.filter(channel => channel.isPrivate);
-const pickPublicity = (channels: Channels) => channels.filter(channel => !channel.isPrivate);
+const pickPrivacy = (channels: Channels) => channels.filter(channel => channel.privacy);
+const pickPublicity = (channels: Channels) => channels.filter(channel => !channel.privacy);
 export const ChannelList: React.FC<PropTypes> = ({
                                                    match,
                                                    history,
@@ -58,12 +58,16 @@ export const ChannelList: React.FC<PropTypes> = ({
   useEffect(() => {
     (async function () {
       const snugId = Number(match.params.snugId);
-      const channel = await Application.services.channelService.getParticipatingChannelList(snugId);
-      if (typeof channel === "boolean" || !dispatch) return;
-      dispatch({
-        type: "MULTI",
-        channels: channel
-      });
+      try {
+        const channels = await Application.services.channelService.getParticipatingChannelList(snugId);
+        dispatch && dispatch({
+          type: "MULTI",
+          channels: channels
+        });
+      } catch (error) {
+        const homeUrl = "/";
+        history.push(homeUrl);
+      }
     })();
   }, []);
 

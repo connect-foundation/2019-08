@@ -5,8 +5,9 @@ import {ResponseEntity} from "./response/ResponseEntity";
 import {StatusCodes} from "./status-codes";
 import {AxiosWrapper} from "./axios-wrapper";
 import {Snug} from "core/entity/snug";
-import {ParticipateInfo} from "../../../core/entity/participate-info";
-import {ChannelModel} from "../../../core/model/channel-model";
+import {ParticipateInfo} from "core/entity/participate-info";
+import {ChannelModel} from "core/model/channel-model";
+import {ChannelResponseType, ChannelsResponseType} from "./response/type/channel";
 
 export class ChannelApi {
   private axios: AxiosWrapper;
@@ -15,7 +16,7 @@ export class ChannelApi {
     this.axios = axios;
   }
 
-  create(channel: ChannelModel): Promise<{channel: Channel}> {
+  create(channel: ChannelModel): Promise<ChannelResponseType> {
     return this.axios
             .getAxios()
             .post(`/api/channels`, {
@@ -24,7 +25,7 @@ export class ChannelApi {
               description: channel.description!,
               privacy: channel.privacy!
             })
-            .then((response: AxiosResponse<ResponseEntity<{channel: Channel}>>) => {
+            .then((response: AxiosResponse<ResponseEntity<ChannelResponseType>>) => {
               if (StatusCodes.isCreated(response.status)) {
                 return response.data.payload;
               }
@@ -33,11 +34,11 @@ export class ChannelApi {
             });
   }
 
-  findByTitleAndSnugId(title: string, snugId: string): Promise<ResponseEntity<{channel: Channel}>> {
+  findByTitleAndSnugId(title: string, snugId: string): Promise<ResponseEntity<ChannelResponseType>> {
     return this.axios
             .getAxios()
             .get(`/api/snugs/${snugId}/channels/${title}`)
-            .then((response: AxiosResponse<ResponseEntity<{channel: Channel}>>) => {
+            .then((response: AxiosResponse<ResponseEntity<ChannelResponseType>>) => {
               if (StatusCodes.isOk(response.status)) {
                 return response.data;
               }
@@ -46,19 +47,16 @@ export class ChannelApi {
             });
   }
 
-  getParticipatingList(snug: Snug): Promise<ResponseEntity<object> | boolean> {
+  getParticipatingList(snug: Snug): Promise<ChannelsResponseType> {
     return this.axios
             .getAxios()
             .get(`/api/snugs/${snug.id!}/participates/channels`)
-            .then((response: AxiosResponse<ResponseEntity<object>>) => {
-              if (StatusCodes.isOk(response.status)) return response.data;
-              return false;
-            })
-            .catch((error: AxiosError) => {
-              return AxiosErrorHandler.handleError(
-                      error,
-                      `채널 목록을 불러오는 과정에서 예기치 못한 에러가 발생했습니다.`
-              );
+            .then((response: AxiosResponse<ResponseEntity<ChannelsResponseType>>) => {
+              if (StatusCodes.isOk(response.status)) {
+                return response.data.payload;
+              }
+
+              throw new Error(`채널 목록을 불러오는 과정에서 예기치 못한 에러가 발생했습니다.`);
             });
   }
 
@@ -78,11 +76,11 @@ export class ChannelApi {
             });
   }
 
-  getById(channelId: number): Promise<{channel: Channel}> {
+  getById(channelId: number): Promise<ChannelResponseType> {
     return this.axios
             .getAxios()
             .get(`/api/channels/${channelId}`)
-            .then((response: AxiosResponse<ResponseEntity<{channel: Channel}>>) => {
+            .then((response: AxiosResponse<ResponseEntity<ChannelResponseType>>) => {
               if (StatusCodes.isOk(response.status)) {
                 return response.data.payload;
               }
