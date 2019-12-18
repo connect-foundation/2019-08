@@ -17,7 +17,7 @@ export class ProfileRepository implements ProfileRepositoryType {
       const token: string | boolean = getCookie("profile");
       if (typeof token === "boolean")
         throw new Error("프로필 쿠키가 존재하지 않습니다.");
-      const profile: Profile = <Profile>jwt.decode(token);
+      const profile: Profile = jwt.decode(token) as Profile;
       return profile;
     } catch (error) {
       throw new Error(error.message);
@@ -34,7 +34,7 @@ export class ProfileRepository implements ProfileRepositoryType {
       if ((<ResponseEntity<Profile>>responseEntity).payload) {
         return (<ResponseEntity<Profile>>responseEntity).payload;
       }
-      return <boolean>responseEntity;
+      return responseEntity as boolean;
     } catch (error) {
       return false;
     }

@@ -14,8 +14,8 @@ export class ChannelRepository implements ChannelRepositoryType {
   async create(snug: Snug, channel: Channel): Promise<boolean | Channel> {
     try {
       const responseEntity = await this.api.create(snug, channel);
-      if (typeof responseEntity == "boolean") return false;
-      return (<ResponseEntity<Channel>>responseEntity).payload;
+      if (typeof responseEntity === "boolean") return false;
+      return (responseEntity as ResponseEntity<Channel>).payload;
     } catch (error) {
       return false;
     }
@@ -34,7 +34,7 @@ export class ChannelRepository implements ChannelRepositoryType {
     try {
       const responseEntity = await this.api.getList(snug);
       if (responseEntity)
-        return (<ResponseEntity<Channel[]>>responseEntity).payload;
+        return (responseEntity as ResponseEntity<Channel[]>).payload;
       return false;
     } catch (error) {
       return false;
@@ -46,18 +46,18 @@ export class ChannelRepository implements ChannelRepositoryType {
   }
 
   async getParticipateChannel(): Promise<Channel[]> {
-    if (document.cookie.indexOf("profile") == -1)
+    if (document.cookie.indexOf("profile") === -1)
       throw new Error("프로필 쿠키가 존재하지 않습니다.");
     const responseEntity = await this.api.getParticipate();
     return responseEntity.payload;
   }
 
   async isInParticipating(channel: Channel): Promise<boolean> {
-    if (document.cookie.indexOf("profile") == -1)
+    if (document.cookie.indexOf("profile") === -1)
       throw new Error("프로필 쿠키가 존재하지 않습니다.");
     const { payload } = await this.api.getParticipate();
     const result = payload.filter(
-      channelParameter => channelParameter.id == channel.id
+      channelParameter => channelParameter.id === channel.id
     );
     if (result.length <= 0) return false;
     return true;

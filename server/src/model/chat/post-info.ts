@@ -6,30 +6,33 @@ import { Room } from "../../domain/entity/Room";
 export class PostInfo {
   private readonly id: string;
   private readonly contents: string;
-  private readonly imgSrc: string;
+  private readonly filePath: string;
   private readonly profile: ProfileInfo;
   private readonly room: Room;
   private readonly parent: Post;
   private readonly replyCount: number;
   private readonly updatedAt: Date;
+  private readonly createdAt: Date;
 
   private constructor(
     id: string,
     contents: string,
-    imgSrc: string,
+    filePath: string,
     profile: ProfileInfo,
     room: Room,
     parent: Post,
     repliesCount: number,
+    createdAt: Date,
     updatedAt: Date
   ) {
     this.id = id;
     this.contents = contents;
-    this.imgSrc = imgSrc;
+    this.filePath = filePath;
     this.profile = _.cloneDeep(profile);
     this.room = _.cloneDeep(room);
     this.parent = _.cloneDeep(parent);
     this.replyCount = repliesCount;
+    this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }
 
@@ -38,7 +41,16 @@ export class PostInfo {
   }
 
   public static fromPost(post: Post, replyCount?: number): PostInfo {
-    const { id, contents, filePath, profile, room, parent, updatedAt } = post;
+    const {
+      id,
+      contents,
+      filePath,
+      profile,
+      room,
+      parent,
+      updatedAt,
+      createdAt
+    } = post;
     const _replyCount = PostInfo.calculateReplyCount(replyCount);
     return new PostInfo(
       id.toString(),
@@ -48,6 +60,7 @@ export class PostInfo {
       room,
       parent,
       _replyCount,
+      createdAt,
       updatedAt
     );
   }

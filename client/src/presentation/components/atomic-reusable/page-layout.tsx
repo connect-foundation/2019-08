@@ -1,4 +1,4 @@
-import React, { Props } from "react";
+import React from "react";
 import styled from "styled-components";
 import { GlobalHeader } from "./global-header";
 import { ApplicationProptype } from "prop-types/application-type";
