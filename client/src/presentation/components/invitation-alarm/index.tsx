@@ -115,7 +115,7 @@ export const InvitationAlarm: React.FC = () => {
       currentInvitation.push(invitedSnug);
       setInvitedSnugs([...currentInvitation]);
     });
-  }, [invitedSnugs]);
+  }, [invitedSnugs, socket, invitedSnugs]);
 
   const acceptDeclineHandler = async (
     invitedSnugs: Invite[],

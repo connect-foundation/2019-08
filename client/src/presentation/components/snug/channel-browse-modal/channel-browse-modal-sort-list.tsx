@@ -1,13 +1,13 @@
-import React, {useContext, useEffect, useState} from "react";
-import {DisplayType, SortType} from "./index";
-import {Channels} from "contexts/channel-context";
-import {globalApplication} from "contexts/application-context";
-import {ChannelBrowseModalItem} from "./channel-browse-modal-item";
-import {Channel} from "core/entity/channel";
+import React, { useContext, useEffect, useState } from "react";
+import { DisplayType, SortType } from "./index";
+import { Channels } from "contexts/channel-context";
+import { globalApplication } from "contexts/application-context";
+import { ChannelBrowseModalItem } from "./channel-browse-modal-item";
+import { Channel } from "core/entity/channel";
 import styled from "styled-components";
-import {ApplicationProptype} from "prop-types/application-type";
-import {RouteComponentProps} from "react-router";
-import {usePathParameter} from "../../../../contexts/path-parameter-context";
+import { ApplicationProptype } from "prop-types/application-type";
+import { RouteComponentProps } from "react-router";
+import { usePathParameter } from "../../../../contexts/path-parameter-context";
 
 interface Criterion {
   DisplayType: DisplayType;
@@ -68,11 +68,13 @@ export const ChannelBrowseModalSortList: React.FC<Criterion &
   useEffect(() => {
     (async function() {
       const snugId = Number(pathParameter.snugId);
-      const channels = await application.services.channelService.getChannelList(snugId);
+      const channels = await application.services.channelService.getChannelList(
+        snugId
+      );
       if (typeof channels === "boolean") return;
       addChannels(channels);
     })();
-  }, []);
+  }, [application.services.channelService, pathParameter.snugId]);
 
   const sortChannels = () => {
     if (!channels) {
