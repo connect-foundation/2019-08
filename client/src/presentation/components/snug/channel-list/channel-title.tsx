@@ -41,7 +41,7 @@ interface PropsTypes {
 }
 
 export const ChannelTitle: React.FC<PropsTypes> = props => {
-  const [on, setOn] = useState(false);
+  const [on, setOn] = useState<boolean>(false);
   const pathParameter = usePathParameter();
   const pathParameterDispatch = usePathParameterDispatch();
   const { history, match, id } = props;
@@ -54,10 +54,10 @@ export const ChannelTitle: React.FC<PropsTypes> = props => {
     );
     if (pathParameter.channelId == id) return setOn(true);
     setOn(false);
-  }, [pathParameter.channelId]);
+  }, [pathParameter.channelId, history]);
 
   const onClickEventHandler = () => {
-    if (match.params.channelId == id.toString()) return;
+    if (match.params.channelId === id.toString()) return;
     pathParameterDispatch({
       type: "IN",
       channelId: id

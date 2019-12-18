@@ -44,7 +44,7 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
   const posts: Post[] = useMessages();
   const dispatch = useMessagesDispatch();
   const pathParameter = usePathParameter();
-  useEffect(() => {}, [height]);
+
   useEffect(() => {
     (async function() {
       dispatch({
@@ -60,7 +60,7 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
         posts: resultPosts
       });
     })();
-  }, [pathParameter.channelId]);
+  }, [pathParameter.channelId, application.services.postService, dispatch]);
 
   useEffect(() => {
     const obj: HTMLElement = document.getElementById("scroll")!;
@@ -79,7 +79,7 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
         createdAt={post.createdAt!}
         updatedAt={post.updatedAt!}
         filePath={post.filePath}
-        toggleThread={(event: React.MouseEvent) =>
+        toggleThread={() =>
           onThread ? resetThread(post.id!) : toggleThread(post.id!)
         }
       />

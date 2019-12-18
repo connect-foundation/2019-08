@@ -83,6 +83,7 @@ export const PostCardContents: React.FC<PropTypes> = ({
     if (date >= 10) return date;
     return `0${date}`;
   }
+
   return (
     <PostBox onClick={toggleThread}>
       <PostDetail>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { NormalPreview } from "./normal-preview";
 import { ImagePreview } from "./image-preview";
 import styled from "styled-components";

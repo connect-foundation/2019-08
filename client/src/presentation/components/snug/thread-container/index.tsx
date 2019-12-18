@@ -56,6 +56,7 @@ export const ThreadContainer: React.FC<PropTypes> = ({ post, replies }) => {
       />
     ));
   }
+
   return (
     <ChatContentWrapper>
       <WrapperPostCard>{messagePost()}</WrapperPostCard>

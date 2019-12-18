@@ -78,7 +78,6 @@ interface PropType extends AppChannelMatchProps {
 export const ChatInputBox: React.FC<PropType> = forwardRef((props, ref) => {
   const { openModal, setHeight } = props;
   const application = useContext(globalApplication);
-
   const KEY_PRESS_EVENT_KEY = "Enter";
   const [message, setMessage] = useState("");
   const dispatch = useMessagesDispatch();
@@ -109,7 +108,9 @@ export const ChatInputBox: React.FC<PropType> = forwardRef((props, ref) => {
         filePath: payload.filePath!
       });
     });
-  }, [pathPrameter.channelId]);
+    setMessage("");
+    resize();
+  }, [pathPrameter.channelId, snugSocket, dispatch]);
 
   //이 부분은 mock 데이터로 되어 있으니 차후 수정이 필요함
   const inputKeyPressEventHandler = async (
@@ -120,6 +121,7 @@ export const ChatInputBox: React.FC<PropType> = forwardRef((props, ref) => {
     event.preventDefault();
     if (!message.trim()) {
       setMessage("");
+      resize();
       return;
     }
     const result = await application.services.postService.createMessage(

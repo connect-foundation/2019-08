@@ -56,33 +56,33 @@ export const ChannelPlusModalContents: React.FC<ApplicationProptype> = ({
 
   const submitHandler = async (event: React.FormEvent<HTMLElement>) => {
     event.preventDefault();
-    if(!parameter.snugId) return;
+    if (!parameter.snugId) return;
     const snugId = parameter.snugId.toString();
     try {
       const channel = await Application.services.channelService.create(
-              title,
-              snugId,
-              description,
-              privacy
+        title,
+        snugId,
+        description,
+        privacy
       );
 
-      if(!Object.keys(channel).length) return;
+      if (!Object.keys(channel).length) return;
 
       channelDispatch &&
-      channelDispatch({
-        type: "CREATE",
-        id: channel.id!,
-        title: channel.title!,
-        description: channel.description!,
-        privacy: channel.privacy!,
-        createdAt: channel.createdAt!,
-        creatorName: "두부"
-      });
+        channelDispatch({
+          type: "CREATE",
+          id: channel.id!,
+          title: channel.title!,
+          description: channel.description!,
+          privacy: channel.privacy!,
+          createdAt: channel.createdAt!,
+          creatorName: "두부"
+        });
 
       modalDispatch &&
-      modalDispatch({
-        type: "TOGGLE_CHANNEL_PLUS_MODAL"
-      });
+        modalDispatch({
+          type: "TOGGLE_CHANNEL_PLUS_MODAL"
+        });
     } catch (error) {
       return;
     }

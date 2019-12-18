@@ -48,9 +48,7 @@ export const FileDropArea: React.FC<PropTypes> = props => {
     setFile(event.dataTransfer.files[0]);
   };
 
-  const onDragLeave: (event: React.DragEvent<HTMLDivElement>) => void = (
-    event: React.DragEvent<HTMLDivElement>
-  ) => {
+  const onDragLeave: (event: React.DragEvent<HTMLDivElement>) => void = () => {
     setDragging(false);
   };
 
