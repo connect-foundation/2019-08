@@ -100,7 +100,7 @@ export const RegisterSnugForm: React.FC<ApplicationProptype> = props => {
     event.preventDefault();
 
     // input의 널 값 체크
-    if (name.length == 0 || description.length == 0) {
+    if (name.length === 0 || description.length === 0) {
       setModalMessage(ModalMessage.nullCheck);
       setOnModal(true);
       return;

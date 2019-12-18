@@ -38,12 +38,6 @@ export const Snug: React.FC<AppChannelMatchProps> = props => {
   }, [pathParameter.snugId, Application.services.profileService]);
 
   useEffect(() => {
-    if (
-      Number(match.params.channelId) === pathParameter.channelId &&
-      Number(match.params.snugId) === pathParameter.snugId
-    )
-      return;
-
     pathParameterDispatch({
       type: "IN",
       channelId: Number(match.params.channelId!)

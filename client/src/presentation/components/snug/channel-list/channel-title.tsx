@@ -52,9 +52,9 @@ export const ChannelTitle: React.FC<PropsTypes> = props => {
         pathParameter.channelId ? pathParameter.channelId : 0
       }`
     );
-    if (pathParameter.channelId == id) return setOn(true);
+    if (pathParameter.channelId === id) return setOn(true);
     setOn(false);
-  }, [pathParameter.channelId, history]);
+  }, [pathParameter.channelId, pathParameter.snugId, history, id]);
 
   const onClickEventHandler = () => {
     if (match.params.channelId === id.toString()) return;

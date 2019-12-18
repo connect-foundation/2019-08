@@ -75,18 +75,17 @@ export const ThreadInputBox: React.FC<PropTypes> = ({ addReply, thread }) => {
       const { payload } = resultData;
       addReply(payload);
       const targetPostIndex = posts.findIndex(
-        post => post.id == payload.parent.id
+        post => Number(post.id) === payload.parent.id
       );
       const targetPost = posts[targetPostIndex];
       targetPost.replyCount = (parseInt(targetPost.replyCount!) + 1).toString();
       posts[targetPostIndex] = { ...targetPost };
-      console.log("하이");
       dispatch({
         type: "UPDATE_REPLYCOUNT",
         posts: [...posts]
       });
     });
-  }, [pathPrameter, dispatch, posts, snugSocket]);
+  }, [pathPrameter, dispatch, snugSocket, addReply, posts]);
 
   const inputChangeEventHandler = (
     event: React.ChangeEvent<HTMLInputElement>

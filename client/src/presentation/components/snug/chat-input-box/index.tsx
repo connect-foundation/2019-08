@@ -90,11 +90,18 @@ export const ChatInputBox: React.FC<PropType> = forwardRef((props, ref) => {
     setMessage(event.target.value);
   };
 
+  function resize() {
+    const textArea: HTMLElement = document.getElementById(MY_TEXT_AREA)!;
+    textArea.style.height = "0px";
+    textArea.style.height = textArea.scrollHeight + "px";
+    setHeight(document.getElementById(TEXT_BOX)!.clientHeight);
+  }
+
   useEffect(() => {
     snugSocket.off("newPost");
     snugSocket.on("newPost", (resultData: ResponseEntity<Post>) => {
       const { payload } = resultData;
-      if (payload.room!.id != pathPrameter.channelId) return;
+      if (payload.room!.id !== pathPrameter.channelId) return;
       dispatch({
         type: "CREATE",
         id: payload.id!,
@@ -109,7 +116,6 @@ export const ChatInputBox: React.FC<PropType> = forwardRef((props, ref) => {
       });
     });
     setMessage("");
-    resize();
   }, [pathPrameter.channelId, snugSocket, dispatch]);
 
   //이 부분은 mock 데이터로 되어 있으니 차후 수정이 필요함
@@ -132,13 +138,6 @@ export const ChatInputBox: React.FC<PropType> = forwardRef((props, ref) => {
     setMessage("");
     resize();
   };
-
-  function resize() {
-    const textArea: HTMLElement = document.getElementById(MY_TEXT_AREA)!;
-    textArea.style.height = "0px";
-    textArea.style.height = textArea.scrollHeight + "px";
-    setHeight(document.getElementById(TEXT_BOX)!.clientHeight);
-  }
 
   return (
     <InputWrapper

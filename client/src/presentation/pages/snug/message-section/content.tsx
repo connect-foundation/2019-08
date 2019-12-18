@@ -83,25 +83,27 @@ export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
 
   useEffect(() => {
     if (inputRef.current) setHeight(inputRef.current!.clientHeight);
-  }, [inputRef.current]);
+  }, []);
 
   useEffect(() => {
-    isInParticipating();
+    (async () => {
+      try {
+        const result = await Application.services.channelService.isInParticipating(
+          pathParameter.snugId!,
+          pathParameter.channelId!
+        );
+        setIsParticipated(result);
+      } catch (error) {}
+    })();
   }, [
     pathParameter.channelId,
     Application.services.channelService,
     pathParameter.snugId
   ]);
 
-  const isInParticipating = async () => {
-    try {
-      const result = await Application.services.channelService.isInParticipating(
-        pathParameter.snugId!,
-        pathParameter.channelId!
-      );
-      setIsParticipated(result);
-    } catch (error) {}
-  };
+  useEffect(() => {
+    resetOnThread(false);
+  }, [pathParameter]);
 
   const openModal = () => {
     setModal(true);
@@ -123,7 +125,6 @@ export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
             toggleThread={toggleThread}
             onThread={onThread}
             resetThread={resetThread}
-            resetOnThread={resetOnThread}
             height={height}
           />
           {isParticipated ? (

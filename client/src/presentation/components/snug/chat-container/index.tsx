@@ -29,17 +29,9 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
   toggleThread: (postId: number) => void;
   onThread: boolean;
   resetThread: (postId: number) => void;
-  resetOnThread: (onThread: boolean) => void;
   height: number;
 }> = props => {
-  const {
-    isParticipated,
-    toggleThread,
-    onThread,
-    resetThread,
-    resetOnThread,
-    height
-  } = props;
+  const { isParticipated, toggleThread, onThread, resetThread, height } = props;
   const application = useContext(globalApplication);
   const posts: Post[] = useMessages();
   const dispatch = useMessagesDispatch();
@@ -54,7 +46,6 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
         pathParameter.channelId!
       );
       if (typeof resultPosts === "boolean") return;
-      resetOnThread(false);
       dispatch({
         type: "MULTI_INPUT",
         posts: resultPosts
