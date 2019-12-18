@@ -8,7 +8,11 @@ export interface PostRepositoryType {
 
   create(post: Post, channel: Channel): Promise<boolean>;
 
-  createWithFile(post: Post, channel: Channel, file: File): Promise<boolean>;
+  createWithFile(
+    contents: string,
+    channelId: number,
+    filePath: string
+  ): Promise<boolean>;
 
   reply(
     profile: Profile,

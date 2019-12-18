@@ -1,11 +1,15 @@
 import React from "react";
 import styled from "styled-components";
-import Gipyoo from "assets/gipyoo.png";
 
 const Image = styled.img`
   max-width: 400px;
+  max-height: 400px;
 `;
 
-export const Thumbnail: React.FC = () => {
-  return <Image src={Gipyoo} />;
+interface Propstype {
+  thumbnail?: string;
+}
+
+export const Thumbnail: React.FC<Propstype> = ({ thumbnail }) => {
+  return <Image src={thumbnail} />;
 };

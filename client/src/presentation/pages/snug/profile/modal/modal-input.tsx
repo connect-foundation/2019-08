@@ -8,7 +8,7 @@ const Wrapper = styled.section`
 
 const Title = styled.header`
   color: ${({ theme }) => theme.snugMainFont};
-  margin-bottom: 10px;
+  margin-bottom: 0.3rem;
 `;
 
 const Input = styled.input`
@@ -23,6 +23,7 @@ const Input = styled.input`
   width: 100%;
   box-sizing: border-box;
   padding-left: 4px;
+  margin-bottom: 1rem;
   &:active,
   :focus {
     border: 1px solid #2c5af7;

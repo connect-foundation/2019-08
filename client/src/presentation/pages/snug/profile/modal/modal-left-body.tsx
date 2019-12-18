@@ -3,9 +3,9 @@ import styled from "styled-components";
 import { ModalInput } from "./modal-input";
 
 const Wrapper = styled.section`
-  width: 60%;
+  width: 50%;
   min-width: 60%;
-  background-color: ${({ theme }) => theme.snugMenuColor};
+  background-color: ${({ theme }) => theme.snug};
   display: flex;
   flex-direction: column;
 `;

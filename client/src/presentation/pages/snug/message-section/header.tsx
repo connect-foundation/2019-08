@@ -5,6 +5,7 @@ const HeaderWrapper = styled.header`
   box-sizing: border-box;
   background-color: ${({ theme }) => theme.snug};
   min-height: 50px;
+  max-height: 50px;
   border-style: solid;
   border-color: ${({ theme }) => theme.snugBorderColor};
   border-width: 0.5px;

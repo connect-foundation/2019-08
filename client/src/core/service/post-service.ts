@@ -1,20 +1,24 @@
 import { Channel } from "core/entity/channel";
 import { Post } from "core/entity/post";
-import { Profile } from "core/entity/profile";
 import { PostRepositoryType } from "core/use-case/post-repository-type";
+import { ProfileRepositoryType } from "core/use-case/profile-repository-type";
+import { UploadRepository } from "data/repository/upload-repository";
 import { Thread } from "../entity/thread";
-import { ProfileRepositoryType } from "../use-case/profile-repository-type";
+import { ResponseEntity } from "data/http/api/response/ResponseEntity";
 
 export class PostService {
   private postRepository: PostRepositoryType;
   private profileRepository: ProfileRepositoryType;
+  private uploadRepository: UploadRepository;
 
   constructor(
     postRepository: PostRepositoryType,
-    profileRepository: ProfileRepositoryType
+    profileRepository: ProfileRepositoryType,
+    uploadRepository: UploadRepository
   ) {
     this.postRepository = postRepository;
     this.profileRepository = profileRepository;
+    this.uploadRepository = uploadRepository;
   }
 
   async getList(channelId: number): Promise<Post[] | boolean> {
@@ -34,18 +38,20 @@ export class PostService {
     return await this.postRepository.create(post, Channel);
   }
 
-  async createMessageWithFile(
-    contents: string,
-    channelId: number,
-    file: File
-  ): Promise<boolean> {
-    const post: Post = {
-      contents: contents
-    };
-    const Channel: Channel = {
-      id: channelId
-    };
-    return await this.postRepository.createWithFile(post, Channel, file);
+  async createMessageWithFile(contents: string, channelId: number, file: File) {
+    try {
+      // 파일 업로드
+      const result = await this.uploadRepository.uploadFile(file);
+
+      // 포스트 등록
+      return await this.postRepository.createWithFile(
+        contents,
+        channelId,
+        (result as ResponseEntity<string>).payload
+      );
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   async reply(

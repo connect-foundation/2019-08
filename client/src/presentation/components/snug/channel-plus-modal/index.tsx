@@ -13,10 +13,9 @@ const WholeScreen = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: black;
-  opacity: 0.8;
   width: 100%;
   height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
 `;
 
 const MarginBox = styled.section`

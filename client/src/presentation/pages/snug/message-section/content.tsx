@@ -17,16 +17,17 @@ const TEXT_BOX = "textbox";
 
 const MessageSectionContentWrapper = styled.section`
   width: 100%;
-  height: 100%;
+  height: 100%
   background-color: ${({ theme }) => theme.snug};
   display: flex;
   flex-direction: column;
   overflow: auto;
 `;
+
 const Wrapper = styled.section`
   display: flex;
   justify-content: space-between;
-  height: 100%;
+  height: calc(100% - 50px);
   width: 100%;
 `;
 
