@@ -1,7 +1,7 @@
 import {Channel} from "core/entity/channel";
 import {Snug} from "core/entity/snug";
-import {ParticipateInfo} from "../entity/participate-info";
-import {ChannelModel} from "../model/channel-model";
+import {ParticipateInfo} from "core/entity/participate-info";
+import {ChannelModel} from "core/model/channel-model";
 
 export interface ChannelRepositoryType {
   create(channelModel: ChannelModel): Promise<Channel>;
@@ -10,7 +10,7 @@ export interface ChannelRepositoryType {
 
   join(channelInfo: Channel): Promise<ParticipateInfo>;
   
-  getParticipatingChannels(snug: Snug): Promise<Channel[] | boolean>;
+  getParticipatingChannels(snug: Snug): Promise<Channel[]>;
 
   getChannels(snug: Snug): Promise<Channel[] | boolean>;
 

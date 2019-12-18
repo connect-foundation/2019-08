@@ -2,7 +2,7 @@ import { ChannelRepositoryType } from "core/use-case/channel-repository-type";
 import { ChannelModel } from "core/model/channel-model";
 import { Channel } from "core/entity/channel";
 import { Snug } from "core/entity/snug";
-import {ParticipateInfo} from "../entity/participate-info";
+import {ParticipateInfo} from "core/entity/participate-info";
 
 /**
  *
@@ -36,7 +36,8 @@ export class ChannelService {
     const channel: ChannelModel = new ChannelModel(title, snugId, description, privacy);
     const satisfaction = await this.isSatisfied(channel);
     if (satisfaction) {
-      return this.repository.create(channel);
+      const reflectedChannel = await this.repository.create(channel);
+      return this.convertToChannel(reflectedChannel);
     }
 
     return {};
@@ -75,9 +76,20 @@ export class ChannelService {
     return this.repository.getChannelById(channelId);
   }
 
-  getParticipatingChannelList(snugId: number): Promise<Channel[] | boolean> {
+  async getParticipatingChannelList(snugId: number): Promise<Channel[]> {
     const snug: Snug = { id: snugId };
-    return this.repository.getParticipatingChannels(snug);
+    const channels = await this.repository.getParticipatingChannels(snug);
+    return channels.map(this.convertToChannel);
+  }
+
+  private convertToChannel(channel: Channel): Channel {
+    return {
+      id: channel.id,
+      title: channel.title,
+      description: channel.description,
+      createdAt: channel.createdAt,
+      privacy: channel.isPrivate
+    };
   }
 
   join(channelId: number): Promise<ParticipateInfo> {
