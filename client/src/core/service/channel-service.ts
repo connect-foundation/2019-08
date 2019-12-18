@@ -42,7 +42,8 @@ export class ChannelService {
     );
     const satisfaction = await this.isSatisfied(channel);
     if (satisfaction) {
-      return this.repository.create(channel);
+      const reflectedChannel = await this.repository.create(channel);
+      return this.convertToChannel(reflectedChannel);
     }
 
     return {};
@@ -87,12 +88,22 @@ export class ChannelService {
     return this.repository.getChannelById(channelId, cancelToken);
   }
 
-  getParticipatingChannelList(
+  async getParticipatingChannelList(
     snugId: number,
     canselToken?: CancelToken
-  ): Promise<Channel[] | boolean> {
+  ): Promise<Channel[]> {
     const snug: Snug = { id: snugId };
     return this.repository.getParticipatingChannels(snug, canselToken);
+  }
+
+  private convertToChannel(channel: Channel): Channel {
+    return {
+      id: channel.id,
+      title: channel.title,
+      description: channel.description,
+      createdAt: channel.createdAt,
+      privacy: channel.isPrivate
+    };
   }
 
   join(channelId: number): Promise<ParticipateInfo> {

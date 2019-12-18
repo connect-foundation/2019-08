@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { globalApplication } from "contexts/application-context";
+import { globalSocket } from "contexts/socket-context";
 import { usePathParameter } from "contexts/path-parameter-context";
 import { AppChannelMatchProps } from "prop-types/match-extends-types";
 import { useChannelDispatch } from "../../../../contexts/channel-context";
@@ -17,6 +18,7 @@ const hasFields = (channel: Channel): boolean => {
 
 export const Preview: React.FC<AppChannelMatchProps & PropsType> = props => {
   const application = useContext(globalApplication);
+  const socket = useContext(globalSocket);
   const pathParameter = usePathParameter();
   const { setIsParticipated } = props;
   const [channel, changeChannel] = useState<Channel>({});
@@ -55,6 +57,7 @@ export const Preview: React.FC<AppChannelMatchProps & PropsType> = props => {
       setIsParticipated(!!channel);
       channelDispatch &&
         channelDispatch({ type: "MULTI", channels: [channel] });
+      socket.snugSocket.emit("newjoin", channel.id!);
     } catch (error) {
       setIsParticipated(false);
     }

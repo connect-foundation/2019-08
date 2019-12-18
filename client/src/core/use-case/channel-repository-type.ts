@@ -14,7 +14,7 @@ export interface ChannelRepositoryType {
   getParticipatingChannels(
     snug: Snug,
     cancelToken?: CancelToken
-  ): Promise<Channel[] | boolean>;
+  ): Promise<Channel[]>;
 
   getChannels(snug: Snug): Promise<Channel[] | boolean>;
 

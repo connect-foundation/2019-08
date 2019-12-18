@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { CustomInput } from "presentation/components/atomic-reusable/custom-input";
 import { CustomButton } from "presentation/components/atomic-reusable/custom-button";
@@ -7,6 +7,7 @@ import { useChannelDispatch } from "contexts/channel-context";
 import { useModalToggledDispatch } from "contexts/modal-context";
 import { ApplicationProptype } from "prop-types/application-type";
 import { usePathParameter } from "contexts/path-parameter-context";
+import { globalSocket } from "contexts/socket-context";
 
 const ContentsForm = styled.form`
   display: flex;
@@ -53,12 +54,16 @@ export const ChannelPlusModalContents: React.FC<ApplicationProptype> = ({
   const channelDispatch = useChannelDispatch();
   const modalDispatch = useModalToggledDispatch();
   const parameter = usePathParameter();
+  const socket = useContext(globalSocket);
 
   const submitHandler = async (event: React.FormEvent<HTMLElement>) => {
     event.preventDefault();
     if (!parameter.snugId) return;
     const snugId = parameter.snugId.toString();
     try {
+      const profile = await Application.services.profileService.getProfile(
+        parameter.snugId!
+      );
       const channel = await Application.services.channelService.create(
         title,
         snugId,
@@ -76,8 +81,9 @@ export const ChannelPlusModalContents: React.FC<ApplicationProptype> = ({
           description: channel.description!,
           privacy: channel.privacy!,
           createdAt: channel.createdAt!,
-          creatorName: "두부"
+          creatorName: profile.name!
         });
+      socket.snugSocket.emit("newjoin", channel.id!);
 
       modalDispatch &&
         modalDispatch({

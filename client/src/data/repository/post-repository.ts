@@ -44,7 +44,7 @@ export class PostRepository implements PostRepositoryType {
       contents
     };
     const channel: Channel = {
-      channelId
+      id: channelId
     };
 
     // 실제 파일 포스트
