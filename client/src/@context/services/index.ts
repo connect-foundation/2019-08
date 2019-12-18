@@ -36,7 +36,8 @@ export class ServiceDependencies {
       repositories.getInvite().getInviteRepository()
     );
     this.profileService = new ProfileService(
-      repositories.getProfile().getProfileRepository()
+      repositories.getProfile().getProfileRepository(),
+      repositories.getUpload().getProfileRepository()
     );
   }
 }

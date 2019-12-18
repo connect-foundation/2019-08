@@ -15,8 +15,15 @@ export class ProfileApi {
     profile: Profile,
     filePath: string
   ): Promise<ResponseEntity<Profile> | boolean> {
+    const payload = {
+      name: profile.name,
+      status: profile.status,
+      thumbnail: filePath,
+      phone: profile.phone,
+      description: profile.description
+    };
     return this.axios
-      .patch(`/api/profiles/${profile.id}`, { profile, filePath })
+      .patch(`/api/profiles/${profile.id}`, payload)
       .then((response: AxiosResponse<ResponseEntity<Profile>>) => {
         if (StatusCodes.isAccepted(response.status)) return response.data;
         return false;

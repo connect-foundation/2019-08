@@ -43,12 +43,15 @@ export class ProfileService {
     profile: Profile,
     file: File
   ): Promise<Profile | boolean> {
+    let filePath: string;
     // 파일 업로드
-    const result = await this.uploadRepository.uploadFile(file);
+    if (file.size > 0) {
+      const result = await this.uploadRepository.uploadFile(file);
+      filePath = (result as ResponseEntity<string>).payload;
+    } else {
+      filePath = profile.thumbnail!;
+    }
 
-    return await this.profileRepository.updateProfile(
-      profile,
-      (result as ResponseEntity<string>).payload
-    );
+    return await this.profileRepository.updateProfile(profile, filePath);
   }
 }
