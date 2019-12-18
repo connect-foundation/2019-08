@@ -8,7 +8,7 @@ import { Modal } from "./modal";
 import { Profile } from "core/entity/profile";
 import { globalApplication } from "contexts/application-context";
 import { ChannelRouteComponentType } from "prop-types/channel-match-type";
-
+import Axios from "axios";
 const Wrapper = styled.section`
   background-color: ${({ theme }) => theme.snug};
   box-sizing: border-box;
@@ -67,14 +67,23 @@ export const ProfileSection: React.FC<PropTypes> = props => {
   const { snugId } = props.match.params;
 
   useEffect(() => {
+    if (!snugId) return;
+    const source = Axios.CancelToken.source();
+
     const requestProfile = async () => {
       const profile = await application.services.profileService.getProfile(
-        parseInt(snugId)
+        parseInt(snugId),
+        source.token
       );
-      if (!profile) return;
+      if (!profile) return profile;
       setCurrentProfile(profile);
     };
+
     requestProfile();
+
+    return function cleanup() {
+      source.cancel();
+    };
   }, [application.services.profileService, snugId]);
 
   const toggleModal = () => {

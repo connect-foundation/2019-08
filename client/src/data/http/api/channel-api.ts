@@ -1,6 +1,6 @@
 import { AxiosErrorHandler } from "data/http/api/axiosErrorHandler";
 import { Channel } from "core/entity/channel";
-import { AxiosError, AxiosResponse } from "axios";
+import Axios, { AxiosError, AxiosResponse, CancelToken } from "axios";
 import { ResponseEntity } from "./response/ResponseEntity";
 import { StatusCodes } from "./status-codes";
 import { AxiosWrapper } from "./axios-wrapper";
@@ -53,15 +53,21 @@ export class ChannelApi {
       });
   }
 
-  getParticipatingList(snug: Snug): Promise<ResponseEntity<object> | boolean> {
+  getParticipatingList(
+    snug: Snug,
+    cancelToken?: CancelToken
+  ): Promise<ResponseEntity<object> | boolean> {
     return this.axios
       .getAxios()
-      .get(`/api/snugs/${snug.id!}/participates/channels`)
+      .get(`/api/snugs/${snug.id!}/participates/channels`, {
+        cancelToken: cancelToken
+      })
       .then((response: AxiosResponse<ResponseEntity<object>>) => {
         if (StatusCodes.isOk(response.status)) return response.data;
         return false;
       })
       .catch((error: AxiosError) => {
+        if (Axios.isCancel(error)) throw new Error(error.message);
         return AxiosErrorHandler.handleError(
           error,
           `채널 목록을 불러오는 과정에서 예기치 못한 에러가 발생했습니다.`
@@ -85,10 +91,15 @@ export class ChannelApi {
       });
   }
 
-  getById(channelId: number): Promise<{ channel: Channel }> {
+  getById(
+    channelId: number,
+    cancelToken?: CancelToken
+  ): Promise<{ channel: Channel }> {
     return this.axios
       .getAxios()
-      .get(`/api/channels/${channelId}`)
+      .get(`/api/channels/${channelId}`, {
+        cancelToken: cancelToken
+      })
       .then((response: AxiosResponse<ResponseEntity<{ channel: Channel }>>) => {
         if (StatusCodes.isOk(response.status)) {
           return response.data.payload;

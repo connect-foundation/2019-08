@@ -6,6 +6,7 @@ import { PostCard } from "presentation/components/snug/post-card";
 import { Post } from "core/entity/post";
 import { usePathParameter } from "contexts/path-parameter-context";
 import { globalApplication } from "contexts/application-context";
+import Axios from "axios";
 
 const ChatContentWrapper = styled.section.attrs({
   id: "scroll"
@@ -38,19 +39,34 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
   const pathParameter = usePathParameter();
 
   useEffect(() => {
-    (async function() {
-      dispatch({
-        type: "CLEAR_ALL"
-      });
-      const resultPosts = await application.services.postService.getList(
-        pathParameter.channelId!
-      );
-      if (typeof resultPosts === "boolean") return;
-      dispatch({
-        type: "MULTI_INPUT",
-        posts: resultPosts
-      });
-    })();
+    if (!pathParameter.channelId) return;
+
+    const source = Axios.CancelToken.source();
+
+    const getPosts = async function() {
+      try {
+        dispatch({
+          type: "CLEAR_ALL"
+        });
+        const resultPosts = await application.services.postService.getList(
+          pathParameter.channelId!,
+          source.token
+        );
+        if (typeof resultPosts === "boolean") return;
+        dispatch({
+          type: "MULTI_INPUT",
+          posts: resultPosts
+        });
+      } catch (error) {
+        if (Axios.isCancel(error)) return;
+      }
+    };
+
+    getPosts();
+
+    return function cleanup() {
+      source.cancel();
+    };
   }, [pathParameter.channelId, application.services.postService, dispatch]);
 
   useEffect(() => {

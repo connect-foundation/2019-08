@@ -5,6 +5,7 @@ import { ProfileRepositoryType } from "core/use-case/profile-repository-type";
 import { UploadRepository } from "data/repository/upload-repository";
 import { Thread } from "../entity/thread";
 import { ResponseEntity } from "data/http/api/response/ResponseEntity";
+import { CancelToken } from "axios";
 
 export class PostService {
   private postRepository: PostRepositoryType;
@@ -21,11 +22,14 @@ export class PostService {
     this.uploadRepository = uploadRepository;
   }
 
-  async getList(channelId: number): Promise<Post[] | boolean> {
+  async getList(
+    channelId: number,
+    cancelToken?: CancelToken
+  ): Promise<Post[] | boolean> {
     const channel: Channel = {
       id: channelId
     };
-    return await this.postRepository.getList(channel);
+    return await this.postRepository.getList(channel, cancelToken);
   }
 
   async createMessage(contents: string, channelId: number): Promise<boolean> {

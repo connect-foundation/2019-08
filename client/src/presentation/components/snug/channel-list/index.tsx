@@ -12,6 +12,7 @@ import { ChannelMatchType } from "prop-types/channel-match-type";
 import { History } from "history";
 import { Context } from "context.instance";
 import { usePathParameterDispatch } from "contexts/path-parameter-context";
+import Axios from "axios";
 
 const Wrapper = styled.section`
   display: flex;
@@ -64,10 +65,13 @@ export const ChannelList: React.FC<PropTypes> = ({
   }, [pathParameterDispatch, match.params.snugId]);
 
   useEffect(() => {
+    const source = Axios.CancelToken.source();
+
     (async function() {
       const snugId = Number(match.params.snugId);
       const channel = await Application.services.channelService.getParticipatingChannelList(
-        snugId
+        snugId,
+        source.token
       );
       if (typeof channel === "boolean" || !dispatch) return;
       dispatch({
@@ -75,6 +79,10 @@ export const ChannelList: React.FC<PropTypes> = ({
         channels: channel
       });
     })();
+
+    return function cleanup() {
+      source.cancel();
+    };
   }, [match.params.snugId, Application.services.channelService, dispatch]);
 
   const publicChannels = pickPublicity(channels);

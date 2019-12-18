@@ -4,6 +4,7 @@ import { ProfileApi } from "data/http/api/profile-api";
 import { Profile } from "core/entity/profile";
 import { getCookie } from "util/cookie";
 import jwt from "jsonwebtoken";
+import { CancelToken } from "axios";
 
 export class ProfileRepository implements ProfileRepositoryType {
   private api: ProfileApi;
@@ -12,7 +13,7 @@ export class ProfileRepository implements ProfileRepositoryType {
     this.api = api;
   }
 
-  async getProfile(): Promise<Profile> {
+  getProfile(): Profile {
     try {
       const token: string | boolean = getCookie("profile");
       if (typeof token === "boolean")
@@ -40,7 +41,10 @@ export class ProfileRepository implements ProfileRepositoryType {
     }
   }
 
-  async getProfileToken(snugId: number): Promise<void> {
-    return await this.api.getProfileToken(snugId);
+  async getProfileToken(
+    snugId: number,
+    cancelToken?: CancelToken
+  ): Promise<void> {
+    return await this.api.getProfileToken(snugId, cancelToken);
   }
 }

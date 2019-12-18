@@ -5,6 +5,7 @@ import { usePathParameter } from "contexts/path-parameter-context";
 import { AppChannelMatchProps } from "prop-types/match-extends-types";
 import { useChannelDispatch } from "../../../../contexts/channel-context";
 import { Channel } from "../../../../core/entity/channel";
+import Axios from "axios";
 
 type PropsType = {
   setIsParticipated: React.Dispatch<React.SetStateAction<boolean>>;
@@ -22,19 +23,28 @@ export const Preview: React.FC<AppChannelMatchProps & PropsType> = props => {
   const channelDispatch = useChannelDispatch();
 
   useEffect(() => {
+    if (!pathParameter.channelId) return;
+    const source = Axios.CancelToken.source();
+
     (async function() {
       try {
         const channels = await application.services.channelService.getChannelById(
-          pathParameter.channelId!
+          pathParameter.channelId!,
+          source.token
         );
         if (!!channels) {
           changeChannel(channels);
         }
       } catch (error) {
+        if (Axios.isCancel(error)) return;
         console.log(error);
         changeChannel({});
       }
     })();
+
+    return function cleanup() {
+      source.cancel();
+    };
   }, [pathParameter.channelId, application.services.channelService]);
 
   async function join() {

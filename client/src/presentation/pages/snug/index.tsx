@@ -8,10 +8,8 @@ import { MessageSection } from "./message-section";
 import { AppChannelMatchProps } from "prop-types/match-extends-types";
 import { Modals } from "presentation/components/snug/modals";
 import { colorTheme } from "presentation/theme/color-theme";
-import {
-  usePathParameterDispatch,
-  usePathParameter
-} from "contexts/path-parameter-context";
+import { usePathParameterDispatch } from "contexts/path-parameter-context";
+import Axios from "axios";
 
 const SnugWrapper = styled.section`
   width: inherit;
@@ -27,15 +25,24 @@ const ViewWrapper = styled.section`
 export const Snug: React.FC<AppChannelMatchProps> = props => {
   const { Application, match } = props;
   const pathParameterDispatch = usePathParameterDispatch();
-  const pathParameter = usePathParameter();
 
   useEffect(() => {
-    (async function() {
+    if (!match.params.snugId) return;
+    const source = Axios.CancelToken.source();
+
+    const getProfileToken = async () => {
       await Application.services.profileService.getProfile(
-        pathParameter.snugId!
+        Number(match.params.snugId),
+        source.token
       );
-    })();
-  }, [pathParameter.snugId, Application.services.profileService]);
+    };
+
+    getProfileToken();
+
+    return function cleanup() {
+      source.cancel();
+    };
+  }, [match.params.snugId, Application.services.profileService]);
 
   useEffect(() => {
     pathParameterDispatch({

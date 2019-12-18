@@ -12,6 +12,8 @@ import { AppChannelMatchProps } from "prop-types/match-extends-types";
 import { FileUploadModal } from "presentation/components/snug/file-upload-modal";
 import { usePathParameter } from "contexts/path-parameter-context";
 import { ThreadSection } from "presentation/pages/snug/thread";
+import axios from "axios";
+import Axios from "axios";
 
 const MessageSectionContentWrapper = styled.section`
   width: 100%;
@@ -82,19 +84,30 @@ export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
   const [onModal, setModal] = useState(false);
 
   useEffect(() => {
-    if (inputRef.current) setHeight(inputRef.current!.clientHeight);
-  }, []);
+    if (inputRef.current) {
+      setHeight(inputRef.current!.clientHeight);
+    }
+  }, [pathParameter.channelId]);
 
   useEffect(() => {
+    if (!pathParameter.snugId || !pathParameter.channelId) return;
+    const source = axios.CancelToken.source();
     (async () => {
       try {
         const result = await Application.services.channelService.isInParticipating(
           pathParameter.snugId!,
-          pathParameter.channelId!
+          pathParameter.channelId!,
+          source.token
         );
         setIsParticipated(result);
-      } catch (error) {}
+      } catch (error) {
+        if (Axios.isCancel(error)) return;
+      }
     })();
+
+    return function cleanup() {
+      source.cancel();
+    };
   }, [
     pathParameter.channelId,
     Application.services.channelService,

@@ -2,6 +2,7 @@ import { Profile } from "core/entity/profile";
 import { ProfileRepositoryType } from "core/use-case/profile-repository-type";
 import { UploadRepository } from "data/repository/upload-repository";
 import { ResponseEntity } from "data/http/api/response/ResponseEntity";
+import { CancelToken } from "axios";
 
 export class ProfileService {
   private profileRepository: ProfileRepositoryType;
@@ -15,14 +16,17 @@ export class ProfileService {
     this.uploadRepository = uploadRepository;
   }
 
-  async getProfile(snugId: number): Promise<Profile> {
+  async getProfile(
+    snugId: number,
+    cancelToken?: CancelToken
+  ): Promise<Profile> {
     try {
-      const profile = await this.profileRepository.getProfile(); // 브라우저에서 프로필 존재 유무 확인
+      const profile = this.profileRepository.getProfile(); // 브라우저에서 프로필 존재 유무 확인
       if (this.hasVisitedPreviousSnug(snugId, profile)) {
         return profile;
       }
     } finally {
-      return await this.retryFetchProfileToken(snugId);
+      return await this.retryFetchProfileToken(snugId, cancelToken);
     }
   }
 
@@ -30,10 +34,13 @@ export class ProfileService {
     return profile && profile.snugId === snugId;
   }
 
-  private async retryFetchProfileToken(snugId: number): Promise<Profile> {
+  private async retryFetchProfileToken(
+    snugId: number,
+    cancelToken?: CancelToken
+  ): Promise<Profile> {
     try {
-      await this.profileRepository.getProfileToken(snugId); // 서버에서 만든 새로운 토큰을 조회
-      return await this.profileRepository.getProfile();
+      await this.profileRepository.getProfileToken(snugId, cancelToken); // 서버에서 만든 새로운 토큰을 조회
+      return this.profileRepository.getProfile();
     } catch (error) {
       return {};
     }
