@@ -1,11 +1,11 @@
-import {ResponseEntity} from "./../http/api/response/ResponseEntity";
-import {ChannelApi} from "../http/api/channel-api";
-import {Channel} from "../../core/entity/channel";
-import {ChannelRepositoryType} from "../../core/use-case/channel-repository-type";
+import {ResponseEntity} from "data/http/api/response/ResponseEntity";
+import {ChannelApi} from "data/http/api/channel-api";
+import {Channel} from "core/entity/channel";
+import {ChannelRepositoryType} from "core/use-case/channel-repository-type";
 import {Snug} from "core/entity/snug";
-import {hasNotCookie} from "../../util/cookie";
-import {ParticipateInfo} from "../../core/entity/participate-info";
-import {ChannelModel} from "../../core/model/channel-model";
+import {hasNotCookie} from "util/cookie";
+import {ParticipateInfo} from "core/entity/participate-info";
+import {ChannelModel} from "core/model/channel-model";
 
 export class ChannelRepository implements ChannelRepositoryType {
   private api: ChannelApi;
@@ -39,15 +39,9 @@ export class ChannelRepository implements ChannelRepositoryType {
     }
   }
 
-  async getParticipatingChannels(snug: Snug): Promise<Channel[] | boolean> {
-    try {
-      const responseEntity = await this.api.getParticipatingList(snug);
-      if (responseEntity)
-        return (responseEntity as ResponseEntity<{ channels: Channel[] }>).payload.channels;
-      return false;
-    } catch (error) {
-      return false;
-    }
+  async getParticipatingChannels(snug: Snug): Promise<Channel[]> {
+    const {channels} = await this.api.getParticipatingList(snug);
+    return channels;
   }
 
   join(channelInfo: Channel): Promise<ParticipateInfo> {
