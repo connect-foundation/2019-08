@@ -5,6 +5,8 @@ import {
 } from "../../controller/api/upload-controller";
 
 const router = Router();
-router.post("/", uploader.single("file"), fileResponser);
+
+router.route("/")
+        .post(uploader.single("file"), fileResponser);
 
 export default router;

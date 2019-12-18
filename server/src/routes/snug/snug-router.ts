@@ -1,18 +1,22 @@
-import { Router } from "express";
-import { create, findByUserId } from "../../controller/api/snug-controller";
-import channelRouter from "./channel/channel-router";
+import {Router} from "express";
+import {create, findByUserId} from "../../controller/api/snug-controller";
 import inviteRouter from "./invite/invite-router";
-import { isNumeric } from "../../validator/identifier-validator";
+import channelRouter from "./channel/channel-router";
+import participateRouter from "./participate/participate-router";
+import {isNumericSnugId} from "../../middleware/validator";
 
 const router = Router({ mergeParams: true });
-
-router.use("/:snugId/channels", channelRouter);
-
-router.use("/:snugId/invite", inviteRouter);
 
 router.route("/")
         .get(findByUserId)
         .post(create);
 
-router.param("snugId", isNumeric);
+router.use("/:snugId/channels", channelRouter);
+
+router.use("/:snugId/participates", participateRouter);
+
+router.use("/:snugId/invite", inviteRouter);
+
+router.param("snugId", isNumericSnugId);
+
 export default router;

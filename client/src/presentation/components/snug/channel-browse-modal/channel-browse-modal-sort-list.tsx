@@ -1,11 +1,13 @@
-import React from "react";
-import { DisplayType, SortType } from "./index";
-import { useChannels, Channels } from "contexts/channel-context";
-import { ChannelBrowseModalItem } from "./channel-browse-modal-item";
-import { Channel } from "core/entity/channel";
+import React, {useContext, useEffect, useState} from "react";
+import {DisplayType, SortType} from "./index";
+import {Channels} from "contexts/channel-context";
+import {globalApplication} from "contexts/application-context";
+import {ChannelBrowseModalItem} from "./channel-browse-modal-item";
+import {Channel} from "core/entity/channel";
 import styled from "styled-components";
-import { ApplicationProptype } from "prop-types/application-type";
-import { RouteComponentProps } from "react-router";
+import {ApplicationProptype} from "prop-types/application-type";
+import {RouteComponentProps} from "react-router";
+import {usePathParameter} from "../../../../contexts/path-parameter-context";
 
 interface Criterion {
   DisplayType: DisplayType;
@@ -42,8 +44,6 @@ const sortBySortType = (channels: Channels, sortType: SortType) => {
       return returnSortedChannels(channels, "title");
     case SortType.createdAt:
       return returnSortedChannels(channels, "createdAt");
-
-    //todo : null을 대체할 적절한 반환형 생각하기
     default:
       return null;
   }
@@ -61,7 +61,18 @@ const filterPrivateChannels = (channels: Channels, props: DisplayType) => {
 export const ChannelBrowseModalSortList: React.FC<Criterion &
   ApplicationProptype &
   RouteComponentProps> = props => {
-  const channels = useChannels();
+  const [channels, addChannels] = useState<Channels>([]);
+  const application = useContext(globalApplication);
+  const pathParameter = usePathParameter();
+
+  useEffect(() => {
+    (async function() {
+      const snugId = Number(pathParameter.snugId);
+      const channels = await application.services.channelService.getChannelList(snugId);
+      if (typeof channels === "boolean") return;
+      addChannels(channels);
+    })();
+  }, []);
 
   const sortChannels = () => {
     if (!channels) {

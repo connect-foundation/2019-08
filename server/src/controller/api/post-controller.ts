@@ -17,13 +17,12 @@ import { ReplyNotifier } from "../../model/notifier/chat/reply-notifier";
 import { PostInfo } from "../../model/chat/post-info";
 import { ReplyInfo } from "../../model/chat/reply-info";
 import { offerProfileTokenInfo } from "../../validator/identifier-validator";
-import { Profile } from "../../domain/entity/Profile";
 
 export const create = async (
   request: Request,
   response: Response
 ): Promise<Response> => {
-  const { id } = <Profile>offerProfileTokenInfo(request);
+  const { id } = offerProfileTokenInfo(request);
   const { contents, roomId, filePath } = request.body;
   try {
     const postNotifier = new PostNotifier(roomId);

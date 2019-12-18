@@ -11,7 +11,6 @@ export function getCookie(cookieName: string) {
 }
 
 // 참고 출처 : https://caronjuni.tistory.com/entry/documentcookie%EC%97%90-%EB%8C%80%ED%95%B4%EC%84%9C
-
-export const hasCookie = (cookieName: string) => {
-  return document.cookie === cookieName;
+export const hasNotCookie = (cookieName: string) => {
+  return document.cookie.indexOf(cookieName) == -1;
 };

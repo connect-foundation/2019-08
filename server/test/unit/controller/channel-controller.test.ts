@@ -1,6 +1,6 @@
 import * as ChannelApiController from "../../../src/controller/api/channel-controller";
 import {Room} from "../../../src/domain/entity/Room";
-import {FOUND_CHANNEL, NOT_FOUND_CHANNEL} from "../../../src/controller/api/common/error-message";
+import {FOUND_CHANNEL, NOT_FOUND_CHANNEL} from "../../../src/controller/api/common/messages";
 
 jest.mock( "../../../src/entity/Room");
 import {mockRequest, mockResponse} from "mock-req-res";
@@ -20,7 +20,7 @@ describe("Test channel-controller", () => {
       findByTitle.mockReturnValue(channel);
       Room.findByTitle = findByTitle.bind(Room);
 
-      await ChannelApiController.find(request, response);
+      await ChannelApiController.findByTitle(request, response);
 
       // then
       expect(findByTitle).toHaveBeenCalledWith(title);
@@ -39,7 +39,7 @@ describe("Test channel-controller", () => {
       findByTitle.mockReturnValue(channel);
       Room.findByTitle = findByTitle.bind(Room);
 
-      await ChannelApiController.find(request, response);
+      await ChannelApiController.findByTitle(request, response);
 
       // then
       expect(findByTitle).toHaveBeenCalledWith(title);
@@ -58,7 +58,7 @@ describe("Test channel-controller", () => {
       findByTitle.mockReturnValue(channel);
       Room.findByTitle = findByTitle.bind(Room);
 
-      await ChannelApiController.find(request, response);
+      await ChannelApiController.findByTitle(request, response);
 
       // then
       expect(findByTitle).toHaveBeenCalledWith(title);
@@ -77,7 +77,7 @@ describe("Test channel-controller", () => {
       findByTitle.mockReturnValue(channel);
       Room.findByTitle = findByTitle.bind(Room);
 
-      await ChannelApiController.find(request, response);
+      await ChannelApiController.findByTitle(request, response);
 
       // then
       expect(findByTitle).toHaveBeenCalledWith(title);

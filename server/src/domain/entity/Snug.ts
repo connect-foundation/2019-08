@@ -18,4 +18,12 @@ export class Snug extends Base {
 
   @OneToMany(type => Invite, invite => invite.snug)
   invitations: Invite[];
+
+  public isSameId(targetId: number): boolean {
+    return this.id === targetId;
+  }
+
+  static findById(snugId: number): Promise<Snug> {
+    return Snug.findOneOrFail({ where: { id: snugId } });
+  }
 }

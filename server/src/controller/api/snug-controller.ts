@@ -1,14 +1,14 @@
-import { getManager } from "typeorm";
-import { User } from "../../domain/entity/User";
-import { Snug } from "../../domain/entity/Snug";
-import { Profile, UserRole } from "../../domain/entity/Profile";
-import { Room } from "../../domain/entity/Room";
-import { ParticipateIn } from "../../domain/entity/ParticipateIn";
-import { NextFunction, Request, Response } from "express";
+import {getManager} from "typeorm";
+import {User} from "../../domain/entity/User";
+import {Snug} from "../../domain/entity/Snug";
+import {Profile, UserRole} from "../../domain/entity/Profile";
+import {Room} from "../../domain/entity/Room";
+import {ParticipateIn} from "../../domain/entity/ParticipateIn";
+import {Request, Response} from "express";
 import ResponseForm from "../../utils/response-form";
-import { OK, CREATED, INTERNAL_SERVER_ERROR } from "http-status-codes";
-import { offerTokenInfo, UserInfo } from "../../validator/identifier-validator";
-import { CREATED_SNUG, OK_SNUG } from "./common/messages";
+import {CREATED, INTERNAL_SERVER_ERROR, OK} from "http-status-codes";
+import {offerTokenInfo, UserInfo} from "../../validator/identifier-validator";
+import {CREATED_SNUG, OK_SNUG} from "./common/messages";
 
 /**
  * client에서 보내온 메시지를 기반으로 snug를 DB에 저장
@@ -19,8 +19,7 @@ import { CREATED_SNUG, OK_SNUG } from "./common/messages";
  * */
 export const create = async (
   request: Request,
-  response: Response,
-  next: NextFunction
+  response: Response
 ) => {
   const { name, description, thumbnail } = request.body;
   const userInfo: UserInfo = offerTokenInfo(request);
@@ -81,9 +80,8 @@ export const create = async (
 
 export const findByUserId = async (
   request: Request,
-  response: Response,
-  next: NextFunction
-) => {
+  response: Response
+): Promise<Response> => {
   try {
     const userInfo: UserInfo = offerTokenInfo(request);
 
@@ -96,7 +94,7 @@ export const findByUserId = async (
       return profile.snug;
     });
 
-    response.status(OK).json(ResponseForm.of<Snug[]>(OK_SNUG, snugs));
+    return response.status(OK).json(ResponseForm.of<Snug[]>(OK_SNUG, snugs));
   } catch (error) {
     return response
       .status(INTERNAL_SERVER_ERROR)

@@ -7,17 +7,23 @@ export class ChannelModel implements Channel {
   private static readonly DESCRIPTION_MIN_LENGTH = 0;
   private static readonly DESCRIPTION_MAX_LENGTH = 31;
   readonly title: string;
+  readonly snugId: string;
   readonly description: string;
   readonly privacy: boolean;
 
-  constructor(title: string, description: string, privacy: boolean) {
+  constructor(title: string, snugId: string, description: string, privacy: boolean) {
     this.title = title;
+    this.snugId = snugId;
     this.description = description;
     this.privacy = privacy;
   }
 
   getTitle(): string {
     return this.title;
+  }
+
+  getSnugId(): string {
+    return this.snugId;
   }
 
   public isImpossibleFormat(): boolean {

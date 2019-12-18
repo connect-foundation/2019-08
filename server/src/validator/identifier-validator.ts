@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { User } from "../domain/entity/User";
+import {Profile} from "../domain/entity/Profile";
 
 enum Numbers {
   MIN_CHARACTER_DIGIT = 0,
@@ -62,43 +63,24 @@ export const isOutOfRange = (target: string): boolean => {
   return !(Numbers.MIN_INTEGER_ID < digits && digits < Numbers.MAX_INTEGER_ID);
 };
 
-/**
- *
- * request path variable 인 id 대한 유효성 검사
- * 유효한 경우, next() 메소드가 err 인자 없이 호출되고
- * 유효하지 않은 경우, next(err) 메소드가 err 인자를 가지고 호출
- *
- * @param request express Request
- * @param response express Response
- * @param next express Next
- * @param id
- *
- * */
-export const isNumeric = (
-  request: Request,
-  response: Response,
-  next: NextFunction,
-  id: string
-) => {
+export const isNumeric = (id: string): void => {
   if (hasNotValue(id) || hasNotEveryNumber(id) || isOutOfRange(id)) {
-    return next("Invalid id format. Must be an Number");
+    throw new Error("Invalid id format. Must be an Number");
   }
-
-  next();
 };
 
 export const offerTokenInfo = (request: Request): UserInfo => {
   const token = request.headers["auth-token"];
   if (!token) throw new Error("토큰이 존재하지 않습니다.");
-  const decoded = <UserInfo>jwt.verify(<string>token, process.env.SECRET_KEY);
+  const decoded = jwt.verify(token as string, process.env.SECRET_KEY) as UserInfo;
   return decoded;
 };
 
-export const offerProfileTokenInfo = (request: Request) => {
+export const offerProfileTokenInfo = (request: Request): Profile => {
   const token = request.cookies["profile"];
   if (!token) throw new Error("토큰이 존재하지 않습니다.");
-  const decoded = jwt.verify(<string>token, process.env.SECRET_KEY);
-  return decoded;
+  const decoded = jwt.verify(token as string, process.env.SECRET_KEY);
+  return decoded as Profile;
 };
 
 export const isVerifyLogined = async (
