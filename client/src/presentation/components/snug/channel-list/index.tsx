@@ -89,7 +89,12 @@ export const ChannelList: React.FC<PropTypes> = ({
     return function cleanup() {
       source.cancel();
     };
-  }, [match.params.snugId, Application.services.channelService, dispatch]);
+  }, [
+    match.params.snugId,
+    Application.services.channelService,
+    dispatch,
+    history
+  ]);
 
   const publicChannels = pickPublicity(channels);
   const privateChannels = pickPrivacy(channels);
