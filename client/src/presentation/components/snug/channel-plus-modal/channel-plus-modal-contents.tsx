@@ -83,7 +83,6 @@ export const ChannelPlusModalContents: React.FC<ApplicationProptype> = ({
           createdAt: channel.createdAt!,
           creatorName: profile.name!
         });
-      console.log(parameter.channelId);
       socket.snugSocket.emit("newjoin", channel.id!);
 
       modalDispatch &&

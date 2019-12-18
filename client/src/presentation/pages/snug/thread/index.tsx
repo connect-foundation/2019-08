@@ -41,20 +41,18 @@ export const ThreadSection: React.FC<PropTypes> = ({
   const [post, setPost] = useState<Post>({});
   const [replies, setReplies] = useState<Post[]>([]);
 
-  const getReply = async () => {
-    const {
-      post,
-      replies
-    }: Thread = (await application.services.postService.getReplyList(
-      thread
-    )) as Thread;
-    setPost(post);
-    setReplies(replies);
-  };
-
   useEffect(() => {
-    getReply();
-  }, [thread]);
+    (async () => {
+      const {
+        post,
+        replies
+      }: Thread = (await application.services.postService.getReplyList(
+        thread
+      )) as Thread;
+      setPost(post);
+      setReplies(replies);
+    })();
+  }, [thread, application.services.postService]);
 
   const addReply = (reply: Post) =>
     setReplies(prevState => prevState.concat(reply));

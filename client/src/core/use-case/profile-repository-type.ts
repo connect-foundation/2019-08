@@ -1,7 +1,8 @@
 import { Profile } from "core/entity/profile";
+import { CancelToken } from "axios";
 
 export interface ProfileRepositoryType {
-  getProfile(): Promise<Profile>;
+  getProfile(): Profile;
   updateProfile(profile: Profile, filePath: string): Promise<Profile | boolean>;
-  getProfileToken(snugId: number): Promise<void>;
+  getProfileToken(snugId: number, cancelToken?: CancelToken): Promise<void>;
 }

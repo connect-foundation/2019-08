@@ -34,7 +34,7 @@ const ChannelPlusModalDescription = styled.section`
 export const ChannelPlusModalHeader: React.FC = () => {
   const dispatch = useModalToggledDispatch();
 
-  const clickHandler = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+  const clickHandler = () => {
     dispatch &&
       dispatch({
         type: "TOGGLE_CHANNEL_PLUS_MODAL"

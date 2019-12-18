@@ -20,7 +20,6 @@ export class UploadApi {
   async uploadFile(file: File): Promise<ResponseEntity<string> | undefined> {
     const formData = new FormData();
     formData.append("file", file);
-
     try {
       const {
         data,
@@ -30,11 +29,9 @@ export class UploadApi {
         formData,
         this.config
       );
-
       if (!StatusCodes.isCreated(status)) {
         throw new Error();
       }
-
       return data;
     } catch (error) {
       AxiosErrorHandler.handleError(

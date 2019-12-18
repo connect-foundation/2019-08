@@ -51,13 +51,14 @@ export const ChannelBrowseModal: React.FC<ApplicationProptype &
       });
   };
 
-  const clickHandler = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+  const clickHandler = () => {
     toggleChannelBrowseModal();
   };
 
-  const keyDownHandler = (event: React.KeyboardEvent<HTMLElement>) => {
+  const keyDownHandler = () => {
     toggleChannelBrowseModal();
   };
+
   const Wrapper = styled.section`
     box-sizing: border-box;
     display: flex;
@@ -65,6 +66,7 @@ export const ChannelBrowseModal: React.FC<ApplicationProptype &
     align-items: center;
     width: 100%;
   `;
+
   return (
     <CustomModal>
       <ChannelBrowseModalInformation onClick={clickHandler} />

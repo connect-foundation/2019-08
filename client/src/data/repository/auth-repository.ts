@@ -19,7 +19,9 @@ export class AuthRepository implements AuthRepositoryType {
     try {
       const result = this.storage.get();
       if (result == null) return {};
-      const payload: { [key: string]: any } = <object>jwt.decode(result.token);
+      const payload: { [key: string]: any } = jwt.decode(
+        result.token
+      ) as object;
       const user: User = {
         email: payload.email,
         id: payload.id
@@ -52,7 +54,7 @@ export class AuthRepository implements AuthRepositoryType {
   isLogined(): boolean {
     try {
       const result = this.storage.get();
-      if (result == null) return false;
+      if (result === null) return false;
       return true;
     } catch (error) {
       return false;

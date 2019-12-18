@@ -41,8 +41,8 @@ const Footer = styled.footer`
 
 const Button = styled.button.attrs({
   id: "join--button"
-})<{ on: boolean }>`
-  display: ${({ on }) => (on ? "" : "none")};
+})<{ on: string }>`
+  display: ${({ on }) => (on === "true" ? "" : "none")};
   position: absolute;
   box-sizing: content-box;
   right: 10px;
@@ -70,18 +70,18 @@ interface ChannelBrowseModal {
 export const ChannelBrowseModalItem: React.FC<ChannelBrowseModal &
   ApplicationProptype &
   RouteComponentProps> = props => {
-  const [on, setOn] = useState(false);
+  const [on, setOn] = useState("false");
   const { history, id } = props;
   const pathParameter = usePathParameter();
   const pathPatameterDispatch = usePathParameterDispatch();
   const ModalToggle = useModalToggledDispatch();
 
   function enter() {
-    setOn(true);
+    setOn("true");
   }
 
   function leave() {
-    setOn(false);
+    setOn("false");
   }
 
   function moveChannel() {

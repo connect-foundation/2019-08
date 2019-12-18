@@ -46,9 +46,7 @@ export const ChannelPlusModal: React.FC<ApplicationProptype> = ({
   Application
 }) => {
   const Modals = useModalToggled();
-
   const dispatch = useModalToggledDispatch();
-
   const keyDownHandler = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.keyCode === 27) {
       dispatch &&

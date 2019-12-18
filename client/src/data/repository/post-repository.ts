@@ -5,6 +5,7 @@ import { Channel } from "core/entity/channel";
 import { PostRepositoryType } from "core/use-case/post-repository-type";
 import { PostApi, posts } from "data/http/api/post-api";
 import { Thread } from "../../core/entity/thread";
+import { CancelToken } from "axios";
 
 export class PostRepository implements PostRepositoryType {
   private api: PostApi;
@@ -13,9 +14,12 @@ export class PostRepository implements PostRepositoryType {
     this.api = api;
   }
 
-  async getList(channel: Channel): Promise<Post[] | boolean> {
+  async getList(
+    channel: Channel,
+    cancelToken?: CancelToken
+  ): Promise<Post[] | boolean> {
     try {
-      const responseEntity = await this.api.getList(channel);
+      const responseEntity = await this.api.getList(channel, cancelToken);
       if ((responseEntity as ResponseEntity<posts<Post>>).payload) {
         return (responseEntity as ResponseEntity<posts<Post>>).payload.posts;
       }
@@ -46,8 +50,8 @@ export class PostRepository implements PostRepositoryType {
     // 실제 파일 포스트
     const responseEntity = await this.api.createPost(post, channel, filePath);
 
-    if (<ResponseEntity<object>>responseEntity) return true;
-    return <boolean>responseEntity;
+    if (responseEntity as ResponseEntity<object>) return true;
+    return responseEntity as boolean;
   }
 
   async reply(

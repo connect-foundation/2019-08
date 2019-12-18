@@ -1,10 +1,9 @@
-import React , {useState}from "react";
+import React, { useState } from "react";
 import styled, { css } from "styled-components";
 import { CustomLoginInput } from "presentation/components/atomic-reusable/custom-login-input";
 import { CustomButton } from "presentation/components/atomic-reusable/custom-button";
 import { ApplicationProptype } from "prop-types/application-type";
 import { Modal } from "./modal";
-import { User } from "core/entity/user";
 
 const Wrapper = styled.section`
   background-color: #ffffff;
@@ -74,44 +73,47 @@ enum ModalMessage {
   "failMessage" = "스너그 생성에 실패했습니다."
 }
 
-export const RegisterSnugForm: React.FC<ApplicationProptype> = (props) => {
+export const RegisterSnugForm: React.FC<ApplicationProptype> = props => {
   const { Application } = props;
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
   const [onModal, setOnModal] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");  
+  const [modalMessage, setModalMessage] = useState("");
 
   const nameHandle = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setName(event.target.value);
-  }
+  };
 
-  const descriptionHandle = (event: React.ChangeEvent<HTMLInputElement>): void  => {
-    setDescription(event.target.value)
-  }
+  const descriptionHandle = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    setDescription(event.target.value);
+  };
 
   const closeModal = () => {
     setOnModal(false);
-  }
+  };
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    // local storage에 저장된 데이터를 이용
-    const user: User = Application.services.authService.getUserInfo();
-    
     // input의 널 값 체크
-    if(name.length == 0 || description.length == 0) {
+    if (name.length === 0 || description.length === 0) {
       setModalMessage(ModalMessage.nullCheck);
       setOnModal(true);
       return;
     }
 
-    const result = await Application.services.snugService.createSnug(name, description, "");
+    const result = await Application.services.snugService.createSnug(
+      name,
+      description,
+      ""
+    );
 
     // snug 생성 메세지 출력
-    if(typeof result === "boolean") {
+    if (typeof result === "boolean") {
       setModalMessage(ModalMessage.failMessage);
       return setOnModal(true);
     }
@@ -125,7 +127,7 @@ export const RegisterSnugForm: React.FC<ApplicationProptype> = (props) => {
       <DescriptionWrapper>
         <SnugDescription>오직 '우리'를 위한 Snug 만들기</SnugDescription>
       </DescriptionWrapper>
-      {onModal && <Modal onClick={closeModal} message={modalMessage}/>}
+      {onModal && <Modal onClick={closeModal} message={modalMessage} />}
       <FormWrapper onSubmit={onSubmit}>
         <InputHorizontal>
           <CustomLoginInput
