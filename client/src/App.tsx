@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, BrowserRouter } from "react-router-dom";
+import { Route, BrowserRouter, Switch } from "react-router-dom";
 import { Home } from "./presentation/pages/home/index";
 import { Auth } from "./presentation/pages/snug/auth";
 import { RegisterSnug } from "./presentation/pages/register-snug";
@@ -44,48 +44,48 @@ const App: React.FC = () => {
         <BrowserRouter>
           <PathParameterContextProvider>
             <GlobalStyle></GlobalStyle>
-            <Route
-              exact
-              path="/"
-              component={(props: any) => (
-                <Home {...props} Application={Application} />
-              )}
-            ></Route>
-            <Route
-              exact
-              path="/register-user"
-              component={(props: any) => (
-                <RegisterUser {...props} Application={Application} />
-              )}
-            ></Route>
-            <Route
-              exact
-              path="/register-snug"
-              component={(props: any) => (
-                <RegisterSnug {...props} Application={Application} />
-              )}
-            ></Route>
-            <Route
-              exact
-              path="/invite-users/:snugId"
-              component={(props: any) => (
-                <InviteUsers {...props} Application={Application} />
-              )}
-            ></Route>
-            <Route
-              exact
-              path="/snug/:snugId/channel/:channelId"
-              component={(props: any) => (
-                <Auth {...props} Application={Application}></Auth>
-              )}
-            ></Route>
-            <Route
-              exact
-              path="/error"
-              component={(props: any) => (
-                <ErrorPage {...props} Application={Application}></ErrorPage>
-              )}
-            ></Route>
+            <Switch>
+              <Route
+                exact
+                path="/"
+                component={(props: any) => (
+                  <Home {...props} Application={Application} />
+                )}
+              ></Route>
+              <Route
+                exact
+                path="/register-user"
+                component={(props: any) => (
+                  <RegisterUser {...props} Application={Application} />
+                )}
+              ></Route>
+              <Route
+                exact
+                path="/register-snug"
+                component={(props: any) => (
+                  <RegisterSnug {...props} Application={Application} />
+                )}
+              ></Route>
+              <Route
+                exact
+                path="/invite-users/:snugId"
+                component={(props: any) => (
+                  <InviteUsers {...props} Application={Application} />
+                )}
+              ></Route>
+              <Route
+                exact
+                path="/snug/:snugId/channel/:channelId"
+                component={(props: any) => (
+                  <Auth {...props} Application={Application}></Auth>
+                )}
+              ></Route>
+              <Route
+                component={(props: any) => (
+                  <ErrorPage {...props} Application={Application}></ErrorPage>
+                )}
+              ></Route>
+            </Switch>
           </PathParameterContextProvider>
         </BrowserRouter>
       </SocketContextProvider>
