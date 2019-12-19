@@ -21,10 +21,10 @@ export const Auth: React.FC<AppChannelMatchProps> = props => {
           source.token
         );
 
-        if (profile.id && profile.id > 0) {
+        if (profile && profile.id && profile.id > 0) {
           setAuth(true);
         } else {
-          window.location.href = "/error";
+          window.location.assign("/error");
         }
       };
 
@@ -33,7 +33,7 @@ export const Auth: React.FC<AppChannelMatchProps> = props => {
       return function cleanup() {
         source.cancel();
       };
-    }, 1000);
+    }, 500);
   }, [match.params.snugId, Application.services.profileService]);
 
   return (
