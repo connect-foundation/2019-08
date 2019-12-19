@@ -7,17 +7,14 @@ import https from "https";
 import {initialize} from "./socket/socket-manager";
 import {initializeMailManger} from "./mail/mail-manager";
 import fs from "fs";
+import HttpHelper from "./utils/http-helper";
 
 const config =
         process.env.NODE_ENV === "production" ? ".env.production" : ".env.local";
 dotenv.config({path: path.join(__dirname, "..", config)});
 
-const hasNotKey = (): boolean => {
-  return !process.env.PRIVATE_KEY || !process.env.CERT_KEY;
-};
-
 const applyHttps = (app: Express): boolean => {
-  if(hasNotKey()) {
+  if(HttpHelper.isSupportedHttp()) {
     return false;
   }
 
