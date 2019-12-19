@@ -9,6 +9,7 @@ const SidebarWrapper = styled.section`
   box-sizing: border-box;
   min-width: 250px;
   height: 100%;
+  overflow-y: auto;
   background-color: ${({ theme }) => theme.sidebar};
 `;
 
