@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import Dubu from "assets/dubu.png";
+import profileImage from "assets/user-white.png";
 import { CustomButton } from "./custom-button";
 import { IconBox } from "./icon-box";
 import { ApplicationProptype } from "prop-types/application-type";
@@ -11,7 +11,7 @@ const Wrapper = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #4096cb;
+  background-color: #191d21;
   padding: 10px;
   height: 5vh;
   box-sizing: border-box;
@@ -59,7 +59,7 @@ const Content = styled.article`
 `;
 
 const Title = styled.section`
-  color: #ffffff;
+  color: white;
   font-size: 1.4rem;
 `;
 
@@ -94,7 +94,7 @@ export const GlobalHeader: React.FC<ApplicationProptype> = ({
       {isLoggedIn ? (
         <IconBoxWrapper>
           <DropDown onClick={clickDropdown} onMouseLeave={mouseLeave}>
-            <IconBox imageSrc={Dubu} />
+            <IconBox imageSrc={profileImage} size={"40px"} />
             <ContentWrapper toggle={on}>
               <Content>프로필</Content>
               <Link to="register-snug">
