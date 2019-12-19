@@ -59,7 +59,7 @@ export class ChannelService {
     if (channel.isImpossibleFormat()) {
       return false;
     }
-    return await this.isNotDuplicated(channel);
+    return await this.isAcceptableChannel(channel);
   }
 
   /**
@@ -68,12 +68,11 @@ export class ChannelService {
    * @param channel
    *
    * */
-  private async isNotDuplicated(channel: ChannelModel): Promise<boolean> {
-    const redundancy = await this.repository.hasByTitleAndSnugId(
+  private isAcceptableChannel(channel: ChannelModel): Promise<boolean> {
+    return this.repository.isAcceptableChannelTitleBySnugId(
       channel.getTitle(),
       channel.getSnugId()
     );
-    return !redundancy;
   }
 
   getChannelList(snugId: number): Promise<Channel[] | boolean> {
