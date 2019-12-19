@@ -24,7 +24,8 @@ const ButtonWrapper = styled.section`
 `;
 
 const addEmailModel = (emails: EmailModel[], changeEmails: any) => {
-  const emailModel = new EmailModel(emails.length);
+  const id = emails.length;
+  const emailModel = new EmailModel(id);
   emails.push(emailModel);
   changeEmails(emails);
   return emailModel;
