@@ -131,14 +131,19 @@ export const RegisterUserForm: React.FC<ApplicationProptype> = ({
       setModalOn(true);
       return;
     }
-    const result = await Application.services.userService.doesExist(email);
-    if (!result) {
-      setIsNotDuplicatedId(true);
-      openModalWithMessage(ModalMessage.ELEGIBLE_FORM);
-      return;
+    try {
+      const result = await Application.services.userService.isAcceptableEmail(
+        email
+      );
+      console.log("result", result);
+      setIsNotDuplicatedId(result);
+      openModalWithMessage(
+        result ? ModalMessage.ELEGIBLE_FORM : ModalMessage.EMAIL_EXISTED
+      );
+    } catch {
+      setIsNotDuplicatedId(false);
+      openModalWithMessage(ModalMessage.EMAIL_EXISTED);
     }
-    setIsNotDuplicatedId(false);
-    openModalWithMessage(ModalMessage.EMAIL_EXISTED);
   };
 
   return (
