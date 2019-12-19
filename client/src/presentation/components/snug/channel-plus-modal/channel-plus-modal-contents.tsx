@@ -44,12 +44,17 @@ const CustomButtonWrapper = styled.section`
   justify-content: flex-end;
 `;
 
+const NotAcceptableChannel = styled.span`
+  color: ${({ theme }) => theme.snugMainFont};
+`;
+
 export const ChannelPlusModalContents: React.FC<ApplicationProptype> = ({
   Application
 }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [privacy, setPrivacy] = useState(false);
+  const [isFailed, setIsFailed] = useState(false);
 
   const channelDispatch = useChannelDispatch();
   const modalDispatch = useModalToggledDispatch();
@@ -89,7 +94,9 @@ export const ChannelPlusModalContents: React.FC<ApplicationProptype> = ({
         modalDispatch({
           type: "TOGGLE_CHANNEL_PLUS_MODAL"
         });
+      setIsFailed(false);
     } catch (error) {
+      setIsFailed(true);
       return;
     }
   };
@@ -118,6 +125,9 @@ export const ChannelPlusModalContents: React.FC<ApplicationProptype> = ({
         </ChannelPrivateDescription>
         <CustomOnOffButton onChange={setPrivacy}></CustomOnOffButton>
       </ChannelSetPrivate>
+      {isFailed ? (
+        <NotAcceptableChannel>채널 생성에 실패했습니다.</NotAcceptableChannel>
+      ) : null}
       <CustomButtonWrapper>
         <CustomButton
           color={"#000000"}

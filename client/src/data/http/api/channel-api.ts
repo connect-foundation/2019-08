@@ -39,21 +39,15 @@ export class ChannelApi {
       });
   }
 
-  findByTitleAndSnugId(
+  isAcceptableChannelTitleBySnugId(
     title: string,
     snugId: string
-  ): Promise<ResponseEntity<ChannelResponseType>> {
+  ): Promise<boolean> {
     return this.axios
       .getAxios()
-      .get(`/api/snugs/${snugId}/channels/${title}`)
-      .then((response: AxiosResponse<ResponseEntity<ChannelResponseType>>) => {
-        if (StatusCodes.isOk(response.status)) {
-          return response.data;
-        }
-
-        throw new Error(
-          `${title} 조회 과정에서 예기치 못한 에러가 발생했습니다.`
-        );
+      .get(`/api/snugs/${snugId}/channels/duplicate/${title}`)
+      .then((response: AxiosResponse<boolean>) => {
+        return StatusCodes.isOk(response.status);
       });
   }
 

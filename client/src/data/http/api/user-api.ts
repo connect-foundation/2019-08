@@ -34,21 +34,11 @@ export class UserApi {
       );
   }
 
-  findByEmail(email: string): ResponseEntity<User> | boolean {
+  isAcceptableEmail(email: string): Promise<boolean> {
     return this.axios
-      .get(`/api/users/email/${email}`)
-      .then((response: AxiosResponse<ResponseEntity<User>>) => {
-        if (StatusCodes.isOk(response.status)) {
-          return response.data;
-        } else {
-          return false;
-        }
-      })
-      .catch((error: AxiosError) =>
-        AxiosErrorHandler.handleError(
-          error,
-          `${email} 조회 과정에서 예기치 못한 에러가 발생했습니다.`
-        )
-      );
+      .get(`/api/users/emails/duplicate/${email}`)
+      .then((response: AxiosResponse<object>) => {
+        return StatusCodes.isOk(response.status);
+      });
   }
 }

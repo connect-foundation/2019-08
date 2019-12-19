@@ -20,13 +20,11 @@ export class ChannelRepository implements ChannelRepositoryType {
     return channel;
   }
 
-  async hasByTitleAndSnugId(title: string, snugId: string): Promise<boolean> {
-    try {
-      const responseEntity = await this.api.findByTitleAndSnugId(title, snugId);
-      return !!responseEntity;
-    } catch (error) {
-      return false;
-    }
+  isAcceptableChannelTitleBySnugId(
+    title: string,
+    snugId: string
+  ): Promise<boolean> {
+    return this.api.isAcceptableChannelTitleBySnugId(title, snugId);
   }
 
   async getChannels(snug: Snug): Promise<Channel[] | boolean> {
