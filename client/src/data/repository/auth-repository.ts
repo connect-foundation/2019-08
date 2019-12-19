@@ -61,8 +61,9 @@ export class AuthRepository implements AuthRepositoryType {
     }
   }
 
-  logout(): boolean {
+  async logout(): Promise<boolean> {
     try {
+      await this.api.logout();
       this.storage.clear();
       return true;
     } catch (error) {

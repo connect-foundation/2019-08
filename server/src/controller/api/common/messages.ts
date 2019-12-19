@@ -1,3 +1,7 @@
+export const LOGOUT_SUCCESS = "success logout";
+
+export const LOGOUT_FAIL = "fail logout";
+
 export const FOUND_CHANNEL = "found channel";
 
 export const NOT_FOUND_CHANNEL =
