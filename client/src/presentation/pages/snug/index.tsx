@@ -17,10 +17,12 @@ const SnugWrapper = styled.section`
   display: flex;
   flex-direction: column;
 `;
+
 const ViewWrapper = styled.section`
   height: 100%;
   display: flex;
 `;
+
 const Snug: React.FC<AppChannelMatchProps> = props => {
   const { match } = props;
   const pathParameterDispatch = usePathParameterDispatch();

@@ -11,7 +11,9 @@ import { match } from "react-router";
 import { ChannelMatchType } from "prop-types/channel-match-type";
 import { History } from "history";
 import { Context } from "context.instance";
+import { usePathParameter } from "contexts/path-parameter-context";
 import { usePathParameterDispatch } from "contexts/path-parameter-context";
+import { SideButtons } from "presentation/components/snug/channel-list/side-button";
 import Axios from "axios";
 
 const Wrapper = styled.section`
@@ -22,13 +24,13 @@ const Wrapper = styled.section`
 
 const PublicityWrapper = styled.section`
   padding: 10px 0px;
-  flex: 1;
+  height: auto;
   border-bottom: 1px solid ${({ theme }) => theme.snugBorderColor};
 `;
 
 const PrivacyWrapper = styled.section`
   padding: 10px 0px;
-  flex: 3;
+  height: auto;
 `;
 
 const TitleWrapper = styled.section`
@@ -55,6 +57,7 @@ export const ChannelList: React.FC<PropTypes> = ({
 }) => {
   const channels = useChannels();
   const dispatch = useChannelDispatch();
+  const pathPrameter = usePathParameter();
   const pathParameterDispatch = usePathParameterDispatch();
 
   useEffect(() => {
@@ -128,6 +131,12 @@ export const ChannelList: React.FC<PropTypes> = ({
             />
           ))}
       </PrivacyWrapper>
+      <SideButtons
+        message={"초대하기"}
+        onClick={() =>
+          (window.location.href = `/invite-users/${pathPrameter.snugId!}`)
+        }
+      />
     </Wrapper>
   );
 };
