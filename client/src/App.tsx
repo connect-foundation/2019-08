@@ -52,7 +52,6 @@ const App: React.FC = () => {
                   <Home {...props} Application={Application} />
                 )}
               ></Route>
-
               <Route
                 exact
                 path="/register-user"
