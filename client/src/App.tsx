@@ -1,10 +1,11 @@
 import React from "react";
 import { Route, BrowserRouter } from "react-router-dom";
 import { Home } from "./presentation/pages/home/index";
-import { Snug } from "./presentation/pages/snug/index";
+import { Auth } from "./presentation/pages/snug/auth";
 import { RegisterSnug } from "./presentation/pages/register-snug";
 import { RegisterUser } from "./presentation/pages/register-user/index";
 import { InviteUsers } from "presentation/pages/invite-users";
+import { ErrorPage } from "presentation/pages/error";
 import { Application } from "./context.instance";
 import { createGlobalStyle } from "styled-components";
 import dotenv from "dotenv";
@@ -73,16 +74,16 @@ const App: React.FC = () => {
             ></Route>
             <Route
               exact
-              path="/snug/:snugId/"
+              path="/snug/:snugId/channel/:channelId"
               component={(props: any) => (
-                <Snug {...props} Application={Application}></Snug>
+                <Auth {...props} Application={Application}></Auth>
               )}
             ></Route>
             <Route
               exact
-              path="/snug/:snugId/channel/:channelId"
+              path="/error"
               component={(props: any) => (
-                <Snug {...props} Application={Application}></Snug>
+                <ErrorPage {...props} Application={Application}></ErrorPage>
               )}
             ></Route>
           </PathParameterContextProvider>
