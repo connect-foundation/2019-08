@@ -69,7 +69,7 @@ export const HomeSnug: React.FC<ApplicationProptype> = props => {
       setSnugs(currentSnugs.concat(invitedSnug));
     });
   }, [socket, Application.services.authService, snugs]);
-  
+
   return (
     <Wrapper>
       <DescriptionWrapper>
