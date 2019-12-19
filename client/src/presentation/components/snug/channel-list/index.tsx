@@ -43,10 +43,10 @@ interface PropTypes {
 }
 
 const pickPrivacy = (channels: Channels) =>
-  channels.filter(channel => channel.isPrivate);
+  channels.filter(channel => channel.privacy);
 
 const pickPublicity = (channels: Channels) =>
-  channels.filter(channel => !channel.isPrivate);
+  channels.filter(channel => !channel.privacy);
 
 export const ChannelList: React.FC<PropTypes> = ({
   match,
