@@ -20,7 +20,7 @@ interface PropType {
 export const InviteButton: React.FC<PropType> = ({ sendEmails, snugId }) => {
   const goHome = (event: React.MouseEvent) => {
     event.preventDefault();
-    window.location.assign(`/snug/${snugId}`);
+    window.location.assign(`/snug/${snugId}/channel/0`);
   };
 
   return (
