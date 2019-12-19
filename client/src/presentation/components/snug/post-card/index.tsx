@@ -5,6 +5,7 @@ import { PostCardContents } from "./post-card-contents";
 import { Post } from "core/entity/post";
 
 const PostCardBox = styled.section`
+  position: relative;
   width: 100%;
   height: auto;
   display: flex;
