@@ -2,7 +2,8 @@ import { ChannelRepositoryType } from "core/use-case/channel-repository-type";
 import { ChannelModel } from "core/model/channel-model";
 import { Channel } from "core/entity/channel";
 import { Snug } from "core/entity/snug";
-import {ParticipateInfo} from "../entity/participate-info";
+import { ParticipateInfo } from "../entity/participate-info";
+import { CancelToken } from "axios";
 
 /**
  *
@@ -33,10 +34,16 @@ export class ChannelService {
     description: string,
     privacy: boolean
   ): Promise<Channel> {
-    const channel: ChannelModel = new ChannelModel(title, snugId, description, privacy);
+    const channel: ChannelModel = new ChannelModel(
+      title,
+      snugId,
+      description,
+      privacy
+    );
     const satisfaction = await this.isSatisfied(channel);
     if (satisfaction) {
-      return this.repository.create(channel);
+      const reflectedChannel = await this.repository.create(channel);
+      return this.convertToChannel(reflectedChannel);
     }
 
     return {};
@@ -62,7 +69,10 @@ export class ChannelService {
    *
    * */
   private async isNotDuplicated(channel: ChannelModel): Promise<boolean> {
-    const redundancy = await this.repository.hasByTitleAndSnugId(channel.getTitle(), channel.getSnugId());
+    const redundancy = await this.repository.hasByTitleAndSnugId(
+      channel.getTitle(),
+      channel.getSnugId()
+    );
     return !redundancy;
   }
 
@@ -71,13 +81,29 @@ export class ChannelService {
     return this.repository.getChannels(snug);
   }
 
-  getChannelById(channelId: number): Promise<Channel> {
-    return this.repository.getChannelById(channelId);
+  getChannelById(
+    channelId: number,
+    cancelToken?: CancelToken
+  ): Promise<Channel> {
+    return this.repository.getChannelById(channelId, cancelToken);
   }
 
-  getParticipatingChannelList(snugId: number): Promise<Channel[] | boolean> {
+  async getParticipatingChannelList(
+    snugId: number,
+    canselToken?: CancelToken
+  ): Promise<Channel[]> {
     const snug: Snug = { id: snugId };
-    return this.repository.getParticipatingChannels(snug);
+    return this.repository.getParticipatingChannels(snug, canselToken);
+  }
+
+  private convertToChannel(channel: Channel): Channel {
+    return {
+      id: channel.id,
+      title: channel.title,
+      description: channel.description,
+      createdAt: channel.createdAt,
+      privacy: channel.isPrivate
+    };
   }
 
   join(channelId: number): Promise<ParticipateInfo> {
@@ -85,9 +111,13 @@ export class ChannelService {
     return this.repository.join(channel);
   }
 
-  isInParticipating(snugId: number, channelId: number): Promise<boolean> {
+  isInParticipating(
+    snugId: number,
+    channelId: number,
+    cancleToken?: CancelToken
+  ): Promise<boolean> {
     const snug: Snug = { id: snugId };
     const channel: Channel = { id: channelId };
-    return this.repository.isInParticipating(snug, channel);
+    return this.repository.isInParticipating(snug, channel, cancleToken);
   }
 }

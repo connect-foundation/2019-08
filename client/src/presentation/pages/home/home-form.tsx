@@ -65,12 +65,9 @@ export const HomeForm: React.FC<ApplicationProptype> = props => {
       email,
       password
     );
-    if (!result) {
-      setEmail("");
-      setPassword("");
-      return;
-    }
-    window.location.reload();
+    if (result) return window.location.reload();
+    setEmail("");
+    setPassword("");
   };
 
   return (

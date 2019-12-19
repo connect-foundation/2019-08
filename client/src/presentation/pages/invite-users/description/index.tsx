@@ -15,8 +15,8 @@ const Index = styled.span`
 
 export const InviteDescription: React.FC = () => {
   return (
-          <DescriptionWrapper>
-            <Index> 초대하기 </Index>
-          </DescriptionWrapper>
+    <DescriptionWrapper>
+      <Index> 초대하기 </Index>
+    </DescriptionWrapper>
   );
 };

@@ -54,7 +54,7 @@ export const HomeSnug: React.FC<ApplicationProptype> = props => {
       const initialSnugs = await Application.services.snugService.getList();
       setSnugs(initialSnugs);
     })();
-  }, []);
+  }, [Application.services.snugService]);
 
   useEffect(() => {
     const { userSocket } = socket;
@@ -68,7 +68,8 @@ export const HomeSnug: React.FC<ApplicationProptype> = props => {
       const currentSnugs = snugs as Snug[];
       setSnugs(currentSnugs.concat(invitedSnug));
     });
-  });
+  }, [socket, Application.services.authService, snugs]);
+  
   return (
     <Wrapper>
       <DescriptionWrapper>

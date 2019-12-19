@@ -6,6 +6,7 @@ import { PostCard } from "presentation/components/snug/post-card";
 import { Post } from "core/entity/post";
 import { usePathParameter } from "contexts/path-parameter-context";
 import { globalApplication } from "contexts/application-context";
+import Axios from "axios";
 
 const ChatContentWrapper = styled.section.attrs({
   id: "scroll"
@@ -29,38 +30,44 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
   toggleThread: (postId: number) => void;
   onThread: boolean;
   resetThread: (postId: number) => void;
-  resetOnThread: (onThread: boolean) => void;
   height: number;
 }> = props => {
-  const {
-    isParticipated,
-    toggleThread,
-    onThread,
-    resetThread,
-    resetOnThread,
-    height
-  } = props;
+  const { isParticipated, toggleThread, onThread, resetThread, height } = props;
   const application = useContext(globalApplication);
   const posts: Post[] = useMessages();
   const dispatch = useMessagesDispatch();
   const pathParameter = usePathParameter();
-  useEffect(() => {}, [height]);
+
   useEffect(() => {
-    (async function() {
-      dispatch({
-        type: "CLEAR_ALL"
-      });
-      const resultPosts = await application.services.postService.getList(
-        pathParameter.channelId!
-      );
-      if (typeof resultPosts === "boolean") return;
-      resetOnThread(false);
-      dispatch({
-        type: "MULTI_INPUT",
-        posts: resultPosts
-      });
-    })();
-  }, [pathParameter.channelId]);
+    if (!pathParameter.channelId) return;
+
+    const source = Axios.CancelToken.source();
+
+    const getPosts = async function() {
+      try {
+        dispatch({
+          type: "CLEAR_ALL"
+        });
+        const resultPosts = await application.services.postService.getList(
+          pathParameter.channelId!,
+          source.token
+        );
+        if (typeof resultPosts === "boolean") return;
+        dispatch({
+          type: "MULTI_INPUT",
+          posts: resultPosts
+        });
+      } catch (error) {
+        if (Axios.isCancel(error)) return;
+      }
+    };
+
+    getPosts();
+
+    return function cleanup() {
+      source.cancel();
+    };
+  }, [pathParameter.channelId, application.services.postService, dispatch]);
 
   useEffect(() => {
     const obj: HTMLElement = document.getElementById("scroll")!;
@@ -79,7 +86,7 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
         createdAt={post.createdAt!}
         updatedAt={post.updatedAt!}
         filePath={post.filePath}
-        toggleThread={(event: React.MouseEvent) =>
+        toggleThread={() =>
           onThread ? resetThread(post.id!) : toggleThread(post.id!)
         }
       />

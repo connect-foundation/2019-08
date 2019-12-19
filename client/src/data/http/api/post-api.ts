@@ -3,7 +3,7 @@ import { Post } from "core/entity/post";
 import { Profile } from "core/entity/profile";
 import { Channel } from "core/entity/channel";
 import { StatusCodes } from "./status-codes";
-import { AxiosResponse, AxiosError } from "axios";
+import Axios, { AxiosResponse, AxiosError, CancelToken } from "axios";
 import { AxiosWrapper } from "./axios-wrapper";
 import { ResponseEntity } from "./response/ResponseEntity";
 import { Thread } from "../../../core/entity/thread";
@@ -19,14 +19,20 @@ export class PostApi {
     this.axios = axios.getAxios();
   }
 
-  getList({ id }: Channel): ResponseEntity<posts<Post>> | boolean {
+  getList(
+    { id }: Channel,
+    cancelToken?: CancelToken
+  ): ResponseEntity<posts<Post>> | boolean {
     return this.axios
-      .get(`/api/channels/${id}/posts/`)
+      .get(`/api/channels/${id}/posts/`, {
+        cancelToken: cancelToken
+      })
       .then(({ data, status }: AxiosResponse<ResponseEntity<posts<Post>>>) => {
         if (StatusCodes.isOk(status)) return data;
         return false;
       })
       .catch((error: AxiosError) => {
+        if (Axios.isCancel(error)) return;
         AxiosErrorHandler.handleError(
           error,
           `포스트 데이터를 가져오는 과정에서 오류가 발생했습니다 :${error.message}`

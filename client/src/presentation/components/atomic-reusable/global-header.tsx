@@ -71,7 +71,7 @@ export const GlobalHeader: React.FC<ApplicationProptype> = ({
 
   useEffect(() => {
     setIsLoggedIn(Application.services.authService.isLogined());
-  });
+  }, [setIsLoggedIn, Application.services.authService]);
 
   const clickDropdown = () => {
     setOn(on === false);

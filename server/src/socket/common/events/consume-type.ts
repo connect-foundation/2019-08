@@ -1,4 +1,5 @@
 export enum CONSUME_EVENT {
   CONNECTION = "connection",
-  DISCONNECTION = "disconnection"
+  DISCONNECTION = "disconnection",
+  NEWJOIN = "newjoin"
 }

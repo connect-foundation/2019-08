@@ -20,7 +20,7 @@ const Title = styled.section`
 export const ChannelBrowseModalHeader: React.FC = () => {
   const dispatch = useModalToggledDispatch();
 
-  const clickHandler = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+  const clickHandler = () => {
     dispatch &&
       dispatch({
         type: "TOGGLE_CHANNEL_BROWSE_MODAL"

@@ -7,17 +7,17 @@ import { ProfileSection } from "presentation/pages/snug/profile";
 import { IconBox } from "presentation/components/atomic-reusable/icon-box";
 import LeftArrow from "assets/left-arrow.png";
 import RightArrow from "assets/right-arrow.png";
-import { Preview } from "presentation/components/snug/preview";
+import { Preview } from "presentation/components/snug/preview-channel";
 import { AppChannelMatchProps } from "prop-types/match-extends-types";
 import { FileUploadModal } from "presentation/components/snug/file-upload-modal";
 import { usePathParameter } from "contexts/path-parameter-context";
 import { ThreadSection } from "presentation/pages/snug/thread";
-
-const TEXT_BOX = "textbox";
+import axios from "axios";
+import Axios from "axios";
 
 const MessageSectionContentWrapper = styled.section`
   width: 100%;
-  height: 100%
+  height: 100%;
   background-color: ${({ theme }) => theme.snug};
   display: flex;
   flex-direction: column;
@@ -84,22 +84,39 @@ export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
   const [onModal, setModal] = useState(false);
 
   useEffect(() => {
-    if (inputRef.current) setHeight(inputRef.current!.clientHeight);
-  });
-
-  useEffect(() => {
-    isInParticipating();
+    if (inputRef.current) {
+      setHeight(inputRef.current!.clientHeight);
+    }
   }, [pathParameter.channelId]);
 
-  const isInParticipating = async () => {
-    try {
-      const result = await Application
-              .services
-              .channelService
-              .isInParticipating(pathParameter.snugId!, pathParameter.channelId!);
-      setIsParticipated(result);
-    } catch (error) {}
-  };
+  useEffect(() => {
+    if (!pathParameter.snugId || !pathParameter.channelId) return;
+    const source = axios.CancelToken.source();
+    (async () => {
+      try {
+        const result = await Application.services.channelService.isInParticipating(
+          pathParameter.snugId!,
+          pathParameter.channelId!,
+          source.token
+        );
+        setIsParticipated(result);
+      } catch (error) {
+        if (Axios.isCancel(error)) return;
+      }
+    })();
+
+    return function cleanup() {
+      source.cancel();
+    };
+  }, [
+    pathParameter.channelId,
+    Application.services.channelService,
+    pathParameter.snugId
+  ]);
+
+  useEffect(() => {
+    resetOnThread(false);
+  }, [pathParameter]);
 
   const openModal = () => {
     setModal(true);
@@ -121,7 +138,6 @@ export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
             toggleThread={toggleThread}
             onThread={onThread}
             resetThread={resetThread}
-            resetOnThread={resetOnThread}
             height={height}
           />
           {isParticipated ? (
