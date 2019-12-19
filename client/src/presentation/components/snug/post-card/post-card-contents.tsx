@@ -85,12 +85,12 @@ export const PostCardContents: React.FC<PropTypes> = ({
   }
 
   return (
-    <PostBox onClick={toggleThread}>
+    <PostBox>
       <PostDetail>
         <PostDetailWriterName>{userName}</PostDetailWriterName>
         <PostDetailTimestamp>{toDateFormat(timestamp)}</PostDetailTimestamp>
       </PostDetail>
-      <PostContents>{message}</PostContents>
+      <PostContents onClick={toggleThread}>{message}</PostContents>
       {filePath && filePath!.trim().length > 0 ? (
         <FileContents filePath={filePath!}></FileContents>
       ) : (
