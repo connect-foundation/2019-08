@@ -43,15 +43,18 @@ interface PropTypes {
 }
 
 const Thread = styled.div`
-  color: white;
+  color: ${({ theme }) => theme.snugSubFont};
+  font-size: 0.9rem;
+  font-weight: bold;
+  padding: 2px;
+  margin-bottom: 8px;
   display: flex;
   align-items: center;
-  width: 70%;
-  border: 1px solid ${({ theme }) => theme.snugMenuColor};
+  width: 100%;
   transition: 400ms;
   box-sizing: border-box;
   &:hover {
-    border: 1px solid white;
+    background-color: ${({ theme }) => theme.snugHover};
     cursor: pointer;
   }
 `;
