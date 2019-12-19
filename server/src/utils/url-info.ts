@@ -14,7 +14,7 @@ export default class UrlInfo {
 
   static aboutSnugById(snugId: number): string {
     const clientHome = UrlInfo.aboutHome();
-    return `${clientHome}/snug/${snugId}`;
+    return `${clientHome}/snug/${snugId}/channel/0`;
   }
 
   static aboutServerDomain(): string {
