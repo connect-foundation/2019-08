@@ -102,7 +102,7 @@ export const InvitationAlarm: React.FC = () => {
       setInvitedSnugs(invitations as Invite[]);
     };
     fetchInvitationLists();
-  }, []);
+  }, [user.id, application.services.inviteService]);
 
   useEffect(() => {
     const { userSocket } = socket;
@@ -115,7 +115,7 @@ export const InvitationAlarm: React.FC = () => {
       currentInvitation.push(invitedSnug);
       setInvitedSnugs([...currentInvitation]);
     });
-  }, [invitedSnugs]);
+  }, [invitedSnugs, socket, user.id]);
 
   const acceptDeclineHandler = async (
     invitedSnugs: Invite[],

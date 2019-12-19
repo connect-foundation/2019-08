@@ -5,7 +5,7 @@ import { ImagePreview } from "presentation/components/snug/file-preview/image-pr
 const Wrapper = styled.section`
   width: 35%;
   min-width: 35%;
-  background-color: color: ${({ theme }) => theme.snugMenuColor};
+  background-color: ${({ theme }) => theme.snugMenuColor};
   display: flex;
   flex-direction: column;
   justify-content: center;

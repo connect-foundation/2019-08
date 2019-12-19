@@ -68,13 +68,14 @@ export const ThreadInputBox: React.FC<PropTypes> = ({ addReply, thread }) => {
   const pathPrameter = usePathParameter();
   const { snugSocket } = useContext(globalSocket);
   const application = useContext(globalApplication);
+
   useEffect(() => {
     snugSocket.off("replyPost");
     snugSocket.on("replyPost", (resultData: ResponseEntity<any>) => {
       const { payload } = resultData;
       addReply(payload);
       const targetPostIndex = posts.findIndex(
-        post => post.id == payload.parent.id
+        post => Number(post.id) === payload.parent.id
       );
       const targetPost = posts[targetPostIndex];
       targetPost.replyCount = (parseInt(targetPost.replyCount!) + 1).toString();
@@ -84,7 +85,7 @@ export const ThreadInputBox: React.FC<PropTypes> = ({ addReply, thread }) => {
         posts: [...posts]
       });
     });
-  }, [pathPrameter]);
+  }, [pathPrameter, dispatch, snugSocket, addReply, posts]);
 
   const inputChangeEventHandler = (
     event: React.ChangeEvent<HTMLInputElement>

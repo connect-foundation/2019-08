@@ -6,13 +6,16 @@ import { usePathParameter } from "contexts/path-parameter-context";
 import { AppChannelMatchProps } from "prop-types/match-extends-types";
 import { useChannelDispatch } from "../../../../contexts/channel-context";
 import { Channel } from "../../../../core/entity/channel";
+import Axios from "axios";
 
 type PropsType = {
   setIsParticipated: React.Dispatch<React.SetStateAction<boolean>>;
 };
+
 const hasFields = (channel: Channel): boolean => {
   return Object.keys(channel).length > 0;
 };
+
 export const Preview: React.FC<AppChannelMatchProps & PropsType> = props => {
   const application = useContext(globalApplication);
   const socket = useContext(globalSocket);
@@ -20,21 +23,31 @@ export const Preview: React.FC<AppChannelMatchProps & PropsType> = props => {
   const { setIsParticipated } = props;
   const [channel, changeChannel] = useState<Channel>({});
   const channelDispatch = useChannelDispatch();
+
   useEffect(() => {
+    if (!pathParameter.channelId) return;
+    const source = Axios.CancelToken.source();
+
     (async function() {
       try {
-        const channel = await application.services.channelService.getChannelById(
-          pathParameter.channelId!
+        const channels = await application.services.channelService.getChannelById(
+          pathParameter.channelId!,
+          source.token
         );
-        if (!!channel) {
-          changeChannel(channel);
+        if (!!channels) {
+          changeChannel(channels);
         }
       } catch (error) {
+        if (Axios.isCancel(error)) return;
         console.log(error);
         changeChannel({});
       }
     })();
-  }, [pathParameter.channelId]);
+
+    return function cleanup() {
+      source.cancel();
+    };
+  }, [pathParameter.channelId, application.services.channelService]);
 
   async function join() {
     try {
@@ -63,6 +76,7 @@ export const Preview: React.FC<AppChannelMatchProps & PropsType> = props => {
     <></>
   );
 };
+
 const PreviewWrrapper = styled.section`
   width: 100%;
   min-height: 150px;
@@ -85,6 +99,7 @@ const StyledButton = css`
   border: none;
   border-radius: 5px;
 `;
+
 const StyledJoinButton = styled.button`
   ${StyledButton}
   background-color: ${({ theme }) => theme.mainButtonColor};
@@ -92,6 +107,7 @@ const StyledJoinButton = styled.button`
     background-color: ${({ theme }) => theme.mainButtonColorHover};
   }
 `;
+
 const StyledBackButton = styled.button`
   ${StyledButton}
   background-color: ${({ theme }) => theme.subButtonColor};
@@ -100,11 +116,13 @@ const StyledBackButton = styled.button`
     color: black;
   }
 `;
+
 const H1 = styled.h1`
   font-size: 21pt;
   margin: 10px 0;
   font-weight: bold;
 `;
+
 const P = styled.p`
   display: inline-block;
   margin: 0;

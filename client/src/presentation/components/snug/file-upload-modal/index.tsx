@@ -37,7 +37,7 @@ const ModalHeader = styled.header`
   box-sizing: border-box;
 `;
 
-const ModalBody = styled.body`
+const ModalBody = styled.div`
   padding: 1rem;
   box-sizing: border-box;
 `;

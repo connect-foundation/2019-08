@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import styled, { keyframes, css } from "styled-components";
+import styled, { css } from "styled-components";
 import { Header } from "./header";
 import { Thumbnail } from "./thumbnail";
 import { Buttons } from "./buttons";
@@ -8,9 +8,10 @@ import { Modal } from "./modal";
 import { Profile } from "core/entity/profile";
 import { globalApplication } from "contexts/application-context";
 import { ChannelRouteComponentType } from "prop-types/channel-match-type";
-
+import Axios from "axios";
 const Wrapper = styled.section`
   background-color: ${({ theme }) => theme.snug};
+  box-sizing: border-box;
   border: 1px ${({ theme }) => theme.snugBorderColor} solid;
   height: 100%;
   width: 0px;
@@ -50,9 +51,11 @@ const ImageWrapper = styled.section`
   max-height: 40%;
   text-align: center;
 `;
+
 interface WrapperPropTypes {
   toggleProfile: boolean;
 }
+
 interface PropTypes extends ChannelRouteComponentType {
   toggleProfile?: boolean;
 }
@@ -64,15 +67,24 @@ export const ProfileSection: React.FC<PropTypes> = props => {
   const { snugId } = props.match.params;
 
   useEffect(() => {
+    if (!snugId) return;
+    const source = Axios.CancelToken.source();
+
     const requestProfile = async () => {
       const profile = await application.services.profileService.getProfile(
-        parseInt(snugId)
+        parseInt(snugId),
+        source.token
       );
-      if (!profile) return;
+      if (!profile) return profile;
       setCurrentProfile(profile);
     };
+
     requestProfile();
-  }, []);
+
+    return function cleanup() {
+      source.cancel();
+    };
+  }, [application.services.profileService, snugId]);
 
   const toggleModal = () => {
     setModalDisplay(!modalDisplay);
