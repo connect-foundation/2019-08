@@ -31,7 +31,7 @@ export const InviteButton: React.FC<PropType> = ({ sendEmails, snugId }) => {
           fontColor={"#ffffff"}
           name={"초대하기"}
           size={"100%"}
-          fontSize={"1.9rem"}
+          fontSize={"1.4rem"}
           onClick={sendEmails}
         />
       </ButtonWrapper>
@@ -41,7 +41,7 @@ export const InviteButton: React.FC<PropType> = ({ sendEmails, snugId }) => {
           fontColor={"#ffffff"}
           name={"다음"}
           size={"100%"}
-          fontSize={"1.9rem"}
+          fontSize={"1.4rem"}
           onClick={goHome}
         />
       </ButtonWrapper>

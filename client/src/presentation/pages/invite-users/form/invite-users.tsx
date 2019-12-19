@@ -13,6 +13,7 @@ const InputWrapper = styled.section`
   background-color: #f4f4f4;
   padding: 10px;
   height: auto;
+  box-sizing: border-box;
 `;
 
 const ButtonWrapper = styled.section`

@@ -21,6 +21,7 @@ const IconBoxWrapper = styled.section`
   display: flex;
   justify-content: flex-end;
   width: 80%;
+  cursor: pointer;
 `;
 
 const DropDown = styled.section`
