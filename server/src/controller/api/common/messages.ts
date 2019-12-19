@@ -8,6 +8,8 @@ export const ACCEPTABLE_CHANNEL_TITLE = "acceptable channel title";
 
 export const CREATE_CHANNEL = "create new channel";
 
+export const FOUND_CHANNEL = "found channel";
+
 export const FOUND_CHANNELS = "found channel list";
 
 export const NOT_FOUND_CHANNEL = "not found a channel";
