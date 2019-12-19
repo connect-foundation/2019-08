@@ -19,7 +19,7 @@ export class AxiosWrapper {
 
   private initialize(): void {
     if (process.env.NODE_ENV !== "development") {
-      this.axios.defaults.baseURL = process.env.REACT_APP_API_SERVER_HOST;
+      this.axios.defaults.baseURL = process.env.REACT_APP_SOCKET_SERVER_HOST;
     }
 
     this.axios.defaults.headers.common["Content-Type"] = "application/json";
