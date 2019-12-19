@@ -18,12 +18,7 @@ export class UserRepository implements UserRepositoryType {
     }
   }
 
-  async doesEmailExist(email: string): Promise<boolean> {
-    try {
-      const responseEntity = await this.api.findByEmail(email);
-      return !!responseEntity;
-    } catch (error) {
-      return false;
-    }
+  isAcceptableEmail(email: string): Promise<boolean> {
+    return this.api.isAcceptableEmail(email);
   }
 }

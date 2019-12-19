@@ -7,7 +7,10 @@ import { ChannelModel } from "../model/channel-model";
 export interface ChannelRepositoryType {
   create(channelModel: ChannelModel): Promise<Channel>;
 
-  hasByTitleAndSnugId(title: string, snugId: string): Promise<boolean>;
+  isAcceptableChannelTitleBySnugId(
+    title: string,
+    snugId: string
+  ): Promise<boolean>;
 
   join(channelInfo: Channel): Promise<ParticipateInfo>;
 

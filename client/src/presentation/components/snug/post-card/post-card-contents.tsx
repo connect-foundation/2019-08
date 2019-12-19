@@ -43,15 +43,18 @@ interface PropTypes {
 }
 
 const Thread = styled.div`
-  color: white;
+  color: ${({ theme }) => theme.snugSubFont};
+  font-size: 0.9rem;
+  font-weight: bold;
+  padding: 2px;
+  margin-bottom: 8px;
   display: flex;
   align-items: center;
-  width: 70%;
-  border: 1px solid ${({ theme }) => theme.snugMenuColor};
+  width: 100%;
   transition: 400ms;
   box-sizing: border-box;
   &:hover {
-    border: 1px solid white;
+    background-color: ${({ theme }) => theme.snugHover};
     cursor: pointer;
   }
 `;
@@ -85,12 +88,12 @@ export const PostCardContents: React.FC<PropTypes> = ({
   }
 
   return (
-    <PostBox onClick={toggleThread}>
+    <PostBox>
       <PostDetail>
         <PostDetailWriterName>{userName}</PostDetailWriterName>
         <PostDetailTimestamp>{toDateFormat(timestamp)}</PostDetailTimestamp>
       </PostDetail>
-      <PostContents>{message}</PostContents>
+      <PostContents onClick={toggleThread}>{message}</PostContents>
       {filePath && filePath!.trim().length > 0 ? (
         <FileContents filePath={filePath!}></FileContents>
       ) : (

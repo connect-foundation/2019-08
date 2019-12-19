@@ -1,11 +1,11 @@
+
 export const LOGOUT_SUCCESS = "success logout";
 
 export const LOGOUT_FAIL = "fail logout";
 
-export const FOUND_CHANNEL = "found channel";
+export const NOT_ACCEPTABLE_CHANNEL_TITLE = "not acceptable channel title";
 
-export const NOT_FOUND_CHANNEL =
-  "not found channel, you must right channel title";
+export const ACCEPTABLE_CHANNEL_TITLE = "acceptable channel title";
 
 export const CREATE_CHANNEL = "create new channel";
 

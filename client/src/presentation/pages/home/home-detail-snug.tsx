@@ -70,7 +70,7 @@ export const HomeDetailSnug: React.FC<PropTypes> = props => {
         </Description>
       </DescriptionWrapper>
       <ButtonWrapper>
-        <Link to={`/snug/${props.link}`}>
+        <Link to={`/snug/${props.link}/channel/0`}>
           <CustomButton
             color={"#ffffff"}
             fontColor={"#000000"}

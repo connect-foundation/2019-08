@@ -8,12 +8,14 @@ import {
   CREATED,
   INTERNAL_SERVER_ERROR,
   NOT_FOUND,
-  OK
+  OK,
+  NOT_ACCEPTABLE
 } from "http-status-codes";
 import {
+  ACCEPTABLE_CHANNEL_TITLE,
+  NOT_ACCEPTABLE_CHANNEL_TITLE,
   ALREADY_EXIST_CHANNEL,
   CREATE_CHANNEL,
-  FOUND_CHANNEL,
   FOUND_CHANNELS,
   NOT_FOUND_CHANNEL,
   NOT_FOUND_CHANNELS,
@@ -33,19 +35,19 @@ import {} from "../../socket/common/events/publish-type";
  * @param response
  *
  * */
-export const findByTitle = async (
+export const isAcceptableChannelByTitle = async (
   request: Request,
   response: Response
 ): Promise<Response> => {
   const { snugId, title } = request.params;
   const channel = await Room.findByTitleAndSnugId(title, snugId);
-  if (!!channel) {
-    return response.status(OK).json(
-      ResponseForm.of<object>(FOUND_CHANNEL, { channel })
-    );
-  } else {
-    return response.status(NOT_FOUND).json(ResponseForm.of(NOT_FOUND_CHANNEL));
+  if (!channel) {
+    return response.status(OK).json(ResponseForm.of(ACCEPTABLE_CHANNEL_TITLE));
   }
+
+  return response
+    .status(NOT_ACCEPTABLE)
+    .json(ResponseForm.of(NOT_ACCEPTABLE_CHANNEL_TITLE));
 };
 
 export const findById = async (
