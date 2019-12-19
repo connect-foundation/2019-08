@@ -27,3 +27,12 @@ export const ErrorPage: React.FC<ApplicationProptype> = ({ Application }) => {
     </PageLayout>
   );
 };
+
+export const ErrorComponent: React.FC = () => {
+  return (
+    <Wrapper>
+      <Image src={Logo} />
+      <Message>잘못된 요청입니다.</Message>
+    </Wrapper>
+  );
+};
