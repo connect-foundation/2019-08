@@ -15,6 +15,7 @@ interface styledWrrapperProps {
 }
 
 const Wrapper = styled.section<styledWrrapperProps>`
+  cursor: pointer;
   display: flex;
   align-items: center;
   font-size: 1rem;
