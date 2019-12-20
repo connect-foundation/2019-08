@@ -13,31 +13,29 @@ export const Auth: React.FC<AppChannelMatchProps> = props => {
   const [auth, setAuth] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => {
-      if (!match.params.snugId) return;
-      const source = Axios.CancelToken.source();
+    if (!match.params.snugId) return;
+    const source = Axios.CancelToken.source();
 
-      const getProfileToken = async () => {
-        const profile: Profile = await Application.services.profileService.getProfile(
-          Number(match.params.snugId),
-          source.token
-        );
+    const getProfileToken = async () => {
+      const profile: Profile = await Application.services.profileService.getProfile(
+        Number(match.params.snugId),
+        source.token
+      );
 
-        if (profile && profile.id && profile.id > 0) {
-          snugSocket.emit("enterSnug", profile.id);
-          setAuth(true);
-        } else {
-          window.location.assign("/error");
-        }
-      };
+      if (profile && profile.id && profile.id > 0) {
+        snugSocket.emit("enterSnug", profile.id);
+        setAuth(true);
+      } else {
+        window.location.assign("/error");
+      }
+    };
 
-      getProfileToken();
+    getProfileToken();
 
-      return function cleanup() {
-        console.log("unmount");
-        source.cancel();
-      };
-    }, 500);
+    return function cleanup() {
+      snugSocket.emit("leaveSnug", 1);
+      source.cancel();
+    };
   }, [match.params.snugId, Application.services.profileService, snugSocket]);
 
   return (
