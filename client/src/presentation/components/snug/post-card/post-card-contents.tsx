@@ -100,7 +100,7 @@ export const PostCardContents: React.FC<PropTypes> = ({
         <></>
       )}
       {parseInt(replyCount) > 0 && (
-        <Thread>
+        <Thread onClick={toggleThread}>
           <ReplyNumber>{replyCount} 댓글</ReplyNumber>
         </Thread>
       )}
