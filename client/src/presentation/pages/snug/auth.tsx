@@ -1,13 +1,15 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, useContext, Fragment } from "react";
 import styled from "styled-components";
 import Snug from "presentation/pages/snug";
 import Loader from "react-loader-spinner";
 import { AppChannelMatchProps } from "prop-types/match-extends-types";
 import { Profile } from "core/entity/profile";
+import { globalSocket } from "contexts/socket-context";
 import Axios from "axios";
 
 export const Auth: React.FC<AppChannelMatchProps> = props => {
   const { Application, match } = props;
+  const { snugSocket } = useContext(globalSocket);
   const [auth, setAuth] = useState(false);
 
   useEffect(() => {
@@ -22,6 +24,7 @@ export const Auth: React.FC<AppChannelMatchProps> = props => {
         );
 
         if (profile && profile.id && profile.id > 0) {
+          snugSocket.emit("enterSnug", profile.id);
           setAuth(true);
         } else {
           window.location.assign("/error");
@@ -31,10 +34,11 @@ export const Auth: React.FC<AppChannelMatchProps> = props => {
       getProfileToken();
 
       return function cleanup() {
+        console.log("unmount");
         source.cancel();
       };
     }, 500);
-  }, [match.params.snugId, Application.services.profileService]);
+  }, [match.params.snugId, Application.services.profileService, snugSocket]);
 
   return (
     <Fragment>

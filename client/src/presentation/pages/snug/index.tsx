@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import { Sidebar } from "./sidebar";
 import { SnugHeader } from "./header";
@@ -9,6 +9,7 @@ import { AppChannelMatchProps } from "prop-types/match-extends-types";
 import { Modals } from "presentation/components/snug/modals";
 import { colorTheme } from "presentation/theme/color-theme";
 import { usePathParameterDispatch } from "contexts/path-parameter-context";
+import { globalSocket } from "contexts/socket-context";
 
 const SnugWrapper = styled.section`
   width: inherit;
@@ -25,6 +26,7 @@ const ViewWrapper = styled.section`
 
 const Snug: React.FC<AppChannelMatchProps> = props => {
   const { match } = props;
+  const { snugSocket } = useContext(globalSocket);
   const pathParameterDispatch = usePathParameterDispatch();
 
   useEffect(() => {
@@ -37,7 +39,16 @@ const Snug: React.FC<AppChannelMatchProps> = props => {
       type: "GETSNUGID",
       snugId: Number(match.params.snugId)
     });
-  }, [match.params.channelId, match.params.snugId, pathParameterDispatch]);
+    // 매직 넘버 제거!!
+    return () => {
+      snugSocket.emit("leaveSnug", 1);
+    };
+  }, [
+    match.params.channelId,
+    match.params.snugId,
+    pathParameterDispatch,
+    snugSocket
+  ]);
 
   return (
     <ThemeProvider theme={colorTheme}>

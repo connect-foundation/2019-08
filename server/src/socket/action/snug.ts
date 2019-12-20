@@ -13,12 +13,17 @@ const takeId = (room: Room): string => room.id.toString();
  */
 export const join = async (
   socket: SocketIO.Socket,
-  profileId: string
+  profileId: number
 ): Promise<void> => {
   try {
-    const rooms = await Room.find();
-    rooms.map(takeId).forEach(roomId => {
-      socket.join(roomId);
+    const participantIns: ParticipateIn[] = await ParticipateIn.find({
+      where: { participant: profileId },
+      relations: ["room"]
+    });
+    participantIns.forEach((participantIn: ParticipateIn) => {
+      const roomId = participantIn.room.id;
+      socket.join(String(roomId));
+      console.log(`프로필 ${profileId}가 방 ${roomId}에 접속`);
     });
   } catch (error) {
     console.error(error);
@@ -31,12 +36,17 @@ export const join = async (
  */
 export const leave = async (
   socket: SocketIO.Socket,
-  profileId: string
+  profileId: number
 ): Promise<void> => {
   try {
-    const rooms = await Room.find();
-    rooms.map(takeId).forEach(roomId => {
-      socket.leave(roomId);
+    const participantIns: ParticipateIn[] = await ParticipateIn.find({
+      where: { participant: profileId },
+      relations: ["room"]
+    });
+    participantIns.forEach((participantIn: ParticipateIn) => {
+      const roomId = participantIn.room.id;
+      socket.leave(String(roomId));
+      console.log(`프로필 ${profileId}가 방 ${roomId}에 나감`);
     });
   } catch (error) {
     console.error(error);
