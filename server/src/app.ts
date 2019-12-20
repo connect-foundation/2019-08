@@ -1,16 +1,13 @@
 import "reflect-metadata";
-import express, { Express } from "express";
+import express, {Express} from "express";
 import morgan from "morgan";
 import hpp from "hpp";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import apiRouter from "./routes/apiRouter";
 import indexRouter from "./routes/index";
-import {
-  notFoundHandler,
-  errorResopnseHandler
-} from "./middleware/errorHandler";
-import { Connection, createConnection } from "typeorm";
+import {errorResopnseHandler, notFoundHandler} from "./middleware/errorHandler";
+import {Connection, createConnection} from "typeorm";
 import {
   initializeTransactionalContext,
   patchTypeORMRepositoryWithBaseRepository

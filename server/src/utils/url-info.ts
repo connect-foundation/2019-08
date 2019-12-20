@@ -1,6 +1,10 @@
+import HttpHelper from "./http-helper";
+
 export default class UrlInfo {
+
   static aboutRegister(): string {
-    return `${process.env.CLIENT_DOMAIN}/register-user`;
+    const clientHome = UrlInfo.aboutHome();
+    return `${clientHome}/register-user`;
   };
 
   static aboutApiVerification(ticket: string): string {
@@ -14,14 +18,20 @@ export default class UrlInfo {
 
   static aboutSnugById(snugId: number): string {
     const clientHome = UrlInfo.aboutHome();
-    return `${clientHome}/snug/${snugId}`;
-  }
-
-  static aboutServerDomain(): string {
-    return `${process.env.HOST}:${process.env.PORT}`;
+    return `${clientHome}/snug/${snugId}/channel/0`;
   }
 
   static aboutHome(): string {
-    return process.env.CLIENT_DOMAIN;
+    const scheme = UrlInfo.getScheme();
+    return `${scheme}://${process.env.CLIENT_DOMAIN}`;
+  }
+
+  static aboutServerDomain(): string {
+    const scheme = UrlInfo.getScheme();
+    return `${scheme}://${process.env.SERVER_DOMAIN}`;
+  }
+
+  static getScheme(): string {
+    return HttpHelper.isSupportedHttps() ? "https" : "http";
   }
 }

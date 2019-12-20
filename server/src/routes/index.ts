@@ -8,5 +8,6 @@ router
   .route("/invite/:ticket")
   .post(InviteController.verify, InviteController.redirectBySnug);
 
-router.get("/", IndexController.index);
+router.use("*", IndexController.index);
+
 export default router;

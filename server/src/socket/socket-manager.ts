@@ -1,4 +1,5 @@
-import {Server} from "http";
+import http from "http";
+import https from "https";
 import SocketIO from "socket.io";
 import {connect} from "./listener/connection";
 
@@ -15,7 +16,7 @@ class SocketManager {
     connect(io);
   }
 
-  static build(server: Server) {
+  static build(server: http.Server | https.Server) {
     SocketManager.socketManager = new SocketManager(SocketIO(server));
   }
 
