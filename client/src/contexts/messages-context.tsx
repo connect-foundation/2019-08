@@ -28,10 +28,13 @@ export type Action =
       type: "UPDATE_REPLYCOUNT";
       posts?: Post[];
     }
-    | {
-      type: "GET_ALL"
+  | {
+      type: "GET_ALL";
+    }
+  | {
+      type: "LAZY_LOADING";
+      posts?: Post[];
     };
-
 
 type MessageDispatch = Dispatch<Action>;
 
@@ -57,11 +60,13 @@ const messageReducer = (state: Posts, action: Action): Posts => {
     case "REMOVE":
       return state.filter(post => post.id !== action.id);
     case "MULTI_INPUT":
-      return state.concat(action.posts!);
+      return state.concat(action.posts!.reverse());
     case "CLEAR_ALL":
       return [];
     case "UPDATE_REPLYCOUNT":
       return [...action.posts!];
+    case "LAZY_LOADING":
+      return [...action.posts!.reverse(), ...state];
     case "GET_ALL":
       return state;
   }

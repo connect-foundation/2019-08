@@ -6,6 +6,7 @@ import { UploadRepository } from "data/repository/upload-repository";
 import { Thread } from "../entity/thread";
 import { ResponseEntity } from "data/http/api/response/ResponseEntity";
 import { CancelToken } from "axios";
+import { posts } from "data/http/api/post-api";
 
 export class PostService {
   private postRepository: PostRepositoryType;
@@ -79,5 +80,9 @@ export class PostService {
 
   async getReplyList(postId: number): Promise<Thread | boolean> {
     return await this.postRepository.getReplyList(postId);
+  }
+
+  getListByPostId(channelId: number, postId: number): Promise<posts<Post>> {
+    return this.postRepository.getPostByIdList(channelId, postId);
   }
 }

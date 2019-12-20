@@ -3,6 +3,7 @@ import { Post } from "core/entity/post";
 import { Profile } from "core/entity/profile";
 import { Thread } from "../entity/thread";
 import { CancelToken } from "axios";
+import { posts } from "data/http/api/post-api";
 
 export interface PostRepositoryType {
   getList(
@@ -26,4 +27,6 @@ export interface PostRepositoryType {
   ): Promise<boolean>;
 
   getReplyList(postId: number): Promise<Thread | boolean>;
+
+  getPostByIdList(channelId: number, postId: number): Promise<posts<Post>>;
 }

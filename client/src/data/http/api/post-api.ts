@@ -122,4 +122,15 @@ export class PostApi {
         );
       });
   }
+
+  getPostByIdList(channelId: number, postId: number): Promise<posts<Post>> {
+    return this.axios
+      .get(`/api/channels/${channelId}/posts?postId=${postId}`, {})
+      .then(({ data, status }: AxiosResponse<ResponseEntity<posts<Post>>>) => {
+        if (StatusCodes.isOk(status)) return data.payload;
+        throw new Error(
+          `포스트 데이터를 가져오는 과정에서 오류가 발생했습니다.`
+        );
+      });
+  }
 }

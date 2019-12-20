@@ -85,4 +85,8 @@ export class PostRepository implements PostRepositoryType {
       return false;
     }
   }
+
+  getPostByIdList(channelId: number, postId: number): Promise<posts<Post>> {
+    return this.api.getPostByIdList(channelId, postId);
+  }
 }

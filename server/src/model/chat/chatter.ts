@@ -109,7 +109,7 @@ export class Chatter {
     const paginator = new Paginator(page).addOrder("id", order);
     const posts = await Post.findByChannelId(channelId, paginator);
     const infos = await Promise.all(this.toPostInfos(posts));
-    return infos.reverse();
+    return infos;
   }
 
   public async findReplies(parentPostId: string): Promise<ReplyInfo> {

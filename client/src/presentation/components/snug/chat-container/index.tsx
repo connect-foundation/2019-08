@@ -71,7 +71,7 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
 
   useEffect(() => {
     const obj: HTMLElement = document.getElementById("scroll")!;
-    obj.scrollTop = obj.scrollHeight;
+    obj.scrollTop = obj.scrollHeight - posts.length * 60;
   }, [posts]);
 
   // thread개수 정하는 logic추가
@@ -92,9 +92,30 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
       />
     ));
   }
+  const onScroll: (event: React.UIEvent<HTMLElement>) => void = async (
+    event: React.UIEvent<HTMLElement>
+  ) => {
+    if (event.currentTarget.scrollTop == 0) {
+      try {
+        const exPosts = await application.services.postService.getListByPostId(
+          pathParameter.channelId!,
+          posts[0].id!
+        );
+        if (exPosts.posts.length === 0) {
+          return;
+        }
+        dispatch({ type: "LAZY_LOADING", posts: exPosts.posts });
+        // event.currentTarget.scrollTop = 1;
+      } catch (error) {}
+    }
+  };
 
   return (
-    <ChatContentWrapper isParticipated={isParticipated} height={height}>
+    <ChatContentWrapper
+      onScroll={onScroll}
+      isParticipated={isParticipated}
+      height={height}
+    >
       <Wrapper>{messageList()}</Wrapper>
     </ChatContentWrapper>
   );
