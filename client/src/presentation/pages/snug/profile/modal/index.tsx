@@ -6,14 +6,13 @@ import { Profile } from "core/entity/profile";
 
 const BlackBackground = styled.div`
   position: fixed;
-  z-index: 1;
+  z-index: 7;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgb(0, 0, 0);
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: ${({ theme }) => theme.snugBackGround};
 `;
 
 const Wrapper = styled.section`

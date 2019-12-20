@@ -25,6 +25,8 @@ const GlobalStyle = createGlobalStyle`
     #root{
       width:100vw;
       height:100vh;
+      max-width: 100vw;
+      max-height: 100vh;
       min-width: 1200px;
     }
     a {color: #fff; text-decoration: none; outline: none}

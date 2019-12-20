@@ -34,8 +34,8 @@ const PrivacyWrapper = styled.section`
 `;
 
 const TitleWrapper = styled.section`
-  font-size: 1.3rem;
-  margin: 0.5rem;
+  font-size: 1rem;
+  margin: 0.75rem;
 `;
 
 interface PropTypes {

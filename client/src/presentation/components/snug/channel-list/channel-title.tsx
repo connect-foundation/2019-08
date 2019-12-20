@@ -17,7 +17,7 @@ interface styledWrrapperProps {
 const Wrapper = styled.section<styledWrrapperProps>`
   display: flex;
   align-items: center;
-  font-size: 1rem;
+  font-size: 0.9rem;
   padding: 0px 20px;
   ${({ on, theme }) => {
     if (on === "true")

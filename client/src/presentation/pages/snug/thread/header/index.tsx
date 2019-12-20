@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import LetterXWhite from "assets/letter-x-white.png";
+import LetterXBlack from "assets/letter-x.png";
 import { IconBox } from "presentation/components/atomic-reusable/icon-box";
 
 const MarginBox = styled.section`
@@ -34,7 +34,7 @@ export const Header: React.FC<PropTypes> = ({ toggleThread }) => {
       <MarginBox></MarginBox>
       <Contents>댓글창</Contents>
       <FlexMarginBox></FlexMarginBox>
-      <IconBox imageSrc={LetterXWhite} size={"25px"} onClick={toggleThread} />
+      <IconBox imageSrc={LetterXBlack} size={"25px"} onClick={toggleThread} />
     </Wrapper>
   );
 };

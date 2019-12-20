@@ -10,7 +10,6 @@ import { Thread } from "../../../../core/entity/thread";
 const Wrapper = styled.section`
   background-color: ${({ theme }) => theme.snugMenuColor};
   border-left: 1px solid ${({ theme }) => theme.snugBorderColor};
-  border-top: 1px solid ${({ theme }) => theme.snugBorderColor};
   width: 30%;
   min-width: 300px;
   overflow-y: scroll;

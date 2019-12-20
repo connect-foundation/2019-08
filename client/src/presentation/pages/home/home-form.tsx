@@ -10,6 +10,7 @@ const Wrapper = styled.form`
   background-color: #ffffff;
   height: 100%;
   width: 100%;
+  min-width: initial;
   display: flex;
   align-items: center;
   flex-direction: column;

@@ -13,7 +13,7 @@ const ContentsWrapper = styled.section`
   justify-content: center;
   align-items: center;
   height: 95vh;
-  width: 100vw;
+  width: 100%;
 `;
 
 export const PageLayout: React.FC<ApplicationProptype> = ({
