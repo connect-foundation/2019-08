@@ -95,7 +95,7 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
   const onScroll: (event: React.UIEvent<HTMLElement>) => void = async (
     event: React.UIEvent<HTMLElement>
   ) => {
-    if (event.currentTarget.scrollTop == 0) {
+    if (event.currentTarget.scrollTop === 0) {
       try {
         const exPosts = await application.services.postService.getListByPostId(
           pathParameter.channelId!,
