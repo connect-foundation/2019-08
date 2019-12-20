@@ -31,4 +31,16 @@ export class AuthApi {
         );
       });
   }
+
+  logout(): Promise<void> {
+    return this.axios
+      .post("/api/auth/logout")
+      .then(({ status }: AxiosResponse<ResponseEntity<WebToken<void>>>) => {
+        if (StatusCodes.isOk(status)) return;
+        throw new Error("로그아웃을 하는 과정에서 문제가 발생했습니다.");
+      })
+      .catch(error => {
+        throw new Error(error.message);
+      });
+  }
 }

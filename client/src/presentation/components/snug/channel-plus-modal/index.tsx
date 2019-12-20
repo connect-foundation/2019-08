@@ -10,6 +10,7 @@ import { ApplicationProptype } from "prop-types/application-type";
 
 const WholeScreen = styled.div`
   position: absolute;
+  z-index: 1;
   display: flex;
   justify-content: center;
   align-items: center;

@@ -82,8 +82,8 @@ export const GlobalHeader: React.FC<ApplicationProptype> = ({
     if (on) setOn(false);
   };
 
-  const logout = () => {
-    Application.services.authService.logout();
+  const logout = async () => {
+    await Application.services.authService.logout();
     window.location.href = "/";
   };
 

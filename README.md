@@ -14,7 +14,7 @@
 
 ## Snug 사용법
 
-### Snug 주소 : [바로가기](http://27.96.130.207:3000/)
+### Snug 주소 : [바로가기](https://www.boost-snug.com/)
 
 ### 기능설명 WIKI : 준비중
 

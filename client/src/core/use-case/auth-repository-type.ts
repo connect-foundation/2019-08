@@ -10,5 +10,5 @@ export interface AuthRepositoryType {
 
   isLogined(): boolean;
 
-  logout(): boolean;
+  logout(): Promise<boolean>;
 }

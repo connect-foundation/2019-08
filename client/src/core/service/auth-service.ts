@@ -25,7 +25,7 @@ export class AuthService {
     return this.repository.isLogined();
   }
 
-  logout(): boolean {
-    return this.repository.logout();
+  async logout(): Promise<boolean> {
+    return await this.repository.logout();
   }
 }
