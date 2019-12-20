@@ -13,6 +13,7 @@ const Content = styled.section`
   max-height: 80vh;
   min-width: 700px;
   width: 700px;
+  color : ${({ theme }) => theme.snugMainFont}
   max-width: 700px;
   display: flex;
   flex-direction: column;

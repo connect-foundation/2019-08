@@ -24,6 +24,7 @@ const ListWrapper = styled.ul`
   border-color: ${({ theme }) => theme.snugBorderColor};
   border-radius: 5px;
   position: absolute;
+  z-index: 2;
   margin: 0;
   padding: 10px 0px;
   top: 100%;
