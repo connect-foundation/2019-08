@@ -59,13 +59,17 @@ interface PropTypes {
   thread: number;
 }
 
+const isReplyOnPost = (postId: number, reply: any): boolean => {
+  return Number(postId) === reply.parent.id;
+};
+
 export const ThreadInputBox: React.FC<PropTypes> = ({ addReply, thread }) => {
   const KEY_PRESS_EVENT_KEY = "Enter";
   const [message, setMessage] = useState("");
   const [id, setId] = useState(0);
   const posts: Post[] = useMessages();
   const dispatch = useMessagesDispatch();
-  const pathPrameter = usePathParameter();
+  const pathParameter = usePathParameter();
   const { snugSocket } = useContext(globalSocket);
   const application = useContext(globalApplication);
 
@@ -73,10 +77,12 @@ export const ThreadInputBox: React.FC<PropTypes> = ({ addReply, thread }) => {
     snugSocket.off("replyPost");
     snugSocket.on("replyPost", (resultData: ResponseEntity<any>) => {
       const { payload } = resultData;
-      addReply(payload);
-      const targetPostIndex = posts.findIndex(
-        post => Number(post.id) === payload.parent.id
-      );
+      const targetPostIndex = posts.findIndex(post => isReplyOnPost(Number(post.id), payload));
+      if(targetPostIndex === -1) return;
+      if(isReplyOnPost(Number(thread), payload)) {
+        addReply(payload);
+      }
+
       const targetPost = posts[targetPostIndex];
       const replyCount = Number(targetPost.replyCount) || 0;
       targetPost.replyCount = (replyCount + 1).toString();
@@ -86,7 +92,7 @@ export const ThreadInputBox: React.FC<PropTypes> = ({ addReply, thread }) => {
         posts: [...posts]
       });
     });
-  }, [pathPrameter, dispatch, snugSocket, addReply, posts]);
+  }, [pathParameter, dispatch, snugSocket, addReply, posts]);
 
   const inputChangeEventHandler = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -104,7 +110,7 @@ export const ThreadInputBox: React.FC<PropTypes> = ({ addReply, thread }) => {
 
     const result = await application.services.postService.reply(
       message,
-      pathPrameter.channelId!,
+      pathParameter.channelId!,
       thread
     );
     if (!result) return;
@@ -114,16 +120,15 @@ export const ThreadInputBox: React.FC<PropTypes> = ({ addReply, thread }) => {
 
   return (
     <InputWrapper>
-      <MarginBox></MarginBox>
+      <MarginBox/>
       <CustomInput>
-        <IconBox imageSrc={ClipBlack}></IconBox>
+        <IconBox imageSrc={ClipBlack}/>
         <StyledInput
           value={message}
           onChange={inputChangeEventHandler}
-          onKeyPress={inputKeyPressEventHandler}
-        ></StyledInput>
+          onKeyPress={inputKeyPressEventHandler}/>
       </CustomInput>
-      <MarginBox></MarginBox>
+      <MarginBox/>
     </InputWrapper>
   );
 };
