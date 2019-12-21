@@ -59,7 +59,7 @@ export const ChannelsProvider = ({
 
 export const useChannels = () => {
   const state = useContext(ChannelsStateContext);
-  if (!state) return null;
+  if (!state) return [];
   return state;
 };
 

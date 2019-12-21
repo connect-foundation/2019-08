@@ -1,19 +1,17 @@
-import React, { createContext, useContext } from "react";
+import React, { createContext } from "react";
 import socketIO from "socket.io-client";
 
 const userSocket = socketIO(
   process.env.REACT_APP_SOCKET_SERVER_HOST! + "/user",
   {
-    transports: ["websocket"],
-    upgrade: false
+    transports: ["websocket"]
   }
 );
 
 const snugSocket = socketIO(
   process.env.REACT_APP_SOCKET_SERVER_HOST! + "/snug",
   {
-    transports: ["websocket"],
-    upgrade: false
+    transports: ["websocket"]
   }
 );
 

@@ -8,42 +8,28 @@ import { MessageSection } from "./message-section";
 import { AppChannelMatchProps } from "prop-types/match-extends-types";
 import { Modals } from "presentation/components/snug/modals";
 import { colorTheme } from "presentation/theme/color-theme";
-import {
-  usePathParameterDispatch,
-  usePathParameter
-} from "contexts/path-parameter-context";
+import { usePathParameterDispatch } from "contexts/path-parameter-context";
 
 const SnugWrapper = styled.section`
   width: inherit;
   height: inherit;
+  min-width: inherit;
+  max-width: inherit;
   display: flex;
   flex-direction: column;
 `;
+
 const ViewWrapper = styled.section`
-  height: 100%;
+  height: calc(100% - 50px);
+  max-height: calc(100% - 50px);
   display: flex;
 `;
-export const Snug: React.FC<AppChannelMatchProps> = props => {
-  const { Application, match } = props;
+
+const Snug: React.FC<AppChannelMatchProps> = props => {
+  const { match } = props;
   const pathParameterDispatch = usePathParameterDispatch();
-  const pathParameter = usePathParameter();
 
   useEffect(() => {
-    const id: number = pathParameter.snugId!;
-    (async function(snigid: number) {
-      await Application.services.profileService.getProfile(
-        pathParameter.snugId!
-      );
-    })(id);
-  }, [pathParameter]);
-
-  useEffect(() => {
-    if (
-      Number(match.params.channelId) == pathParameter.channelId &&
-      Number(match.params.snugId) == pathParameter.snugId
-    )
-      return;
-
     pathParameterDispatch({
       type: "IN",
       channelId: Number(match.params.channelId!)
@@ -53,7 +39,9 @@ export const Snug: React.FC<AppChannelMatchProps> = props => {
       type: "GETSNUGID",
       snugId: Number(match.params.snugId)
     });
-  }, []);
+
+    return;
+  }, [match.params.channelId, match.params.snugId, pathParameterDispatch]);
 
   return (
     <ThemeProvider theme={colorTheme}>
@@ -72,3 +60,5 @@ export const Snug: React.FC<AppChannelMatchProps> = props => {
     </ThemeProvider>
   );
 };
+
+export default Snug;

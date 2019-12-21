@@ -5,7 +5,7 @@ import { PropTypes } from "./status-bar";
 const Wrapper = styled.section`
   height: 80px;
   min-height: 80px;
-  max-heigth: 80px;
+  max-height: 80px;
   max-width: 400px;
   border-bottom: 1px ${({ theme }) => theme.snugBorderColor} solid;
   display: flex;
@@ -19,7 +19,7 @@ const Header = styled.header`
   font-size: 1.2rem;
   font-weight: bold;
   margin-bottom: 3px;
-  &: hover {
+  &:hover {
     text-decoration: underline;
   }
 `;
@@ -28,7 +28,7 @@ const Contents = styled.main`
   color: #3d71a3;
   font-size: 0.9rem;
   cursor: pointer;
-  &: hover {
+  &:hover {
     text-decoration: underline;
   }
 `;

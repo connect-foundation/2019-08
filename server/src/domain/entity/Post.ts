@@ -1,53 +1,63 @@
 import {
   Column,
   Entity,
+  getTreeRepository,
+  IsNull,
   ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn
+  PrimaryGeneratedColumn,
+  Tree,
+  TreeChildren,
+  TreeParent
 } from "typeorm";
 import { Profile } from "./Profile";
 import { Room } from "./Room";
 import { Base } from "./Base";
 import { Paginator } from "../../controller/api/common/pagenation/paginator";
-import _ from "lodash";
+import { PostInfo } from "../../model/chat/post-info";
+import { Order } from "../../controller/api/common/order";
 
 @Entity()
+@Tree("materialized-path")
 export class Post extends Base {
   @PrimaryGeneratedColumn()
   id: number;
+
   @Column({ nullable: true })
   contents: string;
+
   @Column({ nullable: true })
-  imgSrc: string;
+  filePath: string;
+
   @ManyToOne(type => Profile, { eager: true })
   profile: Profile;
+
   @ManyToOne(type => Room)
   room: Room;
-  @ManyToOne(
-    type => Post,
-    post => post.childCategories
-  )
-  parentCategory: Post;
-  @OneToMany(
-    type => Post,
-    post => post.parentCategory
-  )
-  childCategories: Post[];
 
-  static findByChannelId(
+  @TreeParent()
+  parent: Post;
+
+  @TreeChildren()
+  children: Post[];
+
+  static async findByChannelId(
     channelId: string,
-    cacheKey: string,
     paginator: Paginator
   ): Promise<Post[]> {
-    paginator.addOptions({
-      where: { room: channelId },
-      cache: { id: cacheKey }
-    });
-    return this.find(paginator.support());
+    const channel = await Room.findOneOrFail(channelId);
+    paginator.addOptions({ where: { parent: IsNull(), room: channel } });
+    return await this.find(paginator.support());
   }
 
-  static generateCacheKeyByPosts(roomId: string, postId: string): string {
-    const separator = "-";
-    return _.join(["room", roomId, "post", postId], separator);
+  static async findRepliesCounts(post: Post): Promise<number> {
+    return getTreeRepository(Post).countDescendants(post);
+  }
+
+  static async findReplies(parentPost: Post, order: Order): Promise<Post[]> {
+    return Post.find({ where: { parent: parentPost }, ...order.support() });
+  }
+
+  public async asPostInfo(): Promise<PostInfo> {
+    return PostInfo.fromPost(this, await Post.findRepliesCounts(this));
   }
 }

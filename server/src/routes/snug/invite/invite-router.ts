@@ -1,8 +1,13 @@
-import { Router } from "express";
+import {Router} from "express";
 import * as InviteApiController from "../../../controller/api/invite-controller";
 import {isValidInviteForm} from "../../../middleware/validator";
+import * as ChannelApiController from "../../../controller/api/channel-controller";
 
 const router = Router({mergeParams: true});
 
-router.post("/", isValidInviteForm, InviteApiController.invite);
+router.use(ChannelApiController.hasSnugById);
+
+router.route("/")
+        .post(isValidInviteForm, InviteApiController.invite);
+
 export default router;

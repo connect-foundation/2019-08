@@ -1,80 +1,105 @@
-import { Post } from "../../domain/entity/Post";
 import { Request, Response } from "express";
-import { Paginator } from "./common/pagenation/paginator";
 import ResponseForm from "../../utils/response-form";
-import { publishIO } from "../../socket/socket-manager";
-import { Profile } from "../../domain/entity/Profile";
 import { CREATED, NOT_FOUND, OK } from "http-status-codes";
 import {
-  FOUND_CHANNEL,
-  FOUND_POST_PROFILE,
-  NOT_FOUND_PROFILE
+  CREATE_POST,
+  CREATE_REPLY,
+  INVALID_POST_REQUEST,
+  INVALID_REPLY_REQUEST,
+  NOT_FOUND_POST,
+  NOT_FOUND_POSTS,
+  SUCCESS_FOUND_POSTS,
+  SUCCESS_FOUND_REPLIES
 } from "./common/messages";
-import { PUBLISH_EVENT } from "../../socket/common/events/publish-type";
-import { Page } from "./common/pagenation/strategy/page";
-import { IdPage } from "./common/pagenation/strategy/id-page";
-import { DefaultPage } from "./common/pagenation/strategy/default-page";
+import { Chatter } from "../../model/chat/chatter";
+import { PostNotifier } from "../../model/notifier/chat/post-notifier";
+import { ReplyNotifier } from "../../model/notifier/chat/reply-notifier";
+import { PostInfo } from "../../model/chat/post-info";
+import { ReplyInfo } from "../../model/chat/reply-info";
+import { offerProfileTokenInfo } from "../../validator/identifier-validator";
 
-/**
- *
- * client에서 보내온 메시지를 기반으로 post를 DB에 저장
- *
- * @param request
- * @param response
- *
- */
-export const create = async (request: Request, response: Response) => {
-  const { profileId, contents, roomId } = request.body;
-  console.log(request.body);
-
+export const create = async (
+  request: Request,
+  response: Response
+): Promise<Response> => {
+  const { id } = offerProfileTokenInfo(request);
+  const { contents, roomId, filePath } = request.body;
   try {
-    const profile = await Profile.findOneOrFail(profileId);
-    const post = await Post.save({
+    const postNotifier = new PostNotifier(roomId);
+    const postInfo = await Chatter.fromPost(postNotifier).post(
       contents,
-      profile: profile,
-      room: roomId
-    } as Post);
-    const responseForm = ResponseForm.of<Post>(FOUND_POST_PROFILE, post);
-    publishIO()
-      .of("/snug")
-      .to(roomId)
-      .emit(PUBLISH_EVENT.SEND_MESSAGE, responseForm);
-    return response.status(CREATED).json(responseForm);
+      id,
+      roomId,
+      filePath
+    );
+    return response
+      .status(CREATED)
+      .json(ResponseForm.of<PostInfo>(CREATE_POST, postInfo));
   } catch (error) {
-    return response.status(NOT_FOUND).json(ResponseForm.of(NOT_FOUND_PROFILE));
+    return response
+      .status(NOT_FOUND)
+      .json(ResponseForm.of(INVALID_POST_REQUEST));
   }
 };
 
-/**
- *
- * post id 존재 여부에 따라 페이징 전략 선택
- *
- * @param postId
- * @param size
- *
- */
-const choosePage = (postId: number, size: number): Page => {
-  return !!postId ? new IdPage(postId, size) : new DefaultPage(0, size);
-};
-
-/**
- *
- * channel id 에 해당하는 posts 조회
- *
- * @param request
- * @param response
- *
- */
-export const findByChannelId = async (request: Request, response: Response) => {
+export const findPosts = async (
+  request: Request,
+  response: Response
+): Promise<Response> => {
   const { channelId } = request.params;
   const { postId, size, order } = request.query;
+  try {
+    const postInfos = await Chatter.create().findPosts(
+      channelId,
+      postId,
+      size,
+      order
+    );
+    return response.status(OK).json(
+      ResponseForm.of<object>(SUCCESS_FOUND_POSTS, { posts: postInfos })
+    );
+  } catch (error) {
+    return response.status(NOT_FOUND).json(
+      ResponseForm.of<object>(NOT_FOUND_POSTS, { posts: [] })
+    );
+  }
+};
 
-  const page: Page = choosePage(postId, size);
-  const paginator = new Paginator(page).addOrder("id", order);
+export const reply = async (
+  request: Request,
+  response: Response
+): Promise<Response> => {
+  const { postId } = request.params;
+  const { profileId, contents, roomId } = request.body;
+  try {
+    const replyNotifier = new ReplyNotifier(roomId);
+    const postInfo = await Chatter.fromReply(replyNotifier).reply(
+      postId,
+      profileId,
+      contents,
+      roomId
+    );
+    return response
+      .status(CREATED)
+      .json(ResponseForm.of<PostInfo>(CREATE_REPLY, postInfo));
+  } catch (error) {
+    return response
+      .status(NOT_FOUND)
+      .json(ResponseForm.of(INVALID_REPLY_REQUEST));
+  }
+};
 
-  const cacheKey = Post.generateCacheKeyByPosts(channelId, postId || "default");
-  const posts = await Post.findByChannelId(channelId, cacheKey, paginator);
-  return response.status(OK).json(
-    ResponseForm.of<object>(FOUND_CHANNEL, { posts: posts.reverse() })
-  );
+export const findReplies = async (
+  request: Request,
+  response: Response
+): Promise<Response> => {
+  const { postId } = request.params;
+  try {
+    const replyInfo = await Chatter.create().findReplies(postId);
+    return response
+      .status(OK)
+      .json(ResponseForm.of<ReplyInfo>(SUCCESS_FOUND_REPLIES, replyInfo));
+  } catch (error) {
+    return response.status(NOT_FOUND).json(ResponseForm.of(NOT_FOUND_POST));
+  }
 };

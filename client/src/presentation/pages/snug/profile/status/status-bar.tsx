@@ -4,7 +4,7 @@ import styled, { css } from "styled-components";
 const Wrapper = styled.section`
   height: 70px;
   min-height: 70px;
-  max-heigth: 70px;
+  max-height: 70px;
   border-bottom: 1px ${({ theme }) => theme.snugBorderColor} solid;
   display: flex;
   flex-direction: column;
@@ -17,7 +17,7 @@ const Header = styled.header`
   color: ${({ theme }) => theme.snugMainFont};
   font-size: 0.7rem;
   margin-bottom: 3px;
-  &: hover {
+  &:hover {
     text-decoration: underline;
   }
 `;
@@ -25,7 +25,7 @@ const Header = styled.header`
 const Contents = styled.main`
   color: #3d71a3;
   font-size: 0.9rem;
-  &: hover {
+  &:hover {
     text-decoration: underline;
   }
   ${(props: PointerTypes) => {

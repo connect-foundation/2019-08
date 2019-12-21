@@ -1,15 +1,16 @@
-import React, { useState, ChangeEvent } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { CustomLoginInput } from "presentation/components/atomic-reusable/custom-login-input";
 import { CustomButton } from "presentation/components/atomic-reusable/custom-button";
-import { User } from "core/entity/user";
 import { ApplicationProptype } from "prop-types/application-type";
 import { validateEmail } from "presentation/validation/validation";
+import { Modal } from "./modal";
 
 const Wrapper = styled.form`
   background-color: #ffffff;
   height: 100%;
   width: 100%;
+  min-width: initial;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -46,11 +47,12 @@ const ButtonWrapper = styled.section`
   justify-content: flex-end;
 `;
 
-export const HomeForm: React.FC<ApplicationProptype> = (props) => {
+export const HomeForm: React.FC<ApplicationProptype> = props => {
   const { Application } = props;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [validEmail, setValidEmail] = useState(true);
+  const [modal, setModal] = useState(false);
 
   const onChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -61,22 +63,26 @@ export const HomeForm: React.FC<ApplicationProptype> = (props) => {
     setPassword(event.target.value);
   };
 
+  const toggleModal = () => {
+    setModal(!modal);
+  };
+
   const login = async () => {
     const result = await Application.services.authService.login(
       email,
       password
     );
-    console.log(result);
-    if (!result) {
-      setEmail("");
-      setPassword("");
-      return;
-    }
-    window.location.reload();
+    if (result) return window.location.reload();
+    setEmail("");
+    setPassword("");
+    setModal(true);
   };
 
   return (
     <Wrapper>
+      {modal ? (
+        <Modal message={"로그인에 실패했습니다"} onClick={toggleModal} />
+      ) : null}
       <DescriptionWrapper>
         <SnugDescription>아늑한 공간을 지금 바로 이용해보세요!</SnugDescription>
       </DescriptionWrapper>

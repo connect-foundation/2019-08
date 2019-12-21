@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { DisplayType, SortType } from "./index";
-import { useChannels, Channels } from "contexts/channel-context";
+import { Channels } from "contexts/channel-context";
+import { globalApplication } from "contexts/application-context";
 import { ChannelBrowseModalItem } from "./channel-browse-modal-item";
 import { Channel } from "core/entity/channel";
 import styled from "styled-components";
 import { ApplicationProptype } from "prop-types/application-type";
 import { RouteComponentProps } from "react-router";
+import { usePathParameter } from "../../../../contexts/path-parameter-context";
 
 interface Criterion {
   DisplayType: DisplayType;
@@ -42,8 +44,6 @@ const sortBySortType = (channels: Channels, sortType: SortType) => {
       return returnSortedChannels(channels, "title");
     case SortType.createdAt:
       return returnSortedChannels(channels, "createdAt");
-
-    //todo : null을 대체할 적절한 반환형 생각하기
     default:
       return null;
   }
@@ -51,17 +51,31 @@ const sortBySortType = (channels: Channels, sortType: SortType) => {
 
 const filterPrivateChannels = (channels: Channels, props: DisplayType) => {
   if (props === DisplayType.private) {
-    return channels.filter(channel => {
-      return channel.privacy;
-    });
+    return channels.filter(channel => channel.privacy);
   }
+
   return null;
 };
 
 export const ChannelBrowseModalSortList: React.FC<Criterion &
   ApplicationProptype &
   RouteComponentProps> = props => {
-  const channels = useChannels();
+  const [channels, addChannels] = useState<Channels>([]);
+  const application = useContext(globalApplication);
+  const pathParameter = usePathParameter();
+
+  useEffect(() => {
+    (async function() {
+      try {
+        const snugId = Number(pathParameter.snugId);
+        const channels = await application.services.channelService.getChannelList(snugId);
+        addChannels(channels);
+      } catch (error) {
+        addChannels([]);
+      }
+
+    })();
+  }, [application.services.channelService, pathParameter.snugId]);
 
   const sortChannels = () => {
     if (!channels) {

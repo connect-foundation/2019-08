@@ -9,6 +9,8 @@ const Wrapper = styled.section`
   justify-content: space-between;
   align-items: center;
   padding: 0px 20px;
+  height: 50px;
+  border-bottom: 1px solid ${({ theme }) => theme.snugBorderColor};
 `;
 
 const Title = styled.span`
@@ -24,18 +26,14 @@ const IconBoxWrapper = styled.section`
 export const ChannelHeader: React.FC = () => {
   const dispatch = useModalToggledDispatch();
 
-  const openChannelPlusModal = (
-    event: React.MouseEvent<HTMLElement, MouseEvent>
-  ) => {
+  const openChannelPlusModal = () => {
     dispatch &&
       dispatch({
         type: "TOGGLE_CHANNEL_PLUS_MODAL"
       });
   };
 
-  const openChannelBrowseModal = (
-    event: React.MouseEvent<HTMLElement, MouseEvent>
-  ) => {
+  const openChannelBrowseModal = () => {
     dispatch &&
       dispatch({
         type: "TOGGLE_CHANNEL_BROWSE_MODAL"

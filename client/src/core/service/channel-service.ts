@@ -2,6 +2,8 @@ import { ChannelRepositoryType } from "core/use-case/channel-repository-type";
 import { ChannelModel } from "core/model/channel-model";
 import { Channel } from "core/entity/channel";
 import { Snug } from "core/entity/snug";
+import { ParticipateInfo } from "../entity/participate-info";
+import { CancelToken } from "axios";
 
 /**
  *
@@ -19,6 +21,7 @@ export class ChannelService {
    *
    * 채널 생성
    *
+   * @param snugId
    * @param title
    * @param description
    * @param privacy
@@ -26,18 +29,24 @@ export class ChannelService {
    *
    * */
   async create(
-    snugId: number,
     title: string,
+    snugId: string,
     description: string,
     privacy: boolean
-  ): Promise<boolean | Channel> {
-    const snug: Snug = { id: snugId };
-    const channel: ChannelModel = new ChannelModel(title, description, privacy);
+  ): Promise<Channel> {
+    const channel: ChannelModel = new ChannelModel(
+      title,
+      snugId,
+      description,
+      privacy
+    );
     const satisfaction = await this.isSatisfied(channel);
     if (satisfaction) {
-      return this.repository.create(snug, channel);
+      const reflectedChannel = await this.repository.create(channel);
+      return this.convertToChannel(reflectedChannel);
     }
-    return false;
+
+    return {};
   }
 
   /**
@@ -50,36 +59,70 @@ export class ChannelService {
     if (channel.isImpossibleFormat()) {
       return false;
     }
-    return await this.isNotDuplicated(channel.getTitle());
+    return await this.isAcceptableChannel(channel);
   }
 
   /**
    *
    * 채널명 중복 확인
-   * @param title
+   * @param channel
    *
    * */
-  private async isNotDuplicated(title: string): Promise<boolean> {
-    const redundancy = await this.repository.hasByTitle(title);
-    return !redundancy;
+  private isAcceptableChannel(channel: ChannelModel): Promise<boolean> {
+    return this.repository.isAcceptableChannelTitleBySnugId(
+      channel.getTitle(),
+      channel.getSnugId()
+    );
   }
 
-  async getChannelList(snugId: number): Promise<Channel[] | boolean> {
+  async getChannelList(snugId: number): Promise<Channel[]> {
     const snug: Snug = { id: snugId };
-    return await this.repository.getChannels(snug);
+    const {channels} = await this.repository.getChannels(snug);
+    return this.convertToChannels(channels);
   }
 
-  async join(channelId: number): Promise<boolean> {
-    const channel: Channel = { id: channelId };
-    return await this.repository.join(channel);
-  }
-  // 이 서비스는 에러를 하단에서 보내기만 하고 처리해 주지 않으므로 ui내에서 error을 캐치하여 사용해야함
-  async getParticipate(): Promise<Channel[]> {
-    return await this.repository.getParticipateChannel();
+  getChannelById(
+    channelId: number,
+    cancelToken?: CancelToken
+  ): Promise<Channel> {
+    return this.repository.getChannelById(channelId, cancelToken);
   }
 
-  async isInParticipating(channelId: number): Promise<boolean> {
+  async getParticipatingChannelList(
+    snugId: number,
+    canselToken?: CancelToken
+  ): Promise<Channel[]> {
+    const snug: Snug = { id: snugId };
+    const channels =  await this.repository.getParticipatingChannels(snug, canselToken);
+    return this.convertToChannels(channels);
+  }
+
+  private convertToChannel(channel: Channel): Channel {
+    return {
+      id: channel.id,
+      title: channel.title,
+      description: channel.description,
+      createdAt: channel.createdAt,
+      privacy: channel.isPrivate
+    };
+  }
+
+  private convertToChannels(channels: Channel[]): Channel[] {
+    return channels.map(channel => this.convertToChannel(channel));
+  }
+
+  join(channelId: number): Promise<ParticipateInfo> {
     const channel: Channel = { id: channelId };
-    return await this.repository.isInParticipating(channel);
+    return this.repository.join(channel);
+  }
+
+  isInParticipating(
+    snugId: number,
+    channelId: number,
+    cancleToken?: CancelToken
+  ): Promise<boolean> {
+    const snug: Snug = { id: snugId };
+    const channel: Channel = { id: channelId };
+    return this.repository.isInParticipating(snug, channel, cancleToken);
   }
 }

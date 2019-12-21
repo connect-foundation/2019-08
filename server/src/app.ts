@@ -1,4 +1,3 @@
-import dotenv from "dotenv";
 import "reflect-metadata";
 import express, {Express} from "express";
 import morgan from "morgan";
@@ -7,11 +6,8 @@ import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import apiRouter from "./routes/apiRouter";
 import indexRouter from "./routes/index";
-import {
-  notFoundHandler,
-  errorResopnseHandler
-} from "./middleware/errorHandler";
-import { Connection, createConnection } from "typeorm";
+import {errorResopnseHandler, notFoundHandler} from "./middleware/errorHandler";
+import {Connection, createConnection} from "typeorm";
 import {
   initializeTransactionalContext,
   patchTypeORMRepositoryWithBaseRepository
@@ -22,8 +18,6 @@ export default class App {
   private static connection: Connection;
 
   static async start() {
-    const envPath = __dirname.concat("/../.env." + process.env.NODE_ENV!);
-    dotenv.config({ path: envPath });
     return await createConnection()
       .then(connection => {
         this.connection = connection;
@@ -45,7 +39,7 @@ export default class App {
       this.app.use(morgan("dev"));
     }
 
-    this.app.use(express.static("/"));
+    this.app.use(express.static(__dirname.concat("/../public/")));
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: false }));
     this.app.use(cookieParser(process.env.COOKIE_SECRET));

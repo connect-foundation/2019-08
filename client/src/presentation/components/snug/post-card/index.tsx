@@ -1,10 +1,11 @@
 import React from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { ProfileThumnail } from "presentation/components/atomic-reusable/profile-thumnail";
 import { PostCardContents } from "./post-card-contents";
 import { Post } from "core/entity/post";
 
 const PostCardBox = styled.section`
+  position: relative;
   width: 100%;
   height: auto;
   display: flex;
@@ -15,7 +16,9 @@ const MarginBox = styled.section`
   width: 10px;
 `;
 
-export const PostCard: React.FC<Post> = ({ profile, createdAt, contents }) => {
+export const PostCard: React.FC<Post & {
+  toggleThread?: (event: React.MouseEvent) => void;
+}> = ({ profile, createdAt, contents, toggleThread, replyCount, filePath }) => {
   return (
     <PostCardBox>
       <MarginBox />
@@ -24,6 +27,9 @@ export const PostCard: React.FC<Post> = ({ profile, createdAt, contents }) => {
         writerName={profile!.name!}
         createdAt={createdAt!}
         contents={contents!}
+        toggleThread={toggleThread!}
+        replyCount={replyCount!}
+        filePath={filePath}
       ></PostCardContents>
       <MarginBox />
     </PostCardBox>

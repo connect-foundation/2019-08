@@ -3,7 +3,9 @@ import styled from "styled-components";
 import { ApplicationProptype } from "prop-types/application-type";
 import { HomeDetailSnug } from "./home-detail-snug";
 import { Snug } from "core/entity/snug";
+import PlusSymbol from "assets/plus-symbol.png";
 import { globalSocket } from "contexts/socket-context";
+import { Link } from "react-router-dom";
 
 const Wrapper = styled.section`
   background-color: #ffffff;
@@ -52,7 +54,7 @@ export const HomeSnug: React.FC<ApplicationProptype> = props => {
       const initialSnugs = await Application.services.snugService.getList();
       setSnugs(initialSnugs);
     })();
-  }, []);
+  }, [Application.services.snugService]);
 
   useEffect(() => {
     const { userSocket } = socket;
@@ -66,7 +68,7 @@ export const HomeSnug: React.FC<ApplicationProptype> = props => {
       const currentSnugs = snugs as Snug[];
       setSnugs(currentSnugs.concat(invitedSnug));
     });
-  });
+  }, [socket, Application.services.authService, snugs]);
 
   return (
     <Wrapper>
@@ -74,7 +76,12 @@ export const HomeSnug: React.FC<ApplicationProptype> = props => {
         <SnugDescription>아늑한 공간을 지금 바로 이용해보세요!</SnugDescription>
       </DescriptionWrapper>
       <DetailSnugWrapper>
-        <Title>내 Snug</Title>
+        <SnugListHeader>
+          <Title>내 Snug</Title>
+          <Link to="register-snug">
+            <PlusButton src={PlusSymbol}></PlusButton>
+          </Link>
+        </SnugListHeader>
         {snugs
           ? (snugs as Snug[]).map((snug: Snug) => {
               return (
@@ -91,3 +98,18 @@ export const HomeSnug: React.FC<ApplicationProptype> = props => {
     </Wrapper>
   );
 };
+
+const SnugListHeader = styled.section`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: auto;
+`;
+
+const PlusButton = styled.img`
+  height: auto;
+  width: auto;
+  max-height: 20px;
+  max-width: 20px;
+  cursor: pointer;
+`;

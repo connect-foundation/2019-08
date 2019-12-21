@@ -45,12 +45,12 @@ export class InviteApi {
   }
 
   responseToInvitation(
-    invite: Invite, agree: boolean
+    invite: Invite,
+    agree: boolean
   ): Promise<ResponseEntity<Invite> | boolean> {
     return this.axios
       .post(invite.link, { agree })
       .then((response: AxiosResponse<ResponseEntity<Invite>>) => {
-        console.log(response);
         if (StatusCodes.isAccepted(response.status)) {
           return response.data;
         } else {

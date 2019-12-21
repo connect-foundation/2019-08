@@ -1,5 +1,5 @@
-import {StringHelper} from "core/utility/string-helper";
-import {Channel} from "core/entity/channel";
+import { StringHelper } from "core/utility/string-helper";
+import { Channel } from "core/entity/channel";
 
 export class ChannelModel implements Channel {
   private static readonly TITLE_MIN_LENGTH = 0;
@@ -7,11 +7,18 @@ export class ChannelModel implements Channel {
   private static readonly DESCRIPTION_MIN_LENGTH = 0;
   private static readonly DESCRIPTION_MAX_LENGTH = 31;
   readonly title: string;
+  readonly snugId: string;
   readonly description: string;
   readonly privacy: boolean;
 
-  constructor(title: string, description: string, privacy: boolean) {
+  constructor(
+    title: string,
+    snugId: string,
+    description: string,
+    privacy: boolean
+  ) {
     this.title = title;
+    this.snugId = snugId;
     this.description = description;
     this.privacy = privacy;
   }
@@ -20,26 +27,30 @@ export class ChannelModel implements Channel {
     return this.title;
   }
 
+  getSnugId(): string {
+    return this.snugId;
+  }
+
   public isImpossibleFormat(): boolean {
     return !(
-            this.hasRightTitleFormat(this.title) &&
-            this.hasRightDescriptionFormat(this.description)
+      this.hasRightTitleFormat(this.title) &&
+      this.hasRightDescriptionFormat(this.description)
     );
   }
 
   private hasRightTitleFormat(title: string): boolean {
     return StringHelper.isInner(
-            title,
-            ChannelModel.TITLE_MIN_LENGTH,
-            ChannelModel.TITLE_MAX_LENGTH
+      title,
+      ChannelModel.TITLE_MIN_LENGTH,
+      ChannelModel.TITLE_MAX_LENGTH
     );
   }
 
   private hasRightDescriptionFormat(description: string): boolean {
     return StringHelper.isInner(
-            description,
-            ChannelModel.DESCRIPTION_MIN_LENGTH,
-            ChannelModel.DESCRIPTION_MAX_LENGTH
+      description,
+      ChannelModel.DESCRIPTION_MIN_LENGTH,
+      ChannelModel.DESCRIPTION_MAX_LENGTH
     );
   }
 }

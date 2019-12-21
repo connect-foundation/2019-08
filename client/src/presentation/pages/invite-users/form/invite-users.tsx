@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import React, {Dispatch, useState} from "react";
-import {CustomInput} from "presentation/components/atomic-reusable/custom-input";
-import {CustomButton} from "presentation/components/atomic-reusable/custom-button";
-import {EmailModel} from "core/model/email-model";
-import {ArrayHelper} from "core/utility/array-helper";
-import {pipe} from "core/utility/compose-helper";
+import React, { Dispatch, useState } from "react";
+import { CustomInput } from "presentation/components/atomic-reusable/custom-input";
+import { CustomButton } from "presentation/components/atomic-reusable/custom-button";
+import { EmailModel } from "core/model/email-model";
+import { ArrayHelper } from "core/utility/array-helper";
+import { pipe } from "core/utility/compose-helper";
 
 const InputWrapper = styled.section`
   width: 100%;
@@ -13,6 +13,7 @@ const InputWrapper = styled.section`
   background-color: #f4f4f4;
   padding: 10px;
   height: auto;
+  box-sizing: border-box;
 `;
 
 const ButtonWrapper = styled.section`
@@ -24,7 +25,8 @@ const ButtonWrapper = styled.section`
 `;
 
 const addEmailModel = (emails: EmailModel[], changeEmails: any) => {
-  const emailModel = new EmailModel(emails.length);
+  const id = emails.length;
+  const emailModel = new EmailModel(id);
   emails.push(emailModel);
   changeEmails(emails);
   return emailModel;
@@ -32,29 +34,42 @@ const addEmailModel = (emails: EmailModel[], changeEmails: any) => {
 
 const createChangeHandler = (email: EmailModel) => {
   return (event: React.MouseEvent) => {
-    email.changeEmail(event.toString())
+    email.changeEmail(event.toString());
   };
 };
 
 const createCustomInput = (email: EmailModel) => {
   const changeHandler = createChangeHandler(email);
-  return <CustomInput key={email.getId()}
-                      color={"#bdbdbd"}
-                      backgroundColor={"#ffffff"}
-                      placeholder={"example@email.com"}
-                      onChange={changeHandler}/>;
+  return (
+    <CustomInput
+      key={email.getId()}
+      color={"#bdbdbd"}
+      backgroundColor={"#ffffff"}
+      placeholder={"example@email.com"}
+      onChange={changeHandler}
+    />
+  );
 };
 
 const generateEmailContainer = pipe(addEmailModel, createCustomInput);
 
-const generateDefaultEmailContainers = (emails: EmailModel[], changeEmails: any) => {
+const generateDefaultEmailContainers = (
+  emails: EmailModel[],
+  changeEmails: any
+) => {
   const defaultEmailCount = 3;
-  return ArrayHelper.generateUntil(defaultEmailCount)
-          .map(() => generateEmailContainer(emails, changeEmails));
+  return ArrayHelper.generateUntil(defaultEmailCount).map(() =>
+    generateEmailContainer(emails, changeEmails)
+  );
 };
 
-const initializeEmailContainers = (emails: EmailModel[], changeEmails: Dispatch<EmailModel>) => {
-  return ArrayHelper.hasNot<EmailModel>(emails) ? generateDefaultEmailContainers(emails, changeEmails) : [];
+const initializeEmailContainers = (
+  emails: EmailModel[],
+  changeEmails: Dispatch<EmailModel>
+) => {
+  return ArrayHelper.hasNot<EmailModel>(emails)
+    ? generateDefaultEmailContainers(emails, changeEmails)
+    : [];
 };
 
 interface PropType {
@@ -62,7 +77,7 @@ interface PropType {
   changeEmails(parameter: any | void): any | void;
 }
 
-export const InviteUsers: React.FC<PropType> = ({emails, changeEmails}) => {
+export const InviteUsers: React.FC<PropType> = ({ emails, changeEmails }) => {
   const defaultEmails = initializeEmailContainers(emails, changeEmails);
   const [emailContainers, addEmailContainers] = useState(defaultEmails);
   const addEmailContainerHandler = (event: React.MouseEvent) => {
@@ -70,18 +85,20 @@ export const InviteUsers: React.FC<PropType> = ({emails, changeEmails}) => {
     const emailContainer = generateEmailContainer(emails, changeEmails);
     addEmailContainers(emailContainers.concat(emailContainer));
   };
-  return (<InputWrapper>
-    {emailContainers}
-    <ButtonWrapper>
-      <CustomButton
-              color={"#e3dede"}
-              fontColor={"#282c37"}
-              name={"추가하기"}
-              size={"100%"}
-              fontWeight={"bold"}
-              fontSize={"1.5rem"}
-              onClick={addEmailContainerHandler}
-      />
-    </ButtonWrapper>
-  </InputWrapper>);
+  return (
+    <InputWrapper>
+      {emailContainers}
+      <ButtonWrapper>
+        <CustomButton
+          color={"#e3dede"}
+          fontColor={"#282c37"}
+          name={"추가하기"}
+          size={"100%"}
+          fontWeight={"bold"}
+          fontSize={"1.5rem"}
+          onClick={addEmailContainerHandler}
+        />
+      </ButtonWrapper>
+    </InputWrapper>
+  );
 };

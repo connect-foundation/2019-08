@@ -9,19 +9,19 @@ import {
   usePathParameter,
   usePathParameterDispatch
 } from "contexts/path-parameter-context";
-import { Context } from "context.instance";
 
 interface styledWrrapperProps {
-  on: boolean;
+  on: string;
 }
 
 const Wrapper = styled.section<styledWrrapperProps>`
+  cursor: pointer;
   display: flex;
   align-items: center;
-  font-size: 1rem;
+  font-size: 0.9rem;
   padding: 0px 20px;
   ${({ on, theme }) => {
-    if (on)
+    if (on === "true")
       return css`
         background-color: ${theme.sidebarSelect};
         color: ${theme.sidebarSelectFont};
@@ -42,7 +42,7 @@ interface PropsTypes {
 }
 
 export const ChannelTitle: React.FC<PropsTypes> = props => {
-  const [on, setOn] = useState(false);
+  const [on, setOn] = useState<string>("false");
   const pathParameter = usePathParameter();
   const pathParameterDispatch = usePathParameterDispatch();
   const { history, match, id } = props;
@@ -53,12 +53,12 @@ export const ChannelTitle: React.FC<PropsTypes> = props => {
         pathParameter.channelId ? pathParameter.channelId : 0
       }`
     );
-    if (pathParameter.channelId == id) return setOn(true);
-    setOn(false);
-  }, [pathParameter]);
+    if (pathParameter.channelId === id) return setOn("true");
+    setOn("false");
+  }, [pathParameter.channelId, pathParameter.snugId, history, id]);
 
   const onClickEventHandler = () => {
-    if (match.params.channelId == id.toString()) return;
+    if (match.params.channelId === id.toString()) return;
     pathParameterDispatch({
       type: "IN",
       channelId: id
@@ -66,8 +66,8 @@ export const ChannelTitle: React.FC<PropsTypes> = props => {
   };
 
   return (
-    <Wrapper onClick={onClickEventHandler} on={on ? true : false}>
-      <IconBox imageSrc={Hash} size={"20px"} />
+    <Wrapper onClick={onClickEventHandler} on={on}>
+      <IconBox imageSrc={Hash} size={"15px"} />
       {props.title}
     </Wrapper>
   );

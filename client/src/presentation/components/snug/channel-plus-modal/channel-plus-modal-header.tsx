@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { IconBox } from "presentation/components/atomic-reusable/icon-box";
-import LetterXWhite from "assets/letter-x-white.png";
+import LetterXBlack from "assets/letter-x.png";
 import { useModalToggledDispatch } from "contexts/modal-context";
 
 const ChannelPlusModalHeaderWrapper = styled.section`
@@ -20,23 +20,21 @@ const ModalHeader = styled.section`
 `;
 
 const ChannelPlusModalTitle = styled.header`
-  color: #ffffff;
+  color: ${({ theme }) => theme.snugMainFont};
   font-weight: bold;
   font-size: 1.75rem;
 `;
 
 const ChannelPlusModalDescription = styled.section`
-  color: #ffffff;
+  color: ${({ theme }) => theme.snugMainFont};
   word-break: break-word;
   height: 100%;
 `;
 
-const IconBoxWrapper = styled.section``;
-
 export const ChannelPlusModalHeader: React.FC = () => {
   const dispatch = useModalToggledDispatch();
 
-  const clickHandler = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+  const clickHandler = () => {
     dispatch &&
       dispatch({
         type: "TOGGLE_CHANNEL_PLUS_MODAL"
@@ -47,7 +45,7 @@ export const ChannelPlusModalHeader: React.FC = () => {
     <ChannelPlusModalHeaderWrapper>
       <ModalHeader>
         <ChannelPlusModalTitle>채널 만들기 </ChannelPlusModalTitle>
-        <IconBox imageSrc={LetterXWhite} onClick={clickHandler} />
+        <IconBox imageSrc={LetterXBlack} onClick={clickHandler} />
       </ModalHeader>
       <ChannelPlusModalDescription>
         채널은 구성원들끼리 소통할 수 있는 공간입니다. 특정 주제를 기반으로

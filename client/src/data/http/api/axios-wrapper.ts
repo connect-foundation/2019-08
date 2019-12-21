@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosStatic } from "axios";
+import axios, { AxiosStatic } from "axios";
 import { BrowserStorage } from "data/browser-storage/browser-storage";
 import { JsonWebToken } from "core/model/json-web-token-model";
 import { JsonWebTokenMapper } from "data/browser-storage/custom-mapper/json-web-tocken-mapper";
@@ -19,7 +19,7 @@ export class AxiosWrapper {
 
   private initialize(): void {
     if (process.env.NODE_ENV !== "development") {
-      this.axios.defaults.baseURL = process.env.REACT_APP_API_SERVER_HOST;
+      this.axios.defaults.baseURL = process.env.REACT_APP_SOCKET_SERVER_HOST;
     }
 
     this.axios.defaults.headers.common["Content-Type"] = "application/json";

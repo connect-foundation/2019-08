@@ -31,13 +31,9 @@ export const StatusSection: React.FC<PropTypes> = ({
         header={status!}
         contents={"상태 설정하기"}
         toggleModal={toggleModal}
-      ></StatusBar>
-      <StatusBar
-        header={"역할"}
-        contents={role!}
-        cursor={"default"}
-      ></StatusBar>
-      <StatusBar header={email!} contents={"gipyoo@naver.com"}></StatusBar>
+      />
+      <StatusBar header={"역할"} contents={role!} cursor={"default"} />
+      <StatusBar header={"이메일"} contents={email!} />
     </Wrapper>
   );
 };

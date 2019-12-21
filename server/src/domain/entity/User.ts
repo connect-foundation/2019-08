@@ -1,9 +1,10 @@
-import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, Index, PrimaryGeneratedColumn} from "typeorm";
 import {Base} from "./Base";
 import {Email} from "../vo/Email";
 import _ from "lodash";
 
 @Entity()
+@Index("email_uniq_index", ["email.localPart", "email.domain"], {unique: true})
 export class User extends Base {
   @PrimaryGeneratedColumn()
   id: number;

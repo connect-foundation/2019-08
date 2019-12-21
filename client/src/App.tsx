@@ -1,10 +1,11 @@
 import React from "react";
-import { Route, BrowserRouter } from "react-router-dom";
+import { Route, BrowserRouter, Switch } from "react-router-dom";
 import { Home } from "./presentation/pages/home/index";
-import { Snug } from "./presentation/pages/snug/index";
+import { Auth } from "./presentation/pages/snug/auth";
 import { RegisterSnug } from "./presentation/pages/register-snug";
 import { RegisterUser } from "./presentation/pages/register-user/index";
 import { InviteUsers } from "presentation/pages/invite-users";
+import { ErrorPage } from "presentation/pages/error";
 import { Application } from "./context.instance";
 import { createGlobalStyle } from "styled-components";
 import dotenv from "dotenv";
@@ -20,13 +21,22 @@ const GlobalStyle = createGlobalStyle`
         padding: 0;
         margin: 0;
         font-family: "Nanum Gothic",sans-serif;
+        font-size: 10pt;
     }
     #root{
       width:100vw;
       height:100vh;
+      max-width: 100vw;
+      max-height: 100vh;
+      min-width: 1200px;
     }
-    a {
-      text-decoration: none;
+    a {color: #fff; text-decoration: none; outline: none}
+
+    a:hover, a:active {text-decoration: none; color:#fff;}
+
+    pre {
+      font-family : initial;
+      white-space: pre;
     }
 `;
 
@@ -37,48 +47,48 @@ const App: React.FC = () => {
         <BrowserRouter>
           <PathParameterContextProvider>
             <GlobalStyle></GlobalStyle>
-            <Route
-              exact
-              path="/"
-              component={(props: any) => (
-                <Home {...props} Application={Application} />
-              )}
-            ></Route>
-            <Route
-              exact
-              path="/register-user"
-              component={(props: any) => (
-                <RegisterUser {...props} Application={Application} />
-              )}
-            ></Route>
-            <Route
-              exact
-              path="/register-snug"
-              component={(props: any) => (
-                <RegisterSnug {...props} Application={Application} />
-              )}
-            ></Route>
-            <Route
-              exact
-              path="/invite-users/:snugId"
-              component={(props: any) => (
-                <InviteUsers {...props} Application={Application} />
-              )}
-            ></Route>
-            <Route
-              exact
-              path="/snug/:snugId/"
-              component={(props: any) => (
-                <Snug {...props} Application={Application}></Snug>
-              )}
-            ></Route>
-            <Route
-              exact
-              path="/snug/:snugId/channel/:channelId"
-              component={(props: any) => (
-                <Snug {...props} Application={Application}></Snug>
-              )}
-            ></Route>
+            <Switch>
+              <Route
+                exact
+                path="/"
+                component={(props: any) => (
+                  <Home {...props} Application={Application} />
+                )}
+              ></Route>
+              <Route
+                exact
+                path="/register-user"
+                component={(props: any) => (
+                  <RegisterUser {...props} Application={Application} />
+                )}
+              ></Route>
+              <Route
+                exact
+                path="/register-snug"
+                component={(props: any) => (
+                  <RegisterSnug {...props} Application={Application} />
+                )}
+              ></Route>
+              <Route
+                exact
+                path="/invite-users/:snugId"
+                component={(props: any) => (
+                  <InviteUsers {...props} Application={Application} />
+                )}
+              ></Route>
+              <Route
+                exact
+                path="/snug/:snugId/channel/:channelId"
+                component={(props: any) => (
+                  <Auth {...props} Application={Application}></Auth>
+                )}
+              ></Route>
+              <Route
+                component={(props: any) => (
+                  <ErrorPage {...props} Application={Application}></ErrorPage>
+                )}
+              ></Route>
+            </Switch>
           </PathParameterContextProvider>
         </BrowserRouter>
       </SocketContextProvider>

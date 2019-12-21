@@ -5,10 +5,11 @@ import { AppChannelMatchProps } from "prop-types/match-extends-types";
 
 const SidebarWrapper = styled.section`
   color: ${({ theme }) => theme.sidebarFont};
-  font-size: 1.1rem;
+  font-size: 1rem;
   box-sizing: border-box;
-  min-width: 250px;
+  min-width: 200px;
   height: 100%;
+  overflow-y: auto;
   background-color: ${({ theme }) => theme.sidebar};
 `;
 

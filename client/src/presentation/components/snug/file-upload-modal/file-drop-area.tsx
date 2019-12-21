@@ -45,12 +45,10 @@ export const FileDropArea: React.FC<PropTypes> = props => {
     event.preventDefault();
 
     setDragging(false);
-    props.setFile(event.dataTransfer.files[0]);
+    setFile(event.dataTransfer.files[0]);
   };
 
-  const onDragLeave: (event: React.DragEvent<HTMLDivElement>) => void = (
-    event: React.DragEvent<HTMLDivElement>
-  ) => {
+  const onDragLeave: (event: React.DragEvent<HTMLDivElement>) => void = () => {
     setDragging(false);
   };
 

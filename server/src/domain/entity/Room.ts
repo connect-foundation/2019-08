@@ -27,8 +27,12 @@ export class Room extends Base {
   @ManyToOne(type => Snug)
   snug: Snug;
 
-  static findByTitle(title: string): Promise<Room> {
-    return Room.findOne({where: {title: title}});
+  static findByTitleAndSnugId(title: string, snugId: string): Promise<Room> {
+    return Room.findOne({where: {title: title, snug: snugId}});
+  }
+
+  static findPublicChannelsBySnugId(snugId: number): Promise<Room[]> {
+    return Room.find({ where: { snug: snugId, isChannel: true, isPrivate: false } });
   }
 
   static findDefaultChannelBySnug(snug: Snug): Promise<Room> {
@@ -36,5 +40,9 @@ export class Room extends Base {
             .add("id", "ASC")
             .support();
     return Room.findOneOrFail({where: {isPrivate: false, isChannel: true, snug: snug}, ...order});
+  }
+
+  static findChannelById(id: number): Promise<Room> {
+    return Room.findOneOrFail(id);
   }
 }

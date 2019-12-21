@@ -22,7 +22,7 @@ export const InviteForm: React.FC<AppInviteMatchProps> = ({
   const sendEmails = (event: React.MouseEvent) => {
     event.preventDefault();
     Application.services.inviteService.send(snugId, emails);
-    window.location.assign(`/snug/${snugId}`);
+    window.location.assign(`/snug/${snugId}/channel/0`);
   };
   return (
     <Form>

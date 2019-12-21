@@ -79,14 +79,14 @@ export const RegisterUserForm: React.FC<ApplicationProptype> = ({
       setEmail(event.target.value);
       setIsEmailFormId(validateEmail(event.target.value));
     },
-    [email]
+    []
   );
 
   const handleNameChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setName(event.target.value);
     },
-    [name]
+    []
   );
 
   const handlePasswordChange = useCallback(
@@ -94,7 +94,7 @@ export const RegisterUserForm: React.FC<ApplicationProptype> = ({
       setPassword(event.target.value);
       setIsValidPassword(validatePasswordLength(event.target.value));
     },
-    [password]
+    []
   );
 
   const handlePasswordCheckChange = useCallback(
@@ -102,7 +102,7 @@ export const RegisterUserForm: React.FC<ApplicationProptype> = ({
       setPasswordCheck(event.target.value);
       setIsPasswordSame(password === event.target.value);
     },
-    [passwordCheck]
+    [password]
   );
 
   const openModalWithMessage = (message: ModalMessage) => {
@@ -131,14 +131,19 @@ export const RegisterUserForm: React.FC<ApplicationProptype> = ({
       setModalOn(true);
       return;
     }
-    const result = await Application.services.userService.doesExist(email);
-    if (!result) {
-      setIsNotDuplicatedId(true);
-      openModalWithMessage(ModalMessage.ELEGIBLE_FORM);
-      return;
+    try {
+      const result = await Application.services.userService.isAcceptableEmail(
+        email
+      );
+      console.log("result", result);
+      setIsNotDuplicatedId(result);
+      openModalWithMessage(
+        result ? ModalMessage.ELEGIBLE_FORM : ModalMessage.EMAIL_EXISTED
+      );
+    } catch {
+      setIsNotDuplicatedId(false);
+      openModalWithMessage(ModalMessage.EMAIL_EXISTED);
     }
-    setIsNotDuplicatedId(false);
-    openModalWithMessage(ModalMessage.EMAIL_EXISTED);
   };
 
   return (

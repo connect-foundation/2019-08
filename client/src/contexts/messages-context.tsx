@@ -2,7 +2,7 @@ import React, { createContext, Dispatch, useReducer, useContext } from "react";
 import { Post } from "core/entity/post";
 import { Profile } from "core/entity/profile";
 
-//코그 출처 https://velog.io/@velopert/typescript-context-api
+//코드 출처 https://velog.io/@velopert/typescript-context-api
 export type Action =
   | {
       type: "CREATE";
@@ -11,6 +11,7 @@ export type Action =
       updatedAt: string;
       contents: string;
       profile: Profile;
+      filePath?: string;
     }
   | {
       type: "REMOVE";
@@ -21,7 +22,18 @@ export type Action =
       posts?: Post[];
     }
   | {
+      type: "FRONT_MULTI_INPUT";
+      posts?: Post[];
+    }
+  | {
       type: "CLEAR_ALL";
+    }
+  | {
+      type: "UPDATE_REPLYCOUNT";
+      posts?: Post[];
+    }
+  | {
+      type: "GET_ALL";
     };
 
 type MessageDispatch = Dispatch<Action>;
@@ -42,14 +54,21 @@ const messageReducer = (state: Posts, action: Action): Posts => {
         profile: action.profile,
         createdAt: action.createdAt,
         updatedAt: action.updatedAt,
-        contents: action.contents
+        contents: action.contents,
+        filePath: action.filePath
       });
     case "REMOVE":
       return state.filter(post => post.id !== action.id);
     case "MULTI_INPUT":
-      return state.concat(action.posts!);
+      return state.concat(action.posts!.reverse());
+    case "FRONT_MULTI_INPUT":
+      return action.posts!.reverse().concat(state);
     case "CLEAR_ALL":
       return [];
+    case "UPDATE_REPLYCOUNT":
+      return [...action.posts!];
+    case "GET_ALL":
+      return state;
   }
 };
 

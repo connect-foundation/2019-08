@@ -4,6 +4,7 @@ import { ProfileApi } from "data/http/api/profile-api";
 import { Profile } from "core/entity/profile";
 import { getCookie } from "util/cookie";
 import jwt from "jsonwebtoken";
+import { CancelToken } from "axios";
 
 export class ProfileRepository implements ProfileRepositoryType {
   private api: ProfileApi;
@@ -12,31 +13,38 @@ export class ProfileRepository implements ProfileRepositoryType {
     this.api = api;
   }
 
-  async getProfile(): Promise<Profile> {
+  getProfile(): Profile {
     try {
       const token: string | boolean = getCookie("profile");
       if (typeof token === "boolean")
         throw new Error("프로필 쿠키가 존재하지 않습니다.");
-      const profile: Profile = <Profile>jwt.decode(token);
+      const profile: Profile = jwt.decode(token) as Profile;
       return profile;
     } catch (error) {
       throw new Error(error.message);
     }
   }
 
-  async updateProfile(profile: Profile): Promise<Profile | boolean> {
+  async updateProfile(
+    profile: Profile,
+    filePath: string
+  ): Promise<Profile | boolean> {
     try {
-      const responseEntity = await this.api.updateProfile(profile);
-      if ((<ResponseEntity<Profile>>responseEntity).payload) {
-        return (<ResponseEntity<Profile>>responseEntity).payload;
+      // profile db upload
+      const responseEntity = await this.api.updateProfile(profile, filePath);
+      if ((responseEntity as ResponseEntity<Profile>).payload) {
+        return (responseEntity as ResponseEntity<Profile>).payload;
       }
-      return <boolean>responseEntity;
+      return responseEntity as boolean;
     } catch (error) {
       return false;
     }
   }
 
-  async getProfileToken(snugId: number): Promise<void> {
-    return await this.api.getProfileToken(snugId);
+  async getProfileToken(
+    snugId: number,
+    cancelToken?: CancelToken
+  ): Promise<void> {
+    return await this.api.getProfileToken(snugId, cancelToken);
   }
 }

@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { ChatContent } from "presentation/components/snug/chat-container";
 import { ChatInputBox } from "presentation/components/snug/chat-input-box";
 import { MessageContextProvider } from "contexts/messages-context";
 import { ProfileSection } from "presentation/pages/snug/profile";
-import { IconBox } from "presentation/components/atomic-reusable/icon-box";
 import LeftArrow from "assets/left-arrow.png";
 import RightArrow from "assets/right-arrow.png";
-import { Preview } from "presentation/components/snug/preview";
+import { Preview } from "presentation/components/snug/preview-channel";
 import { AppChannelMatchProps } from "prop-types/match-extends-types";
 import { FileUploadModal } from "presentation/components/snug/file-upload-modal";
 import { usePathParameter } from "contexts/path-parameter-context";
+import { ThreadSection } from "presentation/pages/snug/thread";
+import axios from "axios";
+import Axios from "axios";
 
 const MessageSectionContentWrapper = styled.section`
   width: 100%;
@@ -20,10 +22,11 @@ const MessageSectionContentWrapper = styled.section`
   flex-direction: column;
   overflow: auto;
 `;
+
 const Wrapper = styled.section`
   display: flex;
   justify-content: space-between;
-  height: 100%;
+  height: calc(100% - 50px);
   width: 100%;
 `;
 
@@ -46,16 +49,36 @@ const ToggleButton = styled.button`
   right: 0;
   transform: translateX(25%);
   z-index: 5;
+  &:active,
+  :focus {
+    outline: none;
+  }
 `;
 
 export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
   const [toggleProfile, setToggleProfile] = useState(false);
-
+  const inputRef = useRef<HTMLElement>();
+  const [onThread, setOnThread] = useState<boolean>(false);
+  const [thread, setThread] = useState(0);
+  const [height, setHeight] = useState(82);
   const handleClick = () => {
     setToggleProfile(!toggleProfile);
   };
 
-  const { Application, history } = props;
+  const toggleThread = (postId: number) => {
+    setThread(postId);
+    setOnThread(!onThread);
+  };
+
+  const resetThread = (postId: number) => {
+    setThread(postId);
+  };
+
+  const resetOnThread = (onThread: boolean) => {
+    setOnThread(onThread);
+  };
+
+  const { Application } = props;
   const [isParticipated, setIsParticipated] = useState(false);
   const pathParameter = usePathParameter();
   // file upload 모달
@@ -64,19 +87,39 @@ export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
   const [onModal, setModal] = useState(false);
 
   useEffect(() => {
-    isInParticipating();
-  }, [pathParameter]);
-
-  const isInParticipating = async () => {
-    try {
-      const result = await Application.services.channelService.isInParticipating(
-        pathParameter.channelId!
-      );
-      setIsParticipated(result);
-    } catch (error) {
-      console.log(error);
+    if (inputRef.current) {
+      setHeight(inputRef.current!.clientHeight);
     }
-  };
+  }, [pathParameter.channelId]);
+
+  useEffect(() => {
+    if (!pathParameter.snugId || !pathParameter.channelId) return;
+    const source = axios.CancelToken.source();
+    (async () => {
+      try {
+        const result = await Application.services.channelService.isInParticipating(
+          pathParameter.snugId!,
+          pathParameter.channelId!,
+          source.token
+        );
+        setIsParticipated(result);
+      } catch (error) {
+        if (Axios.isCancel(error)) return;
+      }
+    })();
+
+    return function cleanup() {
+      source.cancel();
+    };
+  }, [
+    pathParameter.channelId,
+    Application.services.channelService,
+    pathParameter.snugId
+  ]);
+
+  useEffect(() => {
+    resetOnThread(false);
+  }, [pathParameter]);
 
   const openModal = () => {
     setModal(true);
@@ -92,22 +135,42 @@ export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
       <Wrapper>
         {onModal && <FileUploadModal closeModal={closeModal} />}
         <MessageSectionContentWrapper>
-          <ChatContent {...props} isParticipated={isParticipated} />
+          <ChatContent
+            {...props}
+            isParticipated={isParticipated}
+            toggleThread={toggleThread}
+            onThread={onThread}
+            resetThread={resetThread}
+            height={height}
+          />
           {isParticipated ? (
-            <ChatInputBox {...props} openModal={openModal} />
+            <ChatInputBox
+              {...props}
+              openModal={openModal}
+              setHeight={setHeight}
+              ref={inputRef}
+            />
           ) : (
             <Preview {...props} setIsParticipated={setIsParticipated}></Preview>
           )}
         </MessageSectionContentWrapper>
         <ToggleButton onClick={handleClick}>
           {toggleProfile ? (
-            <IconBox imageSrc={RightArrow} />
+            <StyledImg src={RightArrow} width="" />
           ) : (
-            <IconBox imageSrc={LeftArrow} />
+            <StyledImg src={LeftArrow} />
           )}
         </ToggleButton>
+        {onThread && (
+          <ThreadSection thread={thread} toggleThread={toggleThread} />
+        )}
         <ProfileSection {...props} toggleProfile={toggleProfile} />
       </Wrapper>
     </MessageContextProvider>
   );
 };
+
+const StyledImg = styled.img`
+  width: 100%;
+  padding-right: 10px;
+`;

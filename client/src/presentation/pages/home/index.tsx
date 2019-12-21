@@ -9,11 +9,15 @@ export const Home: React.FC<ApplicationProptype> = ({ Application }) => {
 
   useEffect(() => {
     setIsLoggedIn(Application.services.authService.isLogined());
-  });
+  }, [setIsLoggedIn, Application.services.authService]);
 
   return (
     <PageLayout Application={Application}>
-      {isLoggedIn ? <HomeSnug Application={Application} /> : <HomeForm Application={Application} />}
+      {isLoggedIn ? (
+        <HomeSnug Application={Application} />
+      ) : (
+        <HomeForm Application={Application} />
+      )}
     </PageLayout>
   );
 };

@@ -4,32 +4,30 @@ import { ModalHeader } from "./modal-header";
 import { ModalBody } from "./modal-body";
 import { Profile } from "core/entity/profile";
 
-const BlackBackground = styled.section`
+const BlackBackground = styled.div`
   position: fixed;
-  z-index: 1;
-  background-color: #ffffff;
-  width: 100vw;
-  height: 100vh;
-  top: 0;
+  z-index: 7;
   left: 0;
-  opacity: 0.9;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: ${({ theme }) => theme.snugBackGround};
 `;
 
 const Wrapper = styled.section`
-  position: fixed;
-  z-index: 2;
-  background-color: ${({ theme }) => theme.snugMenuColor};
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
-  width: 45%;
-  height: 90%;
-  top: 50%;
-  left: 50%;
-  border-radius: 10px;
-  transform: translate(-50%, -50%);
-  padding: 10px;
+  position: relative;
+  height: auto;
+  background-color: ${({ theme }) => theme.snug};
+  margin: 10% auto;
+  border: 1px solid black;
+  border-radius: 1rem;
+  width: 40%;
+  box-sizing: border-box;
 `;
 
 interface PropTypes {

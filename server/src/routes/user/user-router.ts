@@ -1,11 +1,24 @@
 import { Router } from "express";
 import inviteRouter from "./invite/invite-router";
 import * as UserApiController from "../../controller/api/user-controller";
-import { isValidUserForm } from "../../middleware/validator";
+import {
+  hasEmailFormat,
+  isNumericUserId,
+  isValidUserForm
+} from "../../middleware/validator";
 
-const router = Router({mergeParams: true});
+const router = Router({ mergeParams: true });
 
-router.post("/", isValidUserForm, UserApiController.create);
-router.get("/email/:email", UserApiController.findByEmail);
+router.route("/").post(isValidUserForm, UserApiController.create);
+
+router
+  .route("/emails/duplicate/:email")
+  .get(UserApiController.isAcceptableEmail);
+
 router.use("/:userId/invite", inviteRouter);
+
+router.param("userId", isNumericUserId);
+
+router.param("email", hasEmailFormat);
+
 export default router;

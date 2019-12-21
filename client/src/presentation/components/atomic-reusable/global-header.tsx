@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import Dubu from "assets/dubu.png";
+import profileImage from "assets/user-white.png";
 import { CustomButton } from "./custom-button";
 import { IconBox } from "./icon-box";
 import { ApplicationProptype } from "prop-types/application-type";
@@ -11,7 +11,7 @@ const Wrapper = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #4096cb;
+  background-color: #191d21;
   padding: 10px;
   height: 5vh;
   box-sizing: border-box;
@@ -21,6 +21,7 @@ const IconBoxWrapper = styled.section`
   display: flex;
   justify-content: flex-end;
   width: 80%;
+  cursor: pointer;
 `;
 
 const DropDown = styled.section`
@@ -58,9 +59,8 @@ const Content = styled.article`
   }
 `;
 
-const Title = styled.section`
-  color: #ffffff;
-  font-size: 1.4rem;
+const Title = styled.img`
+  height: 3vh;
 `;
 
 export const GlobalHeader: React.FC<ApplicationProptype> = ({
@@ -71,7 +71,7 @@ export const GlobalHeader: React.FC<ApplicationProptype> = ({
 
   useEffect(() => {
     setIsLoggedIn(Application.services.authService.isLogined());
-  });
+  }, [setIsLoggedIn, Application.services.authService]);
 
   const clickDropdown = () => {
     setOn(on === false);
@@ -81,20 +81,20 @@ export const GlobalHeader: React.FC<ApplicationProptype> = ({
     if (on) setOn(false);
   };
 
-  const logout = () => {
-    Application.services.authService.logout();
+  const logout = async () => {
+    await Application.services.authService.logout();
     window.location.href = "/";
   };
 
   return (
     <Wrapper>
       <Link to="/">
-        <Title> Snug </Title>
+        <Title src="https://user-images.githubusercontent.com/44811887/69320358-6650a900-0c84-11ea-9a70-2ffe45b05604.png" />
       </Link>
       {isLoggedIn ? (
         <IconBoxWrapper>
           <DropDown onClick={clickDropdown} onMouseLeave={mouseLeave}>
-            <IconBox imageSrc={Dubu} />
+            <IconBox imageSrc={profileImage} size={"40px"} />
             <ContentWrapper toggle={on}>
               <Content>프로필</Content>
               <Link to="register-snug">

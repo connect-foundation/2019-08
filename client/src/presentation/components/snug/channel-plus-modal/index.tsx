@@ -10,13 +10,13 @@ import { ApplicationProptype } from "prop-types/application-type";
 
 const WholeScreen = styled.div`
   position: absolute;
+  z-index: 7;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: black;
-  opacity: 0.8;
   width: 100%;
   height: 100%;
+  background-color: ${({ theme }) => theme.snugBackGround};
 `;
 
 const MarginBox = styled.section`
@@ -47,9 +47,7 @@ export const ChannelPlusModal: React.FC<ApplicationProptype> = ({
   Application
 }) => {
   const Modals = useModalToggled();
-
   const dispatch = useModalToggledDispatch();
-
   const keyDownHandler = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.keyCode === 27) {
       dispatch &&

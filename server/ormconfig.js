@@ -11,20 +11,13 @@ const dbOptions = {
   synchronize: true,
   logger: process.env.DB_LOGGER,
   logging: process.env.DB_LOGGING.split(","),
-  cache: {
-    type: "redis",
-    duration: process.env.CACHE_DURATION, // milliseconds
-    options: {
-      host: process.env.CACHE_HOST,
-      port: process.env.CACHE_PORT,
-      password: process.env.CACHE_PASSWORD
-    }
-  },
   extra: {
-    connectionLimit: 10,
-    queueLimit: 5
+    connectionLimit: process.env.DB_CONNECTION_LIMIT,
+    queueLimit: process.env.DB_QUEUE_LIMIT,
+    charset: process.env.DB_CHARSET,
+    timezone: process.env.DB_CHARSET
   },
-  maxQueryExecutionTime: 1000, // milliseconds
+  maxQueryExecutionTime: process.env.DB_MAX_QUERY_EXECUTION_TIME,
   migrationsRun: false,
   dropSchema: false
 };

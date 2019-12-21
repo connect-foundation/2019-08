@@ -1,8 +1,12 @@
-import { ResponseEntity } from "./../http/api/response/ResponseEntity";
-import { ChannelApi } from "../http/api/channel-api";
-import { Channel } from "../../core/entity/channel";
-import { ChannelRepositoryType } from "../../core/use-case/channel-repository-type";
-import { Snug } from "core/entity/snug";
+import {ChannelApi} from "../http/api/channel-api";
+import {Channel} from "../../core/entity/channel";
+import {ChannelRepositoryType} from "../../core/use-case/channel-repository-type";
+import {Snug} from "core/entity/snug";
+import {hasNotCookie} from "../../util/cookie";
+import {ParticipateInfo} from "../../core/entity/participate-info";
+import {ChannelModel} from "../../core/model/channel-model";
+import {CancelToken} from "axios";
+import {ChannelsResponseType} from "../http/api/response/type/channel";
 
 export class ChannelRepository implements ChannelRepositoryType {
   private api: ChannelApi;
@@ -11,55 +15,64 @@ export class ChannelRepository implements ChannelRepositoryType {
     this.api = api;
   }
 
-  async create(snug: Snug, channel: Channel): Promise<boolean | Channel> {
+  async create(channelModel: ChannelModel): Promise<Channel> {
+    const { channel } = await this.api.create(channelModel);
+    return channel;
+  }
+
+  isAcceptableChannelTitleBySnugId(
+    title: string,
+    snugId: string
+  ): Promise<boolean> {
+    return this.api.isAcceptableChannelTitleBySnugId(title, snugId);
+  }
+
+  getChannels(snug: Snug): Promise<ChannelsResponseType> {
+    return this.api.getList(snug);
+  }
+
+  async getParticipatingChannels(
+    snug: Snug,
+    cancelToken?: CancelToken
+  ): Promise<Channel[]> {
     try {
-      const responseEntity = await this.api.create(snug, channel);
-      if (typeof responseEntity == "boolean") return false;
-      return (<ResponseEntity<Channel>>responseEntity).payload;
+      const responseEntity = await this.api.getParticipatingList(
+        snug,
+        cancelToken
+      );
+      if (responseEntity) return responseEntity.channels;
+      return [];
     } catch (error) {
-      return false;
+      return [];
     }
   }
 
-  async hasByTitle(title: string): Promise<boolean> {
-    try {
-      const responseEntity = await this.api.findByTitle(title);
-      return !!responseEntity;
-    } catch (error) {
-      return false;
-    }
+  join(channelInfo: Channel): Promise<ParticipateInfo> {
+    return this.api.join(channelInfo);
   }
 
-  async getChannels(snug: Snug): Promise<Channel[] | boolean> {
-    try {
-      const responseEntity = await this.api.getList(snug);
-      if (responseEntity)
-        return (<ResponseEntity<Channel[]>>responseEntity).payload;
-      return false;
-    } catch (error) {
-      return false;
-    }
+  async getChannelById(
+    channelId: number,
+    cancelToken?: CancelToken
+  ): Promise<Channel> {
+    const { channel } = await this.api.getById(channelId, cancelToken);
+    return channel;
   }
 
-  async join(channel: Channel): Promise<boolean> {
-    return await this.api.join(channel);
-  }
-
-  async getParticipateChannel(): Promise<Channel[]> {
-    if (document.cookie.indexOf("profile") == -1)
+  async isInParticipating(
+    snug: Snug,
+    channel: Channel,
+    cancelToken?: CancelToken
+  ): Promise<boolean> {
+    if (hasNotCookie("profile")) {
       throw new Error("프로필 쿠키가 존재하지 않습니다.");
-    const responseEntity = await this.api.getParticipate();
-    return responseEntity.payload;
-  }
-
-  async isInParticipating(channel: Channel): Promise<boolean> {
-    if (document.cookie.indexOf("profile") == -1)
-      throw new Error("프로필 쿠키가 존재하지 않습니다.");
-    const { payload } = await this.api.getParticipate();
-    const result = payload.filter(
-      channelParameter => channelParameter.id == channel.id
+    }
+    const channels = await this.getParticipatingChannels(snug, cancelToken);
+    if (typeof channels === "boolean") {
+      return channels;
+    }
+    return channels.some(
+      channelParameter => channelParameter.id === channel.id
     );
-    if (result.length <= 0) return false;
-    return true;
   }
 }

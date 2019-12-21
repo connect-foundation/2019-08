@@ -1,4 +1,7 @@
 export enum CONSUME_EVENT {
   CONNECTION = "connection",
-  DISCONNECTION = "disconnection"
+  DISCONNECTION = "disconnection",
+  ENTERSNUG = "enterSnug",
+  LEAVESNUG = "leaveSnug",
+  NEWJOIN = "newjoin"
 }

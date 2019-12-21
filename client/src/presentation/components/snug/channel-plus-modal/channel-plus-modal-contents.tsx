@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { CustomInput } from "presentation/components/atomic-reusable/custom-input";
 import { CustomButton } from "presentation/components/atomic-reusable/custom-button";
@@ -7,6 +7,7 @@ import { useChannelDispatch } from "contexts/channel-context";
 import { useModalToggledDispatch } from "contexts/modal-context";
 import { ApplicationProptype } from "prop-types/application-type";
 import { usePathParameter } from "contexts/path-parameter-context";
+import { globalSocket } from "contexts/socket-context";
 
 const ContentsForm = styled.form`
   display: flex;
@@ -43,44 +44,61 @@ const CustomButtonWrapper = styled.section`
   justify-content: flex-end;
 `;
 
+const NotAcceptableChannel = styled.span`
+  color: ${({ theme }) => theme.snugMainFont};
+`;
+
 export const ChannelPlusModalContents: React.FC<ApplicationProptype> = ({
   Application
 }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [privacy, setPrivacy] = useState(false);
+  const [isFailed, setIsFailed] = useState(false);
 
   const channelDispatch = useChannelDispatch();
   const modalDispatch = useModalToggledDispatch();
   const parameter = usePathParameter();
+  const { snugSocket } = useContext(globalSocket);
 
   const submitHandler = async (event: React.FormEvent<HTMLElement>) => {
     event.preventDefault();
-    
-    const result = await Application.services.channelService.create(
-      parameter.snugId!,
-      title,
-      description,
-      privacy
-    );
+    if (!parameter.snugId) return;
+    const snugId = parameter.snugId.toString();
+    try {
+      const profile = await Application.services.profileService.getProfile(
+        parameter.snugId!
+      );
+      const channel = await Application.services.channelService.create(
+        title,
+        snugId,
+        description,
+        privacy
+      );
 
-    if (typeof result == "boolean") return;
+      if (!Object.keys(channel).length) return;
 
-    channelDispatch &&
-      channelDispatch({
-        type: "CREATE",
-        id: result.id!,
-        title: result.title!,
-        description: result.description!,
-        privacy: result.privacy!,
-        createdAt: result.createdAt!, //todo : date, user 바꾸기
-        creatorName: "두부"
-      });
+      channelDispatch &&
+        channelDispatch({
+          type: "CREATE",
+          id: channel.id!,
+          title: channel.title!,
+          description: channel.description!,
+          privacy: channel.privacy!,
+          createdAt: channel.createdAt!,
+          creatorName: profile.name!
+        });
+      snugSocket.emit("newjoin", channel.id!);
 
-    modalDispatch &&
-      modalDispatch({
-        type: "TOGGLE_CHANNEL_PLUS_MODAL"
-      });
+      modalDispatch &&
+        modalDispatch({
+          type: "TOGGLE_CHANNEL_PLUS_MODAL"
+        });
+      setIsFailed(false);
+    } catch (error) {
+      setIsFailed(true);
+      return;
+    }
   };
 
   return (
@@ -107,6 +125,9 @@ export const ChannelPlusModalContents: React.FC<ApplicationProptype> = ({
         </ChannelPrivateDescription>
         <CustomOnOffButton onChange={setPrivacy}></CustomOnOffButton>
       </ChannelSetPrivate>
+      {isFailed ? (
+        <NotAcceptableChannel>채널 생성에 실패했습니다.</NotAcceptableChannel>
+      ) : null}
       <CustomButtonWrapper>
         <CustomButton
           color={"#000000"}

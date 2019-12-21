@@ -1,17 +1,9 @@
-import { Response, Request, NextFunction } from "express";
+import {NextFunction, Request, Response} from "express";
 import ResponseForm from "../utils/response-form";
 import {NO_USER_WITH_EMAIL, UNSUPPORTED_EMAIL} from "../controller/api/common/messages";
 import _ from "lodash";
-
-import {
-  hasNotEveryNumber,
-  hasNotValue,
-  isOutOfRange
-} from "../validator/identifier-validator";
-import {
-  validateEmail,
-  validatePasswordLength
-} from "../validator/email-validator";
+import {isNumeric} from "../validator/identifier-validator";
+import {validateEmail, validatePasswordLength} from "../validator/email-validator";
 import UrlInfo from "../utils/url-info";
 import {BAD_REQUEST, NOT_FOUND} from "http-status-codes";
 
@@ -24,20 +16,60 @@ import {BAD_REQUEST, NOT_FOUND} from "http-status-codes";
  * @param request express Request
  * @param response express Response
  * @param next express Next
- * @param id
+ * @param snugId
  *
  * */
-export const isNumeric = (
+export const isNumericSnugId = (
   request: Request,
   response: Response,
   next: NextFunction,
-  id: string
+  snugId: string
 ) => {
-  if (hasNotValue(id) || hasNotEveryNumber(id) || isOutOfRange(id)) {
-    return next("Invalid id format. Must be an Number");
-  }
+    isNumeric(snugId);
+    next();
+};
 
+export const isNumericProfileId = (
+        request: Request,
+        response: Response,
+        next: NextFunction,
+        profileId: string
+) => {
+  isNumeric(profileId);
   next();
+};
+
+export const isNumericPostId = (
+        request: Request,
+        response: Response,
+        next: NextFunction,
+        postId: string
+) => {
+  isNumeric(postId);
+  next();
+};
+
+export const isNumericUserId = (
+        request: Request,
+        response: Response,
+        next: NextFunction,
+        userId: string
+) => {
+  isNumeric(userId);
+  next();
+};
+
+export const hasEmailFormat = (
+        request: Request,
+        response: Response,
+        next: NextFunction,
+        email: string
+) => {
+  if(validateEmail(email)) {
+    next();
+  } else {
+    throw new Error("invalid email format");
+  }
 };
 
 export const isValidUserForm = (
