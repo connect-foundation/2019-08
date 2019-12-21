@@ -1,4 +1,4 @@
-import React, {MouseEvent, useEffect, useState} from "react";
+import React, {MouseEvent, useState} from "react";
 import styled from "styled-components";
 import ArrowDownSignBlack from "assets/arrow-down-sign.png";
 import {IconBox} from "./icon-box";

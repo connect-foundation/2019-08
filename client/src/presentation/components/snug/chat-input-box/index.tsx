@@ -81,7 +81,7 @@ export const ChatInputBox: React.FC<PropType> = forwardRef((props, ref) => {
   const KEY_PRESS_EVENT_KEY = "Enter";
   const [message, setMessage] = useState("");
   const dispatch = useMessagesDispatch();
-  const pathPrameter = usePathParameter();
+  const pathParameter = usePathParameter();
   const { snugSocket } = useContext(globalSocket);
 
   const inputChangeEventHandler = (
@@ -101,7 +101,7 @@ export const ChatInputBox: React.FC<PropType> = forwardRef((props, ref) => {
     snugSocket.off("newPost");
     snugSocket.on("newPost", (resultData: ResponseEntity<Post>) => {
       const { payload } = resultData;
-      if (payload.room!.id !== pathPrameter.channelId) return;
+      if (payload.room!.id !== pathParameter.channelId) return;
       dispatch({
         type: "CREATE",
         id: payload.id!,
@@ -116,7 +116,7 @@ export const ChatInputBox: React.FC<PropType> = forwardRef((props, ref) => {
       });
     });
     setMessage("");
-  }, [pathPrameter.channelId, snugSocket, dispatch]);
+  }, [pathParameter.channelId, snugSocket, dispatch]);
 
   //이 부분은 mock 데이터로 되어 있으니 차후 수정이 필요함
   const inputKeyPressEventHandler = async (
@@ -132,7 +132,7 @@ export const ChatInputBox: React.FC<PropType> = forwardRef((props, ref) => {
     }
     const result = await application.services.postService.createMessage(
       message,
-      pathPrameter.channelId!
+      pathParameter.channelId!
     );
     if (!result) return;
     setMessage("");
