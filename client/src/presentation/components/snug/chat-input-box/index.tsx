@@ -135,7 +135,13 @@ export const ChatInputBox: React.FC<PropType> = forwardRef((props, ref) => {
     if (!result) return;
     setMessage("");
     resize();
+    goBottom();
   };
+
+  function goBottom() {
+    const obj: HTMLElement = document.getElementById("scroll")!;
+    obj.scrollTop = obj.scrollHeight;
+  }
 
   return (
     <InputWrapper

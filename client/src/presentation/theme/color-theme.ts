@@ -3,7 +3,7 @@ export const colorTheme = {
   sidebarFont: "#e2e2e2",
   sidebarFontHover: "#ffffff",
   sidbarHover: "#532955",
-  sidebarSelect: "#0094ff",
+  sidebarSelect: "#4c9689",
   sidebarSelectFont: "#ffffff",
   snug: "#ffffff",
   snugBackGround: "rgba(0, 0, 0, 0.7)",

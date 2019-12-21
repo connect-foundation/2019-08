@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import styled, { css } from "styled-components";
 import { useMessages, useMessagesDispatch } from "contexts/messages-context";
 import { ChannelRouteComponentType } from "prop-types/channel-match-type";
@@ -37,6 +37,7 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
   const posts: Post[] = useMessages();
   const dispatch = useMessagesDispatch();
   const pathParameter = usePathParameter();
+  const [thisPosts, setThisPost] = useState<Post[]>([]);
 
   useEffect(() => {
     if (!pathParameter.channelId) return;
@@ -57,6 +58,8 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
           type: "MULTI_INPUT",
           posts: resultPosts
         });
+        const obj: HTMLElement = document.getElementById("scroll")!;
+        obj.scrollTop = obj.scrollHeight;
       } catch (error) {
         if (Axios.isCancel(error)) return;
       }
@@ -68,11 +71,6 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
       source.cancel();
     };
   }, [pathParameter.channelId, application.services.postService, dispatch]);
-
-  useEffect(() => {
-    const obj: HTMLElement = document.getElementById("scroll")!;
-    obj.scrollTop = obj.scrollHeight;
-  }, [posts]);
 
   // thread개수 정하는 logic추가
   function messageList(): React.ReactNode {
@@ -93,8 +91,37 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
     ));
   }
 
+  const infinityScrollEvent = async (event: React.UIEvent<HTMLElement>) => {
+    const obj: HTMLElement = document.getElementById("scroll")!;
+    if (obj.scrollTop > 0) return;
+    const curruentHeight = obj.scrollHeight;
+    try {
+      const postId = posts[0].id;
+      const newPosts:
+        | Post[]
+        | boolean = await application.services.postService.getList(
+        pathParameter.channelId!,
+        undefined,
+        postId
+      );
+      if (!newPosts || (newPosts as Post[]).length === 0) return;
+      dispatch({
+        type: "FIRST_MULTI_INPUT",
+        posts: newPosts as Post[]
+      });
+      console.log(newPosts);
+      obj.scrollTop = curruentHeight;
+    } catch (error) {
+      return;
+    }
+  };
+
   return (
-    <ChatContentWrapper isParticipated={isParticipated} height={height}>
+    <ChatContentWrapper
+      isParticipated={isParticipated}
+      height={height}
+      onScroll={infinityScrollEvent}
+    >
       <Wrapper>{messageList()}</Wrapper>
     </ChatContentWrapper>
   );

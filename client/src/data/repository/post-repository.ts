@@ -16,10 +16,15 @@ export class PostRepository implements PostRepositoryType {
 
   async getList(
     channel: Channel,
-    cancelToken?: CancelToken
+    cancelToken?: CancelToken,
+    postId?: number
   ): Promise<Post[] | boolean> {
     try {
-      const responseEntity = await this.api.getList(channel, cancelToken);
+      const responseEntity = await this.api.getList(
+        channel,
+        cancelToken,
+        postId
+      );
       if ((responseEntity as ResponseEntity<posts<Post>>).payload) {
         return (responseEntity as ResponseEntity<posts<Post>>).payload.posts;
       }
