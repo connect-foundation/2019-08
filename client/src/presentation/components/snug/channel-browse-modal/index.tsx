@@ -30,12 +30,9 @@ export enum DisplayType {
 
 export enum SortType {
   "title" = "채널 이름 순",
-  "createdAt" = "만든 날짜 순",
-  "userLarge" = "사람 많은 순",
-  "userSmall" = "사람 적은 순"
+  "createdAt" = "만든 날짜 순"
 }
 
-// todo : 해당 section뿐만 아니라 전역적으로 keydown 이벤트가 적용될 수 있도록 함수 위치 변경
 export const ChannelBrowseModal: React.FC<ApplicationProptype &
   RouteComponentProps> = props => {
   const [selectedDisplayType, setSelectedDisplayType] = useState(
@@ -60,6 +57,14 @@ export const ChannelBrowseModal: React.FC<ApplicationProptype &
     toggleChannelBrowseModal();
   };
 
+  const changeDisplayType = (value : DisplayType) =>{
+    setSelectedDisplayType(value)
+  };
+
+  const changeSortType = (value : SortType) =>{
+    setSelectedSortType(value)
+  };
+
   const Wrapper = styled.section`
     box-sizing: border-box;
     display: flex;
@@ -75,8 +80,10 @@ export const ChannelBrowseModal: React.FC<ApplicationProptype &
         <Content tabIndex={-1} onKeyDown={keyDownHandler}>
           <ChannelBrowseModalHeader />
           <ChannelBrowseModalDropdown
-            setSelectedDisplayType={setSelectedDisplayType}
-            setSelectedSortType={setSelectedSortType}
+            changeDisplayType={changeDisplayType}
+            changeSortType={changeSortType}
+            selectedDisplayType={selectedDisplayType}
+            selectedSortType={selectedSortType}
           />
           <ChannelBrowseModalSortList
             {...props}

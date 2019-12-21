@@ -1,12 +1,12 @@
-import { ResponseEntity } from "./../http/api/response/ResponseEntity";
-import { ChannelApi } from "../http/api/channel-api";
-import { Channel } from "../../core/entity/channel";
-import { ChannelRepositoryType } from "../../core/use-case/channel-repository-type";
-import { Snug } from "core/entity/snug";
-import { hasNotCookie } from "../../util/cookie";
-import { ParticipateInfo } from "../../core/entity/participate-info";
-import { ChannelModel } from "../../core/model/channel-model";
-import { CancelToken } from "axios";
+import {ChannelApi} from "../http/api/channel-api";
+import {Channel} from "../../core/entity/channel";
+import {ChannelRepositoryType} from "../../core/use-case/channel-repository-type";
+import {Snug} from "core/entity/snug";
+import {hasNotCookie} from "../../util/cookie";
+import {ParticipateInfo} from "../../core/entity/participate-info";
+import {ChannelModel} from "../../core/model/channel-model";
+import {CancelToken} from "axios";
+import {ChannelsResponseType} from "../http/api/response/type/channel";
 
 export class ChannelRepository implements ChannelRepositoryType {
   private api: ChannelApi;
@@ -27,16 +27,8 @@ export class ChannelRepository implements ChannelRepositoryType {
     return this.api.isAcceptableChannelTitleBySnugId(title, snugId);
   }
 
-  async getChannels(snug: Snug): Promise<Channel[] | boolean> {
-    try {
-      const responseEntity = await this.api.getList(snug);
-      if (responseEntity)
-        return (responseEntity as ResponseEntity<{ channels: Channel[] }>)
-          .payload.channels;
-      return false;
-    } catch (error) {
-      return false;
-    }
+  getChannels(snug: Snug): Promise<ChannelsResponseType> {
+    return this.api.getList(snug);
   }
 
   async getParticipatingChannels(

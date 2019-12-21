@@ -1,8 +1,9 @@
-import { CancelToken } from "axios";
-import { Channel } from "core/entity/channel";
-import { Snug } from "core/entity/snug";
-import { ParticipateInfo } from "../entity/participate-info";
-import { ChannelModel } from "../model/channel-model";
+import {CancelToken} from "axios";
+import {Channel} from "core/entity/channel";
+import {Snug} from "core/entity/snug";
+import {ParticipateInfo} from "../entity/participate-info";
+import {ChannelModel} from "../model/channel-model";
+import {ChannelsResponseType} from "../../data/http/api/response/type/channel";
 
 export interface ChannelRepositoryType {
   create(channelModel: ChannelModel): Promise<Channel>;
@@ -19,7 +20,7 @@ export interface ChannelRepositoryType {
     cancelToken?: CancelToken
   ): Promise<Channel[]>;
 
-  getChannels(snug: Snug): Promise<Channel[] | boolean>;
+  getChannels(snug: Snug): Promise<ChannelsResponseType>;
 
   getChannelById(
     channelId: number,
