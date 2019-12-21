@@ -59,7 +59,7 @@ export const ChannelPlusModalContents: React.FC<ApplicationProptype> = ({
   const channelDispatch = useChannelDispatch();
   const modalDispatch = useModalToggledDispatch();
   const parameter = usePathParameter();
-  const socket = useContext(globalSocket);
+  const { snugSocket } = useContext(globalSocket);
 
   const submitHandler = async (event: React.FormEvent<HTMLElement>) => {
     event.preventDefault();
@@ -88,7 +88,7 @@ export const ChannelPlusModalContents: React.FC<ApplicationProptype> = ({
           createdAt: channel.createdAt!,
           creatorName: profile.name!
         });
-      socket.snugSocket.emit("newjoin", channel.id!);
+      snugSocket.emit("newjoin", channel.id!);
 
       modalDispatch &&
         modalDispatch({

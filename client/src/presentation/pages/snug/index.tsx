@@ -39,6 +39,8 @@ const Snug: React.FC<AppChannelMatchProps> = props => {
       type: "GETSNUGID",
       snugId: Number(match.params.snugId)
     });
+
+    return;
   }, [match.params.channelId, match.params.snugId, pathParameterDispatch]);
 
   return (

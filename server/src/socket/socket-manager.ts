@@ -1,7 +1,7 @@
 import http from "http";
 import https from "https";
 import SocketIO from "socket.io";
-import {connect} from "./listener/connection";
+import { connect } from "./listener/connection";
 
 class SocketManager {
   private readonly io: SocketIO.Server;

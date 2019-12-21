@@ -1,23 +1,17 @@
 import React, { createContext } from "react";
 import socketIO from "socket.io-client";
 
-const secure = process.env.REACT_APP_SOCKET_SERVER_HOST!.startsWith("https");
-
 const userSocket = socketIO(
   process.env.REACT_APP_SOCKET_SERVER_HOST! + "/user",
   {
-    transports: ["websocket"],
-    upgrade: false,
-    secure: secure
+    transports: ["websocket"]
   }
 );
 
 const snugSocket = socketIO(
   process.env.REACT_APP_SOCKET_SERVER_HOST! + "/snug",
   {
-    transports: ["websocket"],
-    upgrade: false,
-    secure: secure
+    transports: ["websocket"]
   }
 );
 

@@ -1,6 +1,7 @@
 import SocketIO from "socket.io";
 import * as room from "../action/snug";
 import { CONSUME_EVENT } from "../common/events/consume-type";
+import { profile } from "winston";
 
 export const connect = (io: SocketIO.Server) => {
   const snugIo = io.of("/snug");
@@ -13,18 +14,21 @@ export const connect = (io: SocketIO.Server) => {
     } = req;
     console.log(`${socket.id} ${referer} 클라이언트 접속`);
 
-    const profileId: string = null;
-    room.join(socket, profileId);
+    socket.on(CONSUME_EVENT.ENTERSNUG, (profileID: number) => {
+      room.join(socket, profileID);
+    });
+
+    socket.on(CONSUME_EVENT.LEAVESNUG, (profileID: number) => {
+      room.leave(socket, profileID);
+    });
+
+    socket.on(CONSUME_EVENT.NEWJOIN, (channelId: number) => {
+      socket.join(String(channelId));
+      console.log(`${channelId}에 접속`);
+    });
 
     socket.on(CONSUME_EVENT.DISCONNECTION, () => {
       console.log(`${socket.id} ${referer} 클라이언트 나감`);
-      room.leave(socket, profileId);
-    });
-
-    socket.on(CONSUME_EVENT.NEWJOIN, channelId => {
-      console.log("join", channelId);
-      socket.join(channelId);
-      console.log(`${socket.id} ${referer} 클라이언트가 새로운 방 접속`);
     });
   });
 
