@@ -4,7 +4,6 @@ import { ChatContent } from "presentation/components/snug/chat-container";
 import { ChatInputBox } from "presentation/components/snug/chat-input-box";
 import { MessageContextProvider } from "contexts/messages-context";
 import { ProfileSection } from "presentation/pages/snug/profile";
-import { IconBox } from "presentation/components/atomic-reusable/icon-box";
 import LeftArrow from "assets/left-arrow.png";
 import RightArrow from "assets/right-arrow.png";
 import { Preview } from "presentation/components/snug/preview-channel";
@@ -50,6 +49,10 @@ const ToggleButton = styled.button`
   right: 0;
   transform: translateX(25%);
   z-index: 5;
+  &:active,
+  :focus {
+    outline: none;
+  }
 `;
 
 export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
@@ -57,7 +60,7 @@ export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
   const inputRef = useRef<HTMLElement>();
   const [onThread, setOnThread] = useState<boolean>(false);
   const [thread, setThread] = useState(0);
-  const [height, setHeight] = useState(75);
+  const [height, setHeight] = useState(82);
   const handleClick = () => {
     setToggleProfile(!toggleProfile);
   };
@@ -153,9 +156,9 @@ export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
         </MessageSectionContentWrapper>
         <ToggleButton onClick={handleClick}>
           {toggleProfile ? (
-            <IconBox imageSrc={RightArrow} />
+            <StyledImg src={RightArrow} width="" />
           ) : (
-            <IconBox imageSrc={LeftArrow} />
+            <StyledImg src={LeftArrow} />
           )}
         </ToggleButton>
         {onThread && (
@@ -166,3 +169,8 @@ export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
     </MessageContextProvider>
   );
 };
+
+const StyledImg = styled.img`
+  width: 100%;
+  padding-right: 10px;
+`;

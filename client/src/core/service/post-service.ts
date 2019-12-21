@@ -24,12 +24,13 @@ export class PostService {
 
   async getList(
     channelId: number,
-    cancelToken?: CancelToken
+    cancelToken?: CancelToken,
+    postId?: number
   ): Promise<Post[] | boolean> {
     const channel: Channel = {
       id: channelId
     };
-    return await this.postRepository.getList(channel, cancelToken);
+    return await this.postRepository.getList(channel, cancelToken, postId);
   }
 
   async createMessage(contents: string, channelId: number): Promise<boolean> {

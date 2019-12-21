@@ -1,13 +1,14 @@
 import React from "react";
 import styled from "styled-components";
-import { IconBox } from "presentation/components/atomic-reusable/icon-box";
 import whiteAdd from "assets/add-white.png";
 
 export const SideButtons: React.FC<propType> = ({ message, onClick }) => {
   return (
     <Wrapper>
       <StyledButton onClick={onClick}>
-        <IconBox imageSrc={whiteAdd} size={"20px"}></IconBox>
+        <CustomImgBox>
+          <CustomImg src={whiteAdd}></CustomImg>
+        </CustomImgBox>
         {message}
       </StyledButton>
     </Wrapper>
@@ -18,6 +19,22 @@ interface propType {
   message: string;
   onClick?: any;
 }
+
+const CustomImgBox = styled.section`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  margin: 5px;
+  min-width: 15px;
+  max-width: 15px;
+  width: 15px;
+  height: 15px;
+`;
+
+const CustomImg = styled.img`
+  width: 70%;
+`;
 
 const Wrapper = styled.section`
   padding: 10px 0px;

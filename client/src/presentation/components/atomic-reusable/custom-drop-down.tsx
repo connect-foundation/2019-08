@@ -1,6 +1,6 @@
 import React, { useState, MouseEvent } from "react";
 import styled from "styled-components";
-import ArrowDownSignWhite from "assets/arrow-down-sign-white.png";
+import ArrowDownSignBlack from "assets/arrow-down-sign.png";
 import { IconBox } from "./icon-box";
 
 const Wrapper = styled.section`
@@ -24,7 +24,7 @@ const ListWrapper = styled.ul`
   border-color: ${({ theme }) => theme.snugBorderColor};
   border-radius: 5px;
   position: absolute;
-  z-index: 2;
+  z-index: 8;
   margin: 0;
   padding: 10px 0px;
   top: 100%;
@@ -67,7 +67,7 @@ export const CustomDropDown: React.FC<CustomDropDownConfig> = props => {
     <Wrapper onClick={handleClick}>
       <Subject>{props.type}: </Subject>
       <Selected>{selected}</Selected>
-      <IconBox imageSrc={ArrowDownSignWhite} size="10px" />
+      <IconBox imageSrc={ArrowDownSignBlack} size="10px" />
       {opened && (
         <ListWrapper>
           {props.list.map(listItem => (

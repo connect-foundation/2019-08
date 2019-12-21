@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import LetterXWhite from "assets/letter-x-white.png";
+import LetterXBlack from "assets/letter-x.png";
 import { IconBox } from "presentation/components/atomic-reusable/icon-box";
 
 const InformationSection = styled.section`
@@ -25,7 +25,7 @@ export const ChannelBrowseModalInformation: React.FC<PropTypes> = ({
   return (
     <InformationSection>
       <InformationSectionHeader>채널에 대하여</InformationSectionHeader>
-      <IconBox imageSrc={LetterXWhite} onClick={onClick} />
+      <IconBox imageSrc={LetterXBlack} onClick={onClick} />
     </InformationSection>
   );
 };

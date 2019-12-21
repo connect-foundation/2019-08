@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
-import ClipWhite from "assets/clip-white.png";
+import ClipBlack from "assets/clip.png";
 import { IconBox } from "presentation/components/atomic-reusable/icon-box";
 import { useMessages, useMessagesDispatch } from "contexts/messages-context";
 import { ResponseEntity } from "data/http/api/response/ResponseEntity";
@@ -78,7 +78,8 @@ export const ThreadInputBox: React.FC<PropTypes> = ({ addReply, thread }) => {
         post => Number(post.id) === payload.parent.id
       );
       const targetPost = posts[targetPostIndex];
-      targetPost.replyCount = (parseInt(targetPost.replyCount!) + 1).toString();
+      const replyCount = Number(targetPost.replyCount) || 0;
+      targetPost.replyCount = (replyCount + 1).toString();
       posts[targetPostIndex] = { ...targetPost };
       dispatch({
         type: "UPDATE_REPLYCOUNT",
@@ -115,7 +116,7 @@ export const ThreadInputBox: React.FC<PropTypes> = ({ addReply, thread }) => {
     <InputWrapper>
       <MarginBox></MarginBox>
       <CustomInput>
-        <IconBox imageSrc={ClipWhite}></IconBox>
+        <IconBox imageSrc={ClipBlack}></IconBox>
         <StyledInput
           value={message}
           onChange={inputChangeEventHandler}

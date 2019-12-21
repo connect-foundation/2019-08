@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import LetterXWhite from "assets/letter-x-white.png";
+import LetterXBlack from "assets/letter-x.png";
 import { IconBox } from "presentation/components/atomic-reusable/icon-box";
 
 const Wrapper = styled.header`
@@ -27,7 +27,7 @@ export const ModalHeader: React.FC<PropTypes> = props => {
   return (
     <Wrapper>
       <Title>Profile 수정</Title>
-      <IconBox imageSrc={LetterXWhite} onClick={onClick} />
+      <IconBox imageSrc={LetterXBlack} onClick={onClick} />
     </Wrapper>
   );
 };

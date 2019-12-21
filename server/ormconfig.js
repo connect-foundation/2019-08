@@ -12,10 +12,12 @@ const dbOptions = {
   logger: process.env.DB_LOGGER,
   logging: process.env.DB_LOGGING.split(","),
   extra: {
-    connectionLimit: 20,
-    queueLimit: 10
+    connectionLimit: process.env.DB_CONNECTION_LIMIT,
+    queueLimit: process.env.DB_QUEUE_LIMIT,
+    charset: process.env.DB_CHARSET,
+    timezone: process.env.DB_CHARSET
   },
-  maxQueryExecutionTime: 1000, // milliseconds
+  maxQueryExecutionTime: process.env.DB_MAX_QUERY_EXECUTION_TIME,
   migrationsRun: false,
   dropSchema: false
 };
