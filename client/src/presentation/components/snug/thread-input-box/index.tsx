@@ -92,7 +92,7 @@ export const ThreadInputBox: React.FC<PropTypes> = ({ addReply, thread }) => {
         posts: [...posts]
       });
     });
-  }, [pathParameter, dispatch, snugSocket, addReply, posts]);
+  }, [pathParameter, dispatch, snugSocket, addReply, posts, thread]);
 
   const inputChangeEventHandler = (
     event: React.ChangeEvent<HTMLInputElement>

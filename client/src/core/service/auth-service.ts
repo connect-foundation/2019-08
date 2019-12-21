@@ -8,24 +8,21 @@ export class AuthService {
     this.repository = repository;
   }
 
-  async login(email: string, password: string): Promise<boolean> {
+  async login(email: string, password: string): Promise<void> {
     const user: User = { email, password };
     const JsonWebToken = await this.repository.login(user);
-    if (!JsonWebToken.token) return false;
     this.repository.setToken(JsonWebToken.token);
-    return true;
   }
 
   getUserInfo(): User {
-    const user = this.repository.getUserInfo();
-    return user;
+    return this.repository.getUserInfo();
   }
 
   isLogined(): boolean {
     return this.repository.isLogined();
   }
 
-  async logout(): Promise<boolean> {
-    return await this.repository.logout();
+  logout(): Promise<void> {
+    return this.repository.logout();
   }
 }

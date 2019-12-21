@@ -1,10 +1,7 @@
-import { Router } from "express";
+import {Router} from "express";
 import * as AuthApiController from "../../controller/api/auth-controller";
-import { isNumericSnugId } from "../../middleware/validator";
-import {
-  isVerifyLogined,
-  isVerifyProfile
-} from "../../validator/identifier-validator";
+import {isNumericSnugId} from "../../middleware/validator";
+import {isVerifyLogined} from "../../validator/identifier-validator";
 
 const router = Router();
 
@@ -13,7 +10,6 @@ router.post("/login", AuthApiController.login);
 router.post(
   "/logout",
   isVerifyLogined,
-  isVerifyProfile,
   AuthApiController.logout
 );
 

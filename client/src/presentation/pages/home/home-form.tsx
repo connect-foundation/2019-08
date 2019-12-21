@@ -68,14 +68,14 @@ export const HomeForm: React.FC<ApplicationProptype> = props => {
   };
 
   const login = async () => {
-    const result = await Application.services.authService.login(
-      email,
-      password
-    );
-    if (result) return window.location.reload();
-    setEmail("");
-    setPassword("");
-    setModal(true);
+    try {
+      await Application.services.authService.login(email, password);
+      window.location.reload();
+      setEmail("");
+      setPassword("");
+    } catch(error) {
+      setModal(true);
+    }
   };
 
   return (
@@ -93,8 +93,7 @@ export const HomeForm: React.FC<ApplicationProptype> = props => {
             color={"bdbdbd"}
             backgroundColor={"#ffffff"}
             placeholder={"예) XXX@XXX.XXX"}
-            onChange={onChangeEmail}
-          ></CustomLoginInput>
+            onChange={onChangeEmail}/>
           {!validEmail && (
             <WarningText>유효한 이메일 형식이 아닙니다.</WarningText>
           )}
@@ -106,8 +105,7 @@ export const HomeForm: React.FC<ApplicationProptype> = props => {
             backgroundColor={"#ffffff"}
             placeholder={"Password"}
             onChange={onChangePassword}
-            type={"password"}
-          ></CustomLoginInput>
+            type={"password"}/>
         </Input>
         <ButtonWrapper>
           <CustomButton
@@ -119,8 +117,7 @@ export const HomeForm: React.FC<ApplicationProptype> = props => {
             fontColor={"#ffffff"}
             fontWeight={"bold"}
             height={"auto"}
-            onClick={login}
-          ></CustomButton>
+            onClick={login}/>
         </ButtonWrapper>
       </InputWrapper>
     </Wrapper>
