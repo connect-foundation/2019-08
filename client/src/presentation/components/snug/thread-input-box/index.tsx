@@ -78,7 +78,8 @@ export const ThreadInputBox: React.FC<PropTypes> = ({ addReply, thread }) => {
         post => Number(post.id) === payload.parent.id
       );
       const targetPost = posts[targetPostIndex];
-      targetPost.replyCount = (parseInt(targetPost.replyCount!) + 1).toString();
+      const replyCount = Number(targetPost.replyCount) || 0;
+      targetPost.replyCount = (replyCount + 1).toString();
       posts[targetPostIndex] = { ...targetPost };
       dispatch({
         type: "UPDATE_REPLYCOUNT",
