@@ -74,7 +74,7 @@ export const GlobalHeader: React.FC<ApplicationProptype> = ({
   }, [setIsLoggedIn, Application.services.authService]);
 
   const clickDropdown = () => {
-    setOn(on === false);
+    setOn(!on);
   };
 
   const mouseLeave = () => {
@@ -103,6 +103,7 @@ export const GlobalHeader: React.FC<ApplicationProptype> = ({
               <Content onClick={logout}>로그아웃</Content>
             </ContentWrapper>
           </DropDown>
+          <InvitationAlarm />
         </IconBoxWrapper>
       ) : (
         <Link to="/register-user">
@@ -111,11 +112,9 @@ export const GlobalHeader: React.FC<ApplicationProptype> = ({
             size={"big"}
             name={"회원가입"}
             fontColor={"#ffffff"}
-            fontWeight={"bold"}
-          ></CustomButton>
+            fontWeight={"bold"}/>
         </Link>
       )}
-      <InvitationAlarm />
     </Wrapper>
   );
 };
