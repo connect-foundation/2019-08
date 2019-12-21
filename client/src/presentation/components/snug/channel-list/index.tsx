@@ -73,11 +73,7 @@ export const ChannelList: React.FC<PropTypes> = ({
     (async function() {
       const snugId = Number(match.params.snugId);
       try {
-        const channels = await Application.services.channelService.getParticipatingChannelList(
-          snugId,
-          source.token
-        );
-        if (typeof channels === "boolean") return;
+        const channels = await Application.services.channelService.getParticipatingChannelList(snugId, source.token);
         dispatch &&
           dispatch({
             type: "MULTI",

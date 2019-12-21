@@ -1,16 +1,12 @@
-import { AxiosErrorHandler } from "data/http/api/axiosErrorHandler";
-import { Channel } from "core/entity/channel";
-import Axios, { AxiosError, AxiosResponse, CancelToken } from "axios";
-import { ResponseEntity } from "./response/ResponseEntity";
-import { StatusCodes } from "./status-codes";
-import { AxiosWrapper } from "./axios-wrapper";
-import { Snug } from "core/entity/snug";
-import { ParticipateInfo } from "../../../core/entity/participate-info";
-import { ChannelModel } from "../../../core/model/channel-model";
-import {
-  ChannelResponseType,
-  ChannelsResponseType
-} from "./response/type/channel";
+import {Channel} from "core/entity/channel";
+import Axios, {AxiosError, AxiosResponse, CancelToken} from "axios";
+import {ResponseEntity} from "./response/ResponseEntity";
+import {StatusCodes} from "./status-codes";
+import {AxiosWrapper} from "./axios-wrapper";
+import {Snug} from "core/entity/snug";
+import {ParticipateInfo} from "../../../core/entity/participate-info";
+import {ChannelModel} from "../../../core/model/channel-model";
+import {ChannelResponseType, ChannelsResponseType} from "./response/type/channel";
 
 export class ChannelApi {
   private axios: AxiosWrapper;
@@ -72,19 +68,14 @@ export class ChannelApi {
       });
   }
 
-  getList(snug: Snug): Promise<ResponseEntity<object> | boolean> {
+  getList(snug: Snug): Promise<ChannelsResponseType> {
     return this.axios
       .getAxios()
       .get(`/api/snugs/${snug.id!}/channels`)
-      .then((response: AxiosResponse<ResponseEntity<object>>) => {
-        if (StatusCodes.isOk(response.status)) return response.data;
-        return false;
-      })
-      .catch((error: AxiosError) => {
-        return AxiosErrorHandler.handleError(
-          error,
-          `채널 목록을 불러오는 과정에서 예기치 못한 에러가 발생했습니다.`
-        );
+      .then((response: AxiosResponse<ResponseEntity<ChannelsResponseType>>) => {
+        if (StatusCodes.isOk(response.status)) return response.data.payload;
+
+        throw new Error(`채널 목록을 불러오는 과정에서 예기치 못한 에러가 발생했습니다.`);
       });
   }
 

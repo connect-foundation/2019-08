@@ -1,7 +1,8 @@
-import React, { useState, MouseEvent } from "react";
+import React, {MouseEvent, useEffect, useState} from "react";
 import styled from "styled-components";
 import ArrowDownSignBlack from "assets/arrow-down-sign.png";
-import { IconBox } from "./icon-box";
+import {IconBox} from "./icon-box";
+import {DisplayType, SortType} from "../snug/channel-browse-modal";
 
 const Wrapper = styled.section`
   display: flex;
@@ -46,27 +47,23 @@ export interface CustomDropDownConfig {
   type: string;
   list: Array<string>;
   setSelected?(parameter: any | void): any | void;
+  selected: DisplayType | SortType;
 }
 
-// todo : DropDown Component를 customize할 수 있게 props에서 다양한 변수를 받아
-// styled-component에 대입해야 한다.
 export const CustomDropDown: React.FC<CustomDropDownConfig> = props => {
   const [opened, setOpened] = useState(false);
-  const [selected, setSelected] = useState(props.list[0]);
-
   const handleClick = () => {
     setOpened(!opened);
   };
 
-  const selectListItem = (listItem: string) => (e: MouseEvent) => {
-    setSelected(listItem);
-    props.setSelected && props.setSelected(listItem);
+  const selectListItem = (listItem: any) => (e: MouseEvent) => {
+    props.setSelected!(listItem);
   };
 
   return (
     <Wrapper onClick={handleClick}>
       <Subject>{props.type}: </Subject>
-      <Selected>{selected}</Selected>
+      <Selected>{props.selected}</Selected>
       <IconBox imageSrc={ArrowDownSignBlack} size="10px" />
       {opened && (
         <ListWrapper>

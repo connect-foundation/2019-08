@@ -13,26 +13,30 @@ const MarginBoxDropDown = styled.section`
 `;
 
 interface PropTypes {
-  setSelectedDisplayType(parameter: any | void): any | void;
-  setSelectedSortType(parameter: any | void): any | void;
+  changeDisplayType(parameter: DisplayType): void;
+  changeSortType(parameter: SortType): void;
+  selectedDisplayType: DisplayType;
+  selectedSortType: SortType;
 }
 
 export const ChannelBrowseModalDropdown: React.FC<PropTypes> = ({
-  setSelectedDisplayType,
-  setSelectedSortType
+  changeDisplayType,
+  changeSortType,selectedSortType,selectedDisplayType
 }) => {
   return (
     <Wrapper>
       <CustomDropDown
         list={Object.values(DisplayType)}
         type={"목록"}
-        setSelected={setSelectedDisplayType}
+        setSelected={changeDisplayType}
+        selected={selectedDisplayType}
       />
       <MarginBoxDropDown />
       <CustomDropDown
         list={Object.values(SortType)}
         type={"분류"}
-        setSelected={setSelectedSortType}
+        setSelected={changeSortType}
+        selected={selectedSortType}
       />
     </Wrapper>
   );

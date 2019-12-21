@@ -31,7 +31,7 @@ export class Room extends Base {
     return Room.findOne({where: {title: title, snug: snugId}});
   }
 
-  static findPublicChannelBySnugId(snugId: number): Promise<Room[]> {
+  static findPublicChannelsBySnugId(snugId: number): Promise<Room[]> {
     return Room.find({ where: { snug: snugId, isChannel: true, isPrivate: false } });
   }
 

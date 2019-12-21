@@ -1,31 +1,23 @@
-import { ParticipateIn } from "./../../domain/entity/ParticipateIn";
-import { offerProfileTokenInfo } from "./../../validator/identifier-validator";
-import { Room } from "../../domain/entity/Room";
-import { NextFunction, Request, Response } from "express";
+import {ParticipateIn} from "./../../domain/entity/ParticipateIn";
+import {offerProfileTokenInfo} from "./../../validator/identifier-validator";
+import {Room} from "../../domain/entity/Room";
+import {NextFunction, Request, Response} from "express";
 import ResponseForm from "../../utils/response-form";
-import {
-  CONFLICT,
-  CREATED,
-  INTERNAL_SERVER_ERROR,
-  NOT_FOUND,
-  OK,
-  NOT_ACCEPTABLE
-} from "http-status-codes";
+import {CONFLICT, CREATED, INTERNAL_SERVER_ERROR, NOT_ACCEPTABLE, NOT_FOUND, OK} from "http-status-codes";
 import {
   ACCEPTABLE_CHANNEL_TITLE,
-  NOT_ACCEPTABLE_CHANNEL_TITLE,
   ALREADY_EXIST_CHANNEL,
   CREATE_CHANNEL,
   FOUND_CHANNELS,
+  NOT_ACCEPTABLE_CHANNEL_TITLE,
   NOT_FOUND_CHANNEL,
   NOT_FOUND_CHANNELS,
   SUCCESS_JOIN_CHANNEL
 } from "./common/messages";
 import HttpException from "../../utils/exception/HttpException";
-import { Snug } from "../../domain/entity/Snug";
-import { Participant } from "../../model/participant/participant";
-import { publishIO } from "../../socket/socket-manager";
-import {} from "../../socket/common/events/publish-type";
+import {Snug} from "../../domain/entity/Snug";
+import {Participant} from "../../model/participant/participant";
+import _ from "lodash";
 
 /**
  *
@@ -41,7 +33,9 @@ export const isAcceptableChannelByTitle = async (
 ): Promise<Response> => {
   const { snugId, title } = request.params;
   const channel = await Room.findByTitleAndSnugId(title, snugId);
-  if (!channel) {
+
+  const hasNotChannels = _.isNil(channel);
+  if (hasNotChannels) {
     return response.status(OK).json(ResponseForm.of(ACCEPTABLE_CHANNEL_TITLE));
   }
 
@@ -86,7 +80,9 @@ export const findPublicChannels = async (
 ): Promise<Response> => {
   try {
     const { snugId } = request.params;
-    const channels = await Participant.findPublicChannels(Number(snugId));
+    const profile = offerProfileTokenInfo(request);
+    const participant = new Participant();
+    const channels = await participant.findChannels(profile, Number(snugId));
     return response.status(OK).json(
       ResponseForm.of<object>(FOUND_CHANNELS, { channels })
     );
@@ -108,7 +104,9 @@ export const findAllParticipating = async (
       profile,
       Number(snugId)
     );
-    if (!!channels) {
+
+    const hasChannels = !_.isNil(channels);
+    if (hasChannels) {
       return response.status(OK).json(
         ResponseForm.of<object>(FOUND_CHANNELS, { channels })
       );
