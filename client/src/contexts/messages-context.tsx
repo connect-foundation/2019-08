@@ -22,7 +22,7 @@ export type Action =
       posts?: Post[];
     }
   | {
-      type: "FIRST_MULTI_INPUT";
+      type: "FRONT_MULTI_INPUT";
       posts?: Post[];
     }
   | {
@@ -60,9 +60,9 @@ const messageReducer = (state: Posts, action: Action): Posts => {
     case "REMOVE":
       return state.filter(post => post.id !== action.id);
     case "MULTI_INPUT":
-      return state.concat(action.posts!);
-    case "FIRST_MULTI_INPUT":
-      return action.posts!.concat(state);
+      return state.concat(action.posts!.reverse());
+    case "FRONT_MULTI_INPUT":
+      return action.posts!.reverse().concat(state);
     case "CLEAR_ALL":
       return [];
     case "UPDATE_REPLYCOUNT":

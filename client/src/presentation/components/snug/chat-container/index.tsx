@@ -96,7 +96,6 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
   const infinityScrollEvent = async () => {
     const obj: HTMLElement = document.getElementById("scroll")!;
     if (obj.scrollTop > 0) return;
-
     try {
       const postId = posts[0].id;
       const newPosts:
@@ -106,7 +105,6 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
         undefined,
         postId
       );
-
       if (!newPosts || (newPosts as Post[]).length === 0 || isTop) return;
       setIsTop(true);
       let curruentHeight = obj.scrollHeight;
@@ -114,12 +112,12 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
         setDone(true);
         setIsTop(false);
         dispatch({
-          type: "FIRST_MULTI_INPUT",
+          type: "FRONT_MULTI_INPUT",
           posts: newPosts as Post[]
         });
         setDone(false);
-        obj.scrollTop = obj.scrollHeight - curruentHeight - 40;
-      }, 400);
+        obj.scrollTop = obj.scrollHeight - curruentHeight;
+      }, 300);
     } catch (error) {
       return;
     }
