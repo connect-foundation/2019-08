@@ -22,8 +22,9 @@ export const connect = (io: SocketIO.Server) => {
       room.leave(socket, profileID);
     });
 
-    socket.on(CONSUME_EVENT.NEWJOIN, (profileId: number, channelId: number) => {
+    socket.on(CONSUME_EVENT.NEWJOIN, (channelId: number) => {
       socket.join(String(channelId));
+      console.log(`${channelId}에 접속`);
     });
 
     socket.on(CONSUME_EVENT.DISCONNECTION, () => {

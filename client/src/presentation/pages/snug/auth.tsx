@@ -16,8 +16,9 @@ export const Auth: React.FC<AppChannelMatchProps> = props => {
     if (!match.params.snugId) return;
     const source = Axios.CancelToken.source();
 
+    let profile: Profile = {};
     const getProfileToken = async () => {
-      const profile: Profile = await Application.services.profileService.getProfile(
+      profile = await Application.services.profileService.getProfile(
         Number(match.params.snugId),
         source.token
       );
@@ -33,7 +34,7 @@ export const Auth: React.FC<AppChannelMatchProps> = props => {
     getProfileToken();
 
     return function cleanup() {
-      snugSocket.emit("leaveSnug", 1);
+      snugSocket.emit("leaveSnug", profile.id!);
       source.cancel();
     };
   }, [match.params.snugId, Application.services.profileService, snugSocket]);
