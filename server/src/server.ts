@@ -37,9 +37,9 @@ Application.start().then((app: Express) => {
   const server: http.Server = app.listen(app.get("port"), () => {
     console.log("listen port", app.get("port"));
     initializeMailManger();
-    // const isNotAppliedHttps = applyHttps(app);
-    // if (isNotAppliedHttps) {
-    initialize(server);
-    // }
+    const isNotAppliedHttps = applyHttps(app);
+    if (isNotAppliedHttps) {
+      initialize(server);
+    }
   });
 });
