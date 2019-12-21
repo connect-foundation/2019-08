@@ -21,10 +21,13 @@ const GlobalStyle = createGlobalStyle`
         padding: 0;
         margin: 0;
         font-family: "Nanum Gothic",sans-serif;
+        font-size: 10pt;
     }
     #root{
       width:100vw;
       height:100vh;
+      max-width: 100vw;
+      max-height: 100vh;
       min-width: 1200px;
     }
     a {color: #fff; text-decoration: none; outline: none}

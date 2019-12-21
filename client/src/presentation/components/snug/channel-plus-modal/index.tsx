@@ -10,13 +10,13 @@ import { ApplicationProptype } from "prop-types/application-type";
 
 const WholeScreen = styled.div`
   position: absolute;
-  z-index: 1;
+  z-index: 7;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: ${({ theme }) => theme.snugBackGround};
 `;
 
 const MarginBox = styled.section`

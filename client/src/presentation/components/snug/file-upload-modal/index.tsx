@@ -14,7 +14,7 @@ const Modal = styled.div`
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: ${({ theme }) => theme.snugBackGround};
 `;
 
 const ModalContent = styled.div`
@@ -33,7 +33,7 @@ const ModalHeader = styled.header`
   padding: 1rem;
   font-size: 200%;
   font-weight: bold;
-  color: white;
+  color: ${({ theme }) => theme.snugMainFont};
   box-sizing: border-box;
 `;
 
@@ -50,13 +50,13 @@ const ModalFooter = styled.footer`
 `;
 
 const CloseButton = styled.span`
-  color: #aaa;
+  color: ${({ theme }) => theme.subButtonColor};
   float: right;
   font-size: 28px;
   font-weight: bold;
   &:hover,
   &:focus {
-    color: black;
+    color: ${({ theme }) => theme.subButtonColorHover};
     text-decoration: none;
     cursor: pointer;
   }
@@ -82,7 +82,7 @@ const StyledInput = styled.textarea.attrs({
   --webkit-appearance: none;
   background-color: ${({ theme }) => theme.snug};
   font-size: 14px;
-  color: #e3e3e3;
+  color: ${({ theme }) => theme.snugMainFont};
   width: 100%;
   border: none;
   box-sizing: border-box;

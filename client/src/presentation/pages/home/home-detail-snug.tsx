@@ -14,13 +14,15 @@ const Wrapper = styled.form`
 `;
 
 const DescriptionWrapper = styled.section`
-  width: 60%;
+  width: 100%;
+  padding-left: 40px;
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
+  align-items: center;
 `;
 
 const ButtonWrapper = styled.section`
-  width: 40%;
+  width: 200px;
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -42,15 +44,25 @@ const Address = styled.footer`
 `;
 
 const Square = styled.section`
-  background-color: #ffffff;
+  background-color: white;
   border: 1px solid black;
   border-radius: 10px;
-  width: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  width: 40px;
+  min-height: 40px;
+  height: 40px;
   &:after {
     content: "";
     display: block;
     padding-bottom: 100%;
   }
+`;
+
+const StyledImg = styled.img`
+  width: 90%;
 `;
 
 interface PropTypes {
@@ -62,8 +74,10 @@ interface PropTypes {
 export const HomeDetailSnug: React.FC<PropTypes> = props => {
   return (
     <Wrapper>
+      <Square>
+        <StyledImg src="https://user-images.githubusercontent.com/44811887/69315268-6e571b80-0c79-11ea-8e61-1ae63501d4a6.png"></StyledImg>
+      </Square>
       <DescriptionWrapper>
-        <Square />
         <Description>
           <Name>{props.name}</Name>
           <Address>{props.description}</Address>

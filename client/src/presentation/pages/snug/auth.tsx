@@ -45,7 +45,7 @@ export const Auth: React.FC<AppChannelMatchProps> = props => {
         <Snug {...props} Application={Application} />
       ) : (
         <Center>
-          <Loader type="Watch" color="#fff" height={100} width={100} />
+          <Loader type="Watch" color="#000" height={100} width={100} />
         </Center>
       )}
     </Fragment>
@@ -58,5 +58,5 @@ const Center = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: black;
+  background-color: #fff;
 `;

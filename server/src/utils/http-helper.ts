@@ -1,9 +1,11 @@
+import _ from "lodash";
+
 export default class HttpHelper {
   static isSupportedHttps = (): boolean => {
-    return !!process.env.PRIVATE_KEY && !!process.env.CERT_KEY;
+    return _.every([process.env.PRIVATE_KEY, process.env.CERT_KEY, process.env.CA_KEY], HttpHelper.has);
   };
 
-  static isSupportedHttp = (): boolean => {
-    return !HttpHelper.isSupportedHttps();
+  static has = (key: string): boolean => {
+    return !!key && key.length > 0;
   };
 }

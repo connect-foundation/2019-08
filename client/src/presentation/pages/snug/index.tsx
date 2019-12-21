@@ -14,12 +14,14 @@ const SnugWrapper = styled.section`
   width: inherit;
   height: inherit;
   min-width: inherit;
+  max-width: inherit;
   display: flex;
   flex-direction: column;
 `;
 
 const ViewWrapper = styled.section`
-  height: 100%;
+  height: calc(100% - 50px);
+  max-height: calc(100% - 50px);
   display: flex;
 `;
 

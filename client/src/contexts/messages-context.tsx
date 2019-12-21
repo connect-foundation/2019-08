@@ -22,16 +22,19 @@ export type Action =
       posts?: Post[];
     }
   | {
+      type: "FIRST_MULTI_INPUT";
+      posts?: Post[];
+    }
+  | {
       type: "CLEAR_ALL";
     }
   | {
       type: "UPDATE_REPLYCOUNT";
       posts?: Post[];
     }
-    | {
-      type: "GET_ALL"
+  | {
+      type: "GET_ALL";
     };
-
 
 type MessageDispatch = Dispatch<Action>;
 
@@ -58,6 +61,8 @@ const messageReducer = (state: Posts, action: Action): Posts => {
       return state.filter(post => post.id !== action.id);
     case "MULTI_INPUT":
       return state.concat(action.posts!);
+    case "FIRST_MULTI_INPUT":
+      return action.posts!.concat(state);
     case "CLEAR_ALL":
       return [];
     case "UPDATE_REPLYCOUNT":

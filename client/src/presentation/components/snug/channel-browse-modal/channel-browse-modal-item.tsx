@@ -19,8 +19,8 @@ const Wrapper = styled.section`
   margin-top: 5px;
   &:hover {
     cursor: pointer;
-    background-color: ${({ theme }) => theme.snugBorderColor};
-    color: ${({ theme }) => theme.sidebarFontHover};
+    background-color: ${({ theme }) => theme.snugHover};
+    color: ${({ theme }) => theme.snugMainFont};
   }
 `;
 

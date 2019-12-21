@@ -29,7 +29,7 @@ const CustomImgBox = styled.section<CustomImgBoxProps>`
   background-color: ${props =>
     props.backgroundColor ? props.backgroundColor : ""};
   &:hover {
-    background-color: #39515a;
+    background-color: ${({ theme }) => theme.mainButtonColorHover};
   }
 `;
 
