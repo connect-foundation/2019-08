@@ -48,6 +48,7 @@ const CustomInput = styled.section`
   border-radius: 10px;
   overflow: hidden;
   display: flex;
+  align-items: center;
   padding: 5px;
 `;
 
@@ -61,6 +62,7 @@ const StyledInput = styled.textarea.attrs({
   color: ${({ theme }) => theme.snugMainFont};
   width: 100%;
   border: none;
+  height: 1rem;
   &:active,
   :focus {
     outline: none;
