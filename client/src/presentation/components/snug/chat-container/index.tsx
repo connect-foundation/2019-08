@@ -7,6 +7,7 @@ import { Post } from "core/entity/post";
 import { usePathParameter } from "contexts/path-parameter-context";
 import { globalApplication } from "contexts/application-context";
 import Axios from "axios";
+import Loader from "react-loader-spinner";
 
 const ChatContentWrapper = styled.section.attrs({
   id: "scroll"
@@ -37,7 +38,8 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
   const posts: Post[] = useMessages();
   const dispatch = useMessagesDispatch();
   const pathParameter = usePathParameter();
-  const [thisPosts, setThisPost] = useState<Post[]>([]);
+  const [done, setDone] = useState<boolean>(false);
+  const [isTop, setIsTop] = useState<boolean>(false);
 
   useEffect(() => {
     if (!pathParameter.channelId) return;
@@ -91,7 +93,7 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
     ));
   }
 
-  const infinityScrollEvent = async (event: React.UIEvent<HTMLElement>) => {
+  const infinityScrollEvent = async () => {
     const obj: HTMLElement = document.getElementById("scroll")!;
     if (obj.scrollTop > 0) return;
     const curruentHeight = obj.scrollHeight;
@@ -104,13 +106,18 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
         undefined,
         postId
       );
-      if (!newPosts || (newPosts as Post[]).length === 0) return;
-      dispatch({
-        type: "FIRST_MULTI_INPUT",
-        posts: newPosts as Post[]
-      });
-      console.log(newPosts);
-      obj.scrollTop = curruentHeight;
+      if (!newPosts || (newPosts as Post[]).length === 0 || isTop) return;
+      setIsTop(true);
+      setTimeout(() => {
+        setDone(true);
+        setIsTop(false);
+        dispatch({
+          type: "FIRST_MULTI_INPUT",
+          posts: newPosts as Post[]
+        });
+        setDone(false);
+        obj.scrollTop = curruentHeight - 40;
+      }, 400);
     } catch (error) {
       return;
     }
@@ -122,7 +129,22 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
       height={height}
       onScroll={infinityScrollEvent}
     >
-      <Wrapper>{messageList()}</Wrapper>
+      <Wrapper>
+        {done === false && isTop === true ? (
+          <LoaderWrpper>
+            <Loader type="Watch" color="#000" height={30} width={30} />
+          </LoaderWrpper>
+        ) : null}
+        {messageList()}
+      </Wrapper>
     </ChatContentWrapper>
   );
 };
+
+const LoaderWrpper = styled.section`
+  width: 100%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
