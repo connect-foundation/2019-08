@@ -9,10 +9,11 @@ import { Profile } from "core/entity/profile";
 import { globalApplication } from "contexts/application-context";
 import { ChannelRouteComponentType } from "prop-types/channel-match-type";
 import Axios from "axios";
+
 const Wrapper = styled.section`
   background-color: ${({ theme }) => theme.snug};
   box-sizing: border-box;
-  border: 1px ${({ theme }) => theme.snugBorderColor} solid;
+  border-left: 0.5px ${({ theme }) => theme.snugBorderColor} solid;
   height: 100%;
   width: 0px;
   min-width: 0px;

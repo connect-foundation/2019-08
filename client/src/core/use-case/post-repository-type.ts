@@ -7,7 +7,8 @@ import { CancelToken } from "axios";
 export interface PostRepositoryType {
   getList(
     channel: Channel,
-    cancelToken?: CancelToken
+    cancelToken?: CancelToken,
+    postId?: number
   ): Promise<Post[] | boolean>;
 
   create(post: Post, channel: Channel): Promise<boolean>;

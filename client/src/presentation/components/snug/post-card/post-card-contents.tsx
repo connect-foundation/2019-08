@@ -7,7 +7,6 @@ const PostBox = styled.section`
   height: auto;
   font-weight: 500;
   font-size: 1rem;
-  cursor: pointer;
 `;
 
 const PostDetail = styled.section`
@@ -32,6 +31,7 @@ const PostContents = styled.pre`
   word-break: break-all;
   padding-top: 5px;
   padding-bottom: 5px;
+  cursor: pointer;
 `;
 
 interface PropTypes {

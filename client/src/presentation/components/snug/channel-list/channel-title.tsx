@@ -17,7 +17,7 @@ interface styledWrrapperProps {
 const Wrapper = styled.section<styledWrrapperProps>`
   display: flex;
   align-items: center;
-  font-size: 1rem;
+  font-size: 0.9rem;
   padding: 0px 20px;
   ${({ on, theme }) => {
     if (on === "true")
@@ -66,7 +66,7 @@ export const ChannelTitle: React.FC<PropsTypes> = props => {
 
   return (
     <Wrapper onClick={onClickEventHandler} on={on}>
-      <IconBox imageSrc={Hash} size={"20px"} />
+      <IconBox imageSrc={Hash} size={"15px"} />
       {props.title}
     </Wrapper>
   );

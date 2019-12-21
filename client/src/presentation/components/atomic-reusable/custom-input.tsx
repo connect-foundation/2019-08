@@ -26,11 +26,14 @@ const CustomInputWrapper = styled.section`
   flex-direction: column;
 `;
 
-const CustomInputHeader = styled.header`
+const CustomInputHeader = styled.header<CustomInputConfig>`
   width: 100%;
-  margin-bottom: 10px;
-  ${(props: CustomInputConfig) => {
-    let titleColor = props.titleColor ? props.titleColor : "#ffffff";
+  margin-top: 10px;
+  margin-bottom: 5px;
+  ${props => {
+    let titleColor = props.titleColor
+      ? props.titleColor
+      : props.theme.snugMainFont;
     let titleFontSize = props.titleFontSize ? props.titleFontSize : "0.75rem";
     let titleFontWeight = props.titleFontWeight ? props.titleFontWeight : "100";
     return css`
@@ -41,7 +44,7 @@ const CustomInputHeader = styled.header`
   }}
 `;
 
-const ChannelPlusModalInputBox = styled.input.attrs({})`
+const ChannelPlusModalInputBox = styled.input.attrs({})<CustomInputConfig>`
   --webkit-appearance: none;
   min-height: 30px;
   max-height: 30px;
@@ -49,25 +52,26 @@ const ChannelPlusModalInputBox = styled.input.attrs({})`
   width: 100%;
   appearance: none;
   border: none;
-  border-radius: 10px;
   padding-left: 10px;
   box-sizing: border-box;
-  border: 1px solid transparent;
-  ${(props: CustomInputConfig) => {
-    let color = props.color ? props.color : "#e3e3e3";
+  border: 1px solid ${({ theme }) => theme.snugBorderColor};
+  border-radius: 5px;
+  ${props => {
+    let color = props.color ? props.color : props.theme.snugMainFont;
     let fontSize = props.fontSize ? props.fontSize : "14px";
     let activeHoverColor = props.activeHoverColor
       ? props.activeHoverColor
-      : "#2c5af7";
+      : props.theme.snugSelect;
     let backgroundColor = props.backgroundColor
       ? props.backgroundColor
-      : "#263237";
+      : props.theme.snug;
     return css`
       color: ${color};
       font-size: ${fontSize};
       &:active,
       :focus {
-        border: 1px solid ${activeHoverColor};
+        outline: none;
+        box-shadow: 0 0 0 2px ${activeHoverColor};
       }
       background-color: ${backgroundColor};
     `;

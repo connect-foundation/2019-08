@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
-import ClipWhite from "assets/clip-white.png";
+import ClipBlack from "assets/clip.png";
 import { IconBox } from "presentation/components/atomic-reusable/icon-box";
 import { useMessages, useMessagesDispatch } from "contexts/messages-context";
 import { ResponseEntity } from "data/http/api/response/ResponseEntity";
@@ -115,7 +115,7 @@ export const ThreadInputBox: React.FC<PropTypes> = ({ addReply, thread }) => {
     <InputWrapper>
       <MarginBox></MarginBox>
       <CustomInput>
-        <IconBox imageSrc={ClipWhite}></IconBox>
+        <IconBox imageSrc={ClipBlack}></IconBox>
         <StyledInput
           value={message}
           onChange={inputChangeEventHandler}

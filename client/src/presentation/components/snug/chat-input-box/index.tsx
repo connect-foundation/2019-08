@@ -6,9 +6,7 @@ import React, {
   RefObject
 } from "react";
 import styled from "styled-components";
-import ClipWhite from "assets/clip-white.png";
-import AtWhite from "assets/at-white.png";
-import FaceWhite from "assets/face-white.png";
+import ClipBlack from "assets/clip.png";
 import { IconBox } from "presentation/components/atomic-reusable/icon-box";
 import { useMessagesDispatch } from "contexts/messages-context";
 import { ResponseEntity } from "data/http/api/response/ResponseEntity";
@@ -60,7 +58,7 @@ const StyledInput = styled.textarea.attrs({
   --webkit-appearance: none;
   background-color: ${({ theme }) => theme.snug};
   font-size: 14px;
-  color: #e3e3e3;
+  color: ${({ theme }) => theme.snugMainFont};
   width: 100%;
   border: none;
   &:active,
@@ -137,7 +135,13 @@ export const ChatInputBox: React.FC<PropType> = forwardRef((props, ref) => {
     if (!result) return;
     setMessage("");
     resize();
+    goBottom();
   };
+
+  function goBottom() {
+    const obj: HTMLElement = document.getElementById("scroll")!;
+    obj.scrollTop = obj.scrollHeight;
+  }
 
   return (
     <InputWrapper
@@ -151,7 +155,7 @@ export const ChatInputBox: React.FC<PropType> = forwardRef((props, ref) => {
     >
       <MarginBox></MarginBox>
       <CustomInput>
-        <IconBox imageSrc={ClipWhite} onClick={openModal}></IconBox>
+        <IconBox imageSrc={ClipBlack} onClick={openModal}></IconBox>
         <StyledInput
           value={message}
           onChange={inputChangeEventHandler}
@@ -159,8 +163,6 @@ export const ChatInputBox: React.FC<PropType> = forwardRef((props, ref) => {
           onKeyDown={resize}
           onKeyUp={resize}
         ></StyledInput>
-        <IconBox imageSrc={AtWhite}></IconBox>
-        <IconBox imageSrc={FaceWhite}></IconBox>
       </CustomInput>
       <MarginBox></MarginBox>
     </InputWrapper>

@@ -59,9 +59,8 @@ const Content = styled.article`
   }
 `;
 
-const Title = styled.section`
-  color: white;
-  font-size: 1.4rem;
+const Title = styled.img`
+  height: 3vh;
 `;
 
 export const GlobalHeader: React.FC<ApplicationProptype> = ({
@@ -90,7 +89,7 @@ export const GlobalHeader: React.FC<ApplicationProptype> = ({
   return (
     <Wrapper>
       <Link to="/">
-        <Title> Snug </Title>
+        <Title src="https://user-images.githubusercontent.com/44811887/69320358-6650a900-0c84-11ea-9a70-2ffe45b05604.png" />
       </Link>
       {isLoggedIn ? (
         <IconBoxWrapper>

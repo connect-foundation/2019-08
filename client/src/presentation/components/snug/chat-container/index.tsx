@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import styled, { css } from "styled-components";
 import { useMessages, useMessagesDispatch } from "contexts/messages-context";
 import { ChannelRouteComponentType } from "prop-types/channel-match-type";
@@ -7,6 +7,7 @@ import { Post } from "core/entity/post";
 import { usePathParameter } from "contexts/path-parameter-context";
 import { globalApplication } from "contexts/application-context";
 import Axios from "axios";
+import Loader from "react-loader-spinner";
 
 const ChatContentWrapper = styled.section.attrs({
   id: "scroll"
@@ -37,6 +38,8 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
   const posts: Post[] = useMessages();
   const dispatch = useMessagesDispatch();
   const pathParameter = usePathParameter();
+  const [done, setDone] = useState<boolean>(false);
+  const [isTop, setIsTop] = useState<boolean>(false);
 
   useEffect(() => {
     if (!pathParameter.channelId) return;
@@ -57,6 +60,8 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
           type: "MULTI_INPUT",
           posts: resultPosts
         });
+        const obj: HTMLElement = document.getElementById("scroll")!;
+        obj.scrollTop = obj.scrollHeight;
       } catch (error) {
         if (Axios.isCancel(error)) return;
       }
@@ -68,11 +73,6 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
       source.cancel();
     };
   }, [pathParameter.channelId, application.services.postService, dispatch]);
-
-  useEffect(() => {
-    const obj: HTMLElement = document.getElementById("scroll")!;
-    obj.scrollTop = obj.scrollHeight;
-  }, [posts]);
 
   // thread개수 정하는 logic추가
   function messageList(): React.ReactNode {
@@ -93,9 +93,58 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
     ));
   }
 
+  const infinityScrollEvent = async () => {
+    const obj: HTMLElement = document.getElementById("scroll")!;
+    if (obj.scrollTop > 0) return;
+    const curruentHeight = obj.scrollHeight;
+    try {
+      const postId = posts[0].id;
+      const newPosts:
+        | Post[]
+        | boolean = await application.services.postService.getList(
+        pathParameter.channelId!,
+        undefined,
+        postId
+      );
+      if (!newPosts || (newPosts as Post[]).length === 0 || isTop) return;
+      setIsTop(true);
+      setTimeout(() => {
+        setDone(true);
+        setIsTop(false);
+        dispatch({
+          type: "FIRST_MULTI_INPUT",
+          posts: newPosts as Post[]
+        });
+        setDone(false);
+        obj.scrollTop = curruentHeight - 40;
+      }, 400);
+    } catch (error) {
+      return;
+    }
+  };
+
   return (
-    <ChatContentWrapper isParticipated={isParticipated} height={height}>
-      <Wrapper>{messageList()}</Wrapper>
+    <ChatContentWrapper
+      isParticipated={isParticipated}
+      height={height}
+      onScroll={infinityScrollEvent}
+    >
+      <Wrapper>
+        {done === false && isTop === true ? (
+          <LoaderWrpper>
+            <Loader type="Watch" color="#000" height={30} width={30} />
+          </LoaderWrpper>
+        ) : null}
+        {messageList()}
+      </Wrapper>
     </ChatContentWrapper>
   );
 };
+
+const LoaderWrpper = styled.section`
+  width: 100%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;

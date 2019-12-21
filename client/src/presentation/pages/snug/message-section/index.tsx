@@ -7,6 +7,7 @@ import { AppChannelMatchProps } from "prop-types/match-extends-types";
 const MessageSectionWrapper = styled.section`
   height: 100%;
   width: 100%;
+  min-width: 1000px;
   display: flex;
   flex-direction: column;
 `;
