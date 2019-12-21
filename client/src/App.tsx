@@ -21,6 +21,7 @@ const GlobalStyle = createGlobalStyle`
         padding: 0;
         margin: 0;
         font-family: "Nanum Gothic",sans-serif;
+        font-size: 10pt;
     }
     #root{
       width:100vw;

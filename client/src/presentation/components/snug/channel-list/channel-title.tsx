@@ -66,7 +66,7 @@ export const ChannelTitle: React.FC<PropsTypes> = props => {
 
   return (
     <Wrapper onClick={onClickEventHandler} on={on}>
-      <IconBox imageSrc={Hash} size={"20px"} />
+      <IconBox imageSrc={Hash} size={"15px"} />
       {props.title}
     </Wrapper>
   );

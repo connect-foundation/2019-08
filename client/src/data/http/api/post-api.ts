@@ -21,10 +21,13 @@ export class PostApi {
 
   getList(
     { id }: Channel,
-    cancelToken?: CancelToken
+    cancelToken?: CancelToken,
+    postId?: number
   ): ResponseEntity<posts<Post>> | boolean {
+    let url = `/api/channels/${id}/posts`;
+    if (postId) url = url + `?postId=${postId}`;
     return this.axios
-      .get(`/api/channels/${id}/posts/`, {
+      .get(url, {
         cancelToken: cancelToken
       })
       .then(({ data, status }: AxiosResponse<ResponseEntity<posts<Post>>>) => {
