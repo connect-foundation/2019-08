@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "preserve": "tsc",
-    "serve": "cross-env NODE_ENV=production pm2 start dist/server.js -i 0",
+    "serve": "cross-env NODE_ENV=production pm2 start dist/server.js -i 1",
     "build": "tsc",
     "test": "jest",
     "lint": "eslint src/**/*.ts",
