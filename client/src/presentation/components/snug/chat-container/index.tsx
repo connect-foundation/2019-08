@@ -106,10 +106,11 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
         undefined,
         postId
       );
+
       if (!newPosts || (newPosts as Post[]).length === 0 || isTop) return;
       setIsTop(true);
+      let curruentHeight = obj.scrollHeight;
       setTimeout(() => {
-        const curruentHeight = obj.scrollHeight;
         setDone(true);
         setIsTop(false);
         dispatch({
@@ -117,7 +118,7 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
           posts: newPosts as Post[]
         });
         setDone(false);
-        obj.scrollTop = curruentHeight - 40;
+        obj.scrollTop = obj.scrollHeight - curruentHeight - 40;
       }, 400);
     } catch (error) {
       return;

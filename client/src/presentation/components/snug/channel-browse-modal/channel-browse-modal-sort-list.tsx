@@ -51,10 +51,9 @@ const sortBySortType = (channels: Channels, sortType: SortType) => {
 
 const filterPrivateChannels = (channels: Channels, props: DisplayType) => {
   if (props === DisplayType.private) {
-    return channels.filter(channel => {
-      return channel.privacy;
-    });
+    return channels.filter(channel => channel.privacy);
   }
+
   return null;
 };
 
@@ -67,12 +66,14 @@ export const ChannelBrowseModalSortList: React.FC<Criterion &
 
   useEffect(() => {
     (async function() {
-      const snugId = Number(pathParameter.snugId);
-      const channels = await application.services.channelService.getChannelList(
-        snugId
-      );
-      if (typeof channels === "boolean") return;
-      addChannels(channels);
+      try {
+        const snugId = Number(pathParameter.snugId);
+        const channels = await application.services.channelService.getChannelList(snugId);
+        addChannels(channels);
+      } catch (error) {
+        addChannels([]);
+      }
+
     })();
   }, [application.services.channelService, pathParameter.snugId]);
 

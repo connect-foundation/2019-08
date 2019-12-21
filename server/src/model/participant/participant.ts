@@ -30,6 +30,13 @@ export class Participant {
   }
 
   public static findPublicChannels(snugId: number): Promise<Room[]> {
-    return Room.findPublicChannelBySnugId(snugId);
+    return Room.findPublicChannelsBySnugId(snugId);
+  }
+
+  public async findChannels(participant: Profile, snugId: number): Promise<Room[]> {
+    const publicChannels = Participant.findPublicChannels(snugId);
+    const privateAttendingChannels = this.findChannelsAttending(participant, snugId);
+    const  channels = await Promise.all([publicChannels, privateAttendingChannels])
+    return _.flatten(channels);
   }
 }

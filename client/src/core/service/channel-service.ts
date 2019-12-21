@@ -75,9 +75,10 @@ export class ChannelService {
     );
   }
 
-  getChannelList(snugId: number): Promise<Channel[] | boolean> {
+  async getChannelList(snugId: number): Promise<Channel[]> {
     const snug: Snug = { id: snugId };
-    return this.repository.getChannels(snug);
+    const {channels} = await this.repository.getChannels(snug);
+    return this.convertToChannels(channels);
   }
 
   getChannelById(
@@ -92,7 +93,8 @@ export class ChannelService {
     canselToken?: CancelToken
   ): Promise<Channel[]> {
     const snug: Snug = { id: snugId };
-    return this.repository.getParticipatingChannels(snug, canselToken);
+    const channels =  await this.repository.getParticipatingChannels(snug, canselToken);
+    return this.convertToChannels(channels);
   }
 
   private convertToChannel(channel: Channel): Channel {
@@ -103,6 +105,10 @@ export class ChannelService {
       createdAt: channel.createdAt,
       privacy: channel.isPrivate
     };
+  }
+
+  private convertToChannels(channels: Channel[]): Channel[] {
+    return channels.map(channel => this.convertToChannel(channel));
   }
 
   join(channelId: number): Promise<ParticipateInfo> {
