@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
-import ClipBlack from "assets/clip.png";
-import { IconBox } from "presentation/components/atomic-reusable/icon-box";
 import { useMessages, useMessagesDispatch } from "contexts/messages-context";
 import { ResponseEntity } from "data/http/api/response/ResponseEntity";
 import { Post } from "core/entity/post";
@@ -77,9 +75,11 @@ export const ThreadInputBox: React.FC<PropTypes> = ({ addReply, thread }) => {
     snugSocket.off("replyPost");
     snugSocket.on("replyPost", (resultData: ResponseEntity<any>) => {
       const { payload } = resultData;
-      const targetPostIndex = posts.findIndex(post => isReplyOnPost(Number(post.id), payload));
-      if(targetPostIndex === -1) return;
-      if(isReplyOnPost(Number(thread), payload)) {
+      const targetPostIndex = posts.findIndex(post =>
+        isReplyOnPost(Number(post.id), payload)
+      );
+      if (targetPostIndex === -1) return;
+      if (isReplyOnPost(Number(thread), payload)) {
         addReply(payload);
       }
 
@@ -120,15 +120,15 @@ export const ThreadInputBox: React.FC<PropTypes> = ({ addReply, thread }) => {
 
   return (
     <InputWrapper>
-      <MarginBox/>
+      <MarginBox />
       <CustomInput>
-        <IconBox imageSrc={ClipBlack}/>
         <StyledInput
           value={message}
           onChange={inputChangeEventHandler}
-          onKeyPress={inputKeyPressEventHandler}/>
+          onKeyPress={inputKeyPressEventHandler}
+        />
       </CustomInput>
-      <MarginBox/>
+      <MarginBox />
     </InputWrapper>
   );
 };
