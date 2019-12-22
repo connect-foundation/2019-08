@@ -14,9 +14,10 @@
 ## 주요 동기 | 만들게 된 이유
 <br>
 <p align="center">
-<img src="https://i.imgur.com/CdAGBMi.png" width="">
+<img src="https://i.imgur.com/asJpft7.png">
 </p>
 <br>
+
 
 
 ## 프로젝트 설명 (동작 방식, 그림)
