@@ -7,9 +7,7 @@
 <img src="https://img.shields.io/github/v/tag/connect-foundation/2019-08">
 <img src="https://img.shields.io/npm/v/npm/latest">
 <br>
-<h4 align="center">
- <a href ="https://www.boost-snug.com"> 🏠 Snug Demo </a> | <a href="https://github.com/connect-foundation/2019-08/wiki"> 📖 WIKI</a> | <a href="https://github.com/connect-foundation/2019-08/wiki/Snug-%EC%82%AC%EC%9A%A9-%EC%84%A4%EB%AA%85%EC%84%9C"> 🗃 스너그 사용 설명서</a> | <a href="#프로젝트-시작하기-Getting-Started"> 💽 프로젝트 시작하기</a> | <a href="#개발자">🤺개발자 </a>
-</h4>
+<h4 align="center"><a href ="https://www.boost-snug.com"> 🏠 Snug Demo </a> | <a href="https://github.com/connect-foundation/2019-08/wiki"> 📖 WIKI</a> | <a href="https://github.com/connect-foundation/2019-08/wiki/Snug-%EC%82%AC%EC%9A%A9-%EC%84%A4%EB%AA%85%EC%84%9C"> 🗃 스너그 사용 설명서</a> | <a href="#프로젝트-시작하기-Getting-Started"> 💽 프로젝트 시작하기</a> | <a href="#개발자">🤺개발자 </a></h4>
 
 </p>
 
@@ -24,56 +22,37 @@
 
 ## 주요 기능
 
-#### 여러 사용자와 실시간 채팅을 할 수 있습니다.
+#### 1. 여러 사용자와 실시간 채팅을 할 수 있습니다.
 
-#### 메시지에 댓글(thread)을 달 수 있습니다.
+#### 2. 메시지에 댓글(thread)을 달 수 있습니다.
 
-#### 다양한 형식의 파일을 공유할 수 있습니다.
+#### 3. 파일을 공유할 수 있습니다.
 
-#### 각 스너그마다 사용자가 원하는 프로필을 설정할 수 있습니다.
+#### 4. 스너그마다 프로필을 설정할 수 있습니다.
 
-#### 직접 만든 Snug에 다른 사용자를 초대할 수 있습니다.
+#### 5. Snug에 다른 사용자를 초대할 수 있습니다.
 
-#### 비밀 채널을 이용해 은밀한 이야기를 나눌 수 있습니다.
+#### 6. 비밀 채널을 이용해 은밀한 이야기를 나눌 수 있습니다.
 
 <br>
 
 ## 프로젝트 구조
 
-### Server
-
-#### 라우팅
-
-<br>
-<p align="center">
-<img src="https://i.imgur.com/WzSMbhY.png">
-</p>
-
-<br>
-
-
-### Client
-
-#### Clean Architecture
-
-<br>
-<p align="center">
-<img src="https://i.imgur.com/B4j7S9Q.png">
-</p>
-
-<br>
-
-#### Snug - Channel 구조
-
-![](https://i.imgur.com/p8BpVFr.png)
-
-#### 소켓 관리
+### Workflow
 
 ![](https://i.imgur.com/Ua1UNv9.png)
 
-#### 알림 구조
+### 알림 구조
 
 ![](https://i.imgur.com/cvXOo6D.png)
+
+### Clean Architecture
+
+![](https://i.imgur.com/B4j7S9Q.png)
+
+### Snug - Channel 구조
+
+![](https://i.imgur.com/p8BpVFr.png)
 
 
 ## ERD
