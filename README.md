@@ -7,11 +7,13 @@
 <img src="https://img.shields.io/github/v/tag/connect-foundation/2019-08">
 <img src="https://img.shields.io/npm/v/npm/latest">
 <br>
-<h4 align="center"><a href ="https://www.boost-snug.com"> 🏠 Snug Demo </a> | <a href="https://github.com/connect-foundation/2019-08/wiki"> 📖 WIKI</a> | <a href="https://github.com/connect-foundation/2019-08/wiki/Snug-%EC%82%AC%EC%9A%A9-%EC%84%A4%EB%AA%85%EC%84%9C"> 🗃 스너그 사용 설명서</a> | <a href="#프로젝트-시작하기-Getting-Started"> 💽 프로젝트 시작하기</a> | <a href="#개발자">🤺개발자 </a></h4>
+<h4 align="center">
+ <a href ="https://www.boost-snug.com"> 🏠 Snug Demo </a> | <a href="https://github.com/connect-foundation/2019-08/wiki"> 📖 WIKI</a> | <a href="https://github.com/connect-foundation/2019-08/wiki/Snug-%EC%82%AC%EC%9A%A9-%EC%84%A4%EB%AA%85%EC%84%9C"> 🗃 스너그 사용 설명서</a> | <a href="#프로젝트-시작하기-Getting-Started"> 💽 프로젝트 시작하기</a> | <a href="#개발자">🤺개발자 </a>
+</h4>
 
 </p>
 
-## 주요 동기 | 만들게 된 이유
+## 주요 동기
 <br>
 <p align="center">
 <img src="https://i.imgur.com/asJpft7.png">
@@ -20,13 +22,19 @@
 
 
 
-## 프로젝트 설명 (동작 방식, 그림)
+## 주요 기능
 
-> 다른 사용자와 채팅을 할 수 있습니다.
-댓글(thread)을 달 수 있습니다.
-다양한 형식의 파일을 공유할 수 있습니다.
-프로필을 원하는 대로 설정(Customizing)할 수 있습니다.
-다른 사용자를, 직접 만든 Snug에, 초대할 수 있습니다.
+#### 여러 사용자와 실시간 채팅을 할 수 있습니다.
+
+#### 메시지에 댓글(thread)을 달 수 있습니다.
+
+#### 다양한 형식의 파일을 공유할 수 있습니다.
+
+#### 각 스너그마다 사용자가 원하는 프로필을 설정할 수 있습니다.
+
+#### 직접 만든 Snug에 다른 사용자를 초대할 수 있습니다.
+
+#### 비밀 채널을 이용해 은밀한 이야기를 나눌 수 있습니다.
 
 <br>
 
@@ -43,6 +51,7 @@
 
 <br>
 
+
 ### Client
 
 #### Clean Architecture
@@ -56,35 +65,21 @@
 
 #### Snug - Channel 구조
 
-<br>
-<p align="center">
-<img src="https://i.imgur.com/WwE6LNS.png">
-</p>
-
-<br>
+![](https://i.imgur.com/p8BpVFr.png)
 
 #### 소켓 관리
 
-<br>
-<p align="center">
-<img src="https://i.imgur.com/RZLv0EP.png">
+![](https://i.imgur.com/Ua1UNv9.png)
 
-</p>
+#### 알림 구조
 
-<br>
+![](https://i.imgur.com/cvXOo6D.png)
 
 
-## 주요 기술
+## ERD
 
-- Typescript
-- TypeOrm
-- MySql
-- Object Storage
-- SocketIO
-- NodeMailer
-- JWT
-- Bcrypt
-- Infinite Scrolling
+![](https://i.imgur.com/4pH0XZL.png)
+
 
 ## 프로젝트 시작하기 (Getting Started)
 
@@ -92,7 +87,7 @@
 
  > MySql Version 8+
  
- > .env.production 환경변수 설정 
+ > .env.production 환경변수 설정해야 합니다.
 
 
 ### 배포
@@ -104,25 +99,40 @@ sh deploy/deploy.sh
 
 ## 프로젝트 진행 상황(Timeline)
 
-![](https://i.imgur.com/Vb3IAqL.png)
-
-> 여기서 추가해주세요 https://docs.google.com/presentation/d/12ShqcxAUQF7n42x4F9KlIZ4_jTIfRC1jxsKRNzFIduM/edit#slide=id.g7bca3312b5_0_15
+![](https://i.imgur.com/DtgiOyn.png)
 
 
-## 개발자
+## 주요 기술
+
+- Bcrypt
+- Infinite Scrolling
+- JWT
+- MySql
+- NodeMailer
+- Object Storage
+- SocketIO
+- Typescript
+- TypeOrm
+
+## 참여 개발자
 
 <p align="center" style="text-align:center;">
 
 <h3 align="center" >고승빈 <a href="https://github.com/raccoonback">@raccoonback</a></h3> 
 </p>
 
-
 #### 주 역할
 - 프론트엔드에서 비즈니스 로직 개발
-- **Snug** 팀원들이 인정한 Super Code Reviewer 
+- Snug 팀원들이 인정한 Super Code Reviewer 
 - 객체 지향적인 코드를 고민하는 개발자
 - 유의미한 테스트 코드를 작성하고자 노력
-
+- 프론트엔드에서 데이터 흐름 고민
+- TypeOrm 기반의 Model 추상화
+- 알람 구조 설계 및 개발
+- Web Socket Event 문서화 추진 및 정리
+- "Post ID", "최신날짜" 기준 전략에 따른 페이지네이션 구현
+- Token 발급 기능에 Template Method 패턴 적용
+- HTTPS 적용
 
 <p align="center" style="text-align:center;">
 <h3 align="center">김경래 <a href="https://github.com/kyungrae">@kyungrae</a>
@@ -130,12 +140,13 @@ sh deploy/deploy.sh
 </p>
 
 #### 주 역할
-- Web Socket을 이용한 실시간 메세지 통신을 고민
-- 프로 지식 공유러
 - 효과적인 백엔드 구조를 고민
-- Typescript에 기반한 Express 설계
+- Web socket을 이용하여 multiplexing과 demultiplexing을 구현
+- 재사용 가능한 파일 업로드 객체 구현 및 object storage 연결
+- ERD 설계 및 typeorm entity 정의
+- 클라이언트에서 workspace 접근 권한 구현
 - 매일 적어도 1%씩 성장하는 개발자
-
+- 프로 지식 공유러
 
 <p align="center" style="text-align:center;">
 
@@ -161,7 +172,9 @@ sh deploy/deploy.sh
 
 
 #### 주 역할
-- Snug 팀을 이끄는 정신적 지주
-- 프론트엔드에서 재사용 가능한 Component를 고민했습니다. 
-- 팀원들을 질문으로 괴롭혔습니다.
-- **커스터마이징 가능한 컴포넌트 구현**
+- 프론트엔드에서 재사용 가능한 Component를 고민 
+- 프론트엔드에서 데이터 흐름에 대하여 고민
+- 프론트엔드에서 비즈니스 로직 개발
+- 프론트엔드에서 효과적인 Web Socket 활용 방법에 대하여 고민
+- TypeOrm Migration 이용한 Entity Versioning 
+- API 및 Entity 문서화 작업 추진 및 진행
