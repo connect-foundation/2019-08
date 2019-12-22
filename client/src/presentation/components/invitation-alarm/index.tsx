@@ -24,12 +24,17 @@ const DropDown = styled.section`
   transform: translate(50px, -60px);
   flex-direction: column;
   transition: transform 300ms ease-in;
-  min-width: 300px;
   height: 150px;
   padding: 5px;
   border-radius: 10px;
   background-color: #9da1a5;
   overflow-y: scroll;
+  @media (min-width: 800px) {
+    min-width: 200px;
+  }
+  @media (min-width: 1200px) {
+    min-width: 300px;
+  }
   &::-webkit-scrollbar {
     width: 5px;
     border-radius: 10px;

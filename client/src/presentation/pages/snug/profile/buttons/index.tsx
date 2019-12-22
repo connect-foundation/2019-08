@@ -4,11 +4,17 @@ import { CustomButton } from "presentation/components/atomic-reusable/custom-but
 
 const Wrapper = styled.section`
   display: flex;
-  width: 400px;
-  max-width: 400px;
   justify-content: space-around;
   align-items: center;
   height: 10%;
+  @media (min-width: 800px) {
+    width: 250px;
+    min-width: 250px;
+  }
+  @media (min-width: 1200px) {
+    width: 400px;
+    min-width: 400px;
+  }
 `;
 
 interface PropTypes {

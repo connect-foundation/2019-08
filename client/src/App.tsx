@@ -28,7 +28,12 @@ const GlobalStyle = createGlobalStyle`
       height:100vh;
       max-width: 100vw;
       max-height: 100vh;
+      @media (min-width: 800px) {
+        min-width: 800px
+      }
+      @media (min-width: 1200px) {
       min-width: 1200px;
+      }
     }
     a {color: #fff; text-decoration: none; outline: none}
 

@@ -11,15 +11,19 @@ import { ApplicationProptype } from "prop-types/application-type";
 
 const Content = styled.section`
   max-height: 80vh;
-  min-width: 700px;
   width: 700px;
   color: ${({ theme }) => theme.snugMainFont};
-  max-width: 700px;
   display: flex;
   flex-direction: column;
   align-items: center;
   &:focus {
     outline: none;
+  }
+  @media (min-width: 800px) {
+    min-width: 500px;
+  }
+  @media (min-width: 1200px) {
+    min-width: 700px;
   }
 `;
 
@@ -57,12 +61,12 @@ export const ChannelBrowseModal: React.FC<ApplicationProptype &
     toggleChannelBrowseModal();
   };
 
-  const changeDisplayType = (value : DisplayType) =>{
-    setSelectedDisplayType(value)
+  const changeDisplayType = (value: DisplayType) => {
+    setSelectedDisplayType(value);
   };
 
-  const changeSortType = (value : SortType) =>{
-    setSelectedSortType(value)
+  const changeSortType = (value: SortType) => {
+    setSelectedSortType(value);
   };
 
   const Wrapper = styled.section`
