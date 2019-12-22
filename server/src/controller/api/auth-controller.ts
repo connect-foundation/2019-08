@@ -79,7 +79,7 @@ export const logout = async (
   try {
     return response
       .status(OK)
-      .cookie("profile", "")
+      .clearCookie("profile")
       .json(ResponseForm.of(LOGOUT_SUCCESS));
   } catch {
     return response.status(NOT_FOUND).json(ResponseForm.of(LOGOUT_FAIL));

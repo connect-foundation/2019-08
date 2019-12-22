@@ -8,6 +8,8 @@ import { usePathParameter } from "contexts/path-parameter-context";
 import { globalApplication } from "contexts/application-context";
 import Axios from "axios";
 import Loader from "react-loader-spinner";
+import {ResponseEntity} from "data/http/api/response/ResponseEntity";
+import {globalSocket} from "contexts/socket-context";
 
 const ChatContentWrapper = styled.section.attrs({
   id: "scroll"
@@ -40,12 +42,12 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
   const pathParameter = usePathParameter();
   const [done, setDone] = useState<boolean>(false);
   const [isTop, setIsTop] = useState<boolean>(false);
+  const { snugSocket } = useContext(globalSocket);
 
   useEffect(() => {
     if (!pathParameter.channelId) return;
 
     const source = Axios.CancelToken.source();
-
     const getPosts = async function() {
       try {
         dispatch({
@@ -68,13 +70,29 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
     };
 
     getPosts();
-
     return function cleanup() {
       source.cancel();
     };
   }, [pathParameter.channelId, application.services.postService, dispatch]);
 
-  // thread개수 정하는 logic추가
+  useEffect(() => {
+    snugSocket.off("replyPost");
+    snugSocket.on("replyPost", (resultData: ResponseEntity<any>) => {
+      const { payload } = resultData;
+      const targetPostIndex = posts.findIndex(post => Number(post.id) === payload.parent.id);
+      if(targetPostIndex === -1) return;
+
+      const targetPost = posts[targetPostIndex];
+      const replyCount = Number(targetPost.replyCount) || 0;
+      targetPost.replyCount = (replyCount + 1).toString();
+      posts[targetPostIndex] = { ...targetPost };
+      dispatch({
+        type: "UPDATE_REPLYCOUNT",
+        posts: [...posts]
+      });
+    });
+  }, [pathParameter, dispatch, snugSocket, posts]);
+
   function messageList(): React.ReactNode {
     if (!posts) return <></>;
     return posts!.map((post: Post) => (
@@ -130,7 +148,7 @@ export const ChatContent: React.FC<ChannelRouteComponentType & {
       onScroll={infinityScrollEvent}
     >
       <Wrapper>
-        {done === false && isTop === true ? (
+        {!done && isTop ? (
           <LoaderWrpper>
             <Loader type="Watch" color="#000" height={30} width={30} />
           </LoaderWrpper>
