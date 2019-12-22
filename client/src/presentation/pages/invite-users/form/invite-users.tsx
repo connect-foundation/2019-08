@@ -43,7 +43,7 @@ const createCustomInput = (email: EmailModel) => {
   return (
     <CustomInput
       key={email.getId()}
-      color={"#bdbdbd"}
+      color={"#000000"}
       backgroundColor={"#ffffff"}
       placeholder={"example@email.com"}
       onChange={changeHandler}

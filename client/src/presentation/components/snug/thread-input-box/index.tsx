@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
-import ClipBlack from "assets/clip.png";
-import { IconBox } from "presentation/components/atomic-reusable/icon-box";
 import { useMessages, useMessagesDispatch } from "contexts/messages-context";
 import { ResponseEntity } from "data/http/api/response/ResponseEntity";
 import { Post } from "core/entity/post";
@@ -10,8 +8,8 @@ import { globalSocket } from "contexts/socket-context";
 import { globalApplication } from "contexts/application-context";
 
 const InputWrapper = styled.section`
-  width: 400px;
-  max-width: 400px;
+  width: 100%;
+  min-width: 300px;
   min-height: 75px;
   max-height: 75px;
   background-color: ${({ theme }) => theme.snug};
@@ -45,7 +43,7 @@ const StyledInput = styled.input.attrs({
   --webkit-appearance: none;
   background-color: ${({ theme }) => theme.snug};
   font-size: 14px;
-  color: #e3e3e3;
+  color: ${({ theme }) => theme.snugMainFont};
   width: 100%;
   border: none;
   &:active,
@@ -77,9 +75,11 @@ export const ThreadInputBox: React.FC<PropTypes> = ({ addReply, thread }) => {
     snugSocket.off("replyPost");
     snugSocket.on("replyPost", (resultData: ResponseEntity<any>) => {
       const { payload } = resultData;
-      const targetPostIndex = posts.findIndex(post => isReplyOnPost(Number(post.id), payload));
-      if(targetPostIndex === -1) return;
-      if(isReplyOnPost(Number(thread), payload)) {
+      const targetPostIndex = posts.findIndex(post =>
+        isReplyOnPost(Number(post.id), payload)
+      );
+      if (targetPostIndex === -1) return;
+      if (isReplyOnPost(Number(thread), payload)) {
         addReply(payload);
       }
 
@@ -120,15 +120,15 @@ export const ThreadInputBox: React.FC<PropTypes> = ({ addReply, thread }) => {
 
   return (
     <InputWrapper>
-      <MarginBox/>
+      <MarginBox />
       <CustomInput>
-        <IconBox imageSrc={ClipBlack}/>
         <StyledInput
           value={message}
           onChange={inputChangeEventHandler}
-          onKeyPress={inputKeyPressEventHandler}/>
+          onKeyPress={inputKeyPressEventHandler}
+        />
       </CustomInput>
-      <MarginBox/>
+      <MarginBox />
     </InputWrapper>
   );
 };
