@@ -22,11 +22,10 @@ export class AuthRepository implements AuthRepositoryType {
       const payload: { [key: string]: any } = jwt.decode(
         result.token
       ) as object;
-      const user: User = {
+      return {
         email: payload.email,
         id: payload.id
       };
-      return user;
     } catch (error) {
       return {};
     }
@@ -41,33 +40,24 @@ export class AuthRepository implements AuthRepositoryType {
   }
 
   async login(user: User): Promise<WebToken<string>> {
-    try {
-      const result = await this.api.login(user);
-      if (typeof result === "boolean")
-        throw new Error("로그인에 실패했습니다.");
-      return result.payload;
-    } catch (error) {
-      return { token: "" };
-    }
+    const {payload} = await this.api.login(user);
+    return payload;
   }
 
   isLogined(): boolean {
     try {
       const result = this.storage.get();
-      if (result === null) return false;
-      return true;
+      return result !== null;
     } catch (error) {
       return false;
     }
   }
 
-  async logout(): Promise<boolean> {
+  async logout(): Promise<void> {
     try {
       await this.api.logout();
+    } finally {
       this.storage.clear();
-      return true;
-    } catch (error) {
-      return false;
     }
   }
 }

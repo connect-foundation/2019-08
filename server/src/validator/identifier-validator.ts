@@ -46,7 +46,7 @@ export const hasNotEveryNumber = (target: string): boolean => {
  * @return boolean 빈 문자열, null, undefined 중 하나인 경우 true, 아닌 경우 false
  *
  * */
-export const hasNotValue = (target: string) => {
+export const hasNotValue = (target: string): boolean => {
   return !target;
 };
 
@@ -72,8 +72,7 @@ export const isNumeric = (id: string): void => {
 export const offerTokenInfo = (request: Request): UserInfo => {
   const token = request.headers["auth-token"];
   if (!token) throw new Error("토큰이 존재하지 않습니다.");
-  const decoded = jwt.verify(token as string, process.env.SECRET_KEY) as UserInfo;
-  return decoded;
+  return jwt.verify(token as string, process.env.SECRET_KEY) as UserInfo;
 };
 
 export const offerProfileTokenInfo = (request: Request): Profile => {
@@ -87,14 +86,13 @@ export const isVerifyLogined = async (
   request: Request,
   response: Response,
   next: NextFunction
-) => {
+): Promise<void> => {
   try {
     const decoded = offerTokenInfo(request);
-    const result = await User.findOne({ where: { email: decoded.email } });
-    if (!result) throw new Error("없는 유저입니다.");
+    await User.findOneOrFail({ where: { email: decoded.email } });
     next();
   } catch (error) {
-    next(error);
+    next(new Error("가입되지 않은 사용자입니다."));
   }
 };
 
@@ -102,10 +100,10 @@ export const isVerifyProfile = async (
   request: Request,
   response: Response,
   next: NextFunction
-) => {
+): Promise<void> => {
   try {
     const decoded = offerProfileTokenInfo(request);
-    if (typeof decoded != "object") throw new Error("토큰이 잘 못 되었습니다.");
+    if (typeof decoded != "object") next(new Error("토큰이 잘못 되었습니다."));
     next();
   } catch (error) {
     next(error);
