@@ -30,9 +30,14 @@ const Wrapper = styled.section`
   ${(props: WrapperPropTypes) => {
     if (props.toggleProfile)
       return css`
-        width: 400px;
-        min-width: 400px;
-        max-width: 400px;
+        @media (min-width: 800px) {
+          width: 250px;
+          min-width: 250px;
+        }
+        @media (min-width: 1200px) {
+          width: 400px;
+          min-width: 400px;
+        }
         &::-webkit-scrollbar {
           width: 4px;
         }
@@ -47,8 +52,14 @@ const Wrapper = styled.section`
 `;
 
 const ImageWrapper = styled.section`
-  min-width: 400px;
-  max-width: 400px;
+  @media (min-width: 800px) {
+    max-width: 250px;
+    min-width: 250px;
+  }
+  @media (min-width: 1200px) {
+    max-width: 400px;
+    min-width: 400px;
+  }
   max-height: 40%;
   text-align: center;
 `;

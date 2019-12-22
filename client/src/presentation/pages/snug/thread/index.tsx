@@ -11,9 +11,14 @@ const Wrapper = styled.section`
   background-color: ${({ theme }) => theme.snugMenuColor};
   border-left: 1px solid ${({ theme }) => theme.snugBorderColor};
   width: 30%;
-  min-width: 300px;
   overflow-y: scroll;
   overflow-x: hidden;
+  @media (min-width: 800px) {
+    min-width: 250px;
+  }
+  @media (min-width: 1200px) {
+    min-width: 300px;
+  }
   &::-webkit-scrollbar {
     width: 4px;
   }

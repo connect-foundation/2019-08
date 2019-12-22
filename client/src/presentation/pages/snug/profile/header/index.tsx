@@ -6,8 +6,15 @@ const Title = styled.header`
   color: ${({ theme }) => theme.snugMainFont};
   text-align: center;
   font-size: 2.5rem;
-  max-width: 400px;
   cursor: default;
+  @media (min-width: 800px) {
+    width: 250px;
+    min-width: 250px;
+  }
+  @media (min-width: 1200px) {
+    width: 400px;
+    min-width: 400px;
+  }
 `;
 
 export const Header: React.FC = () => {
