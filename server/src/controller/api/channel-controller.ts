@@ -73,7 +73,7 @@ export const hasSnugById = async (
   }
 };
 
-export const findPublicChannels = async (
+export const findChannels = async (
   request: Request,
   response: Response,
   next: NextFunction

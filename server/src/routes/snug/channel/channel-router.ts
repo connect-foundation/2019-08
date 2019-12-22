@@ -15,6 +15,6 @@ router
   .route("/duplicate/:title")
   .get(ChannelApiController.isAcceptableChannelByTitle);
 
-router.route("/").get(ChannelApiController.findPublicChannels);
+router.route("/").get(ChannelApiController.findChannels);
 
 export default router;
