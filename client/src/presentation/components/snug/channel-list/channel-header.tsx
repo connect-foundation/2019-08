@@ -14,12 +14,14 @@ const Wrapper = styled.section`
 `;
 
 const Title = styled.span`
+  cursor: pointer;
   &:hover {
     color: ${({ theme }) => theme.sidebarFontHover};
   }
 `;
 
 const IconBoxWrapper = styled.section`
+  cursor: pointer;
   box-sizing: border-box;
 `;
 
@@ -44,7 +46,7 @@ export const ChannelHeader: React.FC = () => {
     <Wrapper>
       <Title onClick={openChannelBrowseModal}>채널 목록</Title>
       <IconBoxWrapper onClick={openChannelPlusModal}>
-        <IconBox imageSrc={Plus} size="25px"></IconBox>
+        <IconBox imageSrc={Plus} size="25px"/>
       </IconBoxWrapper>
     </Wrapper>
   );

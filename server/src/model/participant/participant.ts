@@ -29,14 +29,21 @@ export class Participant {
             .value();
   }
 
+  public async findPrivateChannelsAttending(participant: Profile, snugId: number): Promise<Room[]> {
+    const participationInfos = await this.findChannelsAttending(participant, snugId);
+    return _.chain(participationInfos)
+            .filter(room => room.isPrivate)
+            .value();
+  }
+
   public static findPublicChannels(snugId: number): Promise<Room[]> {
     return Room.findPublicChannelsBySnugId(snugId);
   }
 
   public async findChannels(participant: Profile, snugId: number): Promise<Room[]> {
     const publicChannels = Participant.findPublicChannels(snugId);
-    const privateAttendingChannels = this.findChannelsAttending(participant, snugId);
-    const  channels = await Promise.all([publicChannels, privateAttendingChannels])
+    const privateAttendingChannels = this.findPrivateChannelsAttending(participant, snugId);
+    const  channels = await Promise.all([publicChannels, privateAttendingChannels]);
     return _.flatten(channels);
   }
 }

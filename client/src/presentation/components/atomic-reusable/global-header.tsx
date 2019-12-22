@@ -96,7 +96,6 @@ export const GlobalHeader: React.FC<ApplicationProptype> = ({
           <DropDown onClick={clickDropdown} onMouseLeave={mouseLeave}>
             <IconBox imageSrc={profileImage} size={"40px"} />
             <ContentWrapper toggle={on}>
-              <Content>프로필</Content>
               <Link to="register-snug">
                 <Content>Snug 만들기</Content>
               </Link>

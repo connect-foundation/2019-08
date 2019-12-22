@@ -18,7 +18,6 @@ const Wrapper = styled.section`
   border-top: 1px solid ${({ theme }) => theme.snugBorderColor};
   margin-top: 5px;
   &:hover {
-    cursor: pointer;
     background-color: ${({ theme }) => theme.snugHover};
     color: ${({ theme }) => theme.snugMainFont};
   }
@@ -56,6 +55,7 @@ const Button = styled.button.attrs({
   font-size: 9pt;
   font-weight: bold;
   color: white;
+  cursor: pointer;
 `;
 
 interface ChannelBrowseModal {

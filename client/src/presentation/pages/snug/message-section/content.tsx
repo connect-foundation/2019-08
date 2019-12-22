@@ -81,9 +81,6 @@ export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
   const { Application } = props;
   const [isParticipated, setIsParticipated] = useState(false);
   const pathParameter = usePathParameter();
-  // file upload 모달
-  // modal state 관리하는 함수 전달
-  // file input changed 발생시 modal 활성화
   const [onModal, setModal] = useState(false);
 
   useEffect(() => {
@@ -151,12 +148,12 @@ export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
               ref={inputRef}
             />
           ) : (
-            <Preview {...props} setIsParticipated={setIsParticipated}></Preview>
+            <Preview {...props} setIsParticipated={setIsParticipated}/>
           )}
         </MessageSectionContentWrapper>
         <ToggleButton onClick={handleClick}>
           {toggleProfile ? (
-            <StyledImg src={RightArrow} width="" />
+              <StyledImg src={RightArrow} />
           ) : (
             <StyledImg src={LeftArrow} />
           )}
@@ -171,6 +168,6 @@ export const MessageSectionContent: React.FC<AppChannelMatchProps> = props => {
 };
 
 const StyledImg = styled.img`
-  width: 100%;
-  padding-right: 10px;
+  width: 1rem;
+  height: 1rem;
 `;

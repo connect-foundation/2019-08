@@ -106,13 +106,11 @@ export const ChannelPlusModalContents: React.FC<ApplicationProptype> = ({
       <CustomInput
         title={"이름"}
         placeholder={"멋진 채널 이름을 입력하세요"}
-        onChange={setTitle}
-      ></CustomInput>
+        onChange={setTitle}/>
       <CustomInput
         title={"설명"}
         placeholder={"채널을 멋있게 설명해주세요"}
-        onChange={setDescription}
-      ></CustomInput>
+        onChange={setDescription}/>
       <ChannelSetPrivate>
         <ChannelPrivateDescription>
           <ChannelPrivateDescriptionHeader>
@@ -123,7 +121,7 @@ export const ChannelPlusModalContents: React.FC<ApplicationProptype> = ({
             통해서만 가능합니다.
           </ChannelPrivateDescriptionContents>
         </ChannelPrivateDescription>
-        <CustomOnOffButton onChange={setPrivacy}></CustomOnOffButton>
+        <CustomOnOffButton onChange={setPrivacy}/>
       </ChannelSetPrivate>
       {isFailed ? (
         <NotAcceptableChannel>채널 생성에 실패했습니다.</NotAcceptableChannel>
@@ -132,7 +130,7 @@ export const ChannelPlusModalContents: React.FC<ApplicationProptype> = ({
         <CustomButton
           color={"#000000"}
           fontColor={"#ffffff"}
-          name={"submit"}
+          name={"채널 생성"}
           size={"big"}
           type={"submit"}
         />
