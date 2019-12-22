@@ -10,8 +10,8 @@ import { globalSocket } from "contexts/socket-context";
 import { globalApplication } from "contexts/application-context";
 
 const InputWrapper = styled.section`
-  width: 400px;
-  max-width: 400px;
+  width: 100%;
+  min-width: 300px;
   min-height: 75px;
   max-height: 75px;
   background-color: ${({ theme }) => theme.snug};
@@ -45,7 +45,7 @@ const StyledInput = styled.input.attrs({
   --webkit-appearance: none;
   background-color: ${({ theme }) => theme.snug};
   font-size: 14px;
-  color: #e3e3e3;
+  color: ${({ theme }) => theme.snugMainFont};
   width: 100%;
   border: none;
   &:active,

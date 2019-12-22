@@ -24,7 +24,7 @@ const DropDown = styled.section`
   transform: translate(50px, -60px);
   flex-direction: column;
   transition: transform 300ms ease-in;
-  width: 100%;
+  min-width: 300px;
   height: 150px;
   padding: 5px;
   border-radius: 10px;

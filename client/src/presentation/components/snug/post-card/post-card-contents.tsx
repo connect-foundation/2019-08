@@ -29,6 +29,7 @@ const PostContents = styled.pre`
   font-size: 1.1rem;
   margin: 0;
   word-break: break-all;
+  white-space: pre-wrap;
   padding-top: 5px;
   padding-bottom: 5px;
   cursor: pointer;
