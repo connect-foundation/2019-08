@@ -22,17 +22,34 @@
 
 ## 주요 기능
 
-#### 1. 여러 사용자와 실시간 채팅을 할 수 있습니다.
+#### 1. 실시간 채팅과 메시지에 댓글(thread)
 
-#### 2. 메시지에 댓글(thread)을 달 수 있습니다.
+![](https://i.imgur.com/XBO24mt.gif)
 
-#### 3. 파일을 공유할 수 있습니다.
+#### 2. 무한 스크롤링
 
-#### 4. 스너그마다 프로필을 설정할 수 있습니다.
+![](https://i.imgur.com/koIyz5S.gif)
 
-#### 5. Snug에 다른 사용자를 초대할 수 있습니다.
 
-#### 6. 비밀 채널을 이용해 은밀한 이야기를 나눌 수 있습니다.
+#### 3. 파일 공유
+
+![](https://i.imgur.com/z0UO54I.gif)
+
+
+#### 4. 워크스페이스마다 프로필 설정
+
+![](https://i.imgur.com/kgm6I5k.gif)
+
+
+#### 5. 사용자 초대
+
+![](https://i.imgur.com/OJtcqMZ.gif)
+
+
+#### 6. 공개/비밀 채널
+
+![](https://i.imgur.com/SGfuMfU.gif)
+
 
 <br>
 
@@ -50,10 +67,6 @@
 
 ![](https://i.imgur.com/B4j7S9Q.png)
 
-### Snug - Channel 구조
-
-![](https://i.imgur.com/p8BpVFr.png)
-
 
 ## ERD
 
@@ -65,18 +78,24 @@
 ### 준비
 
  > MySql Version 8+
+
+### 개발
+ > .env.local 환경변수 설정해야 합니다.
+
+```shell=bash
+cd /client && npm install && npm start
+cd /server && npm install && npm start
+```
+
+### 배포
  
  > .env.production 환경변수 설정해야 합니다.
 
-
-### 배포
 ```shell=bash
-
 sh deploy/deploy.sh
-
 ```
 
-## 프로젝트 진행 상황(Timeline)
+## 타임라인
 
 ![](https://i.imgur.com/DtgiOyn.png)
 
@@ -95,10 +114,8 @@ sh deploy/deploy.sh
 
 ## 참여 개발자
 
-<p align="center" style="text-align:center;">
+### 고승빈 <a href="https://github.com/raccoonback">@raccoonback</a> 
 
-<h3 align="center" >고승빈 <a href="https://github.com/raccoonback">@raccoonback</a></h3> 
-</p>
 
 #### 주 역할
 - 프론트엔드에서 비즈니스 로직 개발
@@ -113,10 +130,7 @@ sh deploy/deploy.sh
 - Token 발급 기능에 Template Method 패턴 적용
 - HTTPS 적용
 
-<p align="center" style="text-align:center;">
-<h3 align="center">김경래 <a href="https://github.com/kyungrae">@kyungrae</a>
-</h3> 
-</p>
+### 김경래 <a href="https://github.com/kyungrae">@kyungrae</a>
 
 #### 주 역할
 - 효과적인 백엔드 구조를 고민
@@ -127,10 +141,7 @@ sh deploy/deploy.sh
 - 매일 적어도 1%씩 성장하는 개발자
 - 프로 지식 공유러
 
-<p align="center" style="text-align:center;">
-
-<h3 align="center">김기표 <a href="https://github.com/GiPyoo">@GiPyoo</a></h3>
-</p>
+### 김기표 <a href="https://github.com/GiPyoo">@GiPyoo</a>
 
 #### 주 역할
 - Snug 프로젝트를 진행하는 MC, 항상 프로젝트에 장작을 넣어주는 나무꾼
@@ -144,10 +155,7 @@ sh deploy/deploy.sh
 - 디자인과 UI interaction 개발
 - token을 활용한 사용자 인증관리(프론트, 백)
 
-
-<p align="center" style="text-align:center;">
-<h3 align="center" >이상원 <a href="https://github.com/sangwon21">@sangwon21</a></h3> 
-</p>
+### 이상원 <a href="https://github.com/sangwon21">@sangwon21</a>
 
 
 #### 주 역할
