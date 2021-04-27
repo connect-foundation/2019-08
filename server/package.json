@@ -30,7 +30,7 @@
     "multer-s3": "^2.9.0",
     "mysql": "^2.14.1",
     "nodemailer": "^6.3.1",
-    "redis": "^2.8.0",
+    "redis": "^3.1.1",
     "reflect-metadata": "^0.1.10",
     "socket.io": "^2.3.0",
     "ts-node": "^8.5.2",
