@@ -17,7 +17,7 @@
     "cookie-parser": "^1.4.4",
     "cross-env": "^6.0.3",
     "dotenv": "^8.2.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "fs": "0.0.1-security",
     "helmet": "^3.21.2",
     "hpp": "^0.2.2",
