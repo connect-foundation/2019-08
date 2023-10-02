@@ -54,8 +54,8 @@
     "dotenv": "^8.2.0",
     "history": "^4.10.1",
     "jest": "^24.9.0",
-    "socket.io": "^2.3.0",
-    "socket.io-client": "^2.3.0",
+    "socket.io": "^4.7.2",
+    "socket.io-client": "^2.5.0",
     "ts-jest": "^24.1.0"
   }
 }
